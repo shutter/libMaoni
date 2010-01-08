@@ -13,7 +13,7 @@
 #include <boost/function.hpp>
 
 #include <VMMView/Color.hpp>
-#include <VMMView/detail/Model.hpp>
+#include <VMMView/Model.hpp>
 #include <VMMView/detail/Extensible.hpp>
 #include <VMMView/detail/ShaderProgram.hpp>
 

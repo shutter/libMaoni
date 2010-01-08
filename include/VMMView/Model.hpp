@@ -1,12 +1,12 @@
 /*
- * Mesh.hpp
+ * Model.hpp
  *
- *  Created on: Jul 30, 2009
- *      Author: shutter
+ *  Created on: Jul 22, 2009
+ *      Author: dpfeifer
  */
 
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef MODEL_HPP
+#define MODEL_HPP
 
 #include "Vertex.hpp"
 #include <vector>
@@ -20,10 +20,10 @@ enum Axis
 
 typedef boost::array<Vector3, 2> BoundingBox;
 
-class Mesh
+class Model
 {
 public:
-	Mesh();
+	Model();
 
 	void sort(std::size_t start, std::size_t length, Axis axis);
 	void scale(float baseSize = 2.0f);
@@ -35,10 +35,6 @@ public:
 	}
 	Axis getLongestAxis(std::size_t start, std::size_t elements) const;
 
-	//	void useInvertedFaces() {
-	//		_invertFaces = true;
-	//	}
-
 	float getBoundingSphereRadius() const
 	{
 		return _radius;
@@ -49,14 +45,10 @@ public:
 	std::vector<Triangle> triangles;
 
 private:
-	//	void readVertices(PlyFile* file, int nVertices);
-	//	void readTriangles(PlyFile* file, int nFaces);
-
 	void calcBoundingSphereRadius();
 
 	BoundingBox _boundingBox;
 	float _radius;
-	//	bool _invertFaces;
 };
 
-#endif /* MESH_HPP */
+#endif /* MODEL_HPP */

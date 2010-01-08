@@ -25,7 +25,7 @@ const char* MeshLoader::all_filters()
 	return instance.c_str();
 }
 
-bool MeshLoader::load(Mesh& mesh, const char* filename)
+bool MeshLoader::load(Model& mesh, const char* filename)
 {
 	for (MeshLoader* i = stack; i; i = i->next)
 	{

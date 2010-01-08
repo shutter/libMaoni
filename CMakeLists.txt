@@ -28,6 +28,13 @@ include_directories(contrib/QtPropertyBrowser/include)
 
 include(CMake/AddDocumentation.cmake)
 
+file(GLOB VMMVIEW_DOC_HEADER include/VMMView/*.hpp)
+
+add_documentation(VMMView ${VMMVIEW_DOC_HEADER}
+  ${CMAKE_SOURCE_DIR}/include/VMMView.hpp)
+
+##############################################################
+
 find_package(FLTK)
 find_package(Boost REQUIRED)
 find_package(Equalizer REQUIRED)
@@ -39,8 +46,6 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${Equalizer_INCLUDE_DIRS}
   )
-
-add_documentation(VMMView include/VMMView.hpp)
 
 file(GLOB_RECURSE VMMVIEW_HEADER 
   ${CMAKE_SOURCE_DIR}/VMMView/include/VMMView/*.hpp)

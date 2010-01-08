@@ -16,16 +16,16 @@ struct Vertex
 	{
 	}
 
-	Vertex(const Vertex& other) :
-		position(other.position), normal(other.normal), color(other.color),
-				texcoord(other.texcoord)
-	{
-	}
-
 	Vertex(const Vector3& position_, const Vector3& normal_,
 			const Vector4& color_, const Vector2& texcoord_) :
 		position(position_), normal(normal_), color(color_),
 				texcoord(texcoord_)
+	{
+	}
+
+	Vertex(const Vertex& other) :
+		position(other.position), normal(other.normal), color(other.color),
+				texcoord(other.texcoord)
 	{
 	}
 

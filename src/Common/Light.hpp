@@ -8,7 +8,7 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
-#include <VMMView/detail/Vector.hpp>
+#include <VMMView/Vector.hpp>
 
 class Light
 {

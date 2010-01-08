@@ -5,11 +5,11 @@
  *      Author: shutter
  */
 
-#include <VMMView/detail/Mesh.hpp>
+#include <VMMView/Model.hpp>
 #include <cstdlib>
 #include <algorithm>
 
-Mesh::Mesh() : /*_invertFaces( false ),*/
+Model::Model() : /*_invertFaces( false ),*/
 	_radius(0.0)
 {
 	_boundingBox[0] = Vector3(0.0f);
@@ -17,7 +17,7 @@ Mesh::Mesh() : /*_invertFaces( false ),*/
 }
 
 /*  Calculate the face or vertex normals of the current vertex data.  */
-void Mesh::calculateNormals()
+void Model::calculateNormals()
 {
 	// iterate over all triangles and add their normals to adjacent vertices
 	Vector3 triangleNormal;
@@ -41,7 +41,7 @@ void Mesh::calculateNormals()
 }
 
 /*  Calculate the bounding box of the current vertex data.  */
-void Mesh::calculateBoundingBox()
+void Model::calculateBoundingBox()
 {
 	_boundingBox[0] = vertices[0].position.array;
 	_boundingBox[1] = vertices[0].position.array;
@@ -58,7 +58,7 @@ void Mesh::calculateBoundingBox()
 }
 
 /* Calculates longest axis for a set of triangles */
-Axis Mesh::getLongestAxis(const size_t start, const size_t elements) const
+Axis Model::getLongestAxis(const size_t start, const size_t elements) const
 {
 	if (start + elements > triangles.size())
 	{
@@ -101,7 +101,7 @@ Axis Mesh::getLongestAxis(const size_t start, const size_t elements) const
 }
 
 /* calculate the bounding sphere radius from the bounding box */
-void Mesh::calcBoundingSphereRadius()
+void Model::calcBoundingSphereRadius()
 {
 	// calculate bounding box if not yet done
 	if (_boundingBox[0].length() == 0.0f && _boundingBox[1].length() == 0.0f)
@@ -117,7 +117,7 @@ void Mesh::calcBoundingSphereRadius()
 }
 
 /*  Scales the data to be within +- baseSize/2 (default 2.0) coordinates.  */
-void Mesh::scale(const float baseSize)
+void Model::scale(const float baseSize)
 {
 	// calculate bounding box if not yet done
 	calculateBoundingBox();
