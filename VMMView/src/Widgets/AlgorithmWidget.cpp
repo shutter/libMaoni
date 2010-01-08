@@ -1,0 +1,133 @@
+/*
+ * RernderAlgoWidget.cpp
+ *
+ *  Created on: 07.12.2009
+ *      Author: daniel
+ */
+
+#include "AlgorithmWidget.hpp"
+#include <VMMView/detail/Algorithm.hpp>
+#include <qteditorfactory.h>
+#include <QVBoxLayout>
+#include <iostream>
+
+static QStringList AlgorithmNames()
+{
+	QStringList list;
+	for (AlgorithmFactory* i = AlgorithmFactory::stack; i; i = i->next)
+		list.append(i->name());
+	return list;
+}
+
+AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
+	QWidget(parent), frame_data(frame_data)
+{
+	algo_chooser = new QComboBox;
+	algo_chooser->addItems(AlgorithmNames());
+	algo_chooser->show();
+
+	property_browser = new QtTreePropertyBrowser;
+	property_browser->show();
+
+	QVBoxLayout* layout = new QVBoxLayout;
+	layout->addWidget(algo_chooser);
+	layout->addWidget(property_browser);
+
+	setLayout(layout);
+	setWindowTitle("Algorithm");
+
+	connect(algo_chooser, SIGNAL(currentIndexChanged(int)), this,
+			SLOT(choose(int)));
+
+	int_manager = new QtIntPropertyManager(this);
+	bool_manager = new QtBoolPropertyManager(this);
+	double_manager = new QtDoublePropertyManager(this);
+	color_manager = new QtColorPropertyManager(this);
+
+	connect(int_manager, SIGNAL(valueChanged(QtProperty*, int)), this,
+			SLOT(value_changed(QtProperty*, int)));
+	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), this,
+			SLOT(value_changed(QtProperty*, bool)));
+	connect(double_manager, SIGNAL(valueChanged(QtProperty*, double)), this,
+			SLOT(value_changed(QtProperty*, double)));
+	connect(color_manager, SIGNAL(valueChanged(QtProperty*, QColor)), this,
+			SLOT(value_changed(QtProperty*, QColor)));
+
+	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
+	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
+	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
+	QtColorEditorFactory* color_factory = new QtColorEditorFactory(this);
+
+	property_browser->setFactoryForManager(int_manager, int_factory);
+	property_browser->setFactoryForManager(bool_manager, bool_factory);
+	property_browser->setFactoryForManager(double_manager, double_factory);
+	property_browser->setFactoryForManager(color_manager, color_factory);
+	property_browser->setFactoryForManager(
+			color_manager->subIntPropertyManager(), int_factory);
+}
+
+void AlgorithmWidget::choose(int index)
+{
+	std::string name = algo_chooser->currentText().toStdString();
+	frame_data.render_algorithm(AlgorithmFactory::create(name));
+
+	int_setters.clear();
+	bool_setters.clear();
+	float_setters.clear();
+	double_setters.clear();
+	color_setters.clear();
+	string_setters.clear();
+
+	property_browser->clear();
+	config = AlgorithmFactory::create_config(name);
+	config->config(*this);
+}
+
+void AlgorithmWidget::add_property(const char* name, int_setter func, int def)
+{
+	QtProperty* property = int_manager->addProperty(name);
+	int_manager->setValue(property, def);
+	property_browser->addProperty(property);
+	int_setters[property] = func;
+}
+
+void AlgorithmWidget::add_property(const char* name, bool_setter func, bool def)
+{
+	QtProperty* property = bool_manager->addProperty(name);
+	bool_manager->setValue(property, def);
+	property_browser->addProperty(property);
+	bool_setters[property] = func;
+}
+
+void AlgorithmWidget::add_property(const char* name, float_setter func,
+		float def)
+{
+	QtProperty* property = double_manager->addProperty(name);
+	double_manager->setValue(property, def);
+	property_browser->addProperty(property);
+	float_setters[property] = func;
+}
+
+void AlgorithmWidget::add_property(const char* name, double_setter func,
+		double def)
+{
+	QtProperty* property = double_manager->addProperty(name);
+	double_manager->setValue(property, def);
+	property_browser->addProperty(property);
+	double_setters[property] = func;
+}
+
+void AlgorithmWidget::add_property(const char* name, color_setter func,
+		Color const& def)
+{
+	QtProperty* property = color_manager->addProperty(name);
+	color_manager->setValue(property, QColor(def.red() * 255,
+			def.green() * 255, def.blue() * 255, def.alpha() * 255));
+	property_browser->addProperty(property);
+	color_setters[property] = func;
+}
+
+void AlgorithmWidget::add_property(const char* name, string_setter func,
+		std::string const& def)
+{
+}
