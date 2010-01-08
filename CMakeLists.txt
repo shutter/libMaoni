@@ -5,6 +5,9 @@ project(VMMView)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
@@ -18,73 +21,49 @@ include(${QT_USE_FILE})
 
 message(STATUS ${QT_CONFIG})
 
-add_subdirectory(QtPropertyBrowser)
-include_directories(QtPropertyBrowser/include)
+add_subdirectory(contrib/QtPropertyBrowser)
+include_directories(contrib/QtPropertyBrowser/include)
 
 ##############################################################
-
-add_subdirectory(VMMView)
 
 include(CMake/AddDocumentation.cmake)
 
-option(VMMVIEW_USE_INSTALLED_LIB "Whether the installed VMMView library should be used" OFF)
-if(VMMVIEW_USE_INSTALLED_LIB)
-  find_package(VMMView)
-else(VMMVIEW_USE_INSTALLED_LIB)
-  find_package(FLTK)
-  find_package(Boost REQUIRED COMPONENTS thread)
-  
-  set(VMMView_INCLUDE_DIRS VMMView/include ${FLTK_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+find_package(FLTK)
+find_package(Boost REQUIRED)
+find_package(Equalizer REQUIRED)
 
-  option(VMMVIEW_USE_EQUALIZER "If VmmView should use Equalizer for rendering" OFF)
-  if(VMMVIEW_USE_EQUALIZER)
-    find_package(Equalizer REQUIRED)
-    add_definitions(-DVMMVIEW_USE_EQUALIZER)
-    set(VMMView_INCLUDE_DIRS ${VMMView_INCLUDE_DIRS} ${Equalizer_INCLUDE_DIRS})
-    set(VMMView_LIBRARIES VMMView_eq ${Equalizer_LIBRARIES})    
-  else(VMMVIEW_USE_EQUALIZER)
-    set(VMMView_LIBRARIES VMMView)    
-  endif(VMMVIEW_USE_EQUALIZER)
-
-  set(VMMView_LIBRARIES
-    ${VMMView_LIBRARIES}
-    ${FLTK_LIBRARIES}
-    ${QT_LIBRARIES}
-    qglviewer-qt4
-    QtPropertyBrowser
-    )
-
-endif(VMMVIEW_USE_INSTALLED_LIB)
-
-include_directories(include ${VMMView_INCLUDE_DIRS})
-
-##############################################################
-
-find_package(lib3ds REQUIRED)
-
-file(GLOB_RECURSE RENDER_ALGO_SOURCE RenderAlgorithm/*.cpp)
-file(GLOB_RECURSE MESH_LOADER_SOURCE MeshLoader/*.cpp)
-
-add_executable(view
-  ${RENDER_ALGO_SOURCE}
-  ${MESH_LOADER_SOURCE}
+include_directories(
+  include
+  src
+  ${FLTK_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIRS}
+  ${Equalizer_INCLUDE_DIRS}
   )
 
-target_link_libraries(view
-  ${VMMView_LIBRARIES}
-  ${lib3ds_LIBRARIES}
-  ${Boost_LIBRARIES}
+add_documentation(VMMView include/VMMView.hpp)
+
+file(GLOB_RECURSE VMMVIEW_HEADER 
+  ${CMAKE_SOURCE_DIR}/VMMView/include/VMMView/*.hpp)
+
+file(GLOB VMMVIEW_WIDGETS_HPP src/Widgets/*.hpp)
+file(GLOB VMMVIEW_WIDGETS_SRC src/Widgets/*.cpp)
+qt4_wrap_cpp(VMMVIEW_WIDGETS_MOC ${VMMVIEW_WIDGETS_HPP})
+
+file(GLOB VMMVIEW_COMMON_SOURCE src/Common/*.c*)
+set(VMMVIEW_COMMON_SOURCE
+  ${VMMVIEW_COMMON_SOURCE}
+  ${VMMVIEW_WIDGETS_SRC}
+  ${VMMVIEW_WIDGETS_MOC}
   )
 
-##############################################################
+file(GLOB VMMVIEW_SIMPLE_SOURCE src/Simple/*.c*)
+file(GLOB VMMVIEW_EQ_SOURCE src/Equalizer/*.c*)
 
-file(GLOB MODEL_FILES
-   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/Models 
-   ${CMAKE_CURRENT_SOURCE_DIR}/Models/?*.*)
+add_library(VMMView STATIC ${VMMVIEW_COMMON_SOURCE} ${VMMVIEW_SIMPLE_SOURCE})
+add_library(VMMView_eq STATIC ${VMMVIEW_COMMON_SOURCE} ${VMMVIEW_EQ_SOURCE})
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Models)
+install(FILES ${VMMVIEW_HEADER} DESTINATION include/VMMView)
+install(TARGETS VMMView VMMView_eq ARCHIVE DESTINATION lib)
 
-foreach(MODEL_FILE ${MODEL_FILES})
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Models/${MODEL_FILE}
-    ${CMAKE_CURRENT_BINARY_DIR}/Models/${MODEL_FILE} COPYONLY)
-endforeach(MODEL_FILE ${MODEL_FILES})
+set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
+include(CPack)
