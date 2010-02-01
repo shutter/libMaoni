@@ -15,6 +15,7 @@
 #include "../Widgets/AlgorithmWidget.hpp"
 #include "../Widgets/RenderWidget.hpp"
 #include "../Widgets/RenderControlWidget.hpp"
+#include "../Widgets/LightWidget.hpp"
 
 void fltk_thread(FrameData& frame_data)
 {
@@ -39,6 +40,10 @@ int main(int argc, char* argv[])
 	AlgorithmWidget algo_widget(frame_data);
 	algo_widget.resize(240, 320);
 	algo_widget.show();
+
+	LightWidget light_widget(frame_data);
+	light_widget.resize(240, 320);
+	light_widget.show();
 
 	boost::thread fltk(fltk_thread, boost::ref(frame_data));
 

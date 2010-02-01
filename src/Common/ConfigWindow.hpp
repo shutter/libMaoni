@@ -12,7 +12,7 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Box.H>
 #include <VMMView/detail/Algorithm.hpp>
-#include "LightWidget.hpp"
+#include "LightWidget_old.hpp"
 
 
 class ConfigWindow: public Fl_Window
@@ -27,7 +27,7 @@ public:
 	}
 
 private:
-	LightWidget light_widget;
+	LightWidget_old light_widget;
 };
 
 #endif /* CONFIG_WINDOW_HPP */
