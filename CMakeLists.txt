@@ -78,6 +78,13 @@ endif(MAONI_BUILD_ICET_LIB)
 
 ##############################################################
 
+option(MAONI_BUILD_EXAMPLES OFF)
+if(MAONI_BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif(MAONI_BUILD_EXAMPLES)
+
+##############################################################
+
 install(DIRECTORY include/ DESTINATION include)
 install(TARGETS maoni ARCHIVE DESTINATION lib)
 
