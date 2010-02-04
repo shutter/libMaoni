@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <iostream>
 
 RenderControlWidget::RenderControlWidget(FrameData& frame_data, QWidget *parent) :
 	QWidget(parent), frame_data(frame_data)

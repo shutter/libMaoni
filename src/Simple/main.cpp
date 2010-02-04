@@ -5,23 +5,14 @@
  *      Author: dpfeifer
  */
 
-#include <FL/Fl.H>
-#include "Common/ConfigWindow.hpp"
 #include <VMMView/detail/Algorithm.hpp>
 #include "Common/FrameData.hpp"
 
 #include <QApplication>
-#include <boost/thread/thread.hpp>
 #include "../Widgets/AlgorithmWidget.hpp"
 #include "../Widgets/RenderWidget.hpp"
 #include "../Widgets/RenderControlWidget.hpp"
 #include "../Widgets/LightWidget.hpp"
-
-void fltk_thread(FrameData& frame_data)
-{
-	ConfigWindow config_window(frame_data);
-	Fl::run();
-}
 
 int main(int argc, char* argv[])
 {
@@ -45,11 +36,5 @@ int main(int argc, char* argv[])
 	light_widget.resize(240, 320);
 	light_widget.show();
 
-	boost::thread fltk(fltk_thread, boost::ref(frame_data));
-
-	int ret = app.exec();
-
-	fltk.join();
-
-	return ret;
+	return app.exec();
 }

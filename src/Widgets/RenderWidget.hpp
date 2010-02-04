@@ -1,4 +1,4 @@
-#include <qglviewer-qt4/qglviewer.h>
+#include <qglviewer.h>
 
 #include "Common/FrameData.hpp"
 

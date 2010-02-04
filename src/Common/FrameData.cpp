@@ -6,7 +6,10 @@
  */
 
 #include "FrameData.hpp"
-#include <FL/glut.H>
+
+#include <windows.h>
+#include <GL/gl.h>
+
 #include "trackball.h"
 
 FrameData::FrameData() :
@@ -53,14 +56,15 @@ void FrameData::apply_light() const
 			glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, 180.0f);
 		}
 
-		if (light.show_bulp)
-		{
-			glPushMatrix();
-			glTranslatef(light.position.x(), light.position.y(),
-					light.position.z());
-			glColor3f(1.f, 1.f, 1.f);
-			glutSolidSphere(0.01, 4, 4);
-			glPopMatrix();
-		}
+		// TODO: alternative to glutSolidSphere()
+		//if (light.show_bulp)
+		//{
+		//	glPushMatrix();
+		//	glTranslatef(light.position.x(), light.position.y(),
+		//			light.position.z());
+		//	glColor3f(1.f, 1.f, 1.f);
+		//	glutSolidSphere(0.01, 4, 4);
+		//	glPopMatrix();
+		//}
 	}
 }

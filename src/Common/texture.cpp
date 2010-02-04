@@ -5,6 +5,7 @@
  *      Author: daniel
  */
 
+#include <windows.h>
 #include <VMMView/Texture.hpp>
 #include <VMMView/ScopedLocks.hpp>
 

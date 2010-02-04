@@ -6,7 +6,7 @@
  */
 
 #include <VMMView/detail/MeshLoader.hpp>
-#include <cstring>
+#include <boost/algorithm/string/predicate.hpp>
 
 const char* MeshLoader::all_filters()
 {
@@ -29,8 +29,7 @@ bool MeshLoader::load(Model& mesh, const char* filename)
 {
 	for (MeshLoader* i = stack; i; i = i->next)
 	{
-		const char* extension = std::strrchr(filename, '.');
-		if (!strcasecmp(extension, i->extension()))
+		if (boost::algorithm::iends_with(filename, i->extension()))
 			return i->load_i(mesh, filename);
 	}
 

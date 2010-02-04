@@ -8,6 +8,34 @@
 #include <VMMView/detail/ShaderProgram.hpp>
 #include <iostream>
 
+ShaderProgram::ShaderProgram() :
+	name(0)
+{
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram const& other) :
+	name(0), shaders(other.shaders)
+{
+}
+
+ShaderProgram::~ShaderProgram()
+{
+	if (name)
+		glDeleteProgram(name);
+}
+
+const ShaderProgram& ShaderProgram::operator=(ShaderProgram const& other)
+{
+	if (name)
+	{
+		glDeleteProgram(name);
+		name = 0;
+	}
+
+	shaders = other.shaders;
+	return *this;
+}
+
 ShaderProgram::operator GLuint() const
 {
 	if (!name)

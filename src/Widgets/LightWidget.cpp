@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QMessageBox>
+#include <iostream>
 
 LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 	QWidget(parent), frame_data(frame_data) {

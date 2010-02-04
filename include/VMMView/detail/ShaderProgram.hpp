@@ -8,53 +8,31 @@
 #ifndef VMMVIEW_COMMON_SHADER_PROGRAM_HPP
 #define VMMVIEW_COMMON_SHADER_PROGRAM_HPP
 
-#include <GL/gl.h>
 #include <set>
-#include <iostream>
 
 class ShaderProgram
 {
 public:
-	ShaderProgram() :
-		name(0)
-	{
-	}
+	ShaderProgram();
 
-	ShaderProgram(ShaderProgram const& other) :
-		name(0), shaders(other.shaders)
-	{
-	}
+	ShaderProgram(ShaderProgram const& other);
 
-	~ShaderProgram()
-	{
-		if (name)
-			glDeleteProgram(name);
-	}
+	~ShaderProgram();
 
-	const ShaderProgram& operator=(ShaderProgram const& other)
-	{
-		if (name)
-		{
-			glDeleteProgram(name);
-			name = 0;
-		}
+	const ShaderProgram& operator=(ShaderProgram const& other);
 
-		shaders = other.shaders;
-		return *this;
-	}
-
-	operator GLuint() const;
+	operator unsigned int() const;
 
 protected:
-	void attach(GLenum type, const GLchar* source)
+	void attach(unsigned int type, const char* source)
 	{
 		shaders.insert(shader_t(type, source));
 	}
 
 private:
-	mutable GLuint name;
+	mutable unsigned int name;
 
-	typedef std::pair<GLenum, const GLchar*> shader_t;
+	typedef std::pair<unsigned int, const char*> shader_t;
 	typedef std::set<shader_t> shader_set_t;
 	shader_set_t shaders;
 };
