@@ -6,8 +6,8 @@
  */
 
 //#include <windows.h>
-#include <VMMView/Texture.hpp>
-#include <VMMView/ScopedLocks.hpp>
+#include <Maoni/Texture.hpp>
+#include <Maoni/ScopedLocks.hpp>
 
 #include <QImage>
 #include <QGLWidget>

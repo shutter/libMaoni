@@ -12,10 +12,10 @@
 #include <boost/noncopyable.hpp>
 #include <boost/function.hpp>
 
-#include <VMMView/Color.hpp>
-#include <VMMView/Model.hpp>
-#include <VMMView/detail/Extensible.hpp>
-#include <VMMView/detail/ShaderProgram.hpp>
+#include <Maoni/Color.hpp>
+#include <Maoni/Model.hpp>
+#include <Maoni/detail/Extensible.hpp>
+#include <Maoni/detail/ShaderProgram.hpp>
 
 struct Algorithm: boost::noncopyable
 {

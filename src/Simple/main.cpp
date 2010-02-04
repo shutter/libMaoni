@@ -5,7 +5,7 @@
  *      Author: dpfeifer
  */
 
-#include <VMMView/detail/Algorithm.hpp>
+#include <Maoni/detail/Algorithm.hpp>
 #include "Common/FrameData.hpp"
 
 #include <QApplication>

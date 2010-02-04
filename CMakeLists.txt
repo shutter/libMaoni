@@ -1,7 +1,7 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
-project(VMMView)
+project(Maoni)
 
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -29,9 +29,9 @@ include_directories(contrib/QtPropertyBrowser/include)
 
 include(CMake/AddDocumentation.cmake)
 
-file(GLOB VMMVIEW_DOC_HEADER include/VMMView/*.hpp)
+file(GLOB MAONI_DOC_HEADER include/VMMView/*.hpp)
 
-add_documentation(VMMView ${VMMVIEW_DOC_HEADER}
+add_documentation(maoni ${MAONI_DOC_HEADER}
   ${CMAKE_SOURCE_DIR}/include/VMMView.hpp)
 
 ##############################################################
@@ -47,42 +47,39 @@ include_directories(
   ${QGLVIEWER_INCLUDE_DIR}
   )
 
-file(GLOB_RECURSE VMMVIEW_HEADER 
-  ${CMAKE_SOURCE_DIR}/VMMView/include/VMMView/*.hpp)
+file(GLOB MAONI_WIDGETS_HPP src/Widgets/*.hpp)
+file(GLOB MAONI_WIDGETS_SRC src/Widgets/*.cpp)
+qt4_wrap_cpp(MAONI_WIDGETS_MOC ${MAONI_WIDGETS_HPP})
 
-file(GLOB VMMVIEW_WIDGETS_HPP src/Widgets/*.hpp)
-file(GLOB VMMVIEW_WIDGETS_SRC src/Widgets/*.cpp)
-qt4_wrap_cpp(VMMVIEW_WIDGETS_MOC ${VMMVIEW_WIDGETS_HPP})
-
-file(GLOB VMMVIEW_COMMON_SOURCE src/Common/*.c*)
-set(VMMVIEW_COMMON_SOURCE
-  ${VMMVIEW_COMMON_SOURCE}
-  ${VMMVIEW_WIDGETS_SRC}
-  ${VMMVIEW_WIDGETS_MOC}
+file(GLOB MAONI_COMMON_SOURCE src/Common/*.c*)
+set(MAONI_COMMON_SOURCE
+  ${MAONI_COMMON_SOURCE}
+  ${MAONI_WIDGETS_SRC}
+  ${MAONI_WIDGETS_MOC}
   )
 
-file(GLOB VMMVIEW_SIMPLE_SOURCE src/Simple/*.c*)
+file(GLOB MAONI_SIMPLE_SOURCE src/Simple/*.c*)
 
-add_library(VMMView STATIC ${VMMVIEW_COMMON_SOURCE} ${VMMVIEW_SIMPLE_SOURCE})
-
-##############################################################
-
-option(VMMVIEW_BUILD_EQUALIZER_LIB OFF)
-if(VMMVIEW_BUILD_EQUALIZER_LIB)
-  include(VMMViewEqualizer)
-endif(VMMVIEW_BUILD_EQUALIZER_LIB)
+add_library(maoni STATIC ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
 
 ##############################################################
 
-option(VMMVIEW_BUILD_ICET_LIB OFF)
-if(VMMVIEW_BUILD_ICET_LIB)
-  include(VMMViewIceT)
-endif(VMMVIEW_BUILD_ICET_LIB)
+option(MAONI_BUILD_EQUALIZER_LIB OFF)
+if(MAONI_BUILD_EQUALIZER_LIB)
+  include(MaoniEqualizer)
+endif(MAONI_BUILD_EQUALIZER_LIB)
 
 ##############################################################
 
-install(FILES ${VMMVIEW_HEADER} DESTINATION include/VMMView)
-install(TARGETS VMMView ARCHIVE DESTINATION lib)
+option(MAONI_BUILD_ICET_LIB OFF)
+if(MAONI_BUILD_ICET_LIB)
+  include(MaoniIceT)
+endif(MAONI_BUILD_ICET_LIB)
+
+##############################################################
+
+install(DIRECTORY include/ DESTINATION include)
+install(TARGETS maoni ARCHIVE DESTINATION lib)
 
 set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
 include(CPack)

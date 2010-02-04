@@ -8,7 +8,7 @@
 #ifndef VMMVIEW_SCOPED_LOCKS_HPP
 #define VMMVIEW_SCOPED_LOCKS_HPP
 
-#include <VMMView/detail/ScopedLocks.hpp>
+#include <Maoni/detail/ScopedLocks.hpp>
 
 struct ScopedEnable: detail::ScopedEnable
 {

@@ -9,9 +9,9 @@
 #define FRAME_DATA_HPP
 
 #include "Light.hpp"
-#include <VMMView/Model.hpp>
-#include <VMMView/detail/Algorithm.hpp>
-#include <VMMView/detail/MeshLoader.hpp>
+#include <Maoni/Model.hpp>
+#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/detail/MeshLoader.hpp>
 
 class GlobalConfigWidget;
 

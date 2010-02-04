@@ -8,7 +8,7 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
-#include <VMMView/Vector.hpp>
+#include <Maoni/Vector.hpp>
 
 class Light
 {

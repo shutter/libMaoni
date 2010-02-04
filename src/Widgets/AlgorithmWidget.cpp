@@ -6,7 +6,7 @@
  */
 
 #include "AlgorithmWidget.hpp"
-#include <VMMView/detail/Algorithm.hpp>
+#include <Maoni/detail/Algorithm.hpp>
 #include <qteditorfactory.h>
 #include <QVBoxLayout>
 #include <iostream>

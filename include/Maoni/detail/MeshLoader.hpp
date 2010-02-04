@@ -8,8 +8,8 @@
 #ifndef VMMVIEW_COMMON_MESH_LOADER_HPP
 #define VMMVIEW_COMMON_MESH_LOADER_HPP
 
-#include <VMMView/Model.hpp>
-#include <VMMView/detail/Extensible.hpp>
+#include <Maoni/Model.hpp>
+#include <Maoni/detail/Extensible.hpp>
 
 class MeshLoader: public Extensible<MeshLoader>
 {

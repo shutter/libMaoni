@@ -5,7 +5,7 @@
  *      Author: daniel
  */
 
-#include <VMMView/detail/MeshLoader.hpp>
+#include <Maoni/detail/MeshLoader.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
 const char* MeshLoader::all_filters()

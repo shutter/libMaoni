@@ -5,7 +5,7 @@
  *      Author: shutter
  */
 
-#include <VMMView/Model.hpp>
+#include <Maoni/Model.hpp>
 #include <cstdlib>
 #include <algorithm>
 

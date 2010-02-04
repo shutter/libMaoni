@@ -5,7 +5,7 @@
  *      Author: daniel
  */
 
-#include <VMMView/detail/ShaderProgram.hpp>
+#include <Maoni/detail/ShaderProgram.hpp>
 #include <iostream>
 #include <GL/gl.h>
 
