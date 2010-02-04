@@ -20,13 +20,58 @@ public:
 	LightWidget(FrameData& frame_data, QWidget *parent = 0);
 
 private slots:
-	void test();
 	void add_light();
+	void choose(int i);
+	QStringList getLightNames();
+
+	void value_changed(QtProperty* property, int value);
+	void value_changed(QtProperty* property, bool value);
+	void value_changed(QtProperty* property, double value);
+	void value_changed(QtProperty* property, const QColor& value);
+	void value_changed(QtProperty* property, const QString& value);
+
+	void test();
+
+private:
+	QColor colorOTB(Vector4 one);
+	void colorBTO(QColor byte, Vector4 one);
 
 private:
 	FrameData& frame_data;
 	QComboBox* light_chooser;
+	Light& light;
 	QtTreePropertyBrowser* property_browser;
+
+	QtStringPropertyManager* string_manager;
+	QtIntPropertyManager* int_manager;
+	QtBoolPropertyManager* bool_manager;
+	QtDoublePropertyManager* double_manager;
+	QtColorPropertyManager* color_manager;
+    QtGroupPropertyManager* group_manager;
+
+
+	QtProperty *name;
+	QtProperty *is_on;
+	QtProperty *show_bulp;
+	QtProperty *pos_x;
+	QtProperty *pos_y;
+	QtProperty *pos_z;
+	QtProperty *pos_v;
+	QtProperty *light_position;
+	QtProperty *ambient;
+	QtProperty *diffuse;
+	QtProperty *specular;
+	QtProperty *const_att;
+	QtProperty *lin_att;
+	QtProperty *quad_att;
+	QtProperty *attenuation;
+	QtProperty *is_spot;
+	QtProperty *spot_dir_x;
+	QtProperty *spot_dir_y;
+	QtProperty *spot_dir_z;
+	QtProperty *spot_direction;
+	QtProperty *cut_off;
+	QtProperty *exponent;
 
 };
 

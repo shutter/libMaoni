@@ -7,6 +7,7 @@
 
 #include <VMMView/detail/ShaderProgram.hpp>
 #include <iostream>
+#include <GL/gl.h>
 
 ShaderProgram::ShaderProgram() :
 	name(0)

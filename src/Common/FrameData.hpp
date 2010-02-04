@@ -15,51 +15,43 @@
 
 class GlobalConfigWidget;
 
-class FrameData
-{
+class FrameData {
 public:
 	FrameData();
 
-	~FrameData()
-	{
+	~FrameData() {
 	}
 
+	//todo: max number of lights can vary depending on opengl -> if possible replace by an opengl command which determines the correct value of a specific architecture
 	static const size_t max_number_of_lights = 16;
 
 	void apply_light() const;
 
-	virtual bool load_model(const char* filename)
-	{
+	virtual bool load_model(const char* filename) {
 		return MeshLoader::load(model_, filename);
 	}
 
-	const Model& model() const
-	{
+	const Model& model() const {
 		return model_;
 	}
 
-	virtual std::vector<Light>& lights()
-	{
+	virtual std::vector<Light>& lights() {
 		return lights_;
 	}
 
-	const std::vector<Light>& lights() const
-	{
+	const std::vector<Light>& lights() const {
 		return lights_;
 	}
 
-	const Algorithm::Ptr render_algorithm() const
-	{
+	const Algorithm::Ptr render_algorithm() const {
 		return render_algorithm_;
 	}
 
-	Algorithm::Ptr render_algorithm()
-	{
+	Algorithm::Ptr render_algorithm() {
 		return render_algorithm_;
 	}
 
-	virtual void render_algorithm(Algorithm::Ptr algo)
-	{
+	virtual void render_algorithm(Algorithm::Ptr algo) {
 		render_algorithm_ = algo;
 	}
 

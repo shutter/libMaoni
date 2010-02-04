@@ -7,7 +7,7 @@
 
 #include "FrameData.hpp"
 
-#include <windows.h>
+//#include <windows.h>
 #include <GL/gl.h>
 
 #include "trackball.h"
@@ -16,6 +16,13 @@ FrameData::FrameData() :
 	translation(0, 0, -2)
 {
 	trackball(curquat, 0.0, 0.0, 0.0, 0.0);
+
+	// create LIGHT0 gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
+	lights().push_back(Light());
+	lights()[0].is_light0 = true;
+	lights()[0].name = "LIGHT0 default";
+	lights()[0].diffuse = Vector4(0.0,0.0,0.0,0.0);
+	lights()[0].specular = Vector4(1.0,1.0,1.0,1.0);
 }
 
 void FrameData::apply_light() const
