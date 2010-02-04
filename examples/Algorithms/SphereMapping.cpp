@@ -5,10 +5,10 @@
  *      Author: Daniel Pfeifer
  */
 
-#include <VMMView/RenderAlgorithm.hpp>
-#include <VMMView/ShaderProgram.hpp>
-#include <VMMView/ScopedLocks.hpp>
-#include <VMMView/Texture.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
+#include <Maoni/ShaderProgram.hpp>
+#include <Maoni/ScopedLocks.hpp>
+#include <Maoni/Texture.hpp>
 #include <Fl/glut.H>
 
 SHADER_SOURCE(vertex_source,
@@ -53,12 +53,12 @@ RENDER_ALGORITHM(SphereMapping,
 		t = new Texture("../Models/sphere0.jpg");
 	ScopedBindTexture texture_lock(*t);
 
-	if (teapot)
-	{
-		glutSolidTeapot(0.5);
-	}
-	else
-	{
+//	if (teapot)
+//	{
+//		glutSolidTeapot(0.5);
+//	}
+//	else
+//	{
 		glBegin(GL_TRIANGLES);
 
 		for (size_t i = 0; i < model.triangles.size(); i++)
@@ -74,5 +74,5 @@ RENDER_ALGORITHM(SphereMapping,
 		}
 
 		glEnd();
-	}
+//	}
 }

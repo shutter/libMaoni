@@ -18,7 +18,7 @@
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
-#include <VMMView/detail/ShaderProgram.hpp>
+#include <Maoni/detail/ShaderProgram.hpp>
 
 #define SHADER_PROGRAM_SOURCE_X(TYPE, C_STR) \
 	((GL_##TYPE##_SHADER, C_STR)) SHADER_PROGRAM_SOURCE_Y

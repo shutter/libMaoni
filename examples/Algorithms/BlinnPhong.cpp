@@ -5,9 +5,9 @@
  *      Author: dpfeifer
  */
 
-#include "VMMView/RenderAlgorithm.hpp"
-#include "VMMView/ShaderProgram.hpp"
-#include <VMMView/ScopedLocks.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
+#include <Maoni/ShaderProgram.hpp>
+#include <Maoni/ScopedLocks.hpp>
 #include <Fl/glut.H>
 
 SHADER_SOURCE(vertex_source,
@@ -130,10 +130,10 @@ RENDER_ALGORITHM(BlinnPhong,
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	if (bounding_sphere && !wired)
-		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
-	else if (bounding_sphere && wired)
-		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
+//	if (bounding_sphere && !wired)
+//		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
+//	else if (bounding_sphere && wired)
+//		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
 
 	glBegin(GL_TRIANGLES);
 

@@ -29,6 +29,6 @@
 	static MeshLoader_##EXT MeshLoader_##EXT##__;                              \
 	bool MeshLoader_##EXT::load_i(Model& model, const char* filename) const    \
 
-#include <VMMView/detail/MeshLoader.hpp>
+#include <Maoni/detail/MeshLoader.hpp>
 
 #endif /* VMMVIEW_MESH_LOADER_HPP */

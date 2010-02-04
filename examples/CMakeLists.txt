@@ -1,40 +1,20 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
-cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
-project(VMMView)
-
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
-add_definitions(-DGL_GLEXT_PROTOTYPES)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/../VMMLFramework/CMake)
-
-##############################################################
-
-#option(VMMVIEW_USE_INSTALLED_LIB "Whether the installed VMMView library should be used" OFF)
-set(VMMVIEW_ROOT ${CMAKE_SOURCE_DIR}/../Maoni)
-
-option(VMMVIEW_USE_EQUALIZER "If VmmView should use Equalizer for rendering" OFF)
-
-find_package(VMMView)
-
-include_directories(include ${VMMView_INCLUDE_DIRS})
-
-##############################################################
-
 find_package(lib3ds REQUIRED)
 
-file(GLOB_RECURSE RENDER_ALGO_SOURCE RenderAlgorithms/*.cpp)
-file(GLOB_RECURSE MESH_LOADER_SOURCE MeshLoaders/*.cpp)
+file(GLOB_RECURSE RENDER_ALGO_SOURCE Algorithms/*.cpp)
+file(GLOB_RECURSE MESH_LOADER_SOURCE Loaders/*.cpp)
 
-add_executable(view
+add_executable(maoni_example
   ${RENDER_ALGO_SOURCE}
   ${MESH_LOADER_SOURCE}
   )
 
-target_link_libraries(view
-  ${VMMView_LIBRARIES}
+target_link_libraries(maoni_example
+  maoni
+  ${QT_LIBRARIES}
+  QtPropertyBrowser
+  ${QGLVIEWER_LIBRARY}
   ${lib3ds_LIBRARIES}
   ${Boost_LIBRARIES}
   )

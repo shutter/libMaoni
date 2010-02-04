@@ -2,7 +2,7 @@
  * SimpleView.cpp
  */
 
-#include "VMMView/RenderAlgorithm.hpp"
+#include <Maoni/RenderAlgorithm.hpp>
 #include <FL/glut.H>
 
 RENDER_ALGORITHM(SimpleView,)

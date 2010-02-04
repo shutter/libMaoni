@@ -21,12 +21,12 @@
     RENDER_ALGORITHM_I(NAME, BOOST_PP_CAT(RENDER_ALGORITHM_X BSEQ, 0))
 
 #include <boost/preprocessor/cat.hpp>
-#include <VMMView/detail/Algorithm.hpp>
+#include <Maoni/detail/Algorithm.hpp>
 
 #ifdef VMMVIEW_USE_EQUALIZER
-#  include <VMMView/detail/Algorithm_PP_Equalizer.hpp>
+#  include <Maoni/detail/Algorithm_PP_Equalizer.hpp>
 #else
-#  include <VMMView/detail/Algorithm_PP_Simple.hpp>
+#  include <Maoni/detail/Algorithm_PP_Simple.hpp>
 #endif
 
 #define RENDER_ALGORITHM_X(T, V, D) ((T, V, D)) RENDER_ALGORITHM_Y

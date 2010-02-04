@@ -5,7 +5,7 @@
  *      Author: aishutter
  */
 
-#include "VMMView/MeshLoader.hpp"
+#include <Maoni/MeshLoader.hpp>
 #include <lib3ds/file.h>
 #include <lib3ds/mesh.h>
 

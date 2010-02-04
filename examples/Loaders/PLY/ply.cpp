@@ -5,9 +5,10 @@
  *      Author: dpfeifer
  */
 
-#include <VMMView/MeshLoader.hpp>
+#include <Maoni/MeshLoader.hpp>
 #include "plyfile.h"
 #include <stdint.h>
+#include <vmmlib/vector.hpp>
 
 typedef vmml::vector<3, std::size_t> Triangle;
 static bool _invertFaces = false;

@@ -5,8 +5,8 @@
  *      Author: daniel
  */
 
-#include "VMMView/RenderAlgorithm.hpp"
-#include "VMMView/Color.hpp"
+#include <Maoni/RenderAlgorithm.hpp>
+#include <Maoni/Color.hpp>
 #include <FL/glut.H>
 
 RENDER_ALGORITHM(FixedFunction,
@@ -31,10 +31,10 @@ RENDER_ALGORITHM(FixedFunction,
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	if (bounding_sphere && !wired)
-		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
-	else if (bounding_sphere && wired)
-		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
+//	if (bounding_sphere && !wired)
+//		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
+//	else if (bounding_sphere && wired)
+//		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
 
 	glBegin(GL_TRIANGLES);
 

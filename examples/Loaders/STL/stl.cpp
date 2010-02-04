@@ -5,7 +5,9 @@
  *      Author: aishutter
  */
 
-#include <VMMView/MeshLoader.hpp>
+#include <Maoni/MeshLoader.hpp>
+#include <vmmlib/vector.hpp>
+
 #include "stla_io.h"
 
 typedef vmml::vector<3, std::size_t> Triangle;
