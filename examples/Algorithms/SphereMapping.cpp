@@ -5,11 +5,11 @@
  *      Author: Daniel Pfeifer
  */
 
+#include <GL/glew.h>
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/ShaderProgram.hpp>
 #include <Maoni/ScopedLocks.hpp>
 #include <Maoni/Texture.hpp>
-#include <Fl/glut.H>
 
 SHADER_SOURCE(vertex_source,
 

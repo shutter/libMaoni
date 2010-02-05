@@ -1,23 +1,43 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
-find_package(lib3ds REQUIRED)
+file(GLOB RENDER_ALGO_SOURCE Algorithms/*.cpp)
 
-file(GLOB_RECURSE RENDER_ALGO_SOURCE Algorithms/*.cpp)
-file(GLOB_RECURSE MESH_LOADER_SOURCE Loaders/*.cpp)
+set(MESH_LOADER_SOURCE
+  Loaders/PLY/ply.cpp
+  Loaders/PLY/plyfile.cpp
+  Loaders/STL/stl.cpp
+  Loaders/STL/stla_io.cpp
+  )
+
+set(LIBRARIES
+  maoni
+  ${QT_LIBRARIES}
+  QtPropertyBrowser
+  ${QGLVIEWER_LIBRARY}
+  ${Boost_LIBRARIES}
+  ${GLEW_LIBRARY}
+  )
+
+##############################################################
+
+find_package(lib3ds)
+if(lib3ds_FOUND)
+  set(MESH_LOADER_SOURCE
+    ${MESH_LOADER_SOURCE}
+    Loaders/3DS/3ds.cpp
+    )
+  set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
+endif(lib3ds_FOUND)
+
+
+##############################################################
 
 add_executable(maoni_example
   ${RENDER_ALGO_SOURCE}
   ${MESH_LOADER_SOURCE}
   )
 
-target_link_libraries(maoni_example
-  maoni
-  ${QT_LIBRARIES}
-  QtPropertyBrowser
-  ${QGLVIEWER_LIBRARY}
-  ${lib3ds_LIBRARIES}
-  ${Boost_LIBRARIES}
-  )
+target_link_libraries(maoni_example ${LIBRARIES})
 
 ##############################################################
 

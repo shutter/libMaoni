@@ -6,8 +6,9 @@
  */
 
 #include <Maoni/detail/ShaderProgram.hpp>
+#include <GL/glew.h>
 #include <iostream>
-#include <GL/gl.h>
+#include <string>
 
 ShaderProgram::ShaderProgram() :
 	name(0)

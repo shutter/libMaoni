@@ -7,7 +7,7 @@
 
 #include <Maoni/MeshLoader.hpp>
 #include "plyfile.h"
-#include <stdint.h>
+#include <boost/cstdint.hpp>
 #include <vmmlib/vector.hpp>
 
 typedef vmml::vector<3, std::size_t> Triangle;
@@ -74,8 +74,8 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 	mesh.triangles.reserve(nFaces);
 
 	// read in the faces, asserting that they are only triangles
-	uint8_t ind1 = _invertFaces ? 2 : 0;
-	uint8_t ind3 = _invertFaces ? 0 : 2;
+	boost::uint8_t ind1 = _invertFaces ? 2 : 0;
+	boost::uint8_t ind3 = _invertFaces ? 0 : 2;
 	for (int i = 0; i < nFaces; ++i) {
 		ply_get_element(file, static_cast<void*> (&face));
 		BOOST_ASSERT(face.vertices != 0);

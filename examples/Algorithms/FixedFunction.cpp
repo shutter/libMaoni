@@ -5,9 +5,9 @@
  *      Author: daniel
  */
 
+#include <GL/glew.h>
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/Color.hpp>
-#include <FL/glut.H>
 
 RENDER_ALGORITHM(FixedFunction,
 		(bool, wired, false)

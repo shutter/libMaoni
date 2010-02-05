@@ -5,7 +5,7 @@
  *      Author: daniel
  */
 
-//#include <windows.h>
+#include <GL/glew.h>
 #include <Maoni/Texture.hpp>
 #include <Maoni/ScopedLocks.hpp>
 

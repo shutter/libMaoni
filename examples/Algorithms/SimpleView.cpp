@@ -2,8 +2,8 @@
  * SimpleView.cpp
  */
 
+#include <GL/glew.h>
 #include <Maoni/RenderAlgorithm.hpp>
-#include <FL/glut.H>
 
 RENDER_ALGORITHM(SimpleView,)
 {

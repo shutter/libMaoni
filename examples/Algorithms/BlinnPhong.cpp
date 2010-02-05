@@ -5,10 +5,10 @@
  *      Author: dpfeifer
  */
 
+#include <GL/glew.h>
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/ShaderProgram.hpp>
 #include <Maoni/ScopedLocks.hpp>
-#include <Fl/glut.H>
 
 SHADER_SOURCE(vertex_source,
 		/*

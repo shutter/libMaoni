@@ -1,0 +1,12 @@
+[library libMaoni
+   [quickbook 1.5]
+   [version 0.1]
+   [authors [Hutter, Stefan], [Pfeifer, Daniel]]
+   [copyright 2009 2010 Stefan Hutter, Daniel Pfeifer]
+   [purpose common rendering framework]
+]
+
+[section Introduction]
+some text..
+[endsect]
+

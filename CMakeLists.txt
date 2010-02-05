@@ -9,11 +9,9 @@ if(NOT MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
 endif(NOT MSVC)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 ##############################################################
 
@@ -27,16 +25,8 @@ include_directories(contrib/QtPropertyBrowser/include)
 
 ##############################################################
 
-include(CMake/AddDocumentation.cmake)
-
-file(GLOB MAONI_DOC_HEADER include/VMMView/*.hpp)
-
-add_documentation(maoni ${MAONI_DOC_HEADER}
-  ${CMAKE_SOURCE_DIR}/include/VMMView.hpp)
-
-##############################################################
-
-find_package(Boost REQUIRED)
+find_package(Boost     REQUIRED)
+find_package(GLEW      REQUIRED)
 find_package(QGLViewer REQUIRED)
 
 include_directories(
@@ -44,6 +34,7 @@ include_directories(
   src
   ${Boost_INCLUDE_DIRS}
   ${Equalizer_INCLUDE_DIRS}
+  ${GLEW_INCLUDE_DIR}
   ${QGLVIEWER_INCLUDE_DIR}
   )
 
