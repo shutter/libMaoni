@@ -22,9 +22,6 @@ public:
 	~FrameData() {
 	}
 
-	//todo: max number of lights can vary depending on opengl -> if possible replace by an opengl command which determines the correct value of a specific architecture
-	static const size_t max_number_of_lights = 16;
-
 	void apply_light() const;
 
 	virtual bool load_model(const char* filename) {
@@ -55,6 +52,10 @@ public:
 		render_algorithm_ = algo;
 	}
 
+	bool add_light();
+	unsigned int get_lights_size();
+	Light& get_light(unsigned int i);
+
 	Vector3 translation;
 	float curquat[4];
 
@@ -62,10 +63,12 @@ protected:
 
 	Algorithm::Ptr render_algorithm_;
 
-	std::vector<Light> lights_;
-
 	Model model_;
 
+private:
+	//todo: max number of lights can vary depending on opengl -> if possible replace by an opengl command which determines the correct value of a specific architecture
+	static const size_t max_number_of_lights = 8;
+	std::vector<Light> lights_;
 };
 
 #endif /* FRAME_DATA_HPP */

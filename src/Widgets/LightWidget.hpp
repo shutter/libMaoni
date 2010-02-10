@@ -22,24 +22,24 @@ public:
 private slots:
 	void add_light();
 	void choose(int i);
-	QStringList getLightNames();
 
+	void value_changed(QtProperty* property, const QString& value);
 	void value_changed(QtProperty* property, int value);
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
-	void value_changed(QtProperty* property, const QString& value);
 
 	void test();
 
 private:
 	QColor colorOTB(Vector4 one);
-	void colorBTO(QColor byte, Vector4 one);
+	Vector4 colorBTO(QColor byte);
+	void update_combobox();
 
 private:
 	FrameData& frame_data;
 	QComboBox* light_chooser;
-	Light& light;
+	int light;
 	QtTreePropertyBrowser* property_browser;
 
 	QtStringPropertyManager* string_manager;
