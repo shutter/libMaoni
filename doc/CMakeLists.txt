@@ -1,5 +1,5 @@
 
-doxygen_to_boostbook(maoni-ref.xml
+add_reference(maoni-ref.xml
   ../include/Maoni/Color.hpp
   ../include/Maoni/Enum.hpp
   ../include/Maoni/MeshLoader.hpp
@@ -10,8 +10,10 @@ doxygen_to_boostbook(maoni-ref.xml
   ../include/Maoni/Texture.hpp
   ../include/Maoni/Vector.hpp
   ../include/Maoni/Vertex.hpp
+  HEADER_PREFIX Maoni
   )
 
-quickbook_to_boostbook(maoni-doc.xml
-  libMaoni.qbk maoni-ref.xml
+add_documentation(
+  libMaoni.qbk
+  maoni-ref.xml
   )

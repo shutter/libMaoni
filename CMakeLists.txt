@@ -69,6 +69,13 @@ endif(MAONI_BUILD_ICET_LIB)
 
 ##############################################################
 
+option(MAONI_BUILD_DOCUMENTATION OFF)
+if(MAONI_BUILD_DOCUMENTATION)
+  add_subdirectory(doc)
+endif(MAONI_BUILD_DOCUMENTATION)
+
+##############################################################
+
 option(MAONI_BUILD_EXAMPLES OFF)
 if(MAONI_BUILD_EXAMPLES)
   add_subdirectory(examples)
