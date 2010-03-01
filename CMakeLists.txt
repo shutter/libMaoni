@@ -24,6 +24,8 @@ include(UseQtPropertyBrowser)
 
 ##############################################################
 
+include(UseBezierSurface)
+
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
 find_package(QGLViewer REQUIRED)
@@ -82,8 +84,8 @@ endif(MAONI_BUILD_EXAMPLES)
 
 ##############################################################
 
-install(DIRECTORY include/ DESTINATION include)
-install(TARGETS maoni ARCHIVE DESTINATION lib)
-
-set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
-include(CPack)
+#install(DIRECTORY include/ DESTINATION include)
+#install(TARGETS maoni ARCHIVE DESTINATION lib)
+#
+#set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
+#include(CPack)

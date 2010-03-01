@@ -9,10 +9,12 @@
 #include "Common/FrameData.hpp"
 
 #include <QApplication>
+#include <QDockWidget>
+
 #include "../Widgets/AlgorithmWidget.hpp"
 #include "../Widgets/RenderWidget.hpp"
-#include "../Widgets/RenderControlWidget.hpp"
 #include "../Widgets/LightWidget.hpp"
+#include "../Widgets/MainWindow.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -20,21 +22,21 @@ int main(int argc, char* argv[])
 
 	FrameData frame_data;
 
-	RenderWidget viewer(frame_data);
-	viewer.setWindowTitle("simpleViewer");
-	viewer.show();
+	MainWindow main_window(frame_data);
 
-	RenderControlWidget control(frame_data);
-	control.resize(240, 50);
-	control.show();
+	QDockWidget *dock = new QDockWidget("Stefan's LightWidget", &main_window);
+	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock->setWidget(new LightWidget(frame_data));
+	main_window.addDockWidget(Qt::LeftDockWidgetArea, dock);
 
-	AlgorithmWidget algo_widget(frame_data);
-	algo_widget.resize(240, 320);
-	algo_widget.show();
+	dock = new QDockWidget("Daniels's AlgorithmWidget", &main_window);
+	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock->setWidget(new AlgorithmWidget(frame_data));
+	main_window.addDockWidget(Qt::RightDockWidgetArea, dock);
 
-	LightWidget light_widget(frame_data);
-	light_widget.resize(240, 320);
-	light_widget.show();
+	main_window.setWindowTitle("Maoni");
+	main_window.setCentralWidget(new RenderWidget(frame_data));
+	main_window.show();
 
 	return app.exec();
 }
