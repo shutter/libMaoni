@@ -20,8 +20,7 @@ set(QT_USE_QTXML ON)    # required for property browser
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
-add_subdirectory(contrib/QtPropertyBrowser)
-include_directories(contrib/QtPropertyBrowser/include)
+include(UseQtPropertyBrowser)
 
 ##############################################################
 
@@ -64,7 +63,7 @@ endif(MAONI_BUILD_EQUALIZER_LIB)
 
 option(MAONI_BUILD_ICET_LIB OFF)
 if(MAONI_BUILD_ICET_LIB)
-  include(MaoniIceT)
+  include(MaoniIceT.cmake)
 endif(MAONI_BUILD_ICET_LIB)
 
 ##############################################################
