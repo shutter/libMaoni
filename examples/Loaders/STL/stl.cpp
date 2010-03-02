@@ -60,7 +60,7 @@ MESH_LOADER(stl, StereoLithography)
 	{
 		model.add_vertex(Vertex(Vector3(node_xyz[i * 3], node_xyz[i * 3 + 1],
 				node_xyz[i * 3 + 2]), Vector3(face_normal[i * 3], face_normal[i
-				* 3 + 1], face_normal[i * 3 + 2]), Vector4(0.f), Vector2(0.f)));
+				* 3 + 1], face_normal[i * 3 + 2]), Color(), Vector2(0.f)));
 	}
 
 	// copy nodes to triangles

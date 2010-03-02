@@ -50,7 +50,7 @@ static void readVertices(PlyFile* file, const int nVertices, Model &mesh) {
 	{
 		ply_get_element(file, static_cast<void*> (&vertex));
 		mesh.add_vertex(Vertex(Vector3(vertex.x, vertex.y, vertex.z), Vector3(
-				0.f), Vector4(vertex.r / 255.f, vertex.g / 255.f, vertex.b
+				0.f), Color(vertex.r / 255.f, vertex.g / 255.f, vertex.b
 				/ 255.f, 0), Vector2(0.f)));
 	}
 }

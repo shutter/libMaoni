@@ -14,7 +14,8 @@ void Model::draw() const
 
 	for (size_t i = 0; i < indices.size(); i++)
 	{
-		glColor4fv(vertices[indices[i]].color.array);
+		glColor4fv(vertices[indices[i]].color);
+		glTexCoord2fv(vertices[indices[i]].texcoord.array);
 		glNormal3fv(vertices[indices[i]].normal.array);
 		glVertex3fv(vertices[indices[i]].position.array);
 	}

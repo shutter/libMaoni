@@ -9,6 +9,7 @@
 #define VERTEX_HPP
 
 #include "Vector.hpp"
+#include "Color.hpp"
 
 struct Vertex
 {
@@ -17,7 +18,7 @@ struct Vertex
 	}
 
 	Vertex(const Vector3& position_, const Vector3& normal_,
-			const Vector4& color_, const Vector2& texcoord_) :
+			const Color& color_, const Vector2& texcoord_) :
 		position(position_), normal(normal_), color(color_),
 				texcoord(texcoord_)
 	{
@@ -40,7 +41,7 @@ struct Vertex
 
 	Vector3 position;
 	Vector3 normal;
-	Vector4 color;
+	Color color;
 	Vector2 texcoord;
 };
 

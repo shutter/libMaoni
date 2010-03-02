@@ -13,6 +13,7 @@ class Color
 public:
 	Color()
 	{
+		impl[0] = impl[1] = impl[2] = impl[3] = 1.f;
 	}
 
 	Color(Color const& other)
