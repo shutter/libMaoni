@@ -2,11 +2,7 @@
 
 void RenderWidget::draw()
 {
-	if (!frame_data.render_algorithm())
-		return;
-
-	frame_data.apply_light();
-	frame_data.render_algorithm()->render(frame_data.model());
+	frame_data.draw();
 }
 
 QString RenderWidget::helpString() const

@@ -30,6 +30,16 @@ FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 	std::cout << "max lights: " << max_lights << std::endl;
 }
 
+void FrameData::draw()
+{
+	apply_light();
+
+	if (render_algorithm_)
+		render_algorithm_->render(model_);
+	else
+		model_.draw();
+}
+
 template<std::size_t N, std::size_t R>
 static bool load_bezier_surface(Model& model, float(&nodes)[N], int(&rects)[R])
 {

@@ -25,7 +25,6 @@ include(UseQtPropertyBrowser)
 ##############################################################
 
 include(UseBezierSurface)
-add_subdirectory(bezier_surface)
 
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)

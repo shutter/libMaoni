@@ -23,6 +23,8 @@ public:
 	~FrameData() {
 	}
 
+	void draw();
+
 	void apply_light() const;
 
 	virtual bool load_model(const char* filename);
