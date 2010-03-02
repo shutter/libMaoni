@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+#include "../Widgets/RenderWidget.hpp"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -43,6 +44,14 @@ MainWindow::MainWindow(FrameData& frame_data) :
 		connect(load, SIGNAL(triggered()), this, SLOT(load_model()));
 		model->addAction(load);
 	}
+
+	RenderWidget* render_widget = new RenderWidget(frame_data);
+	setCentralWidget(render_widget);
+
+	QMenu* help = menuBar()->addMenu("&Help");
+	QAction* help_contents = new QAction("lib&QGLViewer", this);
+	connect(help_contents, SIGNAL(triggered()), render_widget, SLOT(help()));
+	help->addAction(help_contents);
 }
 
 void MainWindow::load_model(QString filename)

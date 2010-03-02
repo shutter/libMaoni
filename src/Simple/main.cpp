@@ -40,7 +40,6 @@ int maoni_main(int argc, char* argv[],
 	}
 
 	main_window.setWindowTitle("Maoni");
-	main_window.setCentralWidget(new RenderWidget(frame_data));
 	main_window.show();
 
 	return app.exec();
