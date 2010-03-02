@@ -12,6 +12,7 @@ public:
 	MainWindow(FrameData& frame_data);
 
 private slots:
+	void show_help();
 	void load_model();
 
 	void show_logo(int state);

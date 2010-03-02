@@ -32,6 +32,15 @@ MainWindow::MainWindow(FrameData& frame_data) :
 		connect(load, SIGNAL(triggered()), this, SLOT(load_model()));
 		model->addAction(load);
 	}
+
+	QMenu* help = menuBar()->addMenu("&Help");
+	QAction* help_contents = new QAction("&Help Contents", this);
+	//connect(help_contents, SIGNAL(triggered()), this, SLOT(show_help()));
+	help->addAction(help_contents);
+}
+
+void MainWindow::show_help(){
+
 }
 
 void MainWindow::load_model()
