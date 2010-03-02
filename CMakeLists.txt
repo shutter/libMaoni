@@ -25,6 +25,7 @@ include(UseQtPropertyBrowser)
 ##############################################################
 
 include(UseBezierSurface)
+add_subdirectory(bezier_surface)
 
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
@@ -60,6 +61,7 @@ target_link_libraries(maoni
   ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARY}
+  bezier_surface
   )
 
 add_library(maoni_main STATIC src/main.cpp)

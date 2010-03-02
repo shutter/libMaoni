@@ -22,7 +22,7 @@ int maoni_main(int argc, char* argv[],
 {
 	QApplication app(argc, argv);
 
-	FrameData frame_data;
+	FrameData frame_data(algorithm_factory_stack, mesh_loader_stack);
 
 	MainWindow main_window(frame_data);
 
@@ -31,10 +31,13 @@ int maoni_main(int argc, char* argv[],
 	dock->setWidget(new LightWidget(frame_data));
 	main_window.addDockWidget(Qt::LeftDockWidgetArea, dock);
 
-	dock = new QDockWidget("Daniels's AlgorithmWidget", &main_window);
-	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	dock->setWidget(new AlgorithmWidget(frame_data));
-	main_window.addDockWidget(Qt::RightDockWidgetArea, dock);
+	if (algorithm_factory_stack)
+	{
+		dock = new QDockWidget("Daniels's AlgorithmWidget", &main_window);
+		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+		dock->setWidget(new AlgorithmWidget(frame_data));
+		main_window.addDockWidget(Qt::RightDockWidgetArea, dock);
+	}
 
 	main_window.setWindowTitle("Maoni");
 	main_window.setCentralWidget(new RenderWidget(frame_data));

@@ -24,14 +24,3 @@ const char* MeshLoader::all_filters()
 
 	return instance.c_str();
 }
-
-bool MeshLoader::load(Model& mesh, const char* filename)
-{
-	for (MeshLoader* i = stack; i; i = i->next)
-	{
-		if (boost::algorithm::iends_with(filename, i->extension()))
-			return i->load_i(mesh, filename);
-	}
-
-	return false;
-}

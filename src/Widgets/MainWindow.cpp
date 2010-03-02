@@ -4,6 +4,7 @@
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSignalMapper>
 
 MainWindow::MainWindow(FrameData& frame_data) :
 	frame_data(frame_data)
@@ -14,15 +15,25 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	file->addAction(quit);
 
 	QMenu* model = menuBar()->addMenu("&Model");
+	QSignalMapper* mapper = new QSignalMapper(this);
 
-	QAction* cup = new QAction("tea&cup", this);
-	model->addAction(cup);
+	QAction* teacup = new QAction("tea&cup", this);
+	mapper->setMapping(teacup, "<teacup>");
+	connect(teacup, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teacup);
 
-	QAction* pot = new QAction("tea&pot", this);
-	model->addAction(pot);
+	QAction* teapot = new QAction("tea&pot", this);
+	mapper->setMapping(teapot, "<teapot>");
+	connect(teapot, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teapot);
 
-	QAction* spoon = new QAction("tea&spoon", this);
-	model->addAction(spoon);
+	QAction* teaspoon = new QAction("tea&spoon", this);
+	mapper->setMapping(teaspoon, "<teaspoon>");
+	connect(teaspoon, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teaspoon);
+
+	connect(mapper, SIGNAL(mapped(const QString &)), this,
+			SLOT(load_model(QString)));
 
 	//! this entry is shown iff there is at least one loader available
 	if (MeshLoader::stack)
@@ -34,19 +45,22 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	}
 }
 
-void MainWindow::load_model()
+void MainWindow::load_model(QString filename)
 {
-	QString file = QFileDialog::getOpenFileName(this,
-			"Choose the model file to load", "Models/trico.ply",
-			MeshLoader::all_filters());
+	if (filename.isNull())
+	{
+		filename = QFileDialog::getOpenFileName(this,
+				"Choose the model file to load", "Models/trico.ply",
+				MeshLoader::all_filters());
+	}
 
-	if (file.isNull())
+	if (filename.isNull())
 		return;
 
-	if (!frame_data.load_model(file.toStdString().c_str()))
+	if (!frame_data.load_model(filename.toStdString().c_str()))
 	{
 		QMessageBox::warning(this, "Error", //
-				"Could not load file \"" + file + "\"");
+				"Could not load file \"" + filename + "\"");
 	}
 }
 

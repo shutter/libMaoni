@@ -13,13 +13,13 @@
 
 class MeshLoader: public Extensible<MeshLoader>
 {
+public:
 	virtual const char* const filter() const = 0;
 	virtual const char* const extension() const = 0;
 	virtual bool load_i(Model& mesh, const char* filename) const = 0;
 
 public:
 	static const char* all_filters();
-	static bool load(Model& mesh, const char* filename);
 };
 
 #endif /* VMMVIEW_COMMON_MESH_LOADER_HPP */

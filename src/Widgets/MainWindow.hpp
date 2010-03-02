@@ -12,7 +12,7 @@ public:
 	MainWindow(FrameData& frame_data);
 
 private slots:
-	void load_model();
+	void load_model(QString name = QString());
 
 	void show_logo(int state);
 

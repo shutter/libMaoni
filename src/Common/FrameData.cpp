@@ -7,12 +7,17 @@
 
 #include "FrameData.hpp"
 #include <GL/glew.h>
-#include "trackball.h"
+#include <boost/algorithm/string/predicate.hpp>
 
-FrameData::FrameData() :
-	translation(0, 0, -2) {
-	trackball(curquat, 0.0, 0.0, 0.0, 0.0);
+#include <teacup.h>
+#include <teapot.h>
+#include <teaspoon.h>
 
+FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
+		MeshLoader* mesh_loader_stack) :
+	algorithm_factory_stack(algorithm_factory_stack), mesh_loader_stack(
+			mesh_loader_stack)
+{
 	// create LIGHT0 gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
 	lights().push_back(Light());
 	lights()[0].setIs_light0(true);
@@ -23,6 +28,48 @@ FrameData::FrameData() :
 	GLint max_lights;
 	glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
 	std::cout << "max lights: " << max_lights << std::endl;
+}
+
+template<std::size_t N, std::size_t R>
+static bool load_bezier_surface(Model& model, float(&nodes)[N], int(&rects)[R])
+{
+	model.clear();
+
+	model.reserve_vertices(N / 3);
+	for (std::size_t i = 0; i < N; i += 3)
+		model.add_vertex(Vertex(nodes[i], nodes[i + 1], nodes[i + 2]));
+
+	model.reserve_triangles(R / 8);
+	for (std::size_t i = 0; i < R; i += 16)
+	{
+		model.add_triangle(rects[i] - 1, rects[i + 3] - 1, rects[i + 12] - 1);
+		model.add_triangle(rects[i + 3] - 1, rects[i + 15] - 1, rects[i + 12] - 1);
+	}
+
+	model.calculate_normals();
+	model.fix_scale();
+
+	return true;
+}
+
+bool FrameData::load_model(const char* filename)
+{
+	if (boost::algorithm::equals(filename, "<teacup>"))
+		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
+
+	if (boost::algorithm::equals(filename, "<teapot>"))
+		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
+
+	if (boost::algorithm::equals(filename, "<teaspoon>"))
+		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
+
+	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
+	{
+		if (boost::algorithm::iends_with(filename, i->extension()))
+			return i->load_i(model_, filename);
+	}
+
+	return false;
 }
 
 void FrameData::apply_light() const {

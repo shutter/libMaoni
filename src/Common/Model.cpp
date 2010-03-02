@@ -48,11 +48,6 @@ void Model::reserve_triangles(std::size_t number)
 	indices.reserve(number * 3);
 }
 
-void Model::reserve_quads(std::size_t number)
-{
-	indices.reserve(number * 3 * 2);
-}
-
 void Model::add_vertex(Vertex const& vertex)
 {
 	vertices.push_back(vertex);
@@ -63,17 +58,6 @@ void Model::add_triangle(std::size_t a, std::size_t b, std::size_t c)
 	indices.push_back(a);
 	indices.push_back(b);
 	indices.push_back(c);
-}
-
-void Model::add_quad(std::size_t a, std::size_t b, std::size_t c, std::size_t d)
-{
-	indices.push_back(a);
-	indices.push_back(b);
-	indices.push_back(c);
-
-	indices.push_back(c);
-	indices.push_back(d);
-	indices.push_back(a);
 }
 
 void Model::calculate_normals()

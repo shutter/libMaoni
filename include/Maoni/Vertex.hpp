@@ -13,12 +13,16 @@
 
 struct Vertex
 {
-	Vertex()
+	Vertex(float x, float y, float z) :
+		position(x, y, z), normal(0.f), color(), texcoord(0.f)
 	{
 	}
 
-	Vertex(const Vector3& position_, const Vector3& normal_,
-			const Color& color_, const Vector2& texcoord_) :
+	Vertex(
+			const Vector3& position_,
+			const Vector3& normal_,
+			const Color& color_,
+			const Vector2& texcoord_) :
 		position(position_), normal(normal_), color(color_),
 				texcoord(texcoord_)
 	{

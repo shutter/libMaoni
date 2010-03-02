@@ -28,13 +28,9 @@ public:
 
 	void reserve_triangles(std::size_t number);
 
-	void reserve_quads(std::size_t number);
-
 	void add_vertex(Vertex const& vertex);
 
 	void add_triangle(std::size_t a, std::size_t b, std::size_t c);
-
-	void add_quad(std::size_t a, std::size_t b, std::size_t c, std::size_t d);
 
 	void fix_scale();
 
