@@ -9,14 +9,7 @@ set(MESH_LOADER_SOURCE
   Loaders/STL/stla_io.cpp
   )
 
-set(LIBRARIES
-  maoni
-  ${QT_LIBRARIES}
-  QtPropertyBrowser
-  ${QGLVIEWER_LIBRARY}
-  ${Boost_LIBRARIES}
-  ${GLEW_LIBRARY}
-  )
+set(LIBRARIES maoni maoni_main)
 
 ##############################################################
 

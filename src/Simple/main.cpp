@@ -16,7 +16,9 @@
 #include "../Widgets/LightWidget.hpp"
 #include "../Widgets/MainWindow.hpp"
 
-int main(int argc, char* argv[])
+int maoni_main(int argc, char* argv[],
+		AlgorithmFactory* algorithm_factory_stack,
+		MeshLoader* mesh_loader_stack)
 {
 	QApplication app(argc, argv);
 

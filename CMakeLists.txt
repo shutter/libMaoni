@@ -52,7 +52,17 @@ set(MAONI_COMMON_SOURCE
 
 file(GLOB MAONI_SIMPLE_SOURCE src/Simple/*.c*)
 
-add_library(maoni STATIC ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
+add_library(maoni SHARED ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
+
+target_link_libraries(maoni 
+  ${QT_LIBRARIES}
+  QtPropertyBrowser
+  ${QGLVIEWER_LIBRARY}
+  ${Boost_LIBRARIES}
+  ${GLEW_LIBRARY}
+  )
+
+add_library(maoni_main STATIC src/main.cpp)
 
 ##############################################################
 
