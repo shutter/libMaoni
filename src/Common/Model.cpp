@@ -12,19 +12,11 @@ void Model::draw() const
 {
 	glBegin(GL_TRIANGLES);
 
-	for (size_t i = 0; i < triangles.size(); i++)
+	for (size_t i = 0; i < indices.size(); i++)
 	{
-		glColor4fv(vertices[triangles[i][0]].color.array);
-		glNormal3fv(vertices[triangles[i][0]].normal.array);
-		glVertex3fv(vertices[triangles[i][0]].position.array);
-
-		glColor4fv(vertices[triangles[i][1]].color.array);
-		glNormal3fv(vertices[triangles[i][1]].normal.array);
-		glVertex3fv(vertices[triangles[i][1]].position.array);
-
-		glColor4fv(vertices[triangles[i][2]].color.array);
-		glNormal3fv(vertices[triangles[i][2]].normal.array);
-		glVertex3fv(vertices[triangles[i][2]].position.array);
+		glColor4fv(vertices[indices[i]].color.array);
+		glNormal3fv(vertices[indices[i]].normal.array);
+		glVertex3fv(vertices[indices[i]].position.array);
 	}
 
 	glEnd();
@@ -33,7 +25,7 @@ void Model::draw() const
 void Model::clear()
 {
 	vertices.clear();
-	triangles.clear();
+	indices.clear();
 
 	bounding_box[0] = Vector3(0.0f);
 	bounding_box[1] = Vector3(0.0f);
@@ -42,7 +34,7 @@ void Model::clear()
 //!
 bool Model::empty() const
 {
-	return triangles.empty();
+	return indices.empty();
 }
 
 void Model::reserve_vertices(std::size_t number)
@@ -52,11 +44,12 @@ void Model::reserve_vertices(std::size_t number)
 
 void Model::reserve_triangles(std::size_t number)
 {
-	triangles.reserve(number);
+	indices.reserve(number * 3);
 }
 
 void Model::reserve_quads(std::size_t number)
 {
+	indices.reserve(number * 3 * 2);
 }
 
 void Model::add_vertex(Vertex const& vertex)
@@ -66,24 +59,34 @@ void Model::add_vertex(Vertex const& vertex)
 
 void Model::add_triangle(std::size_t a, std::size_t b, std::size_t c)
 {
-	Model::Triangle triangle = {{ a, b, c } };
-	triangles.push_back(triangle);
+	indices.push_back(a);
+	indices.push_back(b);
+	indices.push_back(c);
 }
 
 void Model::add_quad(std::size_t a, std::size_t b, std::size_t c, std::size_t d)
 {
+	indices.push_back(a);
+	indices.push_back(b);
+	indices.push_back(c);
+
+	indices.push_back(c);
+	indices.push_back(d);
+	indices.push_back(a);
 }
 
 void Model::calculate_normals()
 {
-	// iterate over all triangles and add their normals to adjacent vertices
 	Vector3 triangleNormal;
 	std::size_t i0, i1, i2;
-	for (size_t i = 0; i < triangles.size(); ++i)
+
+	// iterate over all triangles and add their normals to adjacent vertices
+	for (size_t i = 0; i < indices.size(); i += 3)
 	{
-		i0 = triangles[i].at(0);
-		i1 = triangles[i].at(1);
-		i2 = triangles[i].at(2);
+		i0 = indices[i + 0];
+		i1 = indices[i + 1];
+		i2 = indices[i + 2];
+
 		triangleNormal.compute_normal(vertices[i0].position.array,
 				vertices[i1].position.array, vertices[i2].position.array);
 
