@@ -1,6 +1,22 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
+##############################################################
+# example without source
+
+set(EMPTY_SOURCE_FILE ${CMAKE_CURRENT_BINARY_DIR}/empty.c)
+file(WRITE ${EMPTY_SOURCE_FILE} "")
+add_executable(example_nothing ${EMPTY_SOURCE_FILE})
+target_link_libraries(example_nothing maoni maoni_main)
+
+##############################################################
+# example with algorithms
+
 file(GLOB RENDER_ALGO_SOURCE Algorithms/*.cpp)
+add_executable(example_algorithms ${RENDER_ALGO_SOURCE})
+target_link_libraries(example_algorithms maoni maoni_main)
+
+##############################################################
+# example with loaders
 
 set(MESH_LOADER_SOURCE
   Loaders/PLY/ply.cpp
@@ -11,8 +27,6 @@ set(MESH_LOADER_SOURCE
 
 set(LIBRARIES maoni maoni_main)
 
-##############################################################
-
 find_package(lib3ds)
 if(lib3ds_LIBRARIES)
   set(MESH_LOADER_SOURCE
@@ -22,15 +36,14 @@ if(lib3ds_LIBRARIES)
   set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
 endif(lib3ds_LIBRARIES)
 
+add_executable(example_loaders ${MESH_LOADER_SOURCE})
+target_link_libraries(example_loaders ${LIBRARIES})
 
 ##############################################################
+# example with both algorithms and loaders
 
-add_executable(maoni_example
-  ${RENDER_ALGO_SOURCE}
-  ${MESH_LOADER_SOURCE}
-  )
-
-target_link_libraries(maoni_example ${LIBRARIES})
+add_executable(example_full ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+target_link_libraries(example_full ${LIBRARIES})
 
 ##############################################################
 
