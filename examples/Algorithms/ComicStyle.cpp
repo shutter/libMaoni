@@ -73,26 +73,7 @@ RENDER_ALGORITHM(ComicStyle,
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-//	if (bounding_sphere && !wired)
-//		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
-//	else if (bounding_sphere && wired)
-//		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
-
-	glBegin(GL_TRIANGLES);
-
-	for (size_t i = 0; i < model.triangles.size(); i++)
-	{
-		glNormal3fv(model.vertices[model.triangles[i][0]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][0]].position.array);
-
-		glNormal3fv(model.vertices[model.triangles[i][1]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][1]].position.array);
-
-		glNormal3fv(model.vertices[model.triangles[i][2]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][2]].position.array);
-	}
-
-	glEnd();
+	model.draw();
 
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

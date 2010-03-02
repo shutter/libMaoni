@@ -21,13 +21,13 @@ set(LIBRARIES
 ##############################################################
 
 find_package(lib3ds)
-if(lib3ds_FOUND)
+if(lib3ds_LIBRARIES)
   set(MESH_LOADER_SOURCE
     ${MESH_LOADER_SOURCE}
     Loaders/3DS/3ds.cpp
     )
   set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
-endif(lib3ds_FOUND)
+endif(lib3ds_LIBRARIES)
 
 
 ##############################################################

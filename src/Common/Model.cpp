@@ -5,19 +5,76 @@
  *      Author: shutter
  */
 
+#include <GL/glew.h>
 #include <Maoni/Model.hpp>
-#include <cstdlib>
-#include <algorithm>
 
-Model::Model() : /*_invertFaces( false ),*/
-	_radius(0.0)
+void Model::draw() const
 {
-	_boundingBox[0] = Vector3(0.0f);
-	_boundingBox[1] = Vector3(0.0f);
+	glBegin(GL_TRIANGLES);
+
+	for (size_t i = 0; i < triangles.size(); i++)
+	{
+		glColor4fv(vertices[triangles[i][0]].color.array);
+		glNormal3fv(vertices[triangles[i][0]].normal.array);
+		glVertex3fv(vertices[triangles[i][0]].position.array);
+
+		glColor4fv(vertices[triangles[i][1]].color.array);
+		glNormal3fv(vertices[triangles[i][1]].normal.array);
+		glVertex3fv(vertices[triangles[i][1]].position.array);
+
+		glColor4fv(vertices[triangles[i][2]].color.array);
+		glNormal3fv(vertices[triangles[i][2]].normal.array);
+		glVertex3fv(vertices[triangles[i][2]].position.array);
+	}
+
+	glEnd();
 }
 
-/*  Calculate the face or vertex normals of the current vertex data.  */
-void Model::calculateNormals()
+void Model::clear()
+{
+	vertices.clear();
+	triangles.clear();
+
+	bounding_box[0] = Vector3(0.0f);
+	bounding_box[1] = Vector3(0.0f);
+}
+
+//!
+bool Model::empty() const
+{
+	return triangles.empty();
+}
+
+void Model::reserve_vertices(std::size_t number)
+{
+	vertices.reserve(number);
+}
+
+void Model::reserve_triangles(std::size_t number)
+{
+	triangles.reserve(number);
+}
+
+void Model::reserve_quads(std::size_t number)
+{
+}
+
+void Model::add_vertex(Vertex const& vertex)
+{
+	vertices.push_back(vertex);
+}
+
+void Model::add_triangle(std::size_t a, std::size_t b, std::size_t c)
+{
+	Model::Triangle triangle = {{ a, b, c } };
+	triangles.push_back(triangle);
+}
+
+void Model::add_quad(std::size_t a, std::size_t b, std::size_t c, std::size_t d)
+{
+}
+
+void Model::calculate_normals()
 {
 	// iterate over all triangles and add their normals to adjacent vertices
 	Vector3 triangleNormal;
@@ -40,84 +97,25 @@ void Model::calculateNormals()
 		vertices[i].normal.normalize();
 }
 
-/*  Calculate the bounding box of the current vertex data.  */
+/* Calculate the bounding box of the current vertex data. */
 void Model::calculateBoundingBox()
 {
-	_boundingBox[0] = vertices[0].position.array;
-	_boundingBox[1] = vertices[0].position.array;
+	bounding_box[0] = vertices[0].position.array;
+	bounding_box[1] = vertices[0].position.array;
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			_boundingBox[0][i] = std::min(_boundingBox[0][i],
+			bounding_box[0][i] = std::min(bounding_box[0][i],
 					vertices[v].position[i]);
-			_boundingBox[1][i] = std::max(_boundingBox[1][i],
+			bounding_box[1][i] = std::max(bounding_box[1][i],
 					vertices[v].position[i]);
 		}
 	}
 }
 
-/* Calculates longest axis for a set of triangles */
-Axis Model::getLongestAxis(const size_t start, const size_t elements) const
-{
-	if (start + elements > triangles.size())
-	{
-		std::cerr << "incorrect request to getLongestAxis" << std::endl
-				<< "start:     " << start << std::endl << "elements:  "
-				<< elements << std::endl << "sum:       " << start + elements
-				<< std::endl << "data size: " << triangles.size() << std::endl;
-		return AXIS_X;
-	}
-
-	BoundingBox bb;
-	bb[0] = vertices[triangles[start][0]].position;
-	bb[1] = vertices[triangles[start][0]].position;
-
-	for (size_t t = start; t < start + elements; ++t)
-	{
-		for (size_t v = 0; v < 3; ++v)
-		{
-			for (size_t i = 0; i < 3; ++i)
-			{
-				bb[0][i] = std::min(bb[0][i],
-						vertices[triangles[t][v]].position[i]);
-				bb[1][i] = std::max(bb[1][i],
-						vertices[triangles[t][v]].position[i]);
-			}
-		}
-	}
-
-	const float bbX = bb[1][0] - bb[0][0];
-	const float bbY = bb[1][1] - bb[0][1];
-	const float bbZ = bb[1][2] - bb[0][2];
-
-	if (bbX >= bbY && bbX >= bbZ)
-		return AXIS_X;
-
-	if (bbY >= bbX && bbY >= bbZ)
-		return AXIS_Y;
-
-	return AXIS_Z;
-}
-
-/* calculate the bounding sphere radius from the bounding box */
-void Model::calcBoundingSphereRadius()
-{
-	// calculate bounding box if not yet done
-	if (_boundingBox[0].length() == 0.0f && _boundingBox[1].length() == 0.0f)
-		calculateBoundingBox();
-
-	float neg_rad = sqrt(pow(_boundingBox[0][0], 2)
-			+ pow(_boundingBox[0][1], 2) + pow(_boundingBox[0][2], 2));
-
-	float pos_rad = sqrt(pow(_boundingBox[1][0], 2)
-			+ pow(_boundingBox[1][1], 2) + pow(_boundingBox[1][2], 2));
-
-	_radius = std::max(neg_rad, pos_rad);
-}
-
-/*  Scales the data to be within +- baseSize/2 (default 2.0) coordinates.  */
-void Model::scale(const float baseSize)
+/* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
+void Model::fix_scale()
 {
 	// calculate bounding box if not yet done
 	calculateBoundingBox();
@@ -125,14 +123,14 @@ void Model::scale(const float baseSize)
 	// find largest dimension and determine scale factor
 	float factor = 0.0f;
 	for (size_t i = 0; i < 3; ++i)
-		factor = std::max(factor, _boundingBox[1][i] - _boundingBox[0][i]);
+		factor = std::max(factor, bounding_box[1][i] - bounding_box[0][i]);
 
-	factor = baseSize / factor;
+	factor = 2.0 / factor;
 
 	// determine scale offset
 	Vector3 offset;
 	for (size_t i = 0; i < 3; ++i)
-		offset[i] = (_boundingBox[0][i] + _boundingBox[1][i]) * 0.5f;
+		offset[i] = (bounding_box[0][i] + bounding_box[1][i]) * 0.5f;
 
 	// scale the data
 	for (size_t v = 0; v < vertices.size(); ++v)
@@ -149,11 +147,8 @@ void Model::scale(const float baseSize)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			_boundingBox[v][i] -= offset[i];
-			_boundingBox[v][i] *= factor;
+			bounding_box[v][i] -= offset[i];
+			bounding_box[v][i] *= factor;
 		}
 	}
-
-	// calc the bounding sphere radius
-	calcBoundingSphereRadius();
 }

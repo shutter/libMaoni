@@ -53,26 +53,5 @@ RENDER_ALGORITHM(SphereMapping,
 		t = new Texture("../Models/sphere0.jpg");
 	ScopedBindTexture texture_lock(*t);
 
-//	if (teapot)
-//	{
-//		glutSolidTeapot(0.5);
-//	}
-//	else
-//	{
-		glBegin(GL_TRIANGLES);
-
-		for (size_t i = 0; i < model.triangles.size(); i++)
-		{
-			glNormal3fv(model.vertices[model.triangles[i][0]].normal.array);
-			glVertex3fv(model.vertices[model.triangles[i][0]].position.array);
-
-			glNormal3fv(model.vertices[model.triangles[i][1]].normal.array);
-			glVertex3fv(model.vertices[model.triangles[i][1]].position.array);
-
-			glNormal3fv(model.vertices[model.triangles[i][2]].normal.array);
-			glVertex3fv(model.vertices[model.triangles[i][2]].position.array);
-		}
-
-		glEnd();
-//	}
+	model.draw();
 }

@@ -12,43 +12,45 @@
 #include <vector>
 #include <boost/array.hpp>
 
-// enumeration for the sort axis
-enum Axis
-{
-	AXIS_X, AXIS_Y, AXIS_Z
-};
-
-typedef boost::array<Vector3, 2> BoundingBox;
-
 class Model
 {
 public:
-	Model();
+	//! clear the model
+	void clear();
 
-	void sort(std::size_t start, std::size_t length, Axis axis);
-	void scale(float baseSize = 2.0f);
-	void calculateNormals();
+	//!
+	bool empty() const;
+
+	//! draw the model
+	void draw() const;
+
+	void reserve_vertices(std::size_t number);
+
+	void reserve_triangles(std::size_t number);
+
+	void reserve_quads(std::size_t number);
+
+	void add_vertex(Vertex const& vertex);
+
+	void add_triangle(std::size_t a, std::size_t b, std::size_t c);
+
+	void add_quad(std::size_t a, std::size_t b, std::size_t c, std::size_t d);
+
+	void fix_scale();
+
+	//! Calculate the face or vertex normals of the current vertex data.
+	void calculate_normals();
+
+private:
 	void calculateBoundingBox();
-	const BoundingBox& getBoundingBox() const
-	{
-		return _boundingBox;
-	}
-	Axis getLongestAxis(std::size_t start, std::size_t elements) const;
 
-	float getBoundingSphereRadius() const
-	{
-		return _radius;
-	}
-
-	typedef vmml::vector<3, std::size_t> Triangle;
+private:
+	typedef boost::array<std::size_t, 3> Triangle;
 	std::vector<Vertex> vertices;
 	std::vector<Triangle> triangles;
 
-private:
-	void calcBoundingSphereRadius();
-
-	BoundingBox _boundingBox;
-	float _radius;
+	typedef boost::array<Vector3, 2> BoundingBox;
+	BoundingBox bounding_box;
 };
 
 #endif /* MODEL_HPP */

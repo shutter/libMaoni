@@ -108,8 +108,6 @@ SHADER_PROGRAM(BlinnPhongShader,
 RENDER_ALGORITHM(BlinnPhong,
 		(bool, wired, false)
 		(bool, bounding_sphere, false)
-		(bool, model_color, true)
-		(Color, color, Color(0.9f, 0.1f, 0.2f, 0.5f))
 		(ShaderProgram, shader, BlinnPhongShader())
 		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
 		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
@@ -117,9 +115,6 @@ RENDER_ALGORITHM(BlinnPhong,
 		(float, shininess, 51.2))
 {
 	ScopedUseProgram shader_lock(shader);
-
-	if (!model_color)
-		glColor4fv(color);
 
 	glEnable(GL_COLOR_MATERIAL);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
@@ -130,33 +125,7 @@ RENDER_ALGORITHM(BlinnPhong,
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-//	if (bounding_sphere && !wired)
-//		glutSolidSphere(model.getBoundingSphereRadius(), 100, 100);
-//	else if (bounding_sphere && wired)
-//		glutWireSphere(model.getBoundingSphereRadius(), 100, 100);
-
-	glBegin(GL_TRIANGLES);
-
-	for (size_t i = 0; i < model.triangles.size(); i++)
-	{
-		if (model_color)
-			glColor4fv(model.vertices[model.triangles[i][0]].color.array);
-		glNormal3fv(model.vertices[model.triangles[i][0]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][0]].position.array);
-
-		if (model_color)
-			glColor4fv(model.vertices[model.triangles[i][1]].color.array);
-		glNormal3fv(model.vertices[model.triangles[i][1]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][1]].position.array);
-
-		if (model_color)
-			glColor4fv(model.vertices[model.triangles[i][2]].color.array);
-		glNormal3fv(model.vertices[model.triangles[i][2]].normal.array);
-		glVertex3fv(model.vertices[model.triangles[i][2]].position.array);
-
-	}
-
-	glEnd();
+	model.draw();
 
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

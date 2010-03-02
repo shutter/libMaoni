@@ -10,12 +10,9 @@
 
 #include "stla_io.h"
 
-typedef vmml::vector<3, std::size_t> Triangle;
-
 MESH_LOADER(stl, StereoLithography)
 {
-	model.vertices.clear();
-	model.triangles.clear();
+	model.clear();
 
 	// check if correct ascii stl file
 	if (stla_check(filename)) {
@@ -58,18 +55,19 @@ MESH_LOADER(stl, StereoLithography)
 		return false;
 	}
 
-	// copy nodes to triangles
-	for (int i = 0; i < face_num; i++) {
-		model.triangles.push_back(Triangle(face_node[i * 3], face_node[i * 3 + 1],
-				face_node[i * 3 + 2]));
+	// copy vertices
+	for (int i = 0; i < node_num; i++)
+	{
+		model.add_vertex(Vertex(Vector3(node_xyz[i * 3], node_xyz[i * 3 + 1],
+				node_xyz[i * 3 + 2]), Vector3(face_normal[i * 3], face_normal[i
+				* 3 + 1], face_normal[i * 3 + 2]), Vector4(0.f), Vector2(0.f)));
 	}
 
-	// copy vertices
-	for (int i = 0; i < node_num; i++) {
-		model.vertices.push_back(Vertex(Vector3(node_xyz[i * 3], node_xyz[i
-				* 3 + 1], node_xyz[i * 3 + 2]), Vector3(face_normal[i * 3],
-				face_normal[i * 3 + 1], face_normal[i * 3 + 2]), Vector4(0.f),
-				Vector2(0.f)));
+	// copy nodes to triangles
+	for (int i = 0; i < face_num; i++)
+	{
+		model.add_triangle(face_node[i * 3], face_node[i * 3 + 1], face_node[i
+				* 3 + 2]);
 	}
 
 //	stla_face_node_print(face_num, face_node);
@@ -80,8 +78,8 @@ MESH_LOADER(stl, StereoLithography)
 	delete[] face_normal;
 	delete[] node_xyz;
 
-	model.calculateNormals();
-	model.scale(2.0);
+	model.calculate_normals();
+	model.fix_scale();
 
 	return true;
 }

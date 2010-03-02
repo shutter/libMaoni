@@ -10,7 +10,6 @@
 #include <boost/cstdint.hpp>
 #include <vmmlib/vector.hpp>
 
-typedef vmml::vector<3, std::size_t> Triangle;
 static bool _invertFaces = false;
 
 //static void useInvertedFaces() {
@@ -44,15 +43,15 @@ static void readVertices(PlyFile* file, const int nVertices, Model &mesh) {
 	for (int i = 0; i < 6; ++i)
 		ply_get_property(file, "vertex", &vertexProps[i]);
 
-	mesh.vertices.clear();
-	mesh.vertices.reserve(nVertices);
+	mesh.reserve_vertices(nVertices);
 
 	// read in the vertices
-	for (int i = 0; i < nVertices; ++i) {
+	for (int i = 0; i < nVertices; ++i)
+	{
 		ply_get_element(file, static_cast<void*> (&vertex));
-		mesh.vertices.push_back(Vertex(Vector3(vertex.x, vertex.y, vertex.z),
-				Vector3(0.f), Vector4(vertex.r / 255.f, vertex.g / 255.f,
-						vertex.b / 255.f, 0), Vector2(0.f)));
+		mesh.add_vertex(Vertex(Vector3(vertex.x, vertex.y, vertex.z), Vector3(
+				0.f), Vector4(vertex.r / 255.f, vertex.g / 255.f, vertex.b
+				/ 255.f, 0), Vector2(0.f)));
 	}
 }
 
@@ -70,8 +69,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 
 	ply_get_property(file, "face", &faceProps[0]);
 
-	mesh.triangles.clear();
-	mesh.triangles.reserve(nFaces);
+	mesh.reserve_triangles(nFaces);
 
 	// read in the faces, asserting that they are only triangles
 	boost::uint8_t ind1 = _invertFaces ? 2 : 0;
@@ -84,8 +82,8 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 			throw std::runtime_error("Error reading PLY file. Encountered a "
 				"face which does not have three vertices.");
 		}
-		mesh.triangles.push_back(Triangle(face.vertices[ind1],
-				face.vertices[1], face.vertices[ind3]));
+		mesh.add_triangle(face.vertices[ind1], face.vertices[1],
+				face.vertices[ind3]);
 
 		// free the memory that was allocated by ply_get_element
 		free(face.vertices);
@@ -94,8 +92,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 
 MESH_LOADER(ply, Stanford Triangle Format)
 {
-	model.vertices.clear();
-	model.triangles.clear();
+	model.clear();
 
 	int nPlyElems;
 	char** elemNames;
@@ -143,11 +140,9 @@ MESH_LOADER(ply, Stanford Triangle Format)
 					hasColors = true;
 
 			readVertices(file, nElems, model);
-			BOOST_ASSERT( model.vertices.size() == static_cast< size_t >( nElems ) );
 		} else if (equal_strings(elemNames[i], "face"))
 			try {
 				readTriangles(file, nElems, model);
-				BOOST_ASSERT( model.triangles.size() == static_cast< size_t >( nElems ) );
 				result = true;
 			} catch (std::exception& e) {
 				std::cerr << "Unable to read PLY file, an exception occured:  "
@@ -170,8 +165,8 @@ MESH_LOADER(ply, Stanford Triangle Format)
 		free(elemNames[i]);
 	free(elemNames);
 
-	model.calculateNormals();
-	model.scale(2.0);
+	model.calculate_normals();
+	model.fix_scale();
 
 	return true;
 }
