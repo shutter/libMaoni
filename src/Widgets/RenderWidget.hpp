@@ -13,6 +13,7 @@ public:
 	}
 
 private:
+	void init();
 	void draw();
 
 	QString helpString() const;

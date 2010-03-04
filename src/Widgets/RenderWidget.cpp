@@ -1,4 +1,10 @@
+#include <GL/glew.h>
 #include "RenderWidget.hpp"
+
+void RenderWidget::init()
+{
+	glewInit();
+}
 
 void RenderWidget::draw()
 {
