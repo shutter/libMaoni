@@ -17,6 +17,8 @@
 #include <Maoni/detail/Extensible.hpp>
 #include <Maoni/detail/ShaderProgram.hpp>
 
+class Texture;
+
 struct Algorithm: boost::noncopyable
 {
 	typedef boost::shared_ptr<Algorithm> Ptr;
@@ -32,14 +34,14 @@ struct AlgoConfigManager
 	typedef boost::function<void(float const&)> float_setter;
 	typedef boost::function<void(double const&)> double_setter;
 	typedef boost::function<void(Color const&)> color_setter;
-	typedef boost::function<void(std::string const&)> string_setter;
+	typedef boost::function<void(Texture const&)> texture_setter;
 
 	virtual void add_property(const char* name, int_setter func, int def) = 0;
 	virtual void add_property(const char* name, bool_setter func, bool def) = 0;
 	virtual void add_property(const char* name, float_setter func, float def) = 0;
 	virtual void add_property(const char* name, double_setter func, double def) = 0;
 	virtual void add_property(const char* name, color_setter func, Color const& def) = 0;
-	virtual void add_property(const char* name, string_setter func, std::string const& def) = 0;
+	virtual void add_property(const char* name, texture_setter func, Texture const& def) = 0;
 
 	// reserved for later use
 	typedef boost::function<void(ShaderProgram const&)> shader_setter;

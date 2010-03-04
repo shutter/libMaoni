@@ -41,7 +41,7 @@ SHADER_PROGRAM(SphereMappingShader,
 RENDER_ALGORITHM(SphereMapping,
 		(bool, teapot, true)
 		(ShaderProgram, shader, SphereMappingShader())
-		//(Texture, sphere_texture, "../Models/red.jpeg")
+		(Texture, sphere_texture, "../Models/red.jpeg")
 )
 {
 	ScopedDisable lighting_lock(GL_LIGHTING);

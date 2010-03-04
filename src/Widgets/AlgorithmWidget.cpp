@@ -8,6 +8,7 @@
 #include "AlgorithmWidget.hpp"
 #include <Maoni/detail/Algorithm.hpp>
 #include <qteditorfactory.h>
+#include <fileeditfactory.h>
 #include <QVBoxLayout>
 #include <iostream>
 
@@ -43,6 +44,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
 	bool_manager = new QtBoolPropertyManager(this);
 	double_manager = new QtDoublePropertyManager(this);
 	color_manager = new QtColorPropertyManager(this);
+	filepath_manager = new FilePathManager(this);
 
 	connect(int_manager, SIGNAL(valueChanged(QtProperty*, int)), this,
 			SLOT(value_changed(QtProperty*, int)));
@@ -52,11 +54,14 @@ AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
 			SLOT(value_changed(QtProperty*, double)));
 	connect(color_manager, SIGNAL(valueChanged(QtProperty*, QColor)), this,
 			SLOT(value_changed(QtProperty*, QColor)));
+	connect(filepath_manager, SIGNAL(valueChanged(QtProperty*, QString)),this,
+			SLOT(value_changed(QtProperty*, QString)));
 
 	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
 	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtColorEditorFactory* color_factory = new QtColorEditorFactory(this);
+	FileEditFactory* filepath_factory = new FileEditFactory(this);
 
 	property_browser->setFactoryForManager(int_manager, int_factory);
 	property_browser->setFactoryForManager(bool_manager, bool_factory);
@@ -64,6 +69,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
 	property_browser->setFactoryForManager(color_manager, color_factory);
 	property_browser->setFactoryForManager(
 			color_manager->subIntPropertyManager(), int_factory);
+	property_browser->setFactoryForManager(filepath_manager, filepath_factory);
 }
 
 void AlgorithmWidget::choose(int index)
@@ -76,7 +82,7 @@ void AlgorithmWidget::choose(int index)
 	float_setters.clear();
 	double_setters.clear();
 	color_setters.clear();
-	string_setters.clear();
+	texture_setters.clear();
 
 	property_browser->clear();
 	config = AlgorithmFactory::create_config(name);
@@ -127,7 +133,12 @@ void AlgorithmWidget::add_property(const char* name, color_setter func,
 	color_setters[property] = func;
 }
 
-void AlgorithmWidget::add_property(const char* name, string_setter func,
-		std::string const& def)
+void AlgorithmWidget::add_property(const char* name, texture_setter func,
+		Texture const& def)
 {
+	QtProperty* property = filepath_manager->addProperty(name);
+	filepath_manager->setValue(property, QString::fromStdString(def));
+	filepath_manager->setFilter(property, "Image files (*.jpg *.png)");
+	property_browser->addProperty(property);
+	texture_setters[property] = func;
 }

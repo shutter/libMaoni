@@ -8,48 +8,30 @@
 #ifndef VMMVIEW_TEXTURE_HPP
 #define VMMVIEW_TEXTURE_HPP
 
-#include <GL/gl.h>
-#include <boost/noncopyable.hpp>
 #include <string>
-#include <iostream>
 
-class Texture: private boost::noncopyable
+class Texture
 {
 public:
-	Texture(const std::string& path) :
-		path_(path)
-	{
-		glGenTextures(1, &name_);
-		load();
-	}
+	Texture(std::string const& path);
 
-	~Texture()
-	{
-		glDeleteTextures(1, &name_);
-	}
+	Texture(Texture const& other);
 
-	operator GLuint() const
-	{
-		return name_;
-	}
+	~Texture();
 
-	operator const std::string&() const
-	{
-		return path_;
-	}
+	Texture const& operator=(Texture const& other);
 
-	const std::string& operator=(const std::string& path)
-	{
-		path_ = path;
-		load();
-		return path_;
-	}
+	std::string const& operator=(std::string const& other);
+
+	operator unsigned int();
+
+	operator const std::string&() const;
+
+	void reset();
 
 private:
-	void load();
-
 	std::string path_;
-	GLuint name_;
+	unsigned int name_;
 };
 
 #endif /* VMMVIEW_TEXTURE_HPP */

@@ -10,9 +10,11 @@
 
 #include <QWidget>
 #include <QComboBox>
+#include <Maoni/Texture.hpp>
 #include "Common/FrameData.hpp"
 #include "qtpropertymanager.h"
 #include "qttreepropertybrowser.h"
+#include "filepathmanager.h"
 
 class AlgorithmWidget: public QWidget, public AlgoConfigManager
 {
@@ -26,8 +28,7 @@ public:
 	void add_property(const char* name, float_setter func, float def);
 	void add_property(const char* name, double_setter func, double def);
 	void add_property(const char* name, color_setter func, Color const& def);
-	void add_property(const char* name, string_setter func,
-			std::string const& def);
+	void add_property(const char* name, texture_setter func, Texture const& def);
 
 private slots:
 	void choose(int index);
@@ -61,8 +62,8 @@ private slots:
 
 	void value_changed(QtProperty* property, const QString& value)
 	{
-		if (string_setters.contains(property))
-			string_setters[property](value.toStdString());
+		if (texture_setters.contains(property))
+			texture_setters[property](Texture(value.toStdString()));
 	}
 
 private:
@@ -73,7 +74,7 @@ private:
 	QMap<QtProperty*, float_setter> float_setters;
 	QMap<QtProperty*, double_setter> double_setters;
 	QMap<QtProperty*, color_setter> color_setters;
-	QMap<QtProperty*, string_setter> string_setters;
+	QMap<QtProperty*, texture_setter> texture_setters;
 
 	QComboBox* algo_chooser;
 	QtTreePropertyBrowser* property_browser;
@@ -82,6 +83,7 @@ private:
 	QtBoolPropertyManager* bool_manager;
 	QtDoublePropertyManager* double_manager;
 	QtColorPropertyManager* color_manager;
+	FilePathManager* filepath_manager;
 
 	AlgoConfig::Ptr config;
 };

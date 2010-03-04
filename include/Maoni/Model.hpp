@@ -41,7 +41,6 @@ private:
 	void calculateBoundingBox();
 
 private:
-	typedef boost::array<std::size_t, 3> Triangle;
 	std::vector<Vertex> vertices;
 	std::vector<std::size_t> indices;
 
