@@ -9,9 +9,7 @@
 #include <GL/glew.h>
 #include <boost/algorithm/string/predicate.hpp>
 
-#include <teacup.h>
-#include <teapot.h>
-#include <teaspoon.h>
+#include <teaset.h>
 
 FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack) :
@@ -37,41 +35,22 @@ void FrameData::draw()
 	if (render_algorithm_)
 		render_algorithm_->render(model_);
 	else
-		model_.draw();
-}
-
-template<std::size_t N, std::size_t R>
-static bool load_bezier_surface(Model& model, float(&nodes)[N], int(&rects)[R])
-{
-	model.clear();
-
-	model.reserve_vertices(N / 3);
-	for (std::size_t i = 0; i < N; i += 3)
-		model.add_vertex(Vertex(nodes[i], nodes[i + 1], nodes[i + 2]));
-
-	model.reserve_triangles(R / 8);
-	for (std::size_t i = 0; i < R; i += 16)
-	{
-		model.add_triangle(rects[i] - 1, rects[i + 3] - 1, rects[i + 12] - 1);
-		model.add_triangle(rects[i + 3] - 1, rects[i + 15] - 1, rects[i + 12] - 1);
-	}
-
-	model.calculate_normals();
-	model.fix_scale();
-
-	return true;
+//		solid_teacup(1.f);
+		solid_teapot(1.f);
+//		solid_teaspoon(1.f);
+//		model_.draw();
 }
 
 bool FrameData::load_model(const char* filename)
 {
-	if (boost::algorithm::equals(filename, "<teacup>"))
-		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
-
-	if (boost::algorithm::equals(filename, "<teapot>"))
-		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
-
-	if (boost::algorithm::equals(filename, "<teaspoon>"))
-		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
+//	if (boost::algorithm::equals(filename, "<teacup>"))
+//		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
+//
+//	if (boost::algorithm::equals(filename, "<teapot>"))
+//		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
+//
+//	if (boost::algorithm::equals(filename, "<teaspoon>"))
+//		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
 
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
