@@ -5,7 +5,6 @@ set(QTPB_FILE         ${CMAKE_BINARY_DIR}/qtpropertybrowser-2.5_1-opensource.tar
 set(QTPB_RELATIVE_DIR qtpropertybrowser-2.5_1-opensource/src/)
 set(QTPB_ABSOLUTE_DIR ${CMAKE_BINARY_DIR}/${QTPB_RELATIVE_DIR})
 
-
 if(NOT EXISTS ${QTPB_ABSOLUTE_DIR})
   message(STATUS "Downloading QtPropertyBrowser")
   file(DOWNLOAD ${QTPB_URL} ${QTPB_FILE} TIMEOUT 60)
@@ -16,7 +15,22 @@ if(NOT EXISTS ${QTPB_ABSOLUTE_DIR})
 endif(NOT EXISTS ${QTPB_ABSOLUTE_DIR})
 
 
-include_directories(${QTPB_ABSOLUTE_DIR})
+set(QTPBE_URL          http://doc.trolltech.com/qq/qq18-propertybrowser-code.zip)
+set(QTPBE_FILE         ${CMAKE_BINARY_DIR}/qq18-propertybrowser-code.zip)
+set(QTPBE_RELATIVE_DIR qq18-propertybrowser/extension)
+set(QTPBE_ABSOLUTE_DIR ${CMAKE_BINARY_DIR}/${QTPBE_RELATIVE_DIR})
+
+if(NOT EXISTS ${QTPBE_ABSOLUTE_DIR})
+  message(STATUS "Downloading QtPropertyBrowser Extension")
+  file(DOWNLOAD ${QTPBE_URL} ${QTPBE_FILE} TIMEOUT 60)
+  execute_process(
+    COMMAND unzip ${QTPBE_FILE} ${QTPBE_RELATIVE_DIR}/* -d ${CMAKE_BINARY_DIR}
+    OUTPUT_QUIET)
+  file(REMOVE ${QTPB_FILE})
+endif(NOT EXISTS ${QTPBE_ABSOLUTE_DIR})
+
+
+include_directories(${QTPB_ABSOLUTE_DIR} ${QTPBE_ABSOLUTE_DIR})
 
 
 file(GLOB QT_PROPERTY_BROWSER_SRC
@@ -28,10 +42,16 @@ file(GLOB QT_PROPERTY_BROWSER_SRC
   ${QTPB_ABSOLUTE_DIR}/qtpropertymanager.cpp
   ${QTPB_ABSOLUTE_DIR}/qttreepropertybrowser.cpp
   ${QTPB_ABSOLUTE_DIR}/qtvariantproperty.cpp
+  ${QTPBE_ABSOLUTE_DIR}/fileedit.cpp
+  ${QTPBE_ABSOLUTE_DIR}/fileeditfactory.cpp
+  ${QTPBE_ABSOLUTE_DIR}/filepathmanager.cpp
   )
 
 qt4_wrap_cpp(QT_PROPERTY_BROWSER_MOC
   ${QTPB_ABSOLUTE_DIR}/qtpropertybrowserutils_p.h
+  ${QTPBE_ABSOLUTE_DIR}/fileedit.h
+  ${QTPBE_ABSOLUTE_DIR}/fileeditfactory.h
+  ${QTPBE_ABSOLUTE_DIR}/filepathmanager.h
   )
 
 qt4_add_resources(QT_PROPERTY_BROWSER_RCC
@@ -68,7 +88,7 @@ QT4_MOC(qttreepropertybrowser.cpp   qttreepropertybrowser.moc)
 QT4_MOC(qtvariantproperty.h         moc_qtvariantproperty.cpp)
 
 add_dependencies(QtPropertyBrowser
- moc_qtbuttonpropertybrowser.cpp
+  moc_qtbuttonpropertybrowser.cpp
   moc_qteditorfactory.cpp
   qteditorfactory.moc
   moc_qtgroupboxpropertybrowser.cpp
