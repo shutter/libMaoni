@@ -49,7 +49,6 @@ private:
 	QtColorPropertyManager* color_manager;
     QtGroupPropertyManager* group_manager;
 
-
 	QtProperty *name;
 	QtProperty *is_on;
 	QtProperty *show_bulp;

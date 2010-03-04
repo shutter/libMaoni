@@ -7,6 +7,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 if(NOT MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -fPIC")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fPIC")
 endif(NOT MSVC)
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
