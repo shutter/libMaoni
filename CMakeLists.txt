@@ -24,8 +24,6 @@ include(UseQtPropertyBrowser)
 
 ##############################################################
 
-include(UseBezierSurface)
-
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
 find_package(QGLViewer REQUIRED)
@@ -54,13 +52,15 @@ file(GLOB MAONI_SIMPLE_SOURCE src/Simple/*.c*)
 
 add_library(maoni SHARED ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
 
-target_link_libraries(maoni 
+add_subdirectory(externals/teaset)
+
+target_link_libraries(maoni
   ${QT_LIBRARIES}
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARY}
-  bezier_surface
+  teaset
   )
 
 add_library(maoni_main STATIC src/main.cpp)
