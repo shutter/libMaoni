@@ -1,7 +1,7 @@
 /*
- * ComicStyle.cpp
+ * NormalDebug.cpp
  *
- *  Created on: 29 Jul 2009
+ *  Created on: 5 Mar 2010
  *      Author: stefan
  *
  *      from http://wiki.delphigl.com/index.php/shader_normal_debug

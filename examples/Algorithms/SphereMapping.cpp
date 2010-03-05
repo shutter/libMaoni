@@ -53,5 +53,8 @@ RENDER_ALGORITHM(SphereMapping,
 		t = new Texture("../Models/sphere0.jpg");
 	ScopedBindTexture texture_lock(*t);
 
+	int loc0 = glGetUniformLocation(GL_CURRENT_PROGRAM, "texture");
+	glUniform1i(loc0, 1);
+
 	model.draw();
 }
