@@ -271,6 +271,8 @@ void LightWidget::value_changed(QtProperty* property, double value) {
 		frame_data.get_light(light).setPosition(Vector4(double_manager->value(
 				pos_x), double_manager->value(pos_y), double_manager->value(
 				pos_z), double_manager->value(pos_v)));
+		frame_data.get_light(light).recalcLightBox(0.05);
+
 	} else if (name == "constant attenuation") {
 		frame_data.get_light(light).setConst_att(value);
 	} else if (name == "linear attenuation") {
@@ -281,6 +283,7 @@ void LightWidget::value_changed(QtProperty* property, double value) {
 		frame_data.get_light(light).setSpot_direction(Vector3(
 				double_manager->value(spot_dir_x), double_manager->value(
 						spot_dir_y), double_manager->value(spot_dir_z)));
+		frame_data.get_light(light).recalcLightBox(0.05);
 	} else if (name == "cut off angle") {
 		frame_data.get_light(light).setCut_off(value);
 	} else if (name == "exponent") {

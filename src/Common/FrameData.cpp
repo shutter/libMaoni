@@ -14,8 +14,7 @@
 FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack) :
 	algorithm_factory_stack(algorithm_factory_stack), mesh_loader_stack(
-			mesh_loader_stack)
-{
+			mesh_loader_stack) {
 	// create LIGHT0 gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
 	lights().push_back(Light());
 	lights()[0].setIs_light0(true);
@@ -28,32 +27,29 @@ FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 	std::cout << "max lights: " << max_lights << std::endl;
 }
 
-void FrameData::draw()
-{
+void FrameData::draw() {
 	apply_light();
 
 	if (render_algorithm_)
 		render_algorithm_->render(model_);
 	else
-//		solid_teacup(1.f);
+		//		solid_teacup(1.f);
 		solid_teapot(1.f);
-//		solid_teaspoon(1.f);
-//		model_.draw();
+	//		solid_teaspoon(1.f);
+	//		model_.draw();
 }
 
-bool FrameData::load_model(const char* filename)
-{
-//	if (boost::algorithm::equals(filename, "<teacup>"))
-//		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
-//
-//	if (boost::algorithm::equals(filename, "<teapot>"))
-//		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
-//
-//	if (boost::algorithm::equals(filename, "<teaspoon>"))
-//		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
+bool FrameData::load_model(const char* filename) {
+	//	if (boost::algorithm::equals(filename, "<teacup>"))
+	//		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
+	//
+	//	if (boost::algorithm::equals(filename, "<teapot>"))
+	//		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
+	//
+	//	if (boost::algorithm::equals(filename, "<teaspoon>"))
+	//		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
 
-	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
-	{
+	for (MeshLoader* i = mesh_loader_stack; i; i = i->next) {
 		if (boost::algorithm::iends_with(filename, i->extension()))
 			return i->load_i(model_, filename);
 	}
@@ -108,15 +104,46 @@ void FrameData::apply_light() const {
 					glLightf(GL_LIGHT0 + i, GL_SPOT_EXPONENT, 0.0);
 				}
 
-				// TODO: alternative to glutSolidSphere()
-				/*	if (light.getShow_bulp())
-				 {
-				 glPushMatrix();
-				 glTranslatef(light.getPosition()[0], light.getPosition()[1], light.getPosition()[2]);
-				 glColor3f(1.f, 1.f, 1.f);
-				 glutSolidSphere(0.01, 4, 4);
-				 glPopMatrix();
-				 }*/
+				if (lights()[i].getShow_bulp()) {
+					std::cout << lights()[i].getLight_box(2)[0] << " "
+							<< lights()[i].getLight_box(2)[1] << " "
+							<< lights()[i].getLight_box(2)[2] << std::endl;
+					glPushMatrix();
+					glColor3f(1.f, 1.f, 1.f);
+					glBegin( GL_QUAD_STRIP);
+					glVertex3fv(lights()[i].getLight_box(0).array);
+					glVertex3fv(lights()[i].getLight_box(1).array);
+					glVertex3fv(lights()[i].getLight_box(2).array);
+					glVertex3fv(lights()[i].getLight_box(3).array);
+					glVertex3fv(lights()[i].getLight_box(6).array);
+					glVertex3fv(lights()[i].getLight_box(7).array);
+					glVertex3fv(lights()[i].getLight_box(4).array);
+					glVertex3fv(lights()[i].getLight_box(5).array);
+					glVertex3fv(lights()[i].getLight_box(0).array);
+					glVertex3fv(lights()[i].getLight_box(1).array);
+					glEnd();
+
+					glBegin( GL_QUADS);
+					glVertex3fv(lights()[i].getLight_box(0).array);
+					glVertex3fv(lights()[i].getLight_box(4).array);
+					glVertex3fv(lights()[i].getLight_box(6).array);
+					glVertex3fv(lights()[i].getLight_box(2).array);
+
+					glVertex3fv(lights()[i].getLight_box(1).array);
+					glVertex3fv(lights()[i].getLight_box(5).array);
+					glVertex3fv(lights()[i].getLight_box(7).array);
+					glVertex3fv(lights()[i].getLight_box(4).array);
+					glEnd();
+
+					if (lights()[i].getIs_spot()) {
+						glBegin(GL_LINES);
+						glVertex3fv(lights()[i].getPosition().array);
+						glVertex3fv(lights()[i].getSpot_direction().array);
+						glEnd();
+					}
+
+					glPopMatrix();
+				}
 			}
 		}
 	}

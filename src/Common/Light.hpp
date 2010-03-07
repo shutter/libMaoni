@@ -20,6 +20,7 @@ public:
 				is_spot(false), spot_direction(0.f, 0.f, -1.f), cut_off(180.f), //
 				exponent(0.f), is_on(true), show_bulp(false), is_light0(false)
 	{
+		calcLightBox(0.3);
 	}
 
 
@@ -39,9 +40,24 @@ private:
 	float exponent;
 	bool is_on;
 	bool show_bulp;
+	Vector3 light_box[8];
 
 	// light0 may not be spot and needs gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
 	bool is_light0;
+
+    void calcLightBox(float scaler){
+		//std::cout << position[0] << " " << position[1] << " " << position[2] << std::endl;
+
+
+    	light_box[0] = Vector3(position[0]-scaler,position[1]-scaler,position[2]-scaler);
+    	light_box[1] = Vector3(position[0]-scaler,position[1]-scaler,position[2]+scaler);
+    	light_box[2] = Vector3(position[0]-scaler,position[1]+scaler,position[2]-scaler);
+    	light_box[3] = Vector3(position[0]-scaler,position[1]+scaler,position[2]+scaler);
+    	light_box[4] = Vector3(position[0]+scaler,position[1]-scaler,position[2]-scaler);
+    	light_box[5] = Vector3(position[0]+scaler,position[1]-scaler,position[2]+scaler);
+    	light_box[6] = Vector3(position[0]+scaler,position[1]+scaler,position[2]-scaler);
+    	light_box[7] = Vector3(position[0]+scaler,position[1]+scaler,position[2]+scaler);
+    }
 
 public:
     Vector4 getAmbient() const
@@ -119,6 +135,11 @@ public:
         return spot_direction;
     }
 
+    Vector3 getLight_box(int corner) const
+    {
+    	return light_box[corner];
+    }
+
     void setAmbient(Vector4 ambient)
     {
         this->ambient = ambient;
@@ -192,6 +213,10 @@ public:
     void setSpot_direction(Vector3 spot_direction)
     {
         this->spot_direction = spot_direction;
+    }
+
+    void recalcLightBox(float scaler){
+    	calcLightBox(scaler);
     }
 
 };
