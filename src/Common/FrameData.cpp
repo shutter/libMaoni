@@ -35,27 +35,24 @@ void FrameData::draw()
 	if (render_algorithm_)
 		render_algorithm_->render(model_);
 	else
-		//		solid_teacup(1.f);
 		solid_teapot(1.f);
-	//		solid_teaspoon(1.f);
-	//		model_.draw();
 }
 
 bool FrameData::load_model(const char* filename)
 {
-	//	if (boost::algorithm::equals(filename, "<teacup>"))
-	//		return load_bezier_surface(model_, teacup_nodes, teacup_rectangles);
-	//
-	//	if (boost::algorithm::equals(filename, "<teapot>"))
-	//		return load_bezier_surface(model_, teapot_nodes, teapot_rectangles);
-	//
-	//	if (boost::algorithm::equals(filename, "<teaspoon>"))
-	//		return load_bezier_surface(model_, teaspoon_nodes, teaspoon_rectangles);
+	if (boost::algorithm::equals(filename, "<teacup>"))
+		return model_.set_bezier_mesh(Model::teacup);
+
+	if (boost::algorithm::equals(filename, "<teapot>"))
+		return model_.set_bezier_mesh(Model::teapot);
+
+	if (boost::algorithm::equals(filename, "<teaspoon>"))
+		return model_.set_bezier_mesh(Model::teaspoon);
 
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			return i->load_i(model_, filename);
+			return i->load_i(model_, filename) && model_.set_bezier_mesh(Model::none);
 	}
 
 	return false;
