@@ -62,8 +62,10 @@ void Model::add_triangle(std::size_t a, std::size_t b, std::size_t c)
 
 void Model::calculate_normals()
 {
-	Vector3 triangleNormal;
 	std::size_t i0, i1, i2;
+
+	for (size_t i = 0; i < vertices.size(); ++i)
+		vertices[i].normal = Vector3(0,0,0);
 
 	// iterate over all triangles and add their normals to adjacent vertices
 	for (size_t i = 0; i < indices.size(); i += 3)
@@ -72,12 +74,17 @@ void Model::calculate_normals()
 		i1 = indices[i + 1];
 		i2 = indices[i + 2];
 
-		triangleNormal.compute_normal(vertices[i0].position.array,
-				vertices[i1].position.array, vertices[i2].position.array);
+		Vector3 const& p1 = vertices[i0].position;
+		Vector3 const& p2 = vertices[i1].position;
+		Vector3 const& p3 = vertices[i2].position;
 
-		vertices[i0].normal += triangleNormal;
-		vertices[i1].normal += triangleNormal;
-		vertices[i2].normal += triangleNormal;
+		Vector3 v1 = p2 - p1;
+		Vector3 v2 = p3 - p1;
+		Vector3 normal = Vector3(v1.z()*v2.z()-v1.z()*v2.y(),v1.z()*v2.x()-v1.x()*v2.z(),v1.x()*v2.y()-v1.y()*v2.x());
+
+		vertices[i0].normal += normal;
+		vertices[i1].normal += normal;
+		vertices[i2].normal += normal;
 	}
 
 	// normalize all the normals

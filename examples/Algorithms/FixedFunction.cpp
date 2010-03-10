@@ -9,8 +9,11 @@
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/Color.hpp>
 
+#define NORM_LENGTH 0.05
+
 RENDER_ALGORITHM(FixedFunction,
 		(bool, wired, false)
+		(bool, vertex_normals, false)
 		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
 		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
 		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
@@ -26,6 +29,19 @@ RENDER_ALGORITHM(FixedFunction,
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	model.draw();
+
+	if (vertex_normals)
+	{
+		std::vector<Vertex> const& vertices = model.get_vertices();
+		glBegin(GL_LINES);
+		for (size_t i = 0; i < vertices.size(); i++)
+		{
+			glColor3f(0.f, 1.f, 0.f);
+			glVertex3fv(vertices[i].position.array);
+			glVertex3fv((vertices[i].position + vertices[i].normal * NORM_LENGTH).array);
+		}
+	}
+	glEnd();
 
 	if (wired)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

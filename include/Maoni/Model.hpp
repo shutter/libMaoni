@@ -21,6 +21,16 @@ public:
 	//!
 	bool empty() const;
 
+	std::vector<Vertex> const& get_vertices() const
+	{
+		return vertices;
+	}
+
+	std::vector<std::size_t> const& get_indices() const
+	{
+		return indices;
+	}
+
 	//! draw the model
 	void draw() const;
 
