@@ -3,8 +3,8 @@
  */
 
 #include <GL/glew.h>
-#include <teaset.h>
-#include "teaset_data.h"
+#include <Maoni/Teaset.h>
+#include "TeasetData.h"
 
 /* -- PRIVATE FUNCTIONS ---------------------------------------------------- */
 

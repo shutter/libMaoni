@@ -7,9 +7,25 @@
 
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
+#include <Maoni/Teaset.h>
 
 void Model::draw() const
 {
+	switch (bezier_mesh)
+	{
+	case teacup:
+		solid_teacup(1.f);
+		return;
+	case teapot:
+		solid_teapot(1.f);
+		return;
+	case teaspoon:
+		solid_teaspoon(1.f);
+		return;
+	default:
+		break;
+	}
+
 	glBegin(GL_TRIANGLES);
 
 	for (size_t i = 0; i < indices.size(); i++)

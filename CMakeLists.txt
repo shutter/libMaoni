@@ -53,15 +53,12 @@ file(GLOB MAONI_SIMPLE_SOURCE src/Simple/*.c*)
 
 add_library(maoni SHARED ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
 
-add_subdirectory(externals/teaset)
-
 target_link_libraries(maoni
   ${QT_LIBRARIES}
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARY}
-  teaset
   )
 
 add_library(maoni_main STATIC src/main.cpp)
