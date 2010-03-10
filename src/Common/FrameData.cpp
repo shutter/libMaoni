@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 #include <boost/algorithm/string/predicate.hpp>
 
-#include <teaset.h>
+#include <Maoni/Teaset.h>
 
 FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack) :
