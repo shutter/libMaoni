@@ -79,6 +79,26 @@ void FrameData::set_render_algorithm(std::string const& name)
 	}
 }
 
+std::size_t FrameData::num_algorithms() const
+{
+	std::size_t num = 0;
+
+	for (AlgorithmFactory* i = algorithm_factory_stack; i; i = i->next)
+		++num;
+
+	return num;
+}
+
+std::size_t FrameData::num_loaders() const
+{
+	std::size_t num = 0;
+
+	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
+		++num;
+
+	return num;
+}
+
 bool FrameData::add_light()
 {
 	if (lights_.size() >= max_number_of_lights)
