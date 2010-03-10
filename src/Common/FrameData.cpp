@@ -17,20 +17,31 @@ FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 			mesh_loader_stack)
 {
 	// create LIGHT0 gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
-	lights().push_back(Light());
-	lights()[0].setIs_light0(true);
-	lights()[0].setName("LIGHT0 default");
-	lights()[0].setDiffuse(Color(0.0, 0.0, 0.0, 0.0));
-	lights()[0].setSpecular(Color(1.0, 1.0, 1.0, 1.0));
+	lights_.push_back(Light());
+	lights_[0].setIs_light0(true);
+	lights_[0].setName("LIGHT0 default");
+	lights_[0].setDiffuse(Color(0.0, 0.0, 0.0, 0.0));
+	lights_[0].setSpecular(Color(1.0, 1.0, 1.0, 1.0));
 
 	GLint max_lights;
 	glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
 	std::cout << "max lights: " << max_lights << std::endl;
 }
 
-void FrameData::draw()
+void FrameData::draw() const
 {
-	apply_light();
+	glClearDepth(1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+
+	for (std::size_t i = 0; i < max_number_of_lights; i++)
+	{
+		if ((lights_.size() - 1) < i)
+			glDisable(GL_LIGHT0 + i);
+		else
+			lights_[i].apply(i);
+	}
 
 	if (render_algorithm_)
 		render_algorithm_->render(model_);
@@ -52,27 +63,20 @@ bool FrameData::load_model(const char* filename)
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			return i->load_i(model_, filename) && model_.set_bezier_mesh(Model::none);
+			return i->load_i(model_, filename) && model_.set_bezier_mesh(
+					Model::none);
 	}
 
 	return false;
 }
 
-void FrameData::apply_light() const
+void FrameData::set_render_algorithm(std::string const& name)
 {
-	glClearDepth(1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-
-	for (std::size_t i = 0; i < max_number_of_lights; i++)
+	for (AlgorithmFactory* i = algorithm_factory_stack; i; i = i->next)
 	{
-		if ((lights().size() - 1) < i)
-			glDisable(GL_LIGHT0 + i);
-		else
-			lights()[i].apply(i);
+		if (name == i->name())
+			render_algorithm_ = i->algorithm();
 	}
-
 }
 
 bool FrameData::add_light()

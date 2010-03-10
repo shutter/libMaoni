@@ -15,43 +15,21 @@
 
 class GlobalConfigWidget;
 
-class FrameData {
+class FrameData
+{
 public:
 	FrameData(AlgorithmFactory* algorithm_factory_stack,
 			MeshLoader* mesh_loader_stack);
 
-	~FrameData() {
+	~FrameData()
+	{
 	}
 
-	void draw();
+	void draw() const;
 
-	void apply_light() const;
+	bool load_model(const char* filename);
 
-	virtual bool load_model(const char* filename);
-
-	const Model& model() const {
-		return model_;
-	}
-
-	virtual std::vector<Light>& lights() {
-		return lights_;
-	}
-
-	const std::vector<Light>& lights() const {
-		return lights_;
-	}
-
-	const Algorithm::Ptr render_algorithm() const {
-		return render_algorithm_;
-	}
-
-	Algorithm::Ptr render_algorithm() {
-		return render_algorithm_;
-	}
-
-	virtual void render_algorithm(Algorithm::Ptr algo) {
-		render_algorithm_ = algo;
-	}
+	void set_render_algorithm(std::string const& name);
 
 	bool add_light();
 	unsigned int get_lights_size();
