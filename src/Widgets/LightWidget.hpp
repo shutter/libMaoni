@@ -32,8 +32,8 @@ private slots:
 	void test();
 
 private:
-	QColor colorOTB(Vector4 one);
-	Vector4 colorBTO(QColor byte);
+	QColor colorOTB(Color const& one);
+	Color colorBTO(QColor const& byte);
 	void update_combobox();
 
 private:

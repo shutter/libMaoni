@@ -86,28 +86,20 @@ SHADER_PROGRAM(DGLBumpMappingShader,
 
 RENDER_ALGORITHM(DGLBumpMapping,
 		(ShaderProgram, shader, DGLBumpMappingShader())
-		(Texture, bump_texture, "../Models/shader_diffuse_bumpmapping_cg_texture.jpg")
-		(Texture, normal_texture, "../Models/shader_diffuse_bumpmapping_cg_normal.jpg")
+		(Texture, bump_texture, "./Models/shader_diffuse_bumpmapping_cg_texture.jpg")
+		(Texture, normal_texture, "./Models/shader_diffuse_bumpmapping_cg_normal.jpg")
 )
 {
+
 	ScopedDisable lighting_lock(GL_LIGHTING);
 	ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
 	ScopedUseProgram shader_lock(shader);
 
-	static Texture* t0(0);
-	if (!t0)
-		t0 = new Texture(normal_texture);
-	ScopedBindTexture texture_lock0(*t0);
-	static Texture* t1(0);
-	if (!t1)
-		t1 = new Texture(bump_texture);
-	ScopedBindTexture texture_lock1(*t1);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, normal_texture);
 
-	int loc0 = glGetUniformLocation(0, "Texture0");
-	glUniform1i(loc0, 1);
-
-	int loc1 = glGetUniformLocation(0, "Texture1");
-	glUniform1i(loc1, 2);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, bump_texture);
 
 	model.draw();
 }

@@ -15,7 +15,8 @@
 #include <iostream>
 
 LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
-	QWidget(parent), frame_data(frame_data), light(0) {
+	QWidget(parent), frame_data(frame_data), light(0)
+{
 	QVBoxLayout* mainLayoutV = new QVBoxLayout;
 
 	QHBoxLayout* layoutHfile = new QHBoxLayout;
@@ -148,17 +149,22 @@ LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 
 }
 
-void LightWidget::add_light() {
-	if (frame_data.add_light()) {
+void LightWidget::add_light()
+{
+	if (frame_data.add_light())
+	{
 		update_combobox();
 		light_chooser->setCurrentIndex(light_chooser->count() - 1);
 		choose(frame_data.get_lights_size() - 1);
-	} else {
+	}
+	else
+	{
 		QMessageBox::warning(this, "Error", "Maximal Number of Lights reached!");
 	}
 }
 
-void LightWidget::update_combobox() {
+void LightWidget::update_combobox()
+{
 	QStringList list;
 	light_chooser->clear();
 	for (unsigned int i = 0; i < frame_data.get_lights_size(); i++)
@@ -167,7 +173,8 @@ void LightWidget::update_combobox() {
 	light_chooser->addItems(list);
 }
 
-void LightWidget::choose(int i) {
+void LightWidget::choose(int i)
+{
 	light = i;
 
 	property_browser->clear();
@@ -177,7 +184,8 @@ void LightWidget::choose(int i) {
 	bool_manager->setValue(is_on, frame_data.get_light(i).getIs_on());
 	property_browser->addProperty(is_on);
 
-	if (frame_data.get_light(i).getIs_on()) {
+	if (frame_data.get_light(i).getIs_on())
+	{
 		show_bulp->setEnabled(true);
 		light_position->setEnabled(true);
 		ambient->setEnabled(true);
@@ -188,7 +196,9 @@ void LightWidget::choose(int i) {
 		spot_direction->setEnabled(true);
 		cut_off->setEnabled(true);
 		exponent->setEnabled(true);
-	} else {
+	}
+	else
+	{
 		show_bulp->setEnabled(false);
 		light_position->setEnabled(false);
 		ambient->setEnabled(false);
@@ -221,7 +231,8 @@ void LightWidget::choose(int i) {
 	double_manager->setValue(quad_att, frame_data.get_light(i).getQuad_att());
 	property_browser->addProperty(attenuation);
 
-	if (!frame_data.get_light(i).getIs_light0()) {
+	if (!frame_data.get_light(i).getIs_light0())
+	{
 		bool_manager->setValue(is_spot, frame_data.get_light(i).getIs_spot());
 		property_browser->addProperty(is_spot);
 		double_manager->setValue(spot_dir_x,
@@ -239,76 +250,108 @@ void LightWidget::choose(int i) {
 	}
 }
 
-QColor LightWidget::colorOTB(Vector4 one) {
-	return QColor(one.array[0] * 255.0, one.array[1] * 255.0, one.array[2]
-			* 255.0, one.array[3] * 255.0);
+QColor LightWidget::colorOTB(Color const& one)
+{
+	return QColor(one.red() * 255.0, one.green() * 255.0, one.blue() * 255.0,
+			one.alpha() * 255.0);
 }
 
-Vector4 LightWidget::colorBTO(QColor byte) {
-	return Vector4(byte.red() / 255.0, byte.green() / 255.0, byte.blue()
+Color LightWidget::colorBTO(QColor const& byte)
+{
+	return Color(byte.red() / 255.0, byte.green() / 255.0, byte.blue()
 			/ 255.0, byte.alpha() / 255.0);
 }
 
-void LightWidget::value_changed(QtProperty* property, int value) {
+void LightWidget::value_changed(QtProperty* property, int value)
+{
 	std::string name = property->propertyName().toStdString();
 }
 
-void LightWidget::value_changed(QtProperty* property, bool value) {
+void LightWidget::value_changed(QtProperty* property, bool value)
+{
 	std::string name = property->propertyName().toStdString();
-	if (name == "activate") {
+	if (name == "activate")
+	{
 		frame_data.get_light(light).setIs_on(value);
-	} else if (name == "show bulp") {
+	}
+	else if (name == "show bulp")
+	{
 		frame_data.get_light(light).setShow_bulp(value);
-	} else if (name == "spot light") {
+	}
+	else if (name == "spot light")
+	{
 		frame_data.get_light(light).setIs_spot(value);
 	}
 }
 
-void LightWidget::value_changed(QtProperty* property, double value) {
+void LightWidget::value_changed(QtProperty* property, double value)
+{
 	std::string name = property->propertyName().toStdString();
 	if (name == "pos x" || name == "pos y" || name == "pos z" || name
-			== "pos v") {
+			== "pos v")
+	{
 		frame_data.get_light(light).setPosition(Vector4(double_manager->value(
 				pos_x), double_manager->value(pos_y), double_manager->value(
 				pos_z), double_manager->value(pos_v)));
 		frame_data.get_light(light).recalcLightBox(0.05);
 
-	} else if (name == "constant attenuation") {
+	}
+	else if (name == "constant attenuation")
+	{
 		frame_data.get_light(light).setConst_att(value);
-	} else if (name == "linear attenuation") {
+	}
+	else if (name == "linear attenuation")
+	{
 		frame_data.get_light(light).setLin_att(value);
-	} else if (name == "quadratic attenuation") {
+	}
+	else if (name == "quadratic attenuation")
+	{
 		frame_data.get_light(light).setQuad_att(value);
-	} else if (name == "spot x" || name == "spot y" || name == "spot z") {
+	}
+	else if (name == "spot x" || name == "spot y" || name == "spot z")
+	{
 		frame_data.get_light(light).setSpot_direction(Vector3(
 				double_manager->value(spot_dir_x), double_manager->value(
 						spot_dir_y), double_manager->value(spot_dir_z)));
 		frame_data.get_light(light).recalcLightBox(0.05);
-	} else if (name == "cut off angle") {
+	}
+	else if (name == "cut off angle")
+	{
 		frame_data.get_light(light).setCut_off(value);
-	} else if (name == "exponent") {
+	}
+	else if (name == "exponent")
+	{
 		frame_data.get_light(light).setExponent(value);
 	}
 }
 
-void LightWidget::value_changed(QtProperty* property, const QColor& value) {
+void LightWidget::value_changed(QtProperty* property, const QColor& value)
+{
 	std::string name = property->propertyName().toStdString();
-	if (name == "ambient") {
+	if (name == "ambient")
+	{
 		frame_data.get_light(light).setAmbient(colorBTO(value));
-	} else if (name == "diffuse") {
+	}
+	else if (name == "diffuse")
+	{
 		frame_data.get_light(light).setDiffuse(colorBTO(value));
-	} else if (name == "specular") {
+	}
+	else if (name == "specular")
+	{
 		frame_data.get_light(light).setSpecular(colorBTO(value));
 	}
 }
 
-void LightWidget::value_changed(QtProperty* property, const QString& value) {
+void LightWidget::value_changed(QtProperty* property, const QString& value)
+{
 	std::string name = property->propertyName().toStdString();
-	if (name == "name") {
+	if (name == "name")
+	{
 		frame_data.get_light(light).setName(value.toStdString());
 	}
 }
 
-void LightWidget::test() {
+void LightWidget::test()
+{
 	std::cout << "test" << std::endl;
 }

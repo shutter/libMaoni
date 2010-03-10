@@ -8,6 +8,7 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
+#include <Maoni/Color.hpp>
 #include <Maoni/Vector.hpp>
 
 class Light
@@ -28,9 +29,9 @@ public:
 private:
 	std::string name;
 	Vector4 position;
-	Vector4 ambient;
-	Vector4 diffuse;
-	Vector4 specular;
+	Color ambient;
+	Color diffuse;
+	Color specular;
 	float const_att;
 	float lin_att;
 	float quad_att;
@@ -41,8 +42,6 @@ private:
 	bool is_on;
 	bool show_bulp;
 	Vector3 light_box[8];
-
-	// light0 may not be spot and needs gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
 	bool is_light0;
 
     void calcLightBox(float scaler){
@@ -60,7 +59,7 @@ private:
     }
 
 public:
-    Vector4 getAmbient() const
+    Color const& getAmbient() const
     {
         return ambient;
     }
@@ -75,7 +74,7 @@ public:
         return cut_off;
     }
 
-    Vector4 getDiffuse() const
+    Color const& getDiffuse() const
     {
         return diffuse;
     }
@@ -125,7 +124,7 @@ public:
         return show_bulp;
     }
 
-    Vector4 getSpecular() const
+    Color const& getSpecular() const
     {
         return specular;
     }
@@ -140,7 +139,7 @@ public:
     	return light_box[corner];
     }
 
-    void setAmbient(Vector4 ambient)
+    void setAmbient(Color const& ambient)
     {
         this->ambient = ambient;
     }
@@ -155,7 +154,7 @@ public:
         this->cut_off = cut_off;
     }
 
-    void setDiffuse(Vector4 diffuse)
+    void setDiffuse(Color const& diffuse)
     {
         this->diffuse = diffuse;
     }
@@ -205,7 +204,7 @@ public:
         this->show_bulp = show_bulp;
     }
 
-    void setSpecular(Vector4 specular)
+    void setSpecular(Color const& specular)
     {
         this->specular = specular;
     }
@@ -219,6 +218,7 @@ public:
     	calcLightBox(scaler);
     }
 
+    void apply(int id) const;
 };
 
 #endif /* LIGHT_HPP */

@@ -39,22 +39,14 @@ SHADER_PROGRAM(SphereMappingShader,
 );
 
 RENDER_ALGORITHM(SphereMapping,
-		(bool, teapot, true)
 		(ShaderProgram, shader, SphereMappingShader())
-		(Texture, sphere_texture, "../Models/red.jpeg")
+		(Texture, sphere_texture, "./Models/sphere3.jpg")
 )
 {
 	ScopedDisable lighting_lock(GL_LIGHTING);
 	ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
+	ScopedBindTexture texture_lock(sphere_texture);
 	ScopedUseProgram shader_lock(shader);
-
-	static Texture* t(0);
-	if (!t)
-		t = new Texture("../Models/sphere0.jpg");
-	ScopedBindTexture texture_lock(*t);
-
-	int loc0 = glGetUniformLocation(GL_CURRENT_PROGRAM, "texture");
-	glUniform1i(loc0, 1);
 
 	model.draw();
 }
