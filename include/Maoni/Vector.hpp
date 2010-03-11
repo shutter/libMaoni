@@ -5,8 +5,8 @@
  *      Author: daniel
  */
 
-#ifndef VECTOR_HPP
-#define VECTOR_HPP
+#ifndef MAONI_VECTOR_HPP
+#define MAONI_VECTOR_HPP
 
 #include <vmmlib/vector.hpp>
 
@@ -54,6 +54,57 @@ private:
 typedef vmml::vector<3, float> Vector3;
 
 //! a four component floating-point vector
-typedef vmml::vector<4, float> Vector4;
+class Vector4
+{
+public:
+	Vector4()
+	{
+		impl[0] = impl[1] = impl[2] = impl[3] = 0.f;
+	}
 
-#endif /* VECTOR_HPP */
+	Vector4(float x, float y, float z, float w)
+	{
+		impl[0] = x;
+		impl[1] = y;
+		impl[2] = z;
+		impl[3] = w;
+	}
+
+	Vector4(Vector4 const& other)
+	{
+		impl[0] = other.x();
+		impl[1] = other.y();
+		impl[2] = other.z();
+		impl[3] = other.w();
+	}
+
+	float x() const
+	{
+		return impl[0];
+	}
+
+	float y() const
+	{
+		return impl[1];
+	}
+
+	float z() const
+	{
+		return impl[1];
+	}
+
+	float w() const
+	{
+		return impl[1];
+	}
+
+	operator const float*() const
+	{
+		return impl;
+	}
+
+private:
+	float impl[4];
+};
+
+#endif /* MAONI_VECTOR_HPP */

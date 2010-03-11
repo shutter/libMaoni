@@ -14,7 +14,7 @@ void Light::apply(int i) const
 	glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient);
 	glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse);
 	glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular);
-	glLightfv(GL_LIGHT0 + i, GL_POSITION, position.array);
+	glLightfv(GL_LIGHT0 + i, GL_POSITION, position);
 	glLightf(GL_LIGHT0 + i, GL_CONSTANT_ATTENUATION, const_att);
 	glLightf(GL_LIGHT0 + i, GL_LINEAR_ATTENUATION, lin_att);
 	glLightf(GL_LIGHT0 + i, GL_QUADRATIC_ATTENUATION, quad_att);
@@ -69,8 +69,8 @@ void Light::apply(int i) const
 		if (is_spot)
 		{
 			glBegin(GL_LINES);
-			glVertex3fv(position.array);
-			glVertex3fv((position + spot_direction).array);
+			glVertex3fv(position);
+			glVertex3f(position.x() + spot_direction.x(),position.y() + spot_direction.y(),position.z() + spot_direction.z());
 			glEnd();
 		}
 	}
