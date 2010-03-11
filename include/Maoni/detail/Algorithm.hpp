@@ -60,16 +60,6 @@ struct AlgoConfig: boost::noncopyable
 
 struct AlgorithmFactory: Extensible<AlgorithmFactory>
 {
-	static Algorithm::Ptr create(const std::string& name)
-	{
-		for (AlgorithmFactory* i = stack; i; i = i->next)
-		{
-			if (name == i->name())
-				return i->algorithm();
-		}
-		return Algorithm::Ptr();
-	}
-
 	static AlgoConfig::Ptr create_config(const std::string& name)
 	{
 		for (AlgorithmFactory* i = stack; i; i = i->next)

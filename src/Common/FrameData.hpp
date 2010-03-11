@@ -15,53 +15,31 @@
 
 class GlobalConfigWidget;
 
-class FrameData {
+class FrameData
+{
 public:
 	FrameData(AlgorithmFactory* algorithm_factory_stack,
 			MeshLoader* mesh_loader_stack);
 
-	~FrameData() {
+	~FrameData()
+	{
 	}
 
-	void draw();
+	void draw() const;
 
-	void apply_light() const;
+	bool load_model(const char* filename);
 
-	virtual bool load_model(const char* filename);
+	void set_render_algorithm(std::string const& name);
 
-	const Model& model() const {
-		return model_;
-	}
+	//! get the amount of render algorithms
+	std::size_t num_algorithms() const;
 
-	virtual std::vector<Light>& lights() {
-		return lights_;
-	}
-
-	const std::vector<Light>& lights() const {
-		return lights_;
-	}
-
-	const Algorithm::Ptr render_algorithm() const {
-		return render_algorithm_;
-	}
-
-	Algorithm::Ptr render_algorithm() {
-		return render_algorithm_;
-	}
-
-	virtual void render_algorithm(Algorithm::Ptr algo) {
-		render_algorithm_ = algo;
-	}
+	//! get the amount of mesh loaders
+	std::size_t num_loaders() const;
 
 	bool add_light();
 	unsigned int get_lights_size();
 	Light& get_light(unsigned int i);
-
-protected:
-
-	Algorithm::Ptr render_algorithm_;
-
-	Model model_;
 
 private:
 	//todo: max number of lights can vary depending on opengl -> if possible replace by an opengl command which determines the correct value of a specific architecture
@@ -71,6 +49,9 @@ private:
 private:
 	AlgorithmFactory* algorithm_factory_stack;
 	MeshLoader* mesh_loader_stack;
+
+	Algorithm::Ptr render_algorithm_;
+	Model model_;
 };
 
 #endif /* FRAME_DATA_HPP */

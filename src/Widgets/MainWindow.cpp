@@ -1,5 +1,7 @@
 #include "MainWindow.hpp"
-#include "../Widgets/RenderWidget.hpp"
+#include "RenderWidget.hpp"
+#include "LightWidget.hpp"
+#include "AlgorithmWidget.hpp"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -7,6 +9,7 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QColorDialog>
+#include <QDockWidget>
 
 MainWindow::MainWindow(FrameData& frame_data) :
 	frame_data(frame_data) {
@@ -25,34 +28,7 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	QAction* quit = new QAction("&Quit", this);
 	file->addAction(quit);
 
-	QMenu* model = menuBar()->addMenu("&Model");
-	QSignalMapper* mapper = new QSignalMapper(this);
-
-	QAction* teacup = new QAction("tea&cup", this);
-	mapper->setMapping(teacup, "<teacup>");
-	connect(teacup, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teacup);
-
-	QAction* teapot = new QAction("tea&pot", this);
-	mapper->setMapping(teapot, "<teapot>");
-	connect(teapot, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teapot);
-
-	QAction* teaspoon = new QAction("tea&spoon", this);
-	mapper->setMapping(teaspoon, "<teaspoon>");
-	connect(teaspoon, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teaspoon);
-
-	connect(mapper, SIGNAL(mapped(const QString &)), this,
-			SLOT(load_model(QString)));
-
-	//! this entry is shown iff there is at least one loader available
-	if (MeshLoader::stack) {
-		model->addSeparator();
-		QAction* load = new QAction("&load...", this);
-		connect(load, SIGNAL(triggered()), this, SLOT(load_model()));
-		model->addAction(load);
-	}
+	init_model_menu();
 
 	QMenu* visual_hints = menuBar()->addMenu("&Visual Hints");
 	QAction* fps = new QAction("&FPS", this);
@@ -81,11 +57,73 @@ MainWindow::MainWindow(FrameData& frame_data) :
 			set_foreground_color()));
 	visual_hints->addAction(foreground_color);
 
+	init_docks();
+
 	QMenu* help = menuBar()->addMenu("&Help");
 	QAction* help_contents = new QAction("lib&QGLViewer", this);
 	connect(help_contents, SIGNAL(triggered()), render_widget, SLOT(help()));
 	help->addAction(help_contents);
+}
 
+void MainWindow::init_model_menu()
+{
+	QMenu* model = menuBar()->addMenu("&Model");
+	QSignalMapper* mapper = new QSignalMapper(this);
+
+	QAction* teacup = new QAction("tea&cup", this);
+	mapper->setMapping(teacup, "<teacup>");
+	connect(teacup, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teacup);
+
+	QAction* teapot = new QAction("tea&pot", this);
+	mapper->setMapping(teapot, "<teapot>");
+	connect(teapot, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teapot);
+
+	QAction* teaspoon = new QAction("tea&spoon", this);
+	mapper->setMapping(teaspoon, "<teaspoon>");
+	connect(teaspoon, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(teaspoon);
+
+	connect(mapper, SIGNAL(mapped(const QString &)), this,
+			SLOT(load_model(QString)));
+
+	//! this entry is shown iff there is at least one loader available
+	if (frame_data.num_loaders() > 0)
+	{
+		model->addSeparator();
+		QAction* load = new QAction("&load...", this);
+		connect(load, SIGNAL(triggered()), this, SLOT(load_model()));
+		model->addAction(load);
+	}
+}
+
+void MainWindow::init_docks()
+{
+	QMenu* menu = menuBar()->addMenu("&Window");
+
+	QDockWidget *dock = new QDockWidget("Stefan's LightWidget", this);
+	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+	QAction* action = new QAction("Stefan's &LightWidget", this);
+	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
+	menu->addAction(action);
+
+	dock->setWidget(new LightWidget(frame_data));
+	addDockWidget(Qt::LeftDockWidgetArea, dock);
+
+	if (frame_data.num_algorithms() > 0)
+	{
+		dock = new QDockWidget("Daniel's AlgorithmWidget", this);
+		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+		action = new QAction("Daniel's &AlgorithmWidget", this);
+		connect(action, SIGNAL(triggered()), dock, SLOT(show()));
+		menu->addAction(action);
+
+		dock->setWidget(new AlgorithmWidget(frame_data));
+		addDockWidget(Qt::RightDockWidgetArea, dock);
+	}
 }
 
 void MainWindow::load_model(QString filename) {
