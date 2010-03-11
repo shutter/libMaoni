@@ -22,10 +22,6 @@ FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 	lights_[0].setName("LIGHT0 default");
 	lights_[0].setDiffuse(Color(0.0, 0.0, 0.0, 0.0));
 	lights_[0].setSpecular(Color(1.0, 1.0, 1.0, 1.0));
-
-	GLint max_lights;
-	glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
-	std::cout << "max lights: " << max_lights << std::endl;
 }
 
 void FrameData::draw() const
