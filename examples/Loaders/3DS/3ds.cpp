@@ -8,8 +8,7 @@
 #include <Maoni/MeshLoader.hpp>
 #include <lib3ds/file.h>
 #include <lib3ds/mesh.h>
-
-typedef vmml::vector<3, std::size_t> Triangle;
+#include <iostream>
 
 MESH_LOADER(3ds, 3D Studio Max Model)
 {
