@@ -18,7 +18,7 @@ private slots:
 	void set_background_color(QColor background_color = QColor());
 	void set_foreground_color(QColor foreground_color = QColor());
 	void snapshot();
-	void quit();
+//	void quit();
 	void show_logo(int state);
 
 private:

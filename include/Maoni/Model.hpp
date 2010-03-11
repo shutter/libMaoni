@@ -18,7 +18,7 @@ class Model: private boost::noncopyable
 public:
 	enum BezierMesh
 	{
-		none, teapot, teacup, teaspoon
+		none, teapot, teacup, teaspoon, spiral
 	};
 
 	Model() :

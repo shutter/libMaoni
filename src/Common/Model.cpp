@@ -8,6 +8,33 @@
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
 #include <Maoni/Teaset.h>
+#include <Maoni/Math.hpp>
+
+static void qglviewer_spiral()
+{
+	const float nbSteps = 200.0;
+
+	glBegin(GL_QUAD_STRIP);
+
+	for (int i = 0; i < nbSteps; ++i)
+	{
+		const float ratio = i / nbSteps;
+		const float angle = 21.0 * ratio;
+		const float c = cos(angle);
+		const float s = sin(angle);
+		const float r1 = 1.0 - 0.8f * ratio;
+		const float r2 = 0.8f - 0.8f * ratio;
+		const float alt = ratio - 0.5f;
+		const float nor = 0.5f;
+		const float up = sqrt(1.0 - nor * nor);
+		glColor3f(1.0 - ratio, 0.2f, ratio);
+		glNormal3f(nor * c, up, nor * s);
+		glVertex3f(r1 * c, alt, r1 * s);
+		glVertex3f(r2 * c, alt + 0.05f, r2 * s);
+	}
+
+	glEnd();
+}
 
 void Model::draw() const
 {
@@ -22,6 +49,9 @@ void Model::draw() const
 	case teaspoon:
 		solid_teaspoon(1.f);
 		return;
+	case spiral:
+		qglviewer_spiral();
+		return;
 	default:
 		break;
 	}
@@ -31,9 +61,9 @@ void Model::draw() const
 	for (size_t i = 0; i < indices.size(); i++)
 	{
 		glColor4fv(vertices[indices[i]].color);
-		glTexCoord2fv(vertices[indices[i]].texcoord.array);
-		glNormal3fv(vertices[indices[i]].normal.array);
-		glVertex3fv(vertices[indices[i]].position.array);
+		glTexCoord2fv(vertices[indices[i]].texcoord);
+		glNormal3fv(vertices[indices[i]].normal);
+		glVertex3fv(vertices[indices[i]].position);
 	}
 
 	glEnd();
@@ -44,8 +74,8 @@ void Model::clear()
 	vertices.clear();
 	indices.clear();
 
-	bounding_box[0] = Vector3(0.0f);
-	bounding_box[1] = Vector3(0.0f);
+	bounding_box[0] = Vector3();
+	bounding_box[1] = Vector3();
 }
 
 //!
@@ -98,29 +128,27 @@ void Model::calculate_normals()
 		Vector3 v2 = p3 - p1;
 		Vector3 normal = Vector3(v1.z()*v2.z()-v1.z()*v2.y(),v1.z()*v2.x()-v1.x()*v2.z(),v1.x()*v2.y()-v1.y()*v2.x());
 
-		vertices[i0].normal += normal;
-		vertices[i1].normal += normal;
-		vertices[i2].normal += normal;
+		vertices[i0].normal = vertices[i0].normal + normal;
+		vertices[i1].normal = vertices[i1].normal + normal;
+		vertices[i2].normal = vertices[i2].normal + normal;
 	}
 
 	// normalize all the normals
 	for (size_t i = 0; i < vertices.size(); ++i)
-		vertices[i].normal.normalize();
+		vertices[i].normal = normalize(vertices[i].normal);
 }
 
 /* Calculate the bounding box of the current vertex data. */
 void Model::calculateBoundingBox()
 {
-	bounding_box[0] = vertices[0].position.array;
-	bounding_box[1] = vertices[0].position.array;
+	bounding_box[0] = vertices[0].position;
+	bounding_box[1] = vertices[0].position;
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[0][i] = std::min(bounding_box[0][i],
-					vertices[v].position[i]);
-			bounding_box[1][i] = std::max(bounding_box[1][i],
-					vertices[v].position[i]);
+			bounding_box[0][i] = std::min(bounding_box[0][i], vertices[v].position[i]);
+			bounding_box[1][i] = std::max(bounding_box[1][i], vertices[v].position[i]);
 		}
 	}
 }
@@ -158,8 +186,8 @@ void Model::fix_scale()
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[v][i] -= offset[i];
-			bounding_box[v][i] *= factor;
+			bounding_box[v][i] = bounding_box[v][i] - offset[i];
+			bounding_box[v][i] = bounding_box[v][i] * factor;
 		}
 	}
 }

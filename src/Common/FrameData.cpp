@@ -46,7 +46,7 @@ void FrameData::draw() const
 	if (render_algorithm_)
 		render_algorithm_->render(model_);
 	else
-		solid_teapot(1.f);
+		model_.draw();
 }
 
 bool FrameData::load_model(const char* filename)
@@ -59,6 +59,9 @@ bool FrameData::load_model(const char* filename)
 
 	if (boost::algorithm::equals(filename, "<teaspoon>"))
 		return model_.set_bezier_mesh(Model::teaspoon);
+
+	if (boost::algorithm::equals(filename, "<spiral>"))
+		return model_.set_bezier_mesh(Model::spiral);
 
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{

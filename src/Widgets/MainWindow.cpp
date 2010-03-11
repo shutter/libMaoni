@@ -12,7 +12,8 @@
 #include <QDockWidget>
 
 MainWindow::MainWindow(FrameData& frame_data) :
-	frame_data(frame_data) {
+	frame_data(frame_data)
+{
 
 	render_widget = new RenderWidget(frame_data);
 	setCentralWidget(render_widget);
@@ -25,9 +26,9 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	connect(snapshot, SIGNAL(triggered()), this, SLOT(snapshot()));
 	file->addAction(snapshot);
 
-	QAction* quit = new QAction("&Quit", this);
-	connect(quit, SIGNAL(triggered()), SLOT(quit()));
-	file->addAction(quit);
+	QAction* action = new QAction("&Quit", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(close()));
+	file->addAction(action);
 
 	init_model_menu();
 
@@ -71,20 +72,25 @@ void MainWindow::init_model_menu()
 	QMenu* model = menuBar()->addMenu("&Model");
 	QSignalMapper* mapper = new QSignalMapper(this);
 
-	QAction* teacup = new QAction("tea&cup", this);
-	mapper->setMapping(teacup, "<teacup>");
-	connect(teacup, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teacup);
+	QAction* action = new QAction("tea&cup", this);
+	mapper->setMapping(action, "<teacup>");
+	connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(action);
 
-	QAction* teapot = new QAction("tea&pot", this);
-	mapper->setMapping(teapot, "<teapot>");
-	connect(teapot, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teapot);
+	action = new QAction("tea&pot", this);
+	mapper->setMapping(action, "<teapot>");
+	connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(action);
 
-	QAction* teaspoon = new QAction("tea&spoon", this);
-	mapper->setMapping(teaspoon, "<teaspoon>");
-	connect(teaspoon, SIGNAL(triggered()), mapper, SLOT(map()));
-	model->addAction(teaspoon);
+	action = new QAction("tea&spoon", this);
+	mapper->setMapping(action, "<teaspoon>");
+	connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(action);
+
+	action = new QAction("lib&QGLViewer spiral", this);
+	mapper->setMapping(action, "<spiral>");
+	connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+	model->addAction(action);
 
 	connect(mapper, SIGNAL(mapped(const QString &)), this,
 			SLOT(load_model(QString)));
@@ -127,8 +133,10 @@ void MainWindow::init_docks()
 	}
 }
 
-void MainWindow::load_model(QString filename) {
-	if (filename.isNull()) {
+void MainWindow::load_model(QString filename)
+{
+	if (filename.isNull())
+	{
 		filename = QFileDialog::getOpenFileName(this,
 				"Choose the model file to load", "Models/trico.ply",
 				MeshLoader::all_filters());
@@ -137,34 +145,34 @@ void MainWindow::load_model(QString filename) {
 	if (filename.isNull())
 		return;
 
-	if (!frame_data.load_model(filename.toStdString().c_str())) {
+	if (!frame_data.load_model(filename.toStdString().c_str()))
+	{
 		QMessageBox::warning(this, "Error", //
 				"Could not load file \"" + filename + "\"");
 	}
 }
 
-void MainWindow::set_background_color(QColor background_color) {
+void MainWindow::set_background_color(QColor background_color)
+{
 	background_color = QColorDialog::getColor(Qt::black, this,
 			"Choose the background color", 0);
 
 	render_widget->setBackgroundColor(background_color);
 }
 
-void MainWindow::set_foreground_color(QColor foreground_color) {
+void MainWindow::set_foreground_color(QColor foreground_color)
+{
 	foreground_color = QColorDialog::getColor(Qt::white, this,
 			"Choose the grid color", 0);
 	render_widget->setForegroundColor(foreground_color);
 }
 
-void MainWindow::snapshot(){
+void MainWindow::snapshot()
+{
 	render_widget->saveSnapshot(false, false);
 }
 
-void MainWindow::quit(){
-	close();
-}
-
-
-void MainWindow::show_logo(int state) {
+void MainWindow::show_logo(int state)
+{
 	std::cout << "show_logo: " << state << std::endl;
 }

@@ -10,6 +10,7 @@
 
 #include <Maoni/Color.hpp>
 #include <Maoni/Vector.hpp>
+#include <string>
 
 class Light
 {
