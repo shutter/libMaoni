@@ -26,6 +26,7 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	file->addAction(snapshot);
 
 	QAction* quit = new QAction("&Quit", this);
+	connect(quit, SIGNAL(triggered()), SLOT(quit()));
 	file->addAction(quit);
 
 	init_model_menu();
@@ -158,6 +159,11 @@ void MainWindow::set_foreground_color(QColor foreground_color) {
 void MainWindow::snapshot(){
 	render_widget->saveSnapshot(false, false);
 }
+
+void MainWindow::quit(){
+	close();
+}
+
 
 void MainWindow::show_logo(int state) {
 	std::cout << "show_logo: " << state << std::endl;
