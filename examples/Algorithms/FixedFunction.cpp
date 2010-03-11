@@ -6,8 +6,7 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/Color.hpp>
+#include <Maoni.hpp>
 
 #define NORM_LENGTH 0.05
 
@@ -37,8 +36,8 @@ RENDER_ALGORITHM(FixedFunction,
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
 			glColor3f(0.f, 1.f, 0.f);
-			glVertex3fv(vertices[i].position.array);
-			glVertex3fv((vertices[i].position + vertices[i].normal * NORM_LENGTH).array);
+			glVertex3fv(vertices[i].position);
+			glVertex3fv((vertices[i].position + vertices[i].normal * NORM_LENGTH));
 		}
 	}
 	glEnd();

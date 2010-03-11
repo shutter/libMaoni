@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
 #include <Maoni/Teaset.h>
+#include <Maoni/Math.hpp>
 
 static void qglviewer_spiral()
 {
@@ -61,8 +62,8 @@ void Model::draw() const
 	{
 		glColor4fv(vertices[indices[i]].color);
 		glTexCoord2fv(vertices[indices[i]].texcoord);
-		glNormal3fv(vertices[indices[i]].normal.array);
-		glVertex3fv(vertices[indices[i]].position.array);
+		glNormal3fv(vertices[indices[i]].normal);
+		glVertex3fv(vertices[indices[i]].position);
 	}
 
 	glEnd();
@@ -73,8 +74,8 @@ void Model::clear()
 	vertices.clear();
 	indices.clear();
 
-	bounding_box[0] = Vector3(0.0f);
-	bounding_box[1] = Vector3(0.0f);
+	bounding_box[0] = Vector3();
+	bounding_box[1] = Vector3();
 }
 
 //!
@@ -127,29 +128,27 @@ void Model::calculate_normals()
 		Vector3 v2 = p3 - p1;
 		Vector3 normal = Vector3(v1.z()*v2.z()-v1.z()*v2.y(),v1.z()*v2.x()-v1.x()*v2.z(),v1.x()*v2.y()-v1.y()*v2.x());
 
-		vertices[i0].normal += normal;
-		vertices[i1].normal += normal;
-		vertices[i2].normal += normal;
+		vertices[i0].normal = vertices[i0].normal + normal;
+		vertices[i1].normal = vertices[i1].normal + normal;
+		vertices[i2].normal = vertices[i2].normal + normal;
 	}
 
 	// normalize all the normals
 	for (size_t i = 0; i < vertices.size(); ++i)
-		vertices[i].normal.normalize();
+		vertices[i].normal = normalize(vertices[i].normal);
 }
 
 /* Calculate the bounding box of the current vertex data. */
 void Model::calculateBoundingBox()
 {
-	bounding_box[0] = vertices[0].position.array;
-	bounding_box[1] = vertices[0].position.array;
+	bounding_box[0] = vertices[0].position;
+	bounding_box[1] = vertices[0].position;
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[0][i] = std::min(bounding_box[0][i],
-					vertices[v].position[i]);
-			bounding_box[1][i] = std::max(bounding_box[1][i],
-					vertices[v].position[i]);
+			bounding_box[0][i] = std::min(bounding_box[0][i], vertices[v].position[i]);
+			bounding_box[1][i] = std::max(bounding_box[1][i], vertices[v].position[i]);
 		}
 	}
 }
@@ -187,8 +186,8 @@ void Model::fix_scale()
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[v][i] -= offset[i];
-			bounding_box[v][i] *= factor;
+			bounding_box[v][i] = bounding_box[v][i] - offset[i];
+			bounding_box[v][i] = bounding_box[v][i] * factor;
 		}
 	}
 }

@@ -22,7 +22,7 @@ void Light::apply(int i) const
 	if (is_spot)
 	{
 		glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, cut_off);
-		glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, spot_direction.array);
+		glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, spot_direction);
 		glLightf(GL_LIGHT0 + i, GL_SPOT_EXPONENT, exponent);
 	}
 	else
@@ -39,30 +39,30 @@ void Light::apply(int i) const
 
 		glBegin(GL_QUAD_STRIP);
 		{
-			glVertex3fv(light_box[0].array);
-			glVertex3fv(light_box[1].array);
-			glVertex3fv(light_box[2].array);
-			glVertex3fv(light_box[3].array);
-			glVertex3fv(light_box[6].array);
-			glVertex3fv(light_box[7].array);
-			glVertex3fv(light_box[4].array);
-			glVertex3fv(light_box[5].array);
-			glVertex3fv(light_box[0].array);
-			glVertex3fv(light_box[1].array);
+			glVertex3fv(light_box[0]);
+			glVertex3fv(light_box[1]);
+			glVertex3fv(light_box[2]);
+			glVertex3fv(light_box[3]);
+			glVertex3fv(light_box[6]);
+			glVertex3fv(light_box[7]);
+			glVertex3fv(light_box[4]);
+			glVertex3fv(light_box[5]);
+			glVertex3fv(light_box[0]);
+			glVertex3fv(light_box[1]);
 		}
 		glEnd();
 
 		glBegin(GL_QUADS);
 		{
-			glVertex3fv(light_box[0].array);
-			glVertex3fv(light_box[4].array);
-			glVertex3fv(light_box[6].array);
-			glVertex3fv(light_box[2].array);
+			glVertex3fv(light_box[0]);
+			glVertex3fv(light_box[4]);
+			glVertex3fv(light_box[6]);
+			glVertex3fv(light_box[2]);
 
-			glVertex3fv(light_box[1].array);
-			glVertex3fv(light_box[5].array);
-			glVertex3fv(light_box[7].array);
-			glVertex3fv(light_box[4].array);
+			glVertex3fv(light_box[1]);
+			glVertex3fv(light_box[5]);
+			glVertex3fv(light_box[7]);
+			glVertex3fv(light_box[4]);
 		}
 		glEnd();
 

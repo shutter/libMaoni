@@ -31,8 +31,7 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 		{
 			Lib3dsVector& pos = m->pointL[i].pos;
 
-			model.add_vertex(Vertex(Vector3(pos[0], pos[1], pos[2]),
-					Vector3(0.f), Color(), Vector2()));
+			model.add_vertex(Vertex(pos[0], pos[1], pos[2]));
 
 			++offset;
 		}

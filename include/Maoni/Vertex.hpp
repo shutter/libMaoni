@@ -14,7 +14,7 @@
 struct Vertex
 {
 	Vertex(float x, float y, float z) :
-		position(x, y, z), normal(0.f), color()
+		position(x, y, z)
 	{
 	}
 

@@ -8,8 +8,6 @@
 #ifndef MAONI_VECTOR_HPP
 #define MAONI_VECTOR_HPP
 
-#include <vmmlib/vector.hpp>
-
 //! a two component floating-point vector
 class Vector2
 {
@@ -51,7 +49,57 @@ private:
 };
 
 //! a three component floating-point vector
-typedef vmml::vector<3, float> Vector3;
+class Vector3
+{
+public:
+	Vector3()
+	{
+		impl[0] = impl[1] = impl[2] = 0.f;
+	}
+
+	Vector3(float x, float y, float z)
+	{
+		impl[0] = x;
+		impl[1] = y;
+		impl[2] = z;
+	}
+
+	Vector3(Vector3 const& other)
+	{
+		impl[0] = other.x();
+		impl[1] = other.y();
+		impl[2] = other.z();
+	}
+
+	float x() const
+	{
+		return impl[0];
+	}
+
+	float y() const
+	{
+		return impl[1];
+	}
+
+	float z() const
+	{
+		return impl[2];
+	}
+
+	operator const float*() const
+	{
+		return impl;
+	}
+
+	// TODO remove this!
+	operator float*()
+	{
+		return impl;
+	}
+
+private:
+	float impl[3];
+};
 
 //! a four component floating-point vector
 class Vector4
@@ -90,12 +138,12 @@ public:
 
 	float z() const
 	{
-		return impl[1];
+		return impl[2];
 	}
 
 	float w() const
 	{
-		return impl[1];
+		return impl[3];
 	}
 
 	operator const float*() const
