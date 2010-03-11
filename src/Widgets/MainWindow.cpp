@@ -26,8 +26,9 @@ MainWindow::MainWindow(FrameData& frame_data) :
 	connect(snapshot, SIGNAL(triggered()), this, SLOT(snapshot()));
 	file->addAction(snapshot);
 
-	QAction* quit = new QAction("&Quit", this);
-	file->addAction(quit);
+	QAction* action = new QAction("&Quit", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(close()));
+	file->addAction(action);
 
 	init_model_menu();
 
