@@ -10,3 +10,4 @@
 some text..
 [endsect]
 
+[xinclude maoni-ref.xml]

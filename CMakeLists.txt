@@ -81,6 +81,9 @@ endif(MAONI_BUILD_ICET_LIB)
 
 option(MAONI_BUILD_DOCUMENTATION OFF)
 if(MAONI_BUILD_DOCUMENTATION)
+  set(THIS_PROJECT_NAME libMaoni)
+  include(AddReference)
+  include(AddDocumentation)
   add_subdirectory(doc)
 endif(MAONI_BUILD_DOCUMENTATION)
 
