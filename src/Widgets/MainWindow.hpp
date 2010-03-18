@@ -5,6 +5,7 @@
 #include "../Common/FrameData.hpp"
 
 class RenderWidget;
+class LightWidget;
 
 class MainWindow: public QMainWindow
 {
@@ -15,6 +16,8 @@ public:
 
 private slots:
 	void load_model(QString name = QString());
+	void import_lights(QString name = QString());
+	void export_lights(QString name = QString());
 	void set_background_color(QColor background_color = QColor());
 	void set_foreground_color(QColor foreground_color = QColor());
 	void snapshot();
@@ -28,6 +31,7 @@ private:
 private:
 	FrameData& frame_data;
 	RenderWidget* render_widget;
+	LightWidget* light_widget;
 };
 
 #endif /* MAIN_WINDOW_HPP */

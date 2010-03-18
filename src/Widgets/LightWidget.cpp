@@ -19,7 +19,6 @@ LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 {
 	QVBoxLayout* mainLayoutV = new QVBoxLayout;
 
-	QHBoxLayout* layoutHfile = new QHBoxLayout;
 	QHBoxLayout* layoutHlight = new QHBoxLayout;
 
 	QGroupBox* horizontalGroupBoxFile = new QGroupBox();
@@ -33,15 +32,6 @@ LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 	connect(del_button, SIGNAL(clicked()), this, SLOT(test()));
 	layoutHlight->addWidget(del_button);
 
-	QPushButton* load_button = new QPushButton("load", this);
-	connect(load_button, SIGNAL(clicked()), this, SLOT(test()));
-	layoutHfile->addWidget(load_button);
-
-	QPushButton* save_button = new QPushButton("save", this);
-	connect(load_button, SIGNAL(clicked()), this, SLOT(test()));
-	layoutHfile->addWidget(save_button);
-
-	horizontalGroupBoxFile->setLayout(layoutHfile);
 	horizontalGroupBoxLight->setLayout(layoutHlight);
 
 	mainLayoutV->addWidget(horizontalGroupBoxFile);
@@ -273,6 +263,7 @@ void LightWidget::value_changed(QtProperty* property, bool value)
 	if (name == "activate")
 	{
 		frame_data.get_light(light).setIs_on(value);
+		choose(light_chooser->currentIndex());
 	}
 	else if (name == "show bulp")
 	{
@@ -351,7 +342,8 @@ void LightWidget::value_changed(QtProperty* property, const QString& value)
 	}
 }
 
-void LightWidget::test()
-{
-	std::cout << "test" << std::endl;
+void LightWidget::update_browser(){
+	update_combobox();
+	choose(0);
 }
+

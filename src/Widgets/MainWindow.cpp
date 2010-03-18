@@ -22,6 +22,16 @@ MainWindow::MainWindow(FrameData& frame_data) :
 
 	//	render_widget->setFPSIsDisplayed(true);
 
+	QAction* import_lights = new QAction("&import Lights", this);
+	connect(import_lights, SIGNAL(triggered()), this, SLOT(import_lights()));
+	file->addAction(import_lights);
+
+	QAction* export_lights = new QAction("&export Lights", this);
+	connect(export_lights, SIGNAL(triggered()), this, SLOT(export_lights()));
+	file->addAction(export_lights);
+
+	file->addSeparator();
+
 	QAction* snapshot = new QAction("&Snapshot", this);
 	connect(snapshot, SIGNAL(triggered()), this, SLOT(snapshot()));
 	file->addAction(snapshot);
@@ -116,7 +126,8 @@ void MainWindow::init_docks()
 	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
 	menu->addAction(action);
 
-	dock->setWidget(new LightWidget(frame_data));
+	light_widget = new LightWidget(frame_data);
+	dock->setWidget(light_widget);
 	addDockWidget(Qt::LeftDockWidgetArea, dock);
 
 	if (frame_data.num_algorithms() > 0)
@@ -175,4 +186,45 @@ void MainWindow::snapshot()
 void MainWindow::show_logo(int state)
 {
 	std::cout << "show_logo: " << state << std::endl;
+}
+
+void MainWindow::import_lights(QString filename)
+{
+	if (filename.isNull())
+	{
+		filename = QFileDialog::getOpenFileName(this,
+				"Choose a light config file to load", "lights.xml",
+				tr("XML Files (*.xml)"));
+	}
+
+	if (filename.isNull())
+		return;
+
+	int status = frame_data.import_lights(filename.toStdString().c_str());
+	if (status < 0)
+	{
+		QMessageBox::warning(this, "Error", //
+				status + ": Could not import from file \"" + filename + "\"");
+	} else {
+		light_widget->update_browser();
+	}
+}
+
+void MainWindow::export_lights(QString filename)
+{
+	if (filename.isNull())
+	{
+		filename = QFileDialog::getSaveFileName(this,
+				"Choose a filename to export the lights config to", "lights.xml",
+				tr("XML Files (*.xml)"));
+	}
+
+	if (filename.isNull())
+		return;
+
+	if (frame_data.export_lights(filename.toStdString().c_str()) < 0)
+	{
+		QMessageBox::warning(this, "Error", //
+				"Could not export to file \"" + filename + "\"");
+	}
 }

@@ -96,6 +96,7 @@ RENDER_ALGORITHM(DGLBumpMapping,
 		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
 		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
 		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
+		(Color, emission, Color(0.0, 0.0, 0.0, 0.0))
 		(float, shininess, 51.2)
 )
 {
@@ -103,6 +104,7 @@ RENDER_ALGORITHM(DGLBumpMapping,
 	glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+	glMaterialfv(GL_FRONT, GL_EMISSION, emission);
 	glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
 	ScopedDisable lighting_lock(GL_LIGHTING);
