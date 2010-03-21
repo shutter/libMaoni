@@ -8,7 +8,7 @@
 #include <Maoni/MeshLoader.hpp>
 #include "plyfile.h"
 #include <boost/cstdint.hpp>
-#include <vmmlib/vector.hpp>
+#include <iostream>
 
 static bool _invertFaces = false;
 

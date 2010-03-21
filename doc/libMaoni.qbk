@@ -1,4 +1,4 @@
-[library libMaoni
+[library Maoni
    [quickbook 1.5]
    [version 0.1]
    [authors [Hutter, Stefan], [Pfeifer, Daniel]]
@@ -7,7 +7,28 @@
 ]
 
 [section Introduction]
-some text..
+
+You can choose between three models:
+
+* an ordinary tea cup
+* a spoon (remember: try to realize the truth) and
+* the famous [@http://en.wikipedia.org/wiki/Utah_teapot teapotahedron].
+
+[endsect]
+
+[section Tutorial]
+In Maoni everithing is optional.
+The simplest application built on Maoni consist of zero lines of code.
+
+[section Custom file loader]
+[endsect]
+
+[section Custom render algorithm]
+[endsect]
+
+[section Custom shader programs]
+[endsect]
+
 [endsect]
 
 [xinclude maoni-ref.xml]

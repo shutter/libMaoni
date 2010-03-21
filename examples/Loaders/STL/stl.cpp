@@ -6,7 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
-#include <vmmlib/vector.hpp>
+#include <iostream>
 
 #include "stla_io.h"
 
