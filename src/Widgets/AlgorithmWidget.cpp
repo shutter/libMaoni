@@ -75,7 +75,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
 void AlgorithmWidget::choose(int index)
 {
 	std::string name = algo_chooser->currentText().toStdString();
-	frame_data.render_algorithm(AlgorithmFactory::create(name));
+	frame_data.set_render_algorithm(name);
 
 	int_setters.clear();
 	bool_setters.clear();

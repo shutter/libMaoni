@@ -11,15 +11,36 @@
 #include "Vertex.hpp"
 #include <vector>
 #include <boost/array.hpp>
+#include <boost/noncopyable.hpp>
 
-class Model
+class Model: private boost::noncopyable
 {
 public:
+	enum BezierMesh
+	{
+		none, teapot, teacup, teaspoon, spiral
+	};
+
+	Model() :
+		bezier_mesh(teapot)
+	{
+	}
+
 	//! clear the model
 	void clear();
 
 	//!
 	bool empty() const;
+
+	std::vector<Vertex> const& get_vertices() const
+	{
+		return vertices;
+	}
+
+	std::vector<std::size_t> const& get_indices() const
+	{
+		return indices;
+	}
 
 	//! draw the model
 	void draw() const;
@@ -37,6 +58,12 @@ public:
 	//! Calculate the face or vertex normals of the current vertex data.
 	void calculate_normals();
 
+	bool set_bezier_mesh(BezierMesh mesh)
+	{
+		bezier_mesh = mesh;
+		return true;
+	}
+
 private:
 	void calculateBoundingBox();
 
@@ -46,6 +73,8 @@ private:
 
 	typedef boost::array<Vector3, 2> BoundingBox;
 	BoundingBox bounding_box;
+
+	BezierMesh bezier_mesh;
 };
 
 #endif /* MODEL_HPP */

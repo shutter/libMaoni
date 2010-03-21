@@ -11,6 +11,7 @@
 
 #include <QImage>
 #include <QGLWidget>
+#include <iostream>
 
 Texture::Texture(const std::string& path) :
 	path_(path), name_(0)
@@ -45,16 +46,20 @@ Texture::operator unsigned int()
 {
 	if (!name_)
 	{
+
 		glGenTextures(1, &name_);
 
 		QImage image(path_.c_str());
+
+		std::cout << "loading " << path_ << " " << image.isNull() <<std::endl;
+
 		QImage teximage = QGLWidget::convertToGLFormat(image);
 
 		ScopedBindTexture texture_lock(name_);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, teximage.width(), teximage.height(),
-				0, GL_RGB, GL_UNSIGNED_BYTE, teximage.bits());
+		glTexImage2D(GL_TEXTURE_2D, 0, 4, teximage.width(), teximage.height(),
+				0, GL_RGBA, GL_UNSIGNED_BYTE, teximage.bits());
 	}
 
 	return name_;

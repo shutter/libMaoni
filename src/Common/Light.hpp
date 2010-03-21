@@ -8,7 +8,9 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
+#include <Maoni/Color.hpp>
 #include <Maoni/Vector.hpp>
+#include <string>
 
 class Light
 {
@@ -20,6 +22,7 @@ public:
 				is_spot(false), spot_direction(0.f, 0.f, -1.f), cut_off(180.f), //
 				exponent(0.f), is_on(true), show_bulp(false), is_light0(false)
 	{
+		calcLightBox(0.3);
 	}
 
 
@@ -27,9 +30,9 @@ public:
 private:
 	std::string name;
 	Vector4 position;
-	Vector4 ambient;
-	Vector4 diffuse;
-	Vector4 specular;
+	Color ambient;
+	Color diffuse;
+	Color specular;
 	float const_att;
 	float lin_att;
 	float quad_att;
@@ -39,12 +42,25 @@ private:
 	float exponent;
 	bool is_on;
 	bool show_bulp;
-
-	// light0 may not be spot and needs gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
+	Vector3 light_box[8];
 	bool is_light0;
 
+    void calcLightBox(float scaler){
+		//std::cout << position[0] << " " << position[1] << " " << position[2] << std::endl;
+
+
+    	light_box[0] = Vector3(position[0]-scaler,position[1]-scaler,position[2]-scaler);
+    	light_box[1] = Vector3(position[0]-scaler,position[1]-scaler,position[2]+scaler);
+    	light_box[2] = Vector3(position[0]-scaler,position[1]+scaler,position[2]-scaler);
+    	light_box[3] = Vector3(position[0]-scaler,position[1]+scaler,position[2]+scaler);
+    	light_box[4] = Vector3(position[0]+scaler,position[1]-scaler,position[2]-scaler);
+    	light_box[5] = Vector3(position[0]+scaler,position[1]-scaler,position[2]+scaler);
+    	light_box[6] = Vector3(position[0]+scaler,position[1]+scaler,position[2]-scaler);
+    	light_box[7] = Vector3(position[0]+scaler,position[1]+scaler,position[2]+scaler);
+    }
+
 public:
-    Vector4 getAmbient() const
+    Color const& getAmbient() const
     {
         return ambient;
     }
@@ -59,7 +75,7 @@ public:
         return cut_off;
     }
 
-    Vector4 getDiffuse() const
+    Color const& getDiffuse() const
     {
         return diffuse;
     }
@@ -109,7 +125,7 @@ public:
         return show_bulp;
     }
 
-    Vector4 getSpecular() const
+    Color const& getSpecular() const
     {
         return specular;
     }
@@ -119,7 +135,12 @@ public:
         return spot_direction;
     }
 
-    void setAmbient(Vector4 ambient)
+    Vector3 getLight_box(int corner) const
+    {
+    	return light_box[corner];
+    }
+
+    void setAmbient(Color const& ambient)
     {
         this->ambient = ambient;
     }
@@ -134,7 +155,7 @@ public:
         this->cut_off = cut_off;
     }
 
-    void setDiffuse(Vector4 diffuse)
+    void setDiffuse(Color const& diffuse)
     {
         this->diffuse = diffuse;
     }
@@ -184,7 +205,7 @@ public:
         this->show_bulp = show_bulp;
     }
 
-    void setSpecular(Vector4 specular)
+    void setSpecular(Color const& specular)
     {
         this->specular = specular;
     }
@@ -194,6 +215,11 @@ public:
         this->spot_direction = spot_direction;
     }
 
+    void recalcLightBox(float scaler){
+    	calcLightBox(scaler);
+    }
+
+    void apply(int id) const;
 };
 
 #endif /* LIGHT_HPP */

@@ -5,27 +5,154 @@
  *      Author: daniel
  */
 
-#ifndef VECTOR_HPP
-#define VECTOR_HPP
-
-#include <vmmlib/vector.hpp>
+#ifndef MAONI_VECTOR_HPP
+#define MAONI_VECTOR_HPP
 
 //! a two component floating-point vector
-typedef vmml::vector<2, float> Vector2;
+class Vector2
+{
+public:
+	Vector2()
+	{
+		impl[0] = impl[1] = 0.f;
+	}
+
+	Vector2(float x, float y)
+	{
+		impl[0] = x;
+		impl[1] = y;
+	}
+
+	Vector2(Vector2 const& other)
+	{
+		impl[0] = other.x();
+		impl[1] = other.y();
+	}
+
+	float x() const
+	{
+		return impl[0];
+	}
+
+	float y() const
+	{
+		return impl[1];
+	}
+
+	operator const float*() const
+	{
+		return impl;
+	}
+
+private:
+	float impl[2];
+};
 
 //! a three component floating-point vector
-typedef vmml::vector<3, float> Vector3;
+class Vector3
+{
+public:
+	Vector3()
+	{
+		impl[0] = impl[1] = impl[2] = 0.f;
+	}
+
+	Vector3(float x, float y, float z)
+	{
+		impl[0] = x;
+		impl[1] = y;
+		impl[2] = z;
+	}
+
+	Vector3(Vector3 const& other)
+	{
+		impl[0] = other.x();
+		impl[1] = other.y();
+		impl[2] = other.z();
+	}
+
+	float x() const
+	{
+		return impl[0];
+	}
+
+	float y() const
+	{
+		return impl[1];
+	}
+
+	float z() const
+	{
+		return impl[2];
+	}
+
+	operator const float*() const
+	{
+		return impl;
+	}
+
+	// TODO remove this!
+	operator float*()
+	{
+		return impl;
+	}
+
+private:
+	float impl[3];
+};
 
 //! a four component floating-point vector
-typedef vmml::vector<4, float> Vector4;
+class Vector4
+{
+public:
+	Vector4()
+	{
+		impl[0] = impl[1] = impl[2] = impl[3] = 0.f;
+	}
 
-//! a two component signed integer vector
-typedef vmml::vector<2, int> IVector2;
+	Vector4(float x, float y, float z, float w)
+	{
+		impl[0] = x;
+		impl[1] = y;
+		impl[2] = z;
+		impl[3] = w;
+	}
 
-//! a three component signed integer vector
-typedef vmml::vector<3, int> IVector3;
+	Vector4(Vector4 const& other)
+	{
+		impl[0] = other.x();
+		impl[1] = other.y();
+		impl[2] = other.z();
+		impl[3] = other.w();
+	}
 
-//! a four component signed integer vector
-typedef vmml::vector<4, int> IVector4;
+	float x() const
+	{
+		return impl[0];
+	}
 
-#endif /* VECTOR_HPP */
+	float y() const
+	{
+		return impl[1];
+	}
+
+	float z() const
+	{
+		return impl[2];
+	}
+
+	float w() const
+	{
+		return impl[3];
+	}
+
+	operator const float*() const
+	{
+		return impl;
+	}
+
+private:
+	float impl[4];
+};
+
+#endif /* MAONI_VECTOR_HPP */

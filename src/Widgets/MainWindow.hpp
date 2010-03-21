@@ -18,7 +18,13 @@ private slots:
 	void set_background_color(QColor background_color = QColor());
 	void set_foreground_color(QColor foreground_color = QColor());
 	void snapshot();
+//	void quit();
 	void show_logo(int state);
+
+private:
+	void init_model_menu();
+	void init_docks();
+
 private:
 	FrameData& frame_data;
 	RenderWidget* render_widget;
