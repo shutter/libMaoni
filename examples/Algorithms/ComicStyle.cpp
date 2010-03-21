@@ -10,7 +10,7 @@
 #include <Maoni/ShaderProgram.hpp>
 #include <Maoni/ScopedLocks.hpp>
 
-SHADER_SOURCE(vertex_source,
+SHADER_SOURCE(vertex_source, (version 130),
 		varying vec3 lightDir;
 		varying vec3 normal;
 
@@ -23,7 +23,7 @@ SHADER_SOURCE(vertex_source,
 		}
 );
 
-SHADER_SOURCE(fragment_source,
+SHADER_SOURCE(fragment_source, (version 130),
 
 		varying vec3 lightDir;
 		varying vec3 normal;

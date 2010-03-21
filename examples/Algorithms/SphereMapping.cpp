@@ -11,7 +11,7 @@
 #include <Maoni/ScopedLocks.hpp>
 #include <Maoni/Texture.hpp>
 
-SHADER_SOURCE(vertex_source,
+SHADER_SOURCE(vertex_source, (version 130),
 
 		varying vec3 normal;
 
@@ -23,7 +23,7 @@ SHADER_SOURCE(vertex_source,
 		}
 );
 
-SHADER_SOURCE(fragment_source,
+SHADER_SOURCE(fragment_source, (version 130),
 
 		uniform sampler2D texture;
 		varying vec3 normal;
