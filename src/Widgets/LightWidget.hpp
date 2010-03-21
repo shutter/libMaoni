@@ -18,7 +18,7 @@ class LightWidget: public QWidget {
 Q_OBJECT // Enable signals and slots
 public:
 	LightWidget(FrameData& frame_data, QWidget *parent = 0);
-
+	void update_browser();
 private slots:
 	void add_light();
 	void choose(int i);
@@ -29,12 +29,11 @@ private slots:
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
 
-	void test();
+	void update_combobox();
 
 private:
 	QColor colorOTB(Color const& one);
 	Color colorBTO(QColor const& byte);
-	void update_combobox();
 
 private:
 	FrameData& frame_data;

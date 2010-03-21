@@ -22,7 +22,7 @@ public:
 				is_spot(false), spot_direction(0.f, 0.f, -1.f), cut_off(180.f), //
 				exponent(0.f), is_on(true), show_bulp(false), is_light0(false)
 	{
-		calcLightBox(0.3);
+		calcLightBox(0.05);
 	}
 
 
