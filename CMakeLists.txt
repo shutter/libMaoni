@@ -67,18 +67,7 @@ target_link_libraries(maoni ${MAONI_LIBRARIES})
 
 option(MAONI_BUILD_PARALLEL_LIB OFF)
 if(MAONI_BUILD_PARALLEL_LIB)
-  include(UseIceT)
-  qt4_wrap_cpp(MAONI_ICET_MOC src/IceT/IceTWidget.hpp)
-  add_library(maoni_parallel SHARED
-    src/IceT/main.cpp
-    src/IceT/IceTWidget.cpp
-    ${MAONI_ICET_MOC}
-    )
-  target_link_libraries(maoni_parallel
-    ${MAONI_LIBRARIES}
-    ${MPI_LIBRARIES}
-    icet icet_mpi
-    )
+  add_subdirectory(src/IceT)
 endif(MAONI_BUILD_PARALLEL_LIB)
 
 ##############################################################
