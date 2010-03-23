@@ -108,6 +108,19 @@ bool FrameData::add_light()
 	}
 }
 
+bool FrameData::remove_light(int i)
+{
+	if (i == 0)
+	{
+		return false;
+	}
+	else
+	{
+		lights_.erase (lights_.begin()+i);
+		return true;
+	}
+}
+
 unsigned int FrameData::get_lights_size()
 {
 	return lights_.size();

@@ -42,6 +42,7 @@ public:
 	std::size_t num_loaders() const;
 
 	bool add_light();
+	bool remove_light(int i);
 	unsigned int get_lights_size();
 	Light& get_light(unsigned int i);
 	int export_lights(std::string const& filename);
