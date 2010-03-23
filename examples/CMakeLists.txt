@@ -8,6 +8,12 @@ file(WRITE ${EMPTY_SOURCE_FILE} "")
 add_executable(example_nothing ${EMPTY_SOURCE_FILE})
 target_link_libraries(example_nothing maoni maoni_main)
 
+if(MAONI_BUILD_PARALLEL_LIB)
+   add_executable(example_nothing_parallel ${EMPTY_SOURCE_FILE})
+  target_link_libraries(example_nothing_parallel
+    maoni_parallel maoni_main)
+endif(MAONI_BUILD_PARALLEL_LIB)
+
 ##############################################################
 # example with algorithms
 

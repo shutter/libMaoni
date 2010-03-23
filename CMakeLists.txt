@@ -25,6 +25,10 @@ include(UseQtPropertyBrowser)
 
 ##############################################################
 
+add_library(maoni_main STATIC src/main.cpp)
+
+##############################################################
+
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
 find_package(QGLViewer REQUIRED)
@@ -41,19 +45,14 @@ include_directories(
 file(GLOB MAONI_WIDGETS_HPP src/Widgets/*.hpp)
 file(GLOB MAONI_WIDGETS_SRC src/Widgets/*.cpp)
 qt4_wrap_cpp(MAONI_WIDGETS_MOC ${MAONI_WIDGETS_HPP})
+add_library(maoni_widgets STATIC ${MAONI_WIDGETS_SRC} ${MAONI_WIDGETS_MOC})
 
 file(GLOB MAONI_COMMON_SOURCE src/Common/*.c*)
-set(MAONI_COMMON_SOURCE
-  ${MAONI_COMMON_SOURCE}
-  ${MAONI_WIDGETS_SRC}
-  ${MAONI_WIDGETS_MOC}
-  )
+add_library(maoni_common STATIC ${MAONI_COMMON_SOURCE})
 
-file(GLOB MAONI_SIMPLE_SOURCE src/Simple/*.c*)
-
-add_library(maoni SHARED ${MAONI_COMMON_SOURCE} ${MAONI_SIMPLE_SOURCE})
-
-target_link_libraries(maoni
+set(MAONI_LIBRARIES
+  maoni_common
+  maoni_widgets
   ${QT_LIBRARIES}
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
@@ -61,21 +60,26 @@ target_link_libraries(maoni
   ${GLEW_LIBRARY}
   )
 
-add_library(maoni_main STATIC src/main.cpp)
+add_library(maoni SHARED src/Simple/main.cpp)
+target_link_libraries(maoni ${MAONI_LIBRARIES})
 
 ##############################################################
 
-option(MAONI_BUILD_EQUALIZER_LIB OFF)
-if(MAONI_BUILD_EQUALIZER_LIB)
-  include(MaoniEqualizer)
-endif(MAONI_BUILD_EQUALIZER_LIB)
-
-##############################################################
-
-option(MAONI_BUILD_ICET_LIB OFF)
-if(MAONI_BUILD_ICET_LIB)
-  include(MaoniIceT.cmake)
-endif(MAONI_BUILD_ICET_LIB)
+option(MAONI_BUILD_PARALLEL_LIB OFF)
+if(MAONI_BUILD_PARALLEL_LIB)
+  include(UseIceT)
+  qt4_wrap_cpp(MAONI_ICET_MOC src/IceT/IceTWidget.hpp)
+  add_library(maoni_parallel SHARED
+    src/IceT/main.cpp
+    src/IceT/IceTWidget.cpp
+    ${MAONI_ICET_MOC}
+    )
+  target_link_libraries(maoni_parallel
+    ${MAONI_LIBRARIES}
+    ${MPI_LIBRARIES}
+    icet icet_mpi
+    )
+endif(MAONI_BUILD_PARALLEL_LIB)
 
 ##############################################################
 

@@ -47,4 +47,4 @@ CONFIGURE_FILE(
 
 include_directories(${ICET_ABSOLUTE_DIR}/include/)
 
-add_subdirectory(${ICET_ABSOLUTE_DIR})
+add_subdirectory(${ICET_ABSOLUTE_DIR} ${ICET_ABSOLUTE_DIR}/build)

@@ -12,7 +12,7 @@ public:
 	{
 	}
 
-private:
+protected:
 	void init();
 	void draw();
 

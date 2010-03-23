@@ -11,11 +11,9 @@
 #include <QColorDialog>
 #include <QDockWidget>
 
-MainWindow::MainWindow(FrameData& frame_data) :
-	frame_data(frame_data)
+MainWindow::MainWindow(FrameData& frame_data,RenderWidget* render_widget) :
+	frame_data(frame_data),render_widget(render_widget)
 {
-
-	render_widget = new RenderWidget(frame_data);
 	setCentralWidget(render_widget);
 
 	QMenu* file = menuBar()->addMenu("&File");

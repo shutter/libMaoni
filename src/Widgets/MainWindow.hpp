@@ -12,7 +12,7 @@ class MainWindow: public QMainWindow
 Q_OBJECT
 
 public:
-	MainWindow(FrameData& frame_data);
+	MainWindow(FrameData& frame_data, RenderWidget* render_widget);
 
 private slots:
 	void load_model(QString name = QString());
