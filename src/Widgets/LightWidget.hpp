@@ -21,6 +21,8 @@ public:
 	void update_browser();
 private slots:
 	void add_light();
+	void remove_light();
+
 	void choose(int i);
 
 	void value_changed(QtProperty* property, const QString& value);

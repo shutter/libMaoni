@@ -21,25 +21,26 @@ LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 
 	QHBoxLayout* layoutHlight = new QHBoxLayout;
 
-	QGroupBox* horizontalGroupBoxFile = new QGroupBox();
 	QGroupBox* horizontalGroupBoxLight = new QGroupBox();
-
-	QPushButton* add_button = new QPushButton("add", this);
-	connect(add_button, SIGNAL(clicked()), this, SLOT(add_light()));
-	layoutHlight->addWidget(add_button);
-
-	QPushButton* del_button = new QPushButton("del", this);
-	connect(del_button, SIGNAL(clicked()), this, SLOT(test()));
-	layoutHlight->addWidget(del_button);
-
-	horizontalGroupBoxLight->setLayout(layoutHlight);
-
-	mainLayoutV->addWidget(horizontalGroupBoxFile);
+	layoutHlight->setMargin(0);
+	layoutHlight->setSpacing(-1);
 
 	light_chooser = new QComboBox;
 	update_combobox();
 	light_chooser->show();
-	mainLayoutV->addWidget(light_chooser);
+	layoutHlight->addWidget(light_chooser);
+
+	QPushButton* add_button = new QPushButton("+", this);
+	add_button->setMaximumWidth(30);
+	connect(add_button, SIGNAL(clicked()), this, SLOT(add_light()));
+	layoutHlight->addWidget(add_button);
+
+	QPushButton* del_button = new QPushButton("-", this);
+	del_button->setMaximumWidth(30);
+	connect(del_button, SIGNAL(clicked()), this, SLOT(remove_light()));
+	layoutHlight->addWidget(del_button);
+
+	horizontalGroupBoxLight->setLayout(layoutHlight);
 
 	mainLayoutV->addWidget(horizontalGroupBoxLight);
 
@@ -150,6 +151,20 @@ void LightWidget::add_light()
 	else
 	{
 		QMessageBox::warning(this, "Error", "Maximal Number of Lights reached!");
+	}
+}
+
+void LightWidget::remove_light()
+{
+	if (frame_data.remove_light(light_chooser->currentIndex()))
+	{
+		update_combobox();
+		light_chooser->setCurrentIndex(light_chooser->count() - 1);
+		choose(frame_data.get_lights_size() - 1);
+	}
+	else
+	{
+		QMessageBox::warning(this, "Error", "Cannot remove Light0!");
 	}
 }
 
