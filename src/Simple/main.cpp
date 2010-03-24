@@ -9,7 +9,10 @@
 #include "../Widgets/MainWindow.hpp"
 #include "../Widgets/RenderWidget.hpp"
 
-__declspec(dllexport) int maoni_main(int argc, char* argv[],
+#ifdef _MSC_VER
+__declspec(dllexport)
+#endif
+int maoni_main(int argc, char* argv[],
 		AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack)
 {
