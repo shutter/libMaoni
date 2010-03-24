@@ -70,9 +70,13 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 	init_docks();
 
 	QMenu* help = menuBar()->addMenu("&Help");
-	QAction* help_contents = new QAction("lib&QGLViewer", this);
-	connect(help_contents, SIGNAL(triggered()), render_widget, SLOT(help()));
-	help->addAction(help_contents);
+	action = new QAction("about &Qt", this);
+    connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
+    help->addAction(action);
+
+	action = new QAction("about libQGL&Viewer", this);
+	connect(action, SIGNAL(triggered()), render_widget, SLOT(help()));
+	help->addAction(action);
 }
 
 void MainWindow::init_model_menu()
@@ -140,6 +144,11 @@ void MainWindow::init_docks()
 		dock->setWidget(new AlgorithmWidget(*render_widget));
 		addDockWidget(Qt::RightDockWidgetArea, dock);
 	}
+}
+
+void MainWindow::about_qt()
+{
+	QMessageBox::aboutQt(this);
 }
 
 void MainWindow::load_model(QString filename)

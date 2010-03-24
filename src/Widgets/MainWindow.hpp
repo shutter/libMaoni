@@ -14,6 +14,7 @@ public:
 	MainWindow(RenderWidget* render_widget);
 
 private slots:
+	void about_qt();
 	void load_model(QString name = QString());
 	void import_lights(QString name = QString());
 	void export_lights(QString name = QString());
