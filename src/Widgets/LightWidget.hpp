@@ -10,14 +10,14 @@
 
 #include <QWidget>
 #include <QComboBox>
-#include "Common/FrameData.hpp"
+#include "RenderWidget.hpp"
 #include "qtpropertymanager.h"
 #include "qttreepropertybrowser.h"
 
 class LightWidget: public QWidget {
 Q_OBJECT // Enable signals and slots
 public:
-	LightWidget(FrameData& frame_data, QWidget *parent = 0);
+	LightWidget(RenderWidget& render_widget, QWidget *parent = 0);
 	void update_browser();
 private slots:
 	void add_light();
@@ -38,7 +38,7 @@ private:
 	Color colorBTO(QColor const& byte);
 
 private:
-	FrameData& frame_data;
+	RenderWidget& render_widget;
 	QComboBox* light_chooser;
 	int light;
 	QtTreePropertyBrowser* property_browser;

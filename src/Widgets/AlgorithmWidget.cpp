@@ -20,8 +20,8 @@ static QStringList AlgorithmNames()
 	return list;
 }
 
-AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
-	QWidget(parent), frame_data(frame_data)
+AlgorithmWidget::AlgorithmWidget(RenderWidget& render_widget, QWidget *parent) :
+	QWidget(parent), render_widget(render_widget)
 {
 	algo_chooser = new QComboBox;
 	algo_chooser->addItems(AlgorithmNames());
@@ -75,7 +75,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& frame_data, QWidget *parent) :
 void AlgorithmWidget::choose(int index)
 {
 	std::string name = algo_chooser->currentText().toStdString();
-	frame_data.set_render_algorithm(name);
+	render_widget.set_render_algorithm(name);
 
 	int_setters.clear();
 	bool_setters.clear();

@@ -11,8 +11,8 @@
 #include <QColorDialog>
 #include <QDockWidget>
 
-MainWindow::MainWindow(FrameData& frame_data,RenderWidget* render_widget) :
-	frame_data(frame_data),render_widget(render_widget)
+MainWindow::MainWindow(RenderWidget* render_widget) :
+	render_widget(render_widget)
 {
 	setCentralWidget(render_widget);
 
@@ -104,7 +104,7 @@ void MainWindow::init_model_menu()
 			SLOT(load_model(QString)));
 
 	//! this entry is shown iff there is at least one loader available
-	if (frame_data.num_loaders() > 0)
+	if (render_widget->num_loaders() > 0)
 	{
 		model->addSeparator();
 		QAction* load = new QAction("&load...", this);
@@ -124,11 +124,11 @@ void MainWindow::init_docks()
 	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
 	menu->addAction(action);
 
-	light_widget = new LightWidget(frame_data);
+	light_widget = new LightWidget(*render_widget);
 	dock->setWidget(light_widget);
 	addDockWidget(Qt::LeftDockWidgetArea, dock);
 
-	if (frame_data.num_algorithms() > 0)
+	if (render_widget->num_algorithms() > 0)
 	{
 		dock = new QDockWidget("Daniel's AlgorithmWidget", this);
 		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -137,7 +137,7 @@ void MainWindow::init_docks()
 		connect(action, SIGNAL(triggered()), dock, SLOT(show()));
 		menu->addAction(action);
 
-		dock->setWidget(new AlgorithmWidget(frame_data));
+		dock->setWidget(new AlgorithmWidget(*render_widget));
 		addDockWidget(Qt::RightDockWidgetArea, dock);
 	}
 }
@@ -154,7 +154,7 @@ void MainWindow::load_model(QString filename)
 	if (filename.isNull())
 		return;
 
-	if (!frame_data.load_model(filename.toStdString().c_str()))
+	if (!render_widget->load_model(filename.toStdString().c_str()))
 	{
 		QMessageBox::warning(this, "Error", //
 				"Could not load file \"" + filename + "\"");
@@ -198,7 +198,7 @@ void MainWindow::import_lights(QString filename)
 	if (filename.isNull())
 		return;
 
-	int status = frame_data.import_lights(filename.toStdString().c_str());
+	int status = render_widget->import_lights(filename.toStdString().c_str());
 	if (status < 0)
 	{
 		QMessageBox::warning(this, "Error", //
@@ -220,7 +220,7 @@ void MainWindow::export_lights(QString filename)
 	if (filename.isNull())
 		return;
 
-	if (frame_data.export_lights(filename.toStdString().c_str()) < 0)
+	if (render_widget->export_lights(filename.toStdString().c_str()) < 0)
 	{
 		QMessageBox::warning(this, "Error", //
 				"Could not export to file \"" + filename + "\"");

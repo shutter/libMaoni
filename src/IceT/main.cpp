@@ -8,7 +8,6 @@
 #include <mpi.h>
 #include <GL/ice-t.h>
 #include <QApplication>
-#include "Common/FrameData.hpp"
 #include "../Widgets/MainWindow.hpp"
 #include "IceTWidget.hpp"
 #include <iostream>
@@ -26,18 +25,15 @@ struct mpi_raii
 	}
 };
 
-int maoni_main(
-		int argc,
-		char* argv[],
+int maoni_main(int argc, char* argv[],
 		AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack)
 {
 	mpi_raii mpi(&argc, &argv);
 	QApplication app(argc, argv);
 
-	FrameData frame_data(algorithm_factory_stack, mesh_loader_stack);
-
-	IceTWidget* icet_widget = new IceTWidget(frame_data);
+	IceTWidget* icet_widget = new IceTWidget(algorithm_factory_stack,
+			mesh_loader_stack);
 
 	int rank, numprocs;
 	icetGetIntegerv(ICET_RANK, &rank);
@@ -47,7 +43,7 @@ int maoni_main(
 
 	QWidget* main_window;
 	if (rank == 0)
-		main_window = new MainWindow(frame_data, icet_widget);
+		main_window = new MainWindow(icet_widget);
 	else
 		main_window = icet_widget;
 

@@ -2,7 +2,6 @@
 #define MAIN_WINDOW_HPP
 
 #include <QMainWindow>
-#include "../Common/FrameData.hpp"
 
 class RenderWidget;
 class LightWidget;
@@ -12,7 +11,7 @@ class MainWindow: public QMainWindow
 Q_OBJECT
 
 public:
-	MainWindow(FrameData& frame_data, RenderWidget* render_widget);
+	MainWindow(RenderWidget* render_widget);
 
 private slots:
 	void load_model(QString name = QString());
@@ -29,7 +28,6 @@ private:
 	void init_docks();
 
 private:
-	FrameData& frame_data;
 	RenderWidget* render_widget;
 	LightWidget* light_widget;
 };

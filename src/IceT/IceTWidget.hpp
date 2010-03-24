@@ -8,7 +8,9 @@ class IceTWidget: public RenderWidget
 Q_OBJECT
 
 public:
-	IceTWidget(FrameData& frame_data);
+	IceTWidget(AlgorithmFactory* algorithm_factory_stack,
+			MeshLoader* mesh_loader_stack);
+
 	~IceTWidget();
 
 private:
