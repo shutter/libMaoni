@@ -14,8 +14,8 @@
 #include <qteditorfactory.h>
 #include <iostream>
 
-LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
-	QWidget(parent), frame_data(frame_data), light(0)
+LightWidget::LightWidget(RenderWidget& render_widget, QWidget *parent) :
+	QWidget(parent), render_widget(render_widget), light(0)
 {
 	QVBoxLayout* mainLayoutV = new QVBoxLayout;
 
@@ -135,18 +135,18 @@ LightWidget::LightWidget(FrameData& frame_data, QWidget *parent) :
 			SLOT(value_changed(QtProperty*, QString)));
 
 	light_chooser->setCurrentIndex(light_chooser->count() - 1);
-	choose(frame_data.get_lights_size() - 1);
+	choose(render_widget.get_lights_size() - 1);
 	property_browser->show();
 
 }
 
 void LightWidget::add_light()
 {
-	if (frame_data.add_light())
+	if (render_widget.add_light())
 	{
 		update_combobox();
 		light_chooser->setCurrentIndex(light_chooser->count() - 1);
-		choose(frame_data.get_lights_size() - 1);
+		choose(render_widget.get_lights_size() - 1);
 	}
 	else
 	{
@@ -156,11 +156,11 @@ void LightWidget::add_light()
 
 void LightWidget::remove_light()
 {
-	if (frame_data.remove_light(light_chooser->currentIndex()))
+	if (render_widget.remove_light(light_chooser->currentIndex()))
 	{
 		update_combobox();
 		light_chooser->setCurrentIndex(light_chooser->count() - 1);
-		choose(frame_data.get_lights_size() - 1);
+		choose(render_widget.get_lights_size() - 1);
 	}
 	else
 	{
@@ -172,8 +172,8 @@ void LightWidget::update_combobox()
 {
 	QStringList list;
 	light_chooser->clear();
-	for (unsigned int i = 0; i < frame_data.get_lights_size(); i++)
-		list.append(frame_data.get_light(i).getName().c_str());
+	for (unsigned int i = 0; i < render_widget.get_lights_size(); i++)
+		list.append(render_widget.get_light(i).getName().c_str());
 
 	light_chooser->addItems(list);
 }
@@ -184,12 +184,12 @@ void LightWidget::choose(int i)
 
 	property_browser->clear();
 
-	string_manager->setValue(name, frame_data.get_light(i).getName().c_str());
+	string_manager->setValue(name, render_widget.get_light(i).getName().c_str());
 	property_browser->addProperty(name);
-	bool_manager->setValue(is_on, frame_data.get_light(i).getIs_on());
+	bool_manager->setValue(is_on, render_widget.get_light(i).getIs_on());
 	property_browser->addProperty(is_on);
 
-	if (frame_data.get_light(i).getIs_on())
+	if (render_widget.get_light(i).getIs_on())
 	{
 		show_bulp->setEnabled(true);
 		light_position->setEnabled(true);
@@ -215,42 +215,42 @@ void LightWidget::choose(int i)
 		cut_off->setEnabled(false);
 		exponent->setEnabled(false);
 	}
-	bool_manager->setValue(show_bulp, frame_data.get_light(i).getShow_bulp());
+	bool_manager->setValue(show_bulp, render_widget.get_light(i).getShow_bulp());
 	property_browser->addProperty(show_bulp);
-	double_manager->setValue(pos_x, frame_data.get_light(i).getPosition()[0]);
-	double_manager->setValue(pos_y, frame_data.get_light(i).getPosition()[1]);
-	double_manager->setValue(pos_z, frame_data.get_light(i).getPosition()[2]);
-	double_manager->setValue(pos_v, frame_data.get_light(i).getPosition()[3]);
+	double_manager->setValue(pos_x, render_widget.get_light(i).getPosition()[0]);
+	double_manager->setValue(pos_y, render_widget.get_light(i).getPosition()[1]);
+	double_manager->setValue(pos_z, render_widget.get_light(i).getPosition()[2]);
+	double_manager->setValue(pos_v, render_widget.get_light(i).getPosition()[3]);
 	property_browser->addProperty(light_position);
 	color_manager->setValue(ambient, colorOTB(
-			frame_data.get_light(i).getAmbient()));
+			render_widget.get_light(i).getAmbient()));
 	property_browser->addProperty(ambient);
 	color_manager->setValue(diffuse, colorOTB(
-			frame_data.get_light(i).getDiffuse()));
+			render_widget.get_light(i).getDiffuse()));
 	property_browser->addProperty(diffuse);
 	color_manager->setValue(specular, colorOTB(
-			frame_data.get_light(i).getSpecular()));
+			render_widget.get_light(i).getSpecular()));
 	property_browser->addProperty(specular);
-	double_manager->setValue(const_att, frame_data.get_light(i).getConst_att());
-	double_manager->setValue(lin_att, frame_data.get_light(i).getLin_att());
-	double_manager->setValue(quad_att, frame_data.get_light(i).getQuad_att());
+	double_manager->setValue(const_att, render_widget.get_light(i).getConst_att());
+	double_manager->setValue(lin_att, render_widget.get_light(i).getLin_att());
+	double_manager->setValue(quad_att, render_widget.get_light(i).getQuad_att());
 	property_browser->addProperty(attenuation);
 
-	if (!frame_data.get_light(i).getIs_light0())
+	if (!render_widget.get_light(i).getIs_light0())
 	{
-		bool_manager->setValue(is_spot, frame_data.get_light(i).getIs_spot());
+		bool_manager->setValue(is_spot, render_widget.get_light(i).getIs_spot());
 		property_browser->addProperty(is_spot);
 		double_manager->setValue(spot_dir_x,
-				frame_data.get_light(i).getSpot_direction()[0]);
+				render_widget.get_light(i).getSpot_direction()[0]);
 		double_manager->setValue(spot_dir_y,
-				frame_data.get_light(i).getSpot_direction()[1]);
+				render_widget.get_light(i).getSpot_direction()[1]);
 		double_manager->setValue(spot_dir_z,
-				frame_data.get_light(i).getSpot_direction()[2]);
+				render_widget.get_light(i).getSpot_direction()[2]);
 		property_browser->addProperty(spot_direction);
-		double_manager->setValue(cut_off, frame_data.get_light(i).getCut_off());
+		double_manager->setValue(cut_off, render_widget.get_light(i).getCut_off());
 		property_browser->addProperty(cut_off);
 		double_manager->setValue(exponent,
-				frame_data.get_light(i).getExponent());
+				render_widget.get_light(i).getExponent());
 		property_browser->addProperty(exponent);
 	}
 }
@@ -277,16 +277,16 @@ void LightWidget::value_changed(QtProperty* property, bool value)
 	std::string name = property->propertyName().toStdString();
 	if (name == "activate")
 	{
-		frame_data.get_light(light).setIs_on(value);
+		render_widget.get_light(light).setIs_on(value);
 		choose(light_chooser->currentIndex());
 	}
 	else if (name == "show bulp")
 	{
-		frame_data.get_light(light).setShow_bulp(value);
+		render_widget.get_light(light).setShow_bulp(value);
 	}
 	else if (name == "spot light")
 	{
-		frame_data.get_light(light).setIs_spot(value);
+		render_widget.get_light(light).setIs_spot(value);
 	}
 }
 
@@ -296,38 +296,38 @@ void LightWidget::value_changed(QtProperty* property, double value)
 	if (name == "pos x" || name == "pos y" || name == "pos z" || name
 			== "pos v")
 	{
-		frame_data.get_light(light).setPosition(Vector4(double_manager->value(
+		render_widget.get_light(light).setPosition(Vector4(double_manager->value(
 				pos_x), double_manager->value(pos_y), double_manager->value(
 				pos_z), double_manager->value(pos_v)));
-		frame_data.get_light(light).recalcLightBox(0.05f);
+		render_widget.get_light(light).recalcLightBox(0.05);
 
 	}
 	else if (name == "constant attenuation")
 	{
-		frame_data.get_light(light).setConst_att(value);
+		render_widget.get_light(light).setConst_att(value);
 	}
 	else if (name == "linear attenuation")
 	{
-		frame_data.get_light(light).setLin_att(value);
+		render_widget.get_light(light).setLin_att(value);
 	}
 	else if (name == "quadratic attenuation")
 	{
-		frame_data.get_light(light).setQuad_att(value);
+		render_widget.get_light(light).setQuad_att(value);
 	}
 	else if (name == "spot x" || name == "spot y" || name == "spot z")
 	{
-		frame_data.get_light(light).setSpot_direction(Vector3(
+		render_widget.get_light(light).setSpot_direction(Vector3(
 				double_manager->value(spot_dir_x), double_manager->value(
 						spot_dir_y), double_manager->value(spot_dir_z)));
-		frame_data.get_light(light).recalcLightBox(0.05f);
+		render_widget.get_light(light).recalcLightBox(0.05);
 	}
 	else if (name == "cut off angle")
 	{
-		frame_data.get_light(light).setCut_off(value);
+		render_widget.get_light(light).setCut_off(value);
 	}
 	else if (name == "exponent")
 	{
-		frame_data.get_light(light).setExponent(value);
+		render_widget.get_light(light).setExponent(value);
 	}
 }
 
@@ -336,15 +336,15 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 	std::string name = property->propertyName().toStdString();
 	if (name == "ambient")
 	{
-		frame_data.get_light(light).setAmbient(colorBTO(value));
+		render_widget.get_light(light).setAmbient(colorBTO(value));
 	}
 	else if (name == "diffuse")
 	{
-		frame_data.get_light(light).setDiffuse(colorBTO(value));
+		render_widget.get_light(light).setDiffuse(colorBTO(value));
 	}
 	else if (name == "specular")
 	{
-		frame_data.get_light(light).setSpecular(colorBTO(value));
+		render_widget.get_light(light).setSpecular(colorBTO(value));
 	}
 }
 
@@ -353,7 +353,7 @@ void LightWidget::value_changed(QtProperty* property, const QString& value)
 	std::string name = property->propertyName().toStdString();
 	if (name == "name")
 	{
-		frame_data.get_light(light).setName(value.toStdString());
+		render_widget.get_light(light).setName(value.toStdString());
 	}
 }
 

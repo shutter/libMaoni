@@ -5,10 +5,12 @@ project(Maoni)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-if(NOT MSVC)
+if(MSVC)
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+else(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -fPIC")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fPIC")
-endif(NOT MSVC)
+endif(MSVC)
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 

@@ -11,7 +11,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include <Maoni/Texture.hpp>
-#include "Common/FrameData.hpp"
+#include "RenderWidget.hpp"
 #include "qtpropertymanager.h"
 #include "qttreepropertybrowser.h"
 #include "filepathmanager.h"
@@ -21,7 +21,7 @@ class AlgorithmWidget: public QWidget, public AlgoConfigManager
 Q_OBJECT
 
 public:
-	AlgorithmWidget(FrameData& frame_data, QWidget *parent = 0);
+	AlgorithmWidget(RenderWidget& render_widget, QWidget *parent = 0);
 
 	void add_property(const char* name, int_setter func, int def);
 	void add_property(const char* name, bool_setter func, bool def);
@@ -67,7 +67,7 @@ private slots:
 	}
 
 private:
-	FrameData& frame_data;
+	RenderWidget& render_widget;
 
 	QMap<QtProperty*, int_setter> int_setters;
 	QMap<QtProperty*, bool_setter> bool_setters;
