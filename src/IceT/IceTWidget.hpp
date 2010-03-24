@@ -19,4 +19,5 @@ private:
 private:
 	IceTContext context;
 	static IceTWidget* singleton;
+	static void static_draw();
 };

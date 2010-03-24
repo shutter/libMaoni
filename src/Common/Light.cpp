@@ -35,48 +35,6 @@ void Light::apply(int i) const
 			glLightf(GL_LIGHT0 + i, GL_SPOT_EXPONENT, 0.0);
 		}
 
-		if (show_bulp)
-		{
-			glColor3f(1.f, 1.f, 1.f);
-
-			glBegin(GL_QUAD_STRIP);
-			{
-				glVertex3fv(light_box[0]);
-				glVertex3fv(light_box[1]);
-				glVertex3fv(light_box[2]);
-				glVertex3fv(light_box[3]);
-				glVertex3fv(light_box[6]);
-				glVertex3fv(light_box[7]);
-				glVertex3fv(light_box[4]);
-				glVertex3fv(light_box[5]);
-				glVertex3fv(light_box[0]);
-				glVertex3fv(light_box[1]);
-			}
-			glEnd();
-
-			glBegin(GL_QUADS);
-			{
-				glVertex3fv(light_box[0]);
-				glVertex3fv(light_box[4]);
-				glVertex3fv(light_box[6]);
-				glVertex3fv(light_box[2]);
-
-				glVertex3fv(light_box[1]);
-				glVertex3fv(light_box[5]);
-				glVertex3fv(light_box[7]);
-				glVertex3fv(light_box[4]);
-			}
-			glEnd();
-
-			if (is_spot)
-			{
-				glBegin(GL_LINES);
-				glVertex3fv(position);
-				glVertex3f(position.x() + spot_direction.x(), position.y()
-						+ spot_direction.y(), position.z() + spot_direction.z());
-				glEnd();
-			}
-		}
 	}
 }
 

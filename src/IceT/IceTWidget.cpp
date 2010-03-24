@@ -13,6 +13,12 @@ IceTWidget::IceTWidget(AlgorithmFactory* algorithm_factory_stack,
 	IceTCommunicator communicator = icetCreateMPICommunicator(MPI_COMM_WORLD);
 	context = icetCreateContext(communicator);
 	icetDestroyMPICommunicator(communicator);
+
+	icetStrategy(ICET_STRATEGY_REDUCE);
+	icetDrawFunc(static_draw);
+
+	icetResetTiles();
+	icetAddTile(0, 0, 500, 500, 0);
 }
 
 IceTWidget::~IceTWidget()
@@ -20,7 +26,12 @@ IceTWidget::~IceTWidget()
 	icetDestroyContext(context);
 }
 
-void IceTWidget::draw()
+void IceTWidget::static_draw()
 {
 	singleton->RenderWidget::draw();
+}
+
+void IceTWidget::draw()
+{
+	icetDrawFrame();
 }

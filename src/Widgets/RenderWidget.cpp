@@ -44,6 +44,9 @@ void RenderWidget::draw()
 			glDisable(GL_LIGHT0 + i);
 		else
 			lights_[i].apply(i);
+
+		if(lights_[i].getShow_bulp())
+			drawLight(GL_LIGHT0 + i);
 	}
 
 	if (render_algorithm_)
@@ -302,8 +305,6 @@ int RenderWidget::import_lights(std::string const& filename)
 				l.setShow_bulp(e.attribute("is_spot", "").toInt());
 
 				l.setIs_light0(e.attribute("is_light0", "").toInt());
-
-				l.recalcLightBox(0.05);
 
 				lights_.push_back(l);
 			}
