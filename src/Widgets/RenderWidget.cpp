@@ -43,10 +43,12 @@ void RenderWidget::draw()
 		if ((lights_.size() - 1) < i)
 			glDisable(GL_LIGHT0 + i);
 		else
+		{
 			lights_[i].apply(i);
 
-		if(lights_[i].getShow_bulp())
-			drawLight(GL_LIGHT0 + i);
+			if(lights_[i].getShow_bulp())
+				drawLight(GL_LIGHT0 + i);
+		}
 	}
 
 	if (render_algorithm_)
