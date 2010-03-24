@@ -1,6 +1,11 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
 ##############################################################
+find_package(Boost REQUIRED)
+find_package(GLEW  REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR})
+
+##############################################################
 # example without source
 
 set(EMPTY_SOURCE_FILE ${CMAKE_CURRENT_BINARY_DIR}/empty.c)

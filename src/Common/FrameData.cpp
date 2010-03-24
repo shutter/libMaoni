@@ -227,7 +227,7 @@ int FrameData::import_lights(std::string const& filename)
 
 				l.setIs_light0(e.attribute("is_light0", "").toInt());
 
-				l.recalcLightBox(0.05);
+				l.recalcLightBox(0.05f);
 
 				lights_.push_back(l);
 			}

@@ -7,6 +7,7 @@ include(${QT_USE_FILE})
 
 find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
+find_package(OpenGL    REQUIRED)
 find_package(QGLViewer REQUIRED)
 include(UseQtPropertyBrowser)
 
@@ -28,6 +29,7 @@ set(MAONI_LIBRARIES
   ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARY}
+  ${OPENGL_LIBRARIES}
   )
 
 add_library(maoni SHARED Simple/main.cpp)

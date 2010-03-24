@@ -11,7 +11,7 @@
 #include "../Widgets/MainWindow.hpp"
 #include "../Widgets/RenderWidget.hpp"
 
-int maoni_main(int argc, char* argv[],
+__declspec(dllexport) int maoni_main(int argc, char* argv[],
 		AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack)
 {

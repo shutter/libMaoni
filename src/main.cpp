@@ -4,7 +4,7 @@
 
 #include <Maoni.hpp>
 
-int maoni_main(int argc, char* argv[],
+__declspec(dllimport) int maoni_main(int argc, char* argv[],
 		AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack);
 

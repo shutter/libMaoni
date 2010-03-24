@@ -8,7 +8,7 @@
 #ifndef VMMVIEW_DETAIL_SCOPED_LOCKS_HPP
 #define VMMVIEW_DETAIL_SCOPED_LOCKS_HPP
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 namespace detail
 {
