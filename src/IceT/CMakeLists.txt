@@ -13,5 +13,5 @@ add_library(maoni_parallel SHARED
 target_link_libraries(maoni_parallel
   ${MAONI_LIBRARIES}
   ${MPI_LIBRARIES}
-  icet icet_mpi
+  icet icet_mpi icet_strategies
   )
