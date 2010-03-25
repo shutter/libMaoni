@@ -2,9 +2,11 @@
 #define MAIN_WINDOW_HPP
 
 #include <QMainWindow>
+#include <QDialog>
 
 class RenderWidget;
 class LightWidget;
+class TilesWidget;
 
 class MainWindow: public QMainWindow
 {
@@ -23,6 +25,7 @@ private slots:
 	void snapshot();
 //	void quit();
 	void show_logo(int state);
+	void show_tilesconfig();
 
 private:
 	void init_model_menu();
@@ -31,6 +34,8 @@ private:
 private:
 	RenderWidget* render_widget;
 	LightWidget* light_widget;
+	TilesWidget* tiles_widget;
+	QDialog* tiles_dialog;
 };
 
 #endif /* MAIN_WINDOW_HPP */

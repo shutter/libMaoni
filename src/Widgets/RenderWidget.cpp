@@ -20,6 +20,7 @@ RenderWidget::RenderWidget(AlgorithmFactory* algorithm_factory_stack,
 	// create LIGHT0 gl_diffuse(0.0,0.0,0.0,0.0) and gl_specular(1.0,1.0,1.0,1.0)
 	lights_.push_back(Light());
 	make_light0(lights_[0]);
+	tiles_.push_back(Tile());
 }
 
 RenderWidget::~RenderWidget()
@@ -46,7 +47,7 @@ void RenderWidget::draw()
 		{
 			lights_[i].apply(i);
 
-			if(lights_[i].getShow_bulp())
+			if (lights_[i].getShow_bulp())
 				drawLight(GL_LIGHT0 + i);
 		}
 	}
@@ -150,7 +151,7 @@ bool RenderWidget::remove_light(int i)
 	}
 	else
 	{
-		lights_.erase (lights_.begin()+i);
+		lights_.erase(lights_.begin() + i);
 		return true;
 	}
 }
@@ -322,3 +323,15 @@ int RenderWidget::import_lights(std::string const& filename)
 	}
 	return 0;
 }
+
+std::vector<Tile> RenderWidget::copy_tiles()
+{
+	return tiles_;
+}
+
+bool RenderWidget::apply_tiles(std::vector<Tile> tiles)
+{
+	//todo: test if all tiles are defined correctly, in particular the display_ranks
+	return true;
+}
+

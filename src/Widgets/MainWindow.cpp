@@ -2,6 +2,7 @@
 #include "RenderWidget.hpp"
 #include "LightWidget.hpp"
 #include "AlgorithmWidget.hpp"
+#include "TilesWidget.hpp"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -10,6 +11,7 @@
 #include <QSignalMapper>
 #include <QColorDialog>
 #include <QDockWidget>
+#include <QDialog>
 
 MainWindow::MainWindow(RenderWidget* render_widget) :
 	render_widget(render_widget)
@@ -20,11 +22,11 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 
 	//	render_widget->setFPSIsDisplayed(true);
 
-	QAction* import_lights = new QAction("&import Lights", this);
+	QAction* import_lights = new QAction("&Import Lights", this);
 	connect(import_lights, SIGNAL(triggered()), this, SLOT(import_lights()));
 	file->addAction(import_lights);
 
-	QAction* export_lights = new QAction("&export Lights", this);
+	QAction* export_lights = new QAction("&Export Lights", this);
 	connect(export_lights, SIGNAL(triggered()), this, SLOT(export_lights()));
 	file->addAction(export_lights);
 
@@ -70,12 +72,19 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 	init_docks();
 
 	QMenu* help = menuBar()->addMenu("&Help");
+
+	action = new QAction("libQGLViewer &Help", this);
+	connect(action, SIGNAL(triggered()), render_widget, SLOT(help()));
+	help->addAction(action);
+
+	help->addSeparator();
+
 	action = new QAction("about &Qt", this);
-    connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
-    help->addAction(action);
+	connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
+	help->addAction(action);
 
 	action = new QAction("about libQGL&Viewer", this);
-	connect(action, SIGNAL(triggered()), render_widget, SLOT(help()));
+	connect(action, SIGNAL(triggered()), render_widget, SLOT(aboutQGLViewer()));
 	help->addAction(action);
 }
 
@@ -144,6 +153,12 @@ void MainWindow::init_docks()
 		dock->setWidget(new AlgorithmWidget(*render_widget));
 		addDockWidget(Qt::RightDockWidgetArea, dock);
 	}
+
+	tiles_widget = new TilesWidget(*render_widget);
+	action = new QAction("&Tiles Config", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(show_tilesconfig()));
+	menu->addAction(action);
+
 }
 
 void MainWindow::about_qt()
@@ -200,8 +215,8 @@ void MainWindow::import_lights(QString filename)
 	if (filename.isNull())
 	{
 		filename = QFileDialog::getOpenFileName(this,
-				"Choose a light config file to load", "lights.xml",
-				tr("XML Files (*.xml)"));
+				"Choose a light config file to load", "lights.xml", tr(
+						"XML Files (*.xml)"));
 	}
 
 	if (filename.isNull())
@@ -212,7 +227,9 @@ void MainWindow::import_lights(QString filename)
 	{
 		QMessageBox::warning(this, "Error", //
 				status + ": Could not import from file \"" + filename + "\"");
-	} else {
+	}
+	else
+	{
 		light_widget->update_browser();
 	}
 }
@@ -222,8 +239,8 @@ void MainWindow::export_lights(QString filename)
 	if (filename.isNull())
 	{
 		filename = QFileDialog::getSaveFileName(this,
-				"Choose a filename to export the lights config to", "lights.xml",
-				tr("XML Files (*.xml)"));
+				"Choose a filename to export the lights config to",
+				"lights.xml", tr("XML Files (*.xml)"));
 	}
 
 	if (filename.isNull())
@@ -234,4 +251,18 @@ void MainWindow::export_lights(QString filename)
 		QMessageBox::warning(this, "Error", //
 				"Could not export to file \"" + filename + "\"");
 	}
+}
+
+void MainWindow::show_tilesconfig()
+{
+    if (!tiles_dialog) {
+    	tiles_dialog = new QDialog(this);
+        connect(tiles_dialog, SIGNAL(accepted()), this, SLOT(show_logo(1)));
+        connect(tiles_dialog, SIGNAL(finished()), this, SLOT(show_logo(2)));
+        connect(tiles_dialog, SIGNAL(rejected()), this, SLOT(show_logo(3)));
+    }
+    tiles_dialog->show();
+//    tiles_dialog->raise();
+//    tiles_dialog->activateWindow();
+
 }
