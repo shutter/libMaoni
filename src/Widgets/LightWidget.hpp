@@ -26,7 +26,6 @@ private slots:
 	void choose(int i);
 
 	void value_changed(QtProperty* property, const QString& value);
-	void value_changed(QtProperty* property, int value);
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
@@ -44,7 +43,6 @@ private:
 	QtTreePropertyBrowser* property_browser;
 
 	QtStringPropertyManager* string_manager;
-	QtIntPropertyManager* int_manager;
 	QtBoolPropertyManager* bool_manager;
 	QtDoublePropertyManager* double_manager;
 	QtColorPropertyManager* color_manager;

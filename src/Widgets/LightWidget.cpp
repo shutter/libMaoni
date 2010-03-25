@@ -54,7 +54,6 @@ LightWidget::LightWidget(RenderWidget& render_widget, QWidget *parent) :
 			SLOT(choose(int)));
 
 	string_manager = new QtStringPropertyManager(this);
-	int_manager = new QtIntPropertyManager(this);
 	bool_manager = new QtBoolPropertyManager(this);
 	double_manager = new QtDoublePropertyManager(this);
 	color_manager = new QtColorPropertyManager(this);
@@ -116,15 +115,12 @@ LightWidget::LightWidget(RenderWidget& render_widget, QWidget *parent) :
 	QtColorEditorFactory* color_factory = new QtColorEditorFactory(this);
 
 	property_browser->setFactoryForManager(string_manager, string_factory);
-	property_browser->setFactoryForManager(int_manager, int_factory);
 	property_browser->setFactoryForManager(bool_manager, bool_factory);
 	property_browser->setFactoryForManager(double_manager, double_factory);
 	property_browser->setFactoryForManager(color_manager, color_factory);
 	property_browser->setFactoryForManager(
 			color_manager->subIntPropertyManager(), int_factory);
 
-	connect(int_manager, SIGNAL(valueChanged(QtProperty*, int)), this,
-			SLOT(value_changed(QtProperty*, int)));
 	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), this,
 			SLOT(value_changed(QtProperty*, bool)));
 	connect(double_manager, SIGNAL(valueChanged(QtProperty*, double)), this,
@@ -137,7 +133,6 @@ LightWidget::LightWidget(RenderWidget& render_widget, QWidget *parent) :
 	light_chooser->setCurrentIndex(light_chooser->count() - 1);
 	choose(render_widget.get_lights_size() - 1);
 	property_browser->show();
-
 }
 
 void LightWidget::add_light()
@@ -265,11 +260,6 @@ Color LightWidget::colorBTO(QColor const& byte)
 {
 	return Color(byte.red() / 255.0, byte.green() / 255.0, byte.blue()
 			/ 255.0, byte.alpha() / 255.0);
-}
-
-void LightWidget::value_changed(QtProperty* property, int value)
-{
-	std::string name = property->propertyName().toStdString();
 }
 
 void LightWidget::value_changed(QtProperty* property, bool value)
