@@ -13,7 +13,11 @@ else(MSVC)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fPIC")
 endif(MSVC)
 
-add_definitions(-DGL_GLEXT_PROTOTYPES)
+set(CTOOLBOX_USE_FILE ${CMAKE_BINARY_DIR}/UseCToolBox.cmake)
+file(DOWNLOAD
+  http://github.com/purpleKarrot/CToolBox/raw/master/UseCToolBox.cmake
+  ${CTOOLBOX_USE_FILE})
+include(${CTOOLBOX_USE_FILE})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
