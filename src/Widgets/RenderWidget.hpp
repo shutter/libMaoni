@@ -5,6 +5,7 @@
 #include <boost/noncopyable.hpp>
 
 #include "../Common/Light.hpp"
+#include "../Common/Tile.hpp"
 #include <Maoni/Model.hpp>
 #include <Maoni/detail/Algorithm.hpp>
 #include <Maoni/detail/MeshLoader.hpp>
@@ -41,6 +42,10 @@ public:
 
 	int import_lights(std::string const& filename);
 
+	std::vector<Tile> copy_tiles();
+
+	bool apply_tiles(std::vector<Tile> tiles);
+
 private:
 	void init();
 	QString helpString() const;
@@ -54,6 +59,7 @@ protected:
 
 	static const size_t max_number_of_lights = 8;
 	std::vector<Light> lights_;
+	std::vector<Tile> tiles_;
 
 private:
 	AlgorithmFactory* algorithm_factory_stack;
