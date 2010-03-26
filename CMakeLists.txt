@@ -19,11 +19,13 @@ file(DOWNLOAD
   ${CTOOLBOX_USE_FILE})
 include(${CTOOLBOX_USE_FILE})
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
 
 include_directories(include)
 add_subdirectory(src)
+
+install(DIRECTORY include/ DESTINATION include COMPONENT headers)
 
 
 option(MAONI_BUILD_DOCUMENTATION OFF)
@@ -40,7 +42,33 @@ if(MAONI_BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif(MAONI_BUILD_EXAMPLES)
 
-#todo: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
-install(DIRECTORY include/ DESTINATION include)
+
+set(CPACK_PACKAGE_NAME "Maoni")
+set(CPACK_PACKAGE_VENDOR "http://github.com/purpleKarrot/libMaoni")
 set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "common viewing framework")
+set(CPACK_PACKAGE_VERSION "0.8.15")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "8")
+set(CPACK_PACKAGE_VERSION_PATCH "15")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "Maoni")
+
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/COPYING)
+
+set(CPACK_COMPONENTS_ALL headers devlibs runlibs)
+
+set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Headers")
+set(CPACK_COMPONENT_HEADERS_DESCRIPTION
+  "C++ header files for use with Maoni")
+
+set(CPACK_COMPONENT_DEVLIBS_DISPLAY_NAME "Developer Libraries")
+set(CPACK_COMPONENT_DEVLIBS_DESCRIPTION
+  "Libraries used to build programs with Maoni")
+
+set(CPACK_COMPONENT_RUNLIBS_DISPLAY_NAME "Runtime Libraries")
+set(CPACK_COMPONENT_RUNLIBS_DESCRIPTION
+  "Libraries used to run Maoni based programs")
+
+#todo: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
+
 include(CPack)

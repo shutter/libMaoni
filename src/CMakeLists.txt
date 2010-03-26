@@ -32,7 +32,12 @@ set(MAONI_LIBRARIES
   ${OPENGL_LIBRARIES}
   )
 
-add_library(maoni SHARED Simple/main.cpp)
+set(MAONI_SOURCE Simple/main.cpp)
+if(MSVC)
+  set(MAONI_SOURCE ${MAONI_SOURCE} version.rc)
+endif(MSVC)
+
+add_library(maoni SHARED ${MAONI_SOURCE})
 target_link_libraries(maoni ${MAONI_LIBRARIES})
 
 option(MAONI_BUILD_PARALLEL_LIB OFF)
@@ -45,4 +50,10 @@ add_library(maoni_main STATIC main.cpp)
 install(TARGETS maoni maoni_main
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
+  COMPONENT devlibs
+  )
+
+install(TARGETS maoni
+  RUNTIME DESTINATION bin
+  COMPONENT runlibs
   )
