@@ -40,9 +40,7 @@ if(MAONI_BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif(MAONI_BUILD_EXAMPLES)
 
-
-#install(DIRECTORY include/ DESTINATION include)
-#install(TARGETS maoni ARCHIVE DESTINATION lib)
-#
-#set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
-#include(CPack)
+#todo: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
+install(DIRECTORY include/ DESTINATION include)
+set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
+include(CPack)

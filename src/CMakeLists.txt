@@ -41,3 +41,8 @@ if(MAONI_BUILD_PARALLEL_LIB)
 endif(MAONI_BUILD_PARALLEL_LIB)
 
 add_library(maoni_main STATIC main.cpp)
+
+install(TARGETS maoni maoni_main
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
