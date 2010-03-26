@@ -6,6 +6,10 @@
    [purpose common rendering framework]
 ]
 
+[def __ICET__      [@http://www.cs.unm.edu/~kmorel/IceT/ IceT]]
+[def __EQUALIZER__ [@http://www.equalizergraphics.com/ Equalizer]]
+
+
 [section Introduction]
 
 You can choose between three models:
@@ -21,6 +25,7 @@ In Maoni everithing is optional.
 The simplest application built on Maoni consist of zero lines of code.
 
 [section Custom file loader]
+[macroref MESH_LOADER Click me!]
 [endsect]
 
 [section Custom render algorithm]
@@ -32,3 +37,10 @@ The simplest application built on Maoni consist of zero lines of code.
 [endsect]
 
 [xinclude maoni-ref.xml]
+
+[section Used libraries and tools]
+
+* __ICET__
+* __EQUALIZER__
+
+[endsect]

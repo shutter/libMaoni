@@ -283,12 +283,11 @@ void LightWidget::value_changed(QtProperty* property, bool value)
 void LightWidget::value_changed(QtProperty* property, double value)
 {
 	std::string name = property->propertyName().toStdString();
-	if (name == "pos x" || name == "pos y" || name == "pos z" || name
-			== "pos v")
+	if (name == "pos x" || name == "pos y" || name == "pos z")
 	{
-		render_widget.get_light(light).setPosition(Vector4(double_manager->value(
+		render_widget.get_light(light).setPosition(Vector3(double_manager->value(
 				pos_x), double_manager->value(pos_y), double_manager->value(
-				pos_z), double_manager->value(pos_v)));
+				pos_z)));
 	}
 	else if (name == "constant attenuation")
 	{

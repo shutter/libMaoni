@@ -176,7 +176,6 @@ static QDomElement LightToNode(QDomDocument &d, const Light &l)
 	cn.setAttribute("pos_x", l.getPosition().x());
 	cn.setAttribute("pos_y", l.getPosition().y());
 	cn.setAttribute("pos_z", l.getPosition().z());
-	cn.setAttribute("pos_v", l.getPosition().w());
 
 	cn.setAttribute("ambient_r", l.getAmbient().red());
 	cn.setAttribute("ambient_g", l.getAmbient().green());
@@ -270,10 +269,9 @@ int RenderWidget::import_lights(std::string const& filename)
 
 				l.setName(e.attribute("name", "").toStdString());
 
-				l.setPosition(Vector4(e.attribute("pos_x", "").toFloat(),
+				l.setPosition(Vector3(e.attribute("pos_x", "").toFloat(),
 						e.attribute("pos_y", "").toFloat(), e.attribute(
-								"pos_z", "").toFloat(),
-						e.attribute("pos_v", "").toFloat()));
+								"pos_z", "").toFloat()));
 
 				l.setAmbient(Color(e.attribute("ambient_r", "").toFloat(),
 						e.attribute("ambient_g", "").toFloat(), e.attribute(

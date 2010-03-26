@@ -16,7 +16,7 @@ class Light
 {
 public:
 	Light() :
-		name("Light"), position(0.f, 0.f, 1.f, 0.f),
+		name("Light"), position(0.f, 0.f, 1.f),
 				ambient(0.f, 0.f, 0.f, 1.f), //
 				diffuse(0.f, 0.f, 0.f, 1.f), specular(0.f, 0.f, 0.f, 1.f), //
 				const_att(1.f), lin_att(0.f), quad_att(0.f), //
@@ -27,7 +27,7 @@ public:
 
 private:
 	std::string name;
-	Vector4 position;
+	Vector3 position;
 	Color ambient;
 	Color diffuse;
 	Color specular;
@@ -93,7 +93,7 @@ public:
 		return name;
 	}
 
-	Vector4 getPosition() const
+	Vector3 getPosition() const
 	{
 		return position;
 	}
@@ -168,7 +168,7 @@ public:
 		this->name = name;
 	}
 
-	void setPosition(Vector4 position)
+	void setPosition(Vector3 position)
 	{
 		this->position = position;
 	}
