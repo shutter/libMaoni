@@ -53,7 +53,10 @@ install(TARGETS maoni maoni_main
   COMPONENT devlibs
   )
 
-install(TARGETS maoni
-  RUNTIME DESTINATION bin
-  COMPONENT runlibs
-  )
+if(WIN32)
+  install(TARGETS maoni
+    RUNTIME DESTINATION bin
+    COMPONENT runlibs
+    )
+endif(WIN32)
+
