@@ -9,17 +9,18 @@ find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
 find_package(OpenGL    REQUIRED)
 find_package(QGLViewer REQUIRED)
-include(UseQtPropertyBrowser)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${GLEW_INCLUDE_DIR}
   ${QGLVIEWER_INCLUDE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
 
 add_subdirectory(Common)
 add_subdirectory(Widgets)
+add_subdirectory(QPropertyBrowser)
 
 set(MAONI_LIBRARIES
   maoni_common
