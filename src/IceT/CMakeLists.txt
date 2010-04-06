@@ -9,10 +9,9 @@ find_program(7Z_EXECUTABLE 7z $ENV{ProgramFiles}/7-Zip)
 set(ICET_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.zip)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
 
-message(STATUS
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${ICET_SOURCE_DIR}\" \"${ICET_FILE}\"")
-execute_process(COMMAND
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${ICET_SOURCE_DIR}\" \"${ICET_FILE}\"")
+execute_process(
+  COMMAND ${7Z_EXECUTABLE} x -y -oIceT-1-0-0 ${ICET_FILE}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 set(ICET_INSTALL_NO_DEVELOPMENT ON)
 set(ICET_INSTALL_NO_LIBRARIES   ON)

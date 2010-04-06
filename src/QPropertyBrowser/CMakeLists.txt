@@ -5,18 +5,12 @@
 
 find_program(7Z_EXECUTABLE 7z $ENV{ProgramFiles}/7-Zip)
 
-set(QTPB_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.zip)
-set(QTPBE_FILE      ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.zip)
-
-message(STATUS
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${CMAKE_CURRENT_BINARY_DIR}\" \"${QTPB_FILE}\"")
-execute_process(COMMAND
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${CMAKE_CURRENT_BINARY_DIR}\" \"${QTPB_FILE}\"")
-
-message(STATUS
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${CMAKE_CURRENT_BINARY_DIR}\" \"${QTPBE_FILE}\"")
-execute_process(COMMAND
-  "\"${7Z_EXECUTABLE}\" x -y -o\"${CMAKE_CURRENT_BINARY_DIR}\" \"${QTPBE_FILE}\"")
+execute_process(COMMAND ${7Z_EXECUTABLE} x -y
+  ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.zip
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+execute_process(COMMAND ${7Z_EXECUTABLE} x -y
+  ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.zip
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 set(QT_PROPERTY_BROWSER_SRC
   ${CMAKE_CURRENT_BINARY_DIR}/qtbuttonpropertybrowser.cpp
