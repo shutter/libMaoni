@@ -8,6 +8,9 @@
 #include "Light.hpp"
 #include <GL/glew.h>
 
+#include <boost/la/all.hpp>
+using namespace boost::la;
+
 void Light::apply(int i) const
 {
 	if (!is_on)
@@ -32,6 +35,6 @@ void Light::apply(int i) const
 		glLightf(GL_LIGHT0 + i, GL_SPOT_EXPONENT, exponent);
 	}
 
-	GLfloat pos[] = { position.x(), position.y(), position.z(), is_spot };
+	GLfloat pos[] = { position|X, position|Y, position|Z, is_spot };
 	glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
 }

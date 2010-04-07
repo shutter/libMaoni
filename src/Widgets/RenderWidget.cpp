@@ -4,6 +4,9 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <boost/la/all.hpp>
+using namespace boost::la;
+
 static void make_light0(Light& l)
 {
 	l.setIs_light0(true);
@@ -173,9 +176,9 @@ static QDomElement LightToNode(QDomDocument &d, const Light &l)
 
 	cn.setAttribute("name", l.getName().c_str());
 
-	cn.setAttribute("pos_x", l.getPosition().x());
-	cn.setAttribute("pos_y", l.getPosition().y());
-	cn.setAttribute("pos_z", l.getPosition().z());
+	cn.setAttribute("pos_x", l.getPosition()|X);
+	cn.setAttribute("pos_y", l.getPosition()|Y);
+	cn.setAttribute("pos_z", l.getPosition()|Z);
 
 	cn.setAttribute("ambient_r", l.getAmbient().red());
 	cn.setAttribute("ambient_g", l.getAmbient().green());
@@ -198,9 +201,9 @@ static QDomElement LightToNode(QDomDocument &d, const Light &l)
 
 	cn.setAttribute("is_spot", l.getIs_spot());
 
-	cn.setAttribute("spot_x", l.getSpot_direction().x());
-	cn.setAttribute("spot_y", l.getSpot_direction().y());
-	cn.setAttribute("spot_z", l.getSpot_direction().z());
+	cn.setAttribute("spot_x", l.getSpot_direction()|X);
+	cn.setAttribute("spot_y", l.getSpot_direction()|Y);
+	cn.setAttribute("spot_z", l.getSpot_direction()|Z);
 
 	cn.setAttribute("cut_off", l.getCut_off());
 	cn.setAttribute("exponent", l.getExponent());

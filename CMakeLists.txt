@@ -24,8 +24,11 @@ include(${CTOOLBOX_USE_FILE})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
+include(Extract)
+extract(${CMAKE_SOURCE_DIR}/include/boost-la.zip ${CMAKE_BINARY_DIR}/include)
 
-include_directories(include)
+
+include_directories(include ${CMAKE_BINARY_DIR}/include)
 add_subdirectory(src)
 
 install(DIRECTORY include/ DESTINATION include COMPONENT headers)

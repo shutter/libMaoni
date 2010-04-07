@@ -8,7 +8,9 @@
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
 #include <Maoni/Teaset.h>
-#include <Maoni/Math.hpp>
+
+#include <boost/la/all.hpp>
+using namespace boost::la;
 
 static void qglviewer_spiral()
 {
@@ -126,7 +128,7 @@ void Model::calculate_normals()
 
 		Vector3 v1 = p2 - p1;
 		Vector3 v2 = p3 - p1;
-		Vector3 normal = Vector3(v1.z()*v2.z()-v1.z()*v2.y(),v1.z()*v2.x()-v1.x()*v2.z(),v1.x()*v2.y()-v1.y()*v2.x());
+		Vector3 normal = Vector3((v1|Z)*(v2|Z)-(v1|Z)*(v2|Y),(v1|Z)*(v2|X)-(v1|X)*(v2|Z),(v1|X)*(v2|Y)-(v1|Y)*(v2|X));
 
 		vertices[i0].normal = vertices[i0].normal + normal;
 		vertices[i1].normal = vertices[i1].normal + normal;
@@ -135,7 +137,7 @@ void Model::calculate_normals()
 
 	// normalize all the normals
 	for (size_t i = 0; i < vertices.size(); ++i)
-		vertices[i].normal = normalize(vertices[i].normal);
+		vertices[i].normal /= magnitude(vertices[i].normal);
 }
 
 /* Calculate the bounding box of the current vertex data. */
@@ -147,8 +149,8 @@ void Model::calculateBoundingBox()
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[0][i] = std::min(bounding_box[0][i], vertices[v].position[i]);
-			bounding_box[1][i] = std::max(bounding_box[1][i], vertices[v].position[i]);
+			bounding_box[0].data[i] = std::min(bounding_box[0][i], vertices[v].position[i]);
+			bounding_box[1].data[i] = std::max(bounding_box[1][i], vertices[v].position[i]);
 		}
 	}
 }
@@ -169,15 +171,15 @@ void Model::fix_scale()
 	// determine scale offset
 	Vector3 offset;
 	for (size_t i = 0; i < 3; ++i)
-		offset[i] = (bounding_box[0][i] + bounding_box[1][i]) * 0.5f;
+		offset.data[i] = (bounding_box[0][i] + bounding_box[1][i]) * 0.5f;
 
 	// scale the data
 	for (size_t v = 0; v < vertices.size(); ++v)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			vertices[v].position[i] -= offset[i];
-			vertices[v].position[i] *= factor;
+			vertices[v].position.data[i] -= offset[i];
+			vertices[v].position.data[i] *= factor;
 		}
 	}
 
@@ -186,8 +188,8 @@ void Model::fix_scale()
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[v][i] = bounding_box[v][i] - offset[i];
-			bounding_box[v][i] = bounding_box[v][i] * factor;
+			bounding_box[v].data[i] = bounding_box[v][i] - offset[i];
+			bounding_box[v].data[i] = bounding_box[v][i] * factor;
 		}
 	}
 }

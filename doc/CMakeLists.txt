@@ -2,7 +2,6 @@
 add_reference(maoni-ref.xml
   ../include/Maoni/Color.hpp
   ../include/Maoni/Enum.hpp
-  ../include/Maoni/Math.hpp
   ../include/Maoni/MeshLoader.hpp
   ../include/Maoni/Model.hpp
   ../include/Maoni/RenderAlgorithm.hpp
