@@ -1,9 +1,9 @@
 #include "../Widgets/RenderWidget.hpp"
 
 #include <GL/ice-t.h>
-#include <GL/ice-t_mpi.h>
+#include <boost/mpi/communicator.hpp>
 
-class IceTWidget: public RenderWidget
+class IceTWidget: public RenderWidget, public boost::mpi::communicator
 {
 Q_OBJECT
 
