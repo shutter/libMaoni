@@ -6,6 +6,11 @@ project(Maoni)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+if(WIN32)
+  set(QGLVIEWER_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/win32/include/QGLViewer/)
+  set(QGLVIEWER_LIBRARY ${CMAKE_SOURCE_DIR}/win32/lib/QGLViewer2.lib)
+endif(WIN32)
+
 if(MSVC)
   add_definitions(/D_CRT_SECURE_NO_WARNINGS)
 else(MSVC)

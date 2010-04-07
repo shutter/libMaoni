@@ -17,7 +17,7 @@ class ScopedEnable
 {
 protected:
 	ScopedEnable(GLenum cap) :
-		cap_(cap), enabled_(glIsEnabled(cap))
+		cap_(cap), enabled_(!!glIsEnabled(cap))
 	{
 	}
 
