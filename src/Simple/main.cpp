@@ -6,6 +6,7 @@
  */
 
 #include <QApplication>
+#include <QSplashScreen>
 #include "../Widgets/MainWindow.hpp"
 #include "../Widgets/RenderWidget.hpp"
 
@@ -18,10 +19,18 @@ int maoni_main(int argc, char* argv[],
 {
 	QApplication app(argc, argv);
 
+    QPixmap pixmap("../../src/Splashscreen/libmaoni_sscr.png");
+    QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
+    splash.show();
+
+    splash.showMessage("Loading Widgets...");
 	MainWindow main_window(new RenderWidget(algorithm_factory_stack,
 			mesh_loader_stack));
 	main_window.setWindowTitle("Maoni");
 	main_window.show();
+
+	QTimer::singleShot(3000, &splash, SLOT(close()));
+    //splash.finish(&main_window);
 
 	return app.exec();
 }
