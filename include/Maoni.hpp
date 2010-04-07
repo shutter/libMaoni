@@ -20,4 +20,7 @@
 #include <Maoni/Vector.hpp>
 #include <Maoni/Vertex.hpp>
 
+#include <boost/la/all.hpp>
+using namespace boost::la;
+
 #endif /* MAONI_HPP */

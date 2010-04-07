@@ -3,14 +3,11 @@
 # http://get.qt.nokia.com/qt/solutions/lgpl/qtpropertybrowser-2.5_1-opensource.tar.gz
 # http://doc.trolltech.com/qq/qq18-propertybrowser-code.zip
 
-find_program(7Z_EXECUTABLE 7z $ENV{ProgramFiles}/7-Zip)
-
-execute_process(COMMAND ${7Z_EXECUTABLE} x -y
-  ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.zip
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-execute_process(COMMAND ${7Z_EXECUTABLE} x -y
-  ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.zip
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+include(Extract)
+extract(${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.zip
+  ${CMAKE_CURRENT_BINARY_DIR})
+extract(${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.zip
+  ${CMAKE_CURRENT_BINARY_DIR})
 
 set(QT_PROPERTY_BROWSER_SRC
   ${CMAKE_CURRENT_BINARY_DIR}/qtbuttonpropertybrowser.cpp

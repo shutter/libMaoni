@@ -3,15 +3,14 @@
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
-
-find_program(7Z_EXECUTABLE 7z $ENV{ProgramFiles}/7-Zip)
+#find_package(Boost REQUIRED COMPONENTS mpi)
 
 set(ICET_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.zip)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
 
-execute_process(
-  COMMAND ${7Z_EXECUTABLE} x -y -oIceT-1-0-0 ${ICET_FILE}
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+include(Extract)
+extract(${ICET_FILE} ${ICET_SOURCE_DIR})
+
 
 set(ICET_INSTALL_NO_DEVELOPMENT ON)
 set(ICET_INSTALL_NO_LIBRARIES   ON)
