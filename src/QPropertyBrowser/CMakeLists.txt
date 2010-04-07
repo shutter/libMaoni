@@ -45,13 +45,14 @@ add_library(QtPropertyBrowser STATIC
 MACRO(QT4_MOC infile outfile)
   set(input  ${CMAKE_CURRENT_BINARY_DIR}/${infile})
   set(output ${CMAKE_CURRENT_BINARY_DIR}/${outfile})
-  ADD_CUSTOM_COMMAND(OUTPUT ${output}
+  add_custom_command(OUTPUT ${output}
     COMMAND ${QT_MOC_EXECUTABLE}
-   ARGS -o ${output} ${input}
+    ARGS -o ${output} ${input}
     DEPENDS ${input})
-  ADD_CUSTOM_TARGET(${outfile} DEPENDS ${output})
+  list(APPEND MOC_OUTPUT_LIST ${output})
 ENDMACRO(QT4_MOC)
 
+set(MOC_OUTPUT_LIST)
 QT4_MOC(qtbuttonpropertybrowser.h   moc_qtbuttonpropertybrowser.cpp)
 QT4_MOC(qteditorfactory.h           moc_qteditorfactory.cpp)
 QT4_MOC(qteditorfactory.cpp         qteditorfactory.moc)
@@ -63,15 +64,5 @@ QT4_MOC(qttreepropertybrowser.h     moc_qttreepropertybrowser.cpp)
 QT4_MOC(qttreepropertybrowser.cpp   qttreepropertybrowser.moc)
 QT4_MOC(qtvariantproperty.h         moc_qtvariantproperty.cpp)
 
-add_dependencies(QtPropertyBrowser
-  moc_qtbuttonpropertybrowser.cpp
-  moc_qteditorfactory.cpp
-  qteditorfactory.moc
-  moc_qtgroupboxpropertybrowser.cpp
-  moc_qtpropertybrowser.cpp
-  moc_qtpropertymanager.cpp
-  qtpropertymanager.moc
-  moc_qttreepropertybrowser.cpp
-  qttreepropertybrowser.moc
-  moc_qtvariantproperty.cpp
-  )
+add_custom_target(QtPropertyBrowser_moc DEPENDS ${MOC_OUTPUT_LIST})
+add_dependencies(QtPropertyBrowser QtPropertyBrowser_moc)
