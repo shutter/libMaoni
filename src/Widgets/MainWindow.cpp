@@ -18,6 +18,9 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 {
 	setCentralWidget(render_widget);
 
+#include "../Icons/stanford-bunny.xpm"
+	setWindowIcon(QPixmap(stanford_bunny_xpm));
+
 	QMenu* file = menuBar()->addMenu("&File");
 
 	//	render_widget->setFPSIsDisplayed(true);
@@ -79,12 +82,16 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 
 	help->addSeparator();
 
-	action = new QAction("about &Qt", this);
-	connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
+	action = new QAction("about lib&Maoni", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(about_maoni()));
 	help->addAction(action);
 
 	action = new QAction("about libQGL&Viewer", this);
 	connect(action, SIGNAL(triggered()), render_widget, SLOT(aboutQGLViewer()));
+	help->addAction(action);
+
+	action = new QAction("about &Qt", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
 	help->addAction(action);
 }
 
@@ -164,6 +171,14 @@ void MainWindow::init_docks()
 void MainWindow::about_qt()
 {
 	QMessageBox::aboutQt(this);
+}
+
+void MainWindow::about_maoni()
+{
+	QMessageBox::about(this, "About libMaoni",
+			"A versatile 3D viewer based on OpenGL and Qt.<br>"
+				"Copyright 2009-2010 Stefan Hutter, Daniel Pfeifer.<br>"
+				"<a href=\"http://github.com/purpleKarrot/libMaoni\">http://github.com/purpleKarrot/libMaoni</a>");
 }
 
 void MainWindow::load_model(QString filename)

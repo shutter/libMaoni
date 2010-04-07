@@ -17,6 +17,7 @@ public:
 
 private slots:
 	void about_qt();
+	void about_maoni();
 	void load_model(QString name = QString());
 	void import_lights(QString name = QString());
 	void export_lights(QString name = QString());
