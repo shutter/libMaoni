@@ -35,4 +35,7 @@ void IceTWidget::static_draw()
 void IceTWidget::draw()
 {
 	icetDrawFrame();
+
+	// if(rank() != 0)
+	// 	updateGL();
 }

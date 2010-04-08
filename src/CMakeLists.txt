@@ -41,10 +41,15 @@ endif(MSVC)
 add_library(maoni SHARED ${MAONI_SOURCE})
 target_link_libraries(maoni ${MAONI_LIBRARIES})
 
-option(MAONI_BUILD_PARALLEL_LIB OFF)
-if(MAONI_BUILD_PARALLEL_LIB)
+option(MAONI_BUILD_LIB_EQ OFF)
+if(MAONI_BUILD_LIB_EQ)
+  add_subdirectory(Equalizer)
+endif(MAONI_BUILD_LIB_EQ)
+
+option(MAONI_BUILD_LIB_ICET OFF)
+if(MAONI_BUILD_LIB_ICET)
   add_subdirectory(IceT)
-endif(MAONI_BUILD_PARALLEL_LIB)
+endif(MAONI_BUILD_LIB_ICET)
 
 add_library(maoni_main STATIC main.cpp)
 
