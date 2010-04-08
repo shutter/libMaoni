@@ -6,6 +6,7 @@
  */
 
 #include <QApplication>
+#include "../Common/FrameData.hpp"
 #include "../Widgets/MainWindow.hpp"
 #include "../Widgets/RenderWidget.hpp"
 
@@ -18,8 +19,9 @@ int maoni_main(int argc, char* argv[],
 {
 	QApplication app(argc, argv);
 
-	MainWindow main_window(new RenderWidget(algorithm_factory_stack,
-			mesh_loader_stack));
+	FrameData framedata(algorithm_factory_stack, mesh_loader_stack);
+
+	MainWindow main_window(framedata, new RenderWidget(framedata));
 	main_window.setWindowTitle("Maoni");
 	main_window.show();
 
