@@ -19,40 +19,40 @@ static QDomElement LightToNode(QDomDocument &d, const Light &l)
 {
 	QDomElement cn = d.createElement("light");
 
-	cn.setAttribute("pos_x", l.getPosition() | X);
-	cn.setAttribute("pos_y", l.getPosition() | Y);
-	cn.setAttribute("pos_z", l.getPosition() | Z);
+	cn.setAttribute("pos_x", l.position | X);
+	cn.setAttribute("pos_y", l.position | Y);
+	cn.setAttribute("pos_z", l.position | Z);
 
-	cn.setAttribute("ambient_r", l.getAmbient().red());
-	cn.setAttribute("ambient_g", l.getAmbient().green());
-	cn.setAttribute("ambient_b", l.getAmbient().blue());
-	cn.setAttribute("ambient_a", l.getAmbient().alpha());
+	cn.setAttribute("ambient_r", l.ambient.red());
+	cn.setAttribute("ambient_g", l.ambient.green());
+	cn.setAttribute("ambient_b", l.ambient.blue());
+	cn.setAttribute("ambient_a", l.ambient.alpha());
 
-	cn.setAttribute("diffuse_r", l.getDiffuse().red());
-	cn.setAttribute("diffuse_g", l.getDiffuse().green());
-	cn.setAttribute("diffuse_b", l.getDiffuse().blue());
-	cn.setAttribute("diffuse_a", l.getDiffuse().alpha());
+	cn.setAttribute("diffuse_r", l.diffuse.red());
+	cn.setAttribute("diffuse_g", l.diffuse.green());
+	cn.setAttribute("diffuse_b", l.diffuse.blue());
+	cn.setAttribute("diffuse_a", l.diffuse.alpha());
 
-	cn.setAttribute("specular_r", l.getSpecular().red());
-	cn.setAttribute("specular_g", l.getSpecular().green());
-	cn.setAttribute("specular_b", l.getSpecular().blue());
-	cn.setAttribute("specular_a", l.getSpecular().alpha());
+	cn.setAttribute("specular_r", l.specular.red());
+	cn.setAttribute("specular_g", l.specular.green());
+	cn.setAttribute("specular_b", l.specular.blue());
+	cn.setAttribute("specular_a", l.specular.alpha());
 
-	cn.setAttribute("const_att", l.getConst_att());
-	cn.setAttribute("lin_att", l.getLin_att());
-	cn.setAttribute("quad_att", l.getQuad_att());
+	cn.setAttribute("const_att", l.const_att);
+	cn.setAttribute("lin_att", l.lin_att);
+	cn.setAttribute("quad_att", l.quad_att);
 
-	cn.setAttribute("is_spot", l.getIs_spot());
+	cn.setAttribute("is_spot", l.is_spot);
 
-	cn.setAttribute("spot_x", l.getSpot_direction() | X);
-	cn.setAttribute("spot_y", l.getSpot_direction() | Y);
-	cn.setAttribute("spot_z", l.getSpot_direction() | Z);
+	cn.setAttribute("spot_x", l.spot_direction | X);
+	cn.setAttribute("spot_y", l.spot_direction | Y);
+	cn.setAttribute("spot_z", l.spot_direction | Z);
 
-	cn.setAttribute("cut_off", l.getCut_off());
-	cn.setAttribute("exponent", l.getExponent());
+	cn.setAttribute("cut_off", l.cut_off);
+	cn.setAttribute("exponent", l.exponent);
 
-	cn.setAttribute("is_on", l.getIs_on());
-	cn.setAttribute("show_bulp", l.getShow_bulp());
+	cn.setAttribute("is_on", l.enabled);
+	cn.setAttribute("show_bulp", l.show_bulp);
 
 	return cn;
 }
@@ -111,41 +111,40 @@ int import_lights(std::string const& filename, FrameData & framedata)
 			{
 				Light& l = framedata.light(light_id++);
 
-				l.setPosition(Vector3(e.attribute("pos_x", "").toFloat(),
+				l.position = Vector3(e.attribute("pos_x", "").toFloat(),
 						e.attribute("pos_y", "").toFloat(), e.attribute(
-								"pos_z", "").toFloat()));
+								"pos_z", "").toFloat());
 
-				l.setAmbient(Color(e.attribute("ambient_r", "").toFloat(),
+				l.ambient = Color(e.attribute("ambient_r", "").toFloat(),
 						e.attribute("ambient_g", "").toFloat(), e.attribute(
 								"ambient_b", "").toFloat(), e.attribute(
-								"ambient_a", "").toFloat()));
+								"ambient_a", "").toFloat());
 
-				l.setDiffuse(Color(e.attribute("diffuse_r", "").toFloat(),
+				l.diffuse = Color(e.attribute("diffuse_r", "").toFloat(),
 						e.attribute("diffuse_g", "").toFloat(), e.attribute(
 								"diffuse_b", "").toFloat(), e.attribute(
-								"diffuse_a", "").toFloat()));
+								"diffuse_a", "").toFloat());
 
-				l.setSpecular(Color(e.attribute("specular_r", "").toFloat(),
+				l.specular = Color(e.attribute("specular_r", "").toFloat(),
 						e.attribute("specular_g", "").toFloat(), e.attribute(
 								"specular_b", "").toFloat(), e.attribute(
-								"specular_a", "").toFloat()));
+								"specular_a", "").toFloat());
 
-				l.setConst_att(e.attribute("const_att", "").toFloat());
-				l.setLin_att(e.attribute("lin_att", "").toFloat());
-				l.setQuad_att(e.attribute("quad_att", "").toFloat());
+				l.const_att = e.attribute("const_att", "").toFloat();
+				l.lin_att = e.attribute("lin_att", "").toFloat();
+				l.quad_att = e.attribute("quad_att", "").toFloat();
 
-				l.setIs_spot(e.attribute("is_spot", "").toInt());
+				l.is_spot = e.attribute("is_spot", "").toInt();
 
-				l.setSpot_direction(Vector3(
-						e.attribute("spot_x", "").toFloat(), e.attribute(
-								"spot_y", "").toFloat(), e.attribute("spot_z",
-								"").toFloat()));
+				l.spot_direction = Vector3(e.attribute("spot_x", "").toFloat(),
+						e.attribute("spot_y", "").toFloat(), e.attribute(
+								"spot_z", "").toFloat());
 
-				l.setCut_off(e.attribute("cut_off", "").toFloat());
-				l.setExponent(e.attribute("exponent", "").toFloat());
+				l.cut_off = e.attribute("cut_off", "").toFloat();
+				l.exponent = e.attribute("exponent", "").toFloat();
 
-				l.setIs_on(e.attribute("is_spot", "").toInt());
-				l.setShow_bulp(e.attribute("is_spot", "").toInt());
+				l.enabled = e.attribute("is_spot", "").toInt();
+				l.show_bulp = e.attribute("is_spot", "").toInt();
 			}
 		}
 

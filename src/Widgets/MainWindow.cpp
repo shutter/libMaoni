@@ -25,8 +25,6 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 
 	QMenu* file = menuBar()->addMenu("&File");
 
-	//	render_widget->setFPSIsDisplayed(true);
-
 	QAction* import_lights = new QAction("&Import Lights", this);
 	connect(import_lights, SIGNAL(triggered()), this, SLOT(import_lights()));
 	file->addAction(import_lights);

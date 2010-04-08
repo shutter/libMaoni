@@ -15,6 +15,9 @@
 #include <qteditorfactory.h>
 #include <iostream>
 
+#include <boost/la/all.hpp>
+using namespace boost::la;
+
 LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	QWidget(parent), framedata(framedata), current_id(0)
 {
@@ -34,14 +37,11 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	connect(light_chooser, SIGNAL(activated(int)), this,
 			SLOT(choose(int)));
 
-	//	string_manager = new QtStringPropertyManager(this);
 	bool_manager = new QtBoolPropertyManager(this);
 	double_manager = new QtDoublePropertyManager(this);
 	color_manager = new QtColorPropertyManager(this);
 	group_manager = new QtGroupPropertyManager(this);
 
-	//	name = string_manager->addProperty("name");
-	//	name->setToolTip("A meaningful name for this light source");
 	is_on = bool_manager->addProperty("activate");
 	is_on->setToolTip("Turn light on and off");
 	show_bulp = bool_manager->addProperty("show bulp");
@@ -89,13 +89,11 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	double_manager->setRange(cut_off, 0.0, 90.0);
 	exponent = double_manager->addProperty("exponent");
 
-	//	QtLineEditFactory* string_factory = new QtLineEditFactory(this);
 	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
 	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtColorEditorFactory* color_factory = new QtColorEditorFactory(this);
 
-	//	property_browser->setFactoryForManager(string_manager, string_factory);
 	property_browser->setFactoryForManager(bool_manager, bool_factory);
 	property_browser->setFactoryForManager(double_manager, double_factory);
 	property_browser->setFactoryForManager(color_manager, color_factory);
@@ -108,41 +106,11 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 			SLOT(value_changed(QtProperty*, double)));
 	connect(color_manager, SIGNAL(valueChanged(QtProperty*, QColor)), this,
 			SLOT(value_changed(QtProperty*, QColor)));
-	//	connect(string_manager, SIGNAL(valueChanged(QtProperty*, QString)), this,
-	//			SLOT(value_changed(QtProperty*, QString)));
 
 	light_chooser->setCurrentIndex(0);
 	choose(0);
 	property_browser->show();
 }
-
-//void LightWidget::add_light()
-//{
-//	if (render_widget.add_light())
-//	{
-//		update_combobox();
-//		light_chooser->setCurrentIndex(light_chooser->count() - 1);
-//		choose(render_widget.get_lights_size() - 1);
-//	}
-//	else
-//	{
-//		QMessageBox::warning(this, "Error", "Maximal Number of Lights reached!");
-//	}
-//}
-//
-//void LightWidget::remove_light()
-//{
-//	if (render_widget.remove_light(light_chooser->currentIndex()))
-//	{
-//		update_combobox();
-//		light_chooser->setCurrentIndex(light_chooser->count() - 1);
-//		choose(render_widget.get_lights_size() - 1);
-//	}
-//	else
-//	{
-//		QMessageBox::warning(this, "Error", "Cannot remove Light0!");
-//	}
-//}
 
 void LightWidget::update_combobox()
 {
@@ -162,8 +130,6 @@ void LightWidget::choose(int i)
 
 	property_browser->clear();
 
-	//	string_manager->setValue(name, render_widget.get_light(i).getName().c_str());
-	//	property_browser->addProperty(name);
 	bool_manager->setValue(is_on, light.enabled);
 	property_browser->addProperty(is_on);
 
@@ -180,33 +146,32 @@ void LightWidget::choose(int i)
 
 	bool_manager->setValue(show_bulp, light.show_bulp);
 	property_browser->addProperty(show_bulp);
-	double_manager->setValue(pos_x, light.getPosition()[0]);
-	double_manager->setValue(pos_y, light.getPosition()[1]);
-	double_manager->setValue(pos_z, light.getPosition()[2]);
-	double_manager->setValue(pos_v, light.getPosition()[3]);
+	double_manager->setValue(pos_x, light.position | X);
+	double_manager->setValue(pos_y, light.position | Y);
+	double_manager->setValue(pos_z, light.position | Z);
 	property_browser->addProperty(light_position);
-	color_manager->setValue(ambient, colorOTB(light.getAmbient()));
+	color_manager->setValue(ambient, colorOTB(light.ambient));
 	property_browser->addProperty(ambient);
-	color_manager->setValue(diffuse, colorOTB(light.getDiffuse()));
+	color_manager->setValue(diffuse, colorOTB(light.diffuse));
 	property_browser->addProperty(diffuse);
-	color_manager->setValue(specular, colorOTB(light.getSpecular()));
+	color_manager->setValue(specular, colorOTB(light.specular));
 	property_browser->addProperty(specular);
-	double_manager->setValue(const_att, light.getConst_att());
-	double_manager->setValue(lin_att, light.getLin_att());
-	double_manager->setValue(quad_att, light.getQuad_att());
+	double_manager->setValue(const_att, light.const_att);
+	double_manager->setValue(lin_att, light.lin_att);
+	double_manager->setValue(quad_att, light.quad_att);
 	property_browser->addProperty(attenuation);
 
 	if (i != 0)
 	{
-		bool_manager->setValue(is_spot, light.getIs_spot());
+		bool_manager->setValue(is_spot, light.is_spot);
 		property_browser->addProperty(is_spot);
-		double_manager->setValue(spot_dir_x, light.getSpot_direction()[0]);
-		double_manager->setValue(spot_dir_y, light.getSpot_direction()[1]);
-		double_manager->setValue(spot_dir_z, light.getSpot_direction()[2]);
+		double_manager->setValue(spot_dir_x, light.spot_direction | X);
+		double_manager->setValue(spot_dir_y, light.spot_direction | Y);
+		double_manager->setValue(spot_dir_z, light.spot_direction | Z);
 		property_browser->addProperty(spot_direction);
-		double_manager->setValue(cut_off, light.getCut_off());
+		double_manager->setValue(cut_off, light.cut_off);
 		property_browser->addProperty(cut_off);
-		double_manager->setValue(exponent, light.getExponent());
+		double_manager->setValue(exponent, light.exponent);
 		property_browser->addProperty(exponent);
 	}
 }
@@ -228,16 +193,16 @@ void LightWidget::value_changed(QtProperty* property, bool value)
 	QString name = property->propertyName();
 	if (name == "activate")
 	{
-		framedata.light(current_id).setIs_on(value);
+		framedata.light(current_id).enabled = value;
 		choose(light_chooser->currentIndex());
 	}
 	else if (name == "show bulp")
 	{
-		framedata.light(current_id).setShow_bulp(value);
+		framedata.light(current_id).show_bulp = value;
 	}
 	else if (name == "spot light")
 	{
-		framedata.light(current_id).setIs_spot(value);
+		framedata.light(current_id).is_spot = value;
 	}
 }
 
@@ -246,35 +211,35 @@ void LightWidget::value_changed(QtProperty* property, double value)
 	std::string name = property->propertyName().toStdString();
 	if (name == "pos x" || name == "pos y" || name == "pos z")
 	{
-		framedata.light(current_id).setPosition(Vector3(double_manager->value(
+		framedata.light(current_id).position = Vector3(double_manager->value(
 				pos_x), double_manager->value(pos_y), double_manager->value(
-				pos_z)));
+				pos_z));
 	}
 	else if (name == "constant attenuation")
 	{
-		framedata.light(current_id).setConst_att(value);
+		framedata.light(current_id).const_att = value;
 	}
 	else if (name == "linear attenuation")
 	{
-		framedata.light(current_id).setLin_att(value);
+		framedata.light(current_id).lin_att = value;
 	}
 	else if (name == "quadratic attenuation")
 	{
-		framedata.light(current_id).setQuad_att(value);
+		framedata.light(current_id).quad_att = value;
 	}
 	else if (name == "spot x" || name == "spot y" || name == "spot z")
 	{
-		framedata.light(current_id).setSpot_direction(Vector3(
+		framedata.light(current_id).spot_direction = Vector3(
 				double_manager->value(spot_dir_x), double_manager->value(
-						spot_dir_y), double_manager->value(spot_dir_z)));
+						spot_dir_y), double_manager->value(spot_dir_z));
 	}
 	else if (name == "cut off angle")
 	{
-		framedata.light(current_id).setCut_off(value);
+		framedata.light(current_id).cut_off = value;
 	}
 	else if (name == "exponent")
 	{
-		framedata.light(current_id).setExponent(value);
+		framedata.light(current_id).exponent = value;
 	}
 }
 
@@ -283,30 +248,20 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 	std::string name = property->propertyName().toStdString();
 	if (name == "ambient")
 	{
-		framedata.light(current_id).setAmbient(colorBTO(value));
+		framedata.light(current_id).ambient = colorBTO(value);
 	}
 	else if (name == "diffuse")
 	{
-		framedata.light(current_id).setDiffuse(colorBTO(value));
+		framedata.light(current_id).diffuse = colorBTO(value);
 	}
 	else if (name == "specular")
 	{
-		framedata.light(current_id).setSpecular(colorBTO(value));
+		framedata.light(current_id).specular = colorBTO(value);
 	}
 }
-
-//void LightWidget::value_changed(QtProperty* property, const QString& value)
-//{
-//	std::string name = property->propertyName().toStdString();
-//	if (name == "name")
-//	{
-//		framedata.light(current_id).setName(value.toStdString());
-//	}
-//}
 
 void LightWidget::update_browser()
 {
 	update_combobox();
 	choose(0);
 }
-

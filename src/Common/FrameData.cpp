@@ -7,6 +7,8 @@ FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 			algorithm_factory_stack(algorithm_factory_stack), //
 			mesh_loader_stack(mesh_loader_stack)
 {
+	lights[0].enabled = true;
+	lights[0].position = Vector3(1.0, 0.0, 1.0);
 	lights[0].diffuse = Color(0.0, 0.0, 0.0, 0.0);
 	lights[0].specular = Color(1.0, 1.0, 1.0, 1.0);
 }
