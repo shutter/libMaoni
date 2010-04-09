@@ -19,7 +19,7 @@ int maoni_main(int argc, char* argv[],
 {
 	QApplication app(argc, argv);
 
-    QPixmap pixmap("../../src/Splashscreen/libmaoni_sscr.png");
+    QPixmap pixmap("libmaoni_sscr.png");
     QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
 

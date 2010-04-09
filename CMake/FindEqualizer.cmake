@@ -53,7 +53,9 @@ IF("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 ENDIF("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 
 # Equalizer uses deprecated headers, ignore those errors
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
+endif(NOT WIN32)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Equalizer

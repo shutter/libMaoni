@@ -23,8 +23,8 @@ add_subdirectory(Widgets)
 add_subdirectory(QPropertyBrowser)
 
 set(MAONI_LIBRARIES
-  maoni_common
-  maoni_widgets
+  MaoniCommon
+  MaoniWidgets
   ${QT_LIBRARIES}
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
@@ -38,26 +38,23 @@ if(MSVC)
   set(MAONI_SOURCE ${MAONI_SOURCE} version.rc)
 endif(MSVC)
 
-add_library(maoni SHARED ${MAONI_SOURCE})
-target_link_libraries(maoni ${MAONI_LIBRARIES})
+add_library(Maoni SHARED ${MAONI_SOURCE})
+target_link_libraries(Maoni ${MAONI_LIBRARIES})
 
-option(MAONI_BUILD_PARALLEL_LIB OFF)
-if(MAONI_BUILD_PARALLEL_LIB)
-  add_subdirectory(IceT)
-endif(MAONI_BUILD_PARALLEL_LIB)
+add_subdirectory(Equalizer)
+add_subdirectory(IceT)
 
-add_library(maoni_main STATIC main.cpp)
+add_library(MaoniMain STATIC main.cpp)
 
-install(TARGETS maoni maoni_main
+install(TARGETS Maoni MaoniMain
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   COMPONENT devlibs
   )
 
 if(WIN32)
-  install(TARGETS maoni
+  install(TARGETS Maoni
     RUNTIME DESTINATION bin
     COMPONENT runlibs
     )
 endif(WIN32)
-
