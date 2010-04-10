@@ -11,10 +11,23 @@ endif(WIN32)
 find_package(Equalizer REQUIRED)
 include_directories(${Equalizer_INCLUDE_DIRS})
 
-add_library(MaoniEq SHARED
+set(MAONI_EQ_SRC
   Channel.cpp
   main.cpp
   )
+
+if(MSVC)
+  set(MAONI_EQ_SRC ${MAONI_EQ_SRC}
+  Channel.hpp
+  ColoredOutput.hpp
+  EqInclude.hpp
+  FrameDataEq.hpp
+  Pipe.hpp
+  Window.hpp
+  )
+endif(MSVC)
+
+add_library(MaoniEq SHARED ${MAONI_EQ_SRC})
 
 target_link_libraries(MaoniEq
   ${MAONI_LIBRARIES}

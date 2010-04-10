@@ -8,7 +8,7 @@
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include <eq/client/channel.h>
+#include "EqInclude.hpp"
 
 class Channel: public eq::Channel
 {
@@ -19,7 +19,7 @@ public:
 	}
 
 private:
-	void frameDraw(uint32_t spin);
+	void frameDraw(const uint32_t spin);
 };
 
 #endif /* CHANNEL_HPP */

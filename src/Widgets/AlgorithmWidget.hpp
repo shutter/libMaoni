@@ -16,12 +16,14 @@
 #include "qttreepropertybrowser.h"
 #include "filepathmanager.h"
 
+class FrameData;
+
 class AlgorithmWidget: public QWidget, public AlgoConfigManager
 {
 Q_OBJECT
 
 public:
-	AlgorithmWidget(RenderWidget& render_widget, QWidget *parent = 0);
+	AlgorithmWidget(FrameData& framedata, QWidget *parent = 0);
 
 	void add_property(const char* name, int_setter func, int def);
 	void add_property(const char* name, bool_setter func, bool def);
@@ -67,7 +69,7 @@ private slots:
 	}
 
 private:
-	RenderWidget& render_widget;
+	FrameData& framedata;
 
 	QMap<QtProperty*, int_setter> int_setters;
 	QMap<QtProperty*, bool_setter> bool_setters;

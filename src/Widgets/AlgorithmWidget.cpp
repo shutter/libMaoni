@@ -6,6 +6,7 @@
  */
 
 #include "AlgorithmWidget.hpp"
+#include "../Common/FrameData.hpp"
 #include <Maoni/detail/Algorithm.hpp>
 #include <qteditorfactory.h>
 #include <fileeditfactory.h>
@@ -20,8 +21,8 @@ static QStringList AlgorithmNames()
 	return list;
 }
 
-AlgorithmWidget::AlgorithmWidget(RenderWidget& render_widget, QWidget *parent) :
-	QWidget(parent), render_widget(render_widget)
+AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
+	QWidget(parent), framedata(framedata)
 {
 	algo_chooser = new QComboBox;
 	algo_chooser->addItems(AlgorithmNames());
@@ -75,7 +76,7 @@ AlgorithmWidget::AlgorithmWidget(RenderWidget& render_widget, QWidget *parent) :
 void AlgorithmWidget::choose(int index)
 {
 	std::string name = algo_chooser->currentText().toStdString();
-	render_widget.set_render_algorithm(name);
+	framedata.set_render_algorithm(name);
 
 	int_setters.clear();
 	bool_setters.clear();

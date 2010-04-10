@@ -8,7 +8,7 @@
 #ifndef MAONI_EQ_WINDOW_HPP
 #define MAONI_EQ_WINDOW_HPP
 
-#include <eq/eq.h>
+#include "EqInclude.hpp"
 
 eq::base::Lockable<eq::Window*> _qtWindow = 0;
 

@@ -14,18 +14,19 @@
 #include "qtpropertymanager.h"
 #include "qttreepropertybrowser.h"
 
-class LightWidget: public QWidget {
-Q_OBJECT // Enable signals and slots
-public:
-	LightWidget(RenderWidget& render_widget, QWidget *parent = 0);
-	void update_browser();
-private slots:
-	void add_light();
-	void remove_light();
+class FrameData;
 
+class LightWidget: public QWidget
+{
+Q_OBJECT // Enable signals and slots
+
+public:
+	LightWidget(FrameData& framedata, QWidget *parent = 0);
+	void update_browser();
+
+private slots:
 	void choose(int i);
 
-	void value_changed(QtProperty* property, const QString& value);
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
@@ -37,18 +38,16 @@ private:
 	Color colorBTO(QColor const& byte);
 
 private:
-	RenderWidget& render_widget;
+	FrameData& framedata;
 	QComboBox* light_chooser;
-	int light;
+	int current_id;
 	QtTreePropertyBrowser* property_browser;
 
-	QtStringPropertyManager* string_manager;
 	QtBoolPropertyManager* bool_manager;
 	QtDoublePropertyManager* double_manager;
 	QtColorPropertyManager* color_manager;
-    QtGroupPropertyManager* group_manager;
+	QtGroupPropertyManager* group_manager;
 
-	QtProperty *name;
 	QtProperty *is_on;
 	QtProperty *show_bulp;
 	QtProperty *pos_x;
@@ -70,7 +69,6 @@ private:
 	QtProperty *spot_direction;
 	QtProperty *cut_off;
 	QtProperty *exponent;
-
 };
 
 #endif /* LIGHTWIDGET_HPP_ */

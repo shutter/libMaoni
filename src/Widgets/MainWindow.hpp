@@ -6,14 +6,15 @@
 
 class RenderWidget;
 class LightWidget;
-class TilesWidget;
+//class TilesWidget;
+class FrameData;
 
 class MainWindow: public QMainWindow
 {
 Q_OBJECT
 
 public:
-	MainWindow(RenderWidget* render_widget);
+	MainWindow(FrameData& framedata, RenderWidget* render_widget);
 
 private slots:
 	void about_qt();
@@ -33,9 +34,10 @@ private:
 	void init_docks();
 
 private:
+	FrameData& framedata;
 	RenderWidget* render_widget;
 	LightWidget* light_widget;
-	TilesWidget* tiles_widget;
+//	TilesWidget* tiles_widget;
 	QDialog* tiles_dialog;
 };
 

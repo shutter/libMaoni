@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if(MSVC)
-  add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS /WX)
 else(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
   if(NOT WIN32)

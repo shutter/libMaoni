@@ -2,7 +2,9 @@
 #include "RenderWidget.hpp"
 #include "LightWidget.hpp"
 #include "AlgorithmWidget.hpp"
-#include "TilesWidget.hpp"
+//#include "TilesWidget.hpp"
+#include "../Common/FrameData.hpp"
+#include "../Common/ImportExport.hpp"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -13,8 +15,8 @@
 #include <QDockWidget>
 #include <QDialog>
 
-MainWindow::MainWindow(RenderWidget* render_widget) :
-	render_widget(render_widget)
+MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
+	framedata(framedata), render_widget(render_widget)
 {
 	setCentralWidget(render_widget);
 
@@ -22,8 +24,6 @@ MainWindow::MainWindow(RenderWidget* render_widget) :
 	setWindowIcon(QPixmap(stanford_bunny_xpm));
 
 	QMenu* file = menuBar()->addMenu("&File");
-
-	//	render_widget->setFPSIsDisplayed(true);
 
 	QAction* import_lights = new QAction("&Import Lights", this);
 	connect(import_lights, SIGNAL(triggered()), this, SLOT(import_lights()));
@@ -124,7 +124,7 @@ void MainWindow::init_model_menu()
 			SLOT(load_model(QString)));
 
 	//! this entry is shown iff there is at least one loader available
-	if (render_widget->num_loaders() > 0)
+	if (framedata.num_loaders() > 0)
 	{
 		model->addSeparator();
 		QAction* load = new QAction("&load...", this);
@@ -144,11 +144,11 @@ void MainWindow::init_docks()
 	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
 	menu->addAction(action);
 
-	light_widget = new LightWidget(*render_widget);
+	light_widget = new LightWidget(framedata);
 	dock->setWidget(light_widget);
 	addDockWidget(Qt::LeftDockWidgetArea, dock);
 
-	if (render_widget->num_algorithms() > 0)
+	if (framedata.num_algorithms() > 0)
 	{
 		dock = new QDockWidget("Daniel's AlgorithmWidget", this);
 		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -157,15 +157,14 @@ void MainWindow::init_docks()
 		connect(action, SIGNAL(triggered()), dock, SLOT(show()));
 		menu->addAction(action);
 
-		dock->setWidget(new AlgorithmWidget(*render_widget));
+		dock->setWidget(new AlgorithmWidget(framedata));
 		addDockWidget(Qt::RightDockWidgetArea, dock);
 	}
 
-	tiles_widget = new TilesWidget(*render_widget);
-	action = new QAction("&Tiles Config", this);
-	connect(action, SIGNAL(triggered()), this, SLOT(show_tilesconfig()));
-	menu->addAction(action);
-
+	//	tiles_widget = new TilesWidget(*render_widget);
+	//	action = new QAction("&Tiles Config", this);
+	//	connect(action, SIGNAL(triggered()), this, SLOT(show_tilesconfig()));
+	//	menu->addAction(action);
 }
 
 void MainWindow::about_qt()
@@ -175,7 +174,9 @@ void MainWindow::about_qt()
 
 void MainWindow::about_maoni()
 {
-	QMessageBox::about(this, "About libMaoni",
+	QMessageBox::about(
+			this,
+			"About libMaoni",
 			"A versatile 3D viewer based on OpenGL and Qt.<br>"
 				"Copyright 2009-2010 Stefan Hutter, Daniel Pfeifer.<br>"
 				"<a href=\"http://github.com/purpleKarrot/libMaoni\">http://github.com/purpleKarrot/libMaoni</a>");
@@ -193,7 +194,7 @@ void MainWindow::load_model(QString filename)
 	if (filename.isNull())
 		return;
 
-	if (!render_widget->load_model(filename.toStdString().c_str()))
+	if (!framedata.load_model(filename.toStdString().c_str()))
 	{
 		QMessageBox::warning(this, "Error", //
 				"Could not load file \"" + filename + "\"");
@@ -237,7 +238,7 @@ void MainWindow::import_lights(QString filename)
 	if (filename.isNull())
 		return;
 
-	int status = render_widget->import_lights(filename.toStdString().c_str());
+	int status = ::import_lights(filename.toStdString().c_str(), framedata);
 	if (status < 0)
 	{
 		QMessageBox::warning(this, "Error", //
@@ -261,7 +262,7 @@ void MainWindow::export_lights(QString filename)
 	if (filename.isNull())
 		return;
 
-	if (render_widget->export_lights(filename.toStdString().c_str()) < 0)
+	if (::export_lights(filename.toStdString().c_str(), framedata) < 0)
 	{
 		QMessageBox::warning(this, "Error", //
 				"Could not export to file \"" + filename + "\"");
@@ -270,14 +271,15 @@ void MainWindow::export_lights(QString filename)
 
 void MainWindow::show_tilesconfig()
 {
-    if (!tiles_dialog) {
-    	tiles_dialog = new QDialog(this);
-        connect(tiles_dialog, SIGNAL(accepted()), this, SLOT(show_logo(1)));
-        connect(tiles_dialog, SIGNAL(finished()), this, SLOT(show_logo(2)));
-        connect(tiles_dialog, SIGNAL(rejected()), this, SLOT(show_logo(3)));
-    }
-    tiles_dialog->show();
-//    tiles_dialog->raise();
-//    tiles_dialog->activateWindow();
+	if (!tiles_dialog)
+	{
+		tiles_dialog = new QDialog(this);
+		connect(tiles_dialog, SIGNAL(accepted()), this, SLOT(show_logo(1)));
+		connect(tiles_dialog, SIGNAL(finished()), this, SLOT(show_logo(2)));
+		connect(tiles_dialog, SIGNAL(rejected()), this, SLOT(show_logo(3)));
+	}
+	tiles_dialog->show();
+	//    tiles_dialog->raise();
+	//    tiles_dialog->activateWindow();
 
 }
