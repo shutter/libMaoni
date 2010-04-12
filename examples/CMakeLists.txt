@@ -13,9 +13,6 @@ file(WRITE ${EMPTY_SOURCE_FILE} "")
 add_executable(example_nothing ${EMPTY_SOURCE_FILE})
 target_link_libraries(example_nothing Maoni MaoniMain)
 
-add_executable(example_nothing_icet ${EMPTY_SOURCE_FILE})
-target_link_libraries(example_nothing_icet MaoniIceT MaoniMain)
-
 ##############################################################
 # example with algorithms
 
@@ -27,31 +24,38 @@ target_link_libraries(example_algorithms Maoni MaoniMain)
 # example with loaders
 
 set(MESH_LOADER_SOURCE
-  Loaders/PLY/ply.cpp
-  Loaders/PLY/plyfile.cpp
-  Loaders/STL/stl.cpp
-  Loaders/STL/stla_io.cpp
+  Loaders/PLY/ply.cpp Loaders/PLY/plyfile.cpp
+  Loaders/STL/stl.cpp Loaders/STL/stla_io.cpp
   )
 
-set(LIBRARIES Maoni MaoniMain)
+set(LIBRARIES MaoniMain)
 
 find_package(lib3ds)
 if(lib3ds_LIBRARIES)
-  set(MESH_LOADER_SOURCE
-    ${MESH_LOADER_SOURCE}
-    Loaders/3DS/3ds.cpp
-    )
+  set(MESH_LOADER_SOURCE ${MESH_LOADER_SOURCE} Loaders/3DS/3ds.cpp)
   set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
 endif(lib3ds_LIBRARIES)
 
 add_executable(example_loaders ${MESH_LOADER_SOURCE})
-target_link_libraries(example_loaders ${LIBRARIES})
+target_link_libraries(example_loaders ${LIBRARIES} Maoni)
 
 ##############################################################
 # example with both algorithms and loaders
 
 add_executable(example_full ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
-target_link_libraries(example_full ${LIBRARIES})
+target_link_libraries(example_full ${LIBRARIES} Maoni)
+
+##############################################################
+# example with both algorithms and loaders, using Equalizer
+
+add_executable(example_eq ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+target_link_libraries(example_eq ${LIBRARIES} MaoniEq)
+
+##############################################################
+# example with both algorithms and loaders, using IceT
+
+add_executable(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
 
 ##############################################################
 
