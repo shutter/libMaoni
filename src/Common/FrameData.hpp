@@ -12,9 +12,11 @@ public:
 	FrameData(AlgorithmFactory* algorithm_factory_stack,
 			MeshLoader* mesh_loader_stack);
 
-	bool load_model(const char* filename);
+	FrameData(FrameData const& other);
 
-	void set_render_algorithm(std::string const& name);
+	virtual bool load_model(const char* filename);
+
+	virtual void set_render_algorithm(std::string const& name);
 
 	//! get the amount of render algorithms
 	std::size_t num_algorithms() const;
@@ -27,7 +29,7 @@ public:
 		return lights.size();
 	}
 
-	Light& light(std::size_t i)
+	virtual Light& light(std::size_t i)
 	{
 		return lights[i];
 	}
@@ -40,6 +42,9 @@ public:
 	void draw() const;
 
 private:
+	void init();
+
+protected:
 	std::vector<Light> lights;
 
 private:
@@ -49,7 +54,6 @@ private:
 	Algorithm::Ptr render_algorithm_;
 
 	Model model_;
-	std::string model_name;
 };
 
 #endif /* FRAME_DATA_HPP */

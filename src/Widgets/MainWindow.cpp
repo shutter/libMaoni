@@ -20,8 +20,8 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 {
 	setCentralWidget(render_widget);
 
-#include "../Icons/stanford-bunny.xpm"
-	setWindowIcon( QPixmap(stanford_bunny_xpm));
+#include "../Images/stanford-bunny.xpm"
+	setWindowIcon(QPixmap(stanford_bunny_xpm));
 
 	QMenu* file = menuBar()->addMenu("&File");
 

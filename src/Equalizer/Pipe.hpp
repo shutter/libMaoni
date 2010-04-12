@@ -8,31 +8,32 @@
 #ifndef VMMVIEW_EQUALIZER_PIPE_HPP
 #define VMMVIEW_EQUALIZER_PIPE_HPP
 
-#include <eq/client/pipe.h>
-#include <eq/client/config.h>
+#include "EqInclude.hpp"
+#include "ColoredOutput.hpp"
+#include "FrameDataEq.hpp"
 
 class Pipe: public eq::Pipe
 {
 public:
-	Pipe(eq::Node* parent) :
-		eq::Pipe(parent)
+	Pipe(eq::Node* parent, FrameDataEq const& framedata) :
+		eq::Pipe(parent), framedata(framedata)
 	{
 	}
 
-	const FrameData& frame_data() const
+	const FrameData& getFrameData() const
 	{
-		return frame_data_;
+		return framedata;
 	}
 
 private:
 	bool configInit(const uint32_t initID)
 	{
-		std::cout << "\e[0;32m" << initID << "\e[m" << std::endl;
+		std::cout << RED(initID) << std::endl;
 
 		if (!eq::Pipe::configInit(initID))
 			return false;
 
-		getConfig()->mapObject(&frame_data_, initID);
+		getConfig()->mapObject(&framedata, initID);
 		return true;
 	}
 
@@ -41,18 +42,18 @@ private:
 		if (!eq::Pipe::configExit())
 			return false;
 
-		getConfig()->unmapObject(&frame_data_);
+		getConfig()->unmapObject(&framedata);
 		return true;
 	}
 
 	void frameStart(const uint32_t frameID, const uint32_t frameNumber)
 	{
 		eq::Pipe::frameStart(frameID, frameNumber);
-		frame_data_.sync();
+		framedata.sync();
 	}
 
 private:
-	FrameDataEq frame_data_;
+	FrameDataEq framedata;
 };
 
 #endif /* VMMVIEW_EQUALIZER_PIPE_HPP */

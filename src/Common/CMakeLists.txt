@@ -2,4 +2,4 @@
 
 file(GLOB MAONI_COMMON_SOURCE *.c*)
 
-add_library(maoni_common STATIC ${MAONI_COMMON_SOURCE})
+add_library(MaoniCommon STATIC ${MAONI_COMMON_SOURCE})

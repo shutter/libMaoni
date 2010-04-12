@@ -8,47 +8,41 @@
 #ifndef FRAME_DATA_EQ_HPP
 #define FRAME_DATA_EQ_HPP
 
-#include "Common/FrameData.hpp"
-#include <eq/client/object.h>
-#include <eq/net/dataIStream.h>
-#include <eq/net/dataOStream.h>
+#include "../Common/FrameData.hpp"
+#include "EqInclude.hpp"
 
 class FrameDataEq: public FrameData, public eq::Object
 {
 public:
-	FrameDataEq()
+	FrameDataEq(AlgorithmFactory* algorithm_factory_stack,
+			MeshLoader* mesh_loader_stack) :
+		FrameData(algorithm_factory_stack, mesh_loader_stack)
 	{
 	}
 
-	~FrameDataEq()
+	FrameDataEq(FrameDataEq const& other) :
+		FrameData(other)
 	{
 	}
 
-	bool load_model(const char* filename)
+	virtual bool load_model(const char* filename)
 	{
-		model_filename_ = filename;
 		setDirty(DIRTY_MODEL);
+		model_name = filename;
 		return FrameData::load_model(filename);
 	}
 
-	// the non-const function has to set the dirty bit
-	std::vector<Light>& lights()
+	virtual void set_render_algorithm(std::string const& name)
+	{
+		setDirty(DIRTY_RALGO);
+		ralgo_name = name;
+		FrameData::set_render_algorithm(name);
+	}
+
+	virtual Light& light(std::size_t i)
 	{
 		setDirty(DIRTY_LIGHT);
-		return FrameData::lights();
-	}
-
-	using FrameData::render_algorithm;
-
-	void render_algorithm(Algorithm::Ptr algo)
-	{
-		FrameData::render_algorithm(algo);
-		this->setDirty(DIRTY_RALGO);
-	}
-
-	void mouse_event()
-	{
-		setDirty(DIRTY_MOUSE);
+		return FrameData::light(i);
 	}
 
 	void serialize(eq::net::DataOStream& os, const uint64_t dirty)
@@ -56,22 +50,13 @@ public:
 		eq::Object::serialize(os, dirty);
 
 		if (dirty & DIRTY_LIGHT)
-			os << lights_;
+			os << lights;
 
 		if (dirty & DIRTY_MODEL)
-			os << model_filename_;
+			os << model_name;
 
 		if (dirty & DIRTY_RALGO)
-		{
-			if (render_algorithm_)
-				os << std::string(render_algorithm_->name());
-			else
-				os << std::string("NO ALGORITHM SET");
-		}
-
-		if (dirty & DIRTY_MOUSE)
-			os << curquat[0] << curquat[1] << curquat[2] << curquat[3]
-					<< translation.x() << translation.y() << translation.z();
+			os << ralgo_name;
 	}
 
 	void deserialize(eq::net::DataIStream& is, const uint64_t dirty)
@@ -79,29 +64,20 @@ public:
 		eq::Object::deserialize(is, dirty);
 
 		if (dirty & DIRTY_LIGHT)
-			is >> lights_;
+			is >> lights;
 
 		if (dirty & DIRTY_MODEL)
 		{
-			is >> model_filename_;
-			if (!model_filename_.empty())
-				FrameData::load_model(model_filename_.c_str());
+			is >> model_name;
+			if (!model_name.empty())
+				FrameData::load_model(model_name.c_str());
 		}
 
 		if (dirty & DIRTY_RALGO)
 		{
-			std::string name;
-			is >> name;
-
-			std::cout << "TODO: load render algorithm " << name << std::endl;
-
-			// render_algorithm_ = Algorithm::get_by_name(name);
-		}
-
-		if (dirty & DIRTY_MOUSE)
-		{
-			is >> curquat[0] >> curquat[1] >> curquat[2] >> curquat[3]
-					>> translation.x() >> translation.y() >> translation.z();
+			is >> ralgo_name;
+			if (!ralgo_name.empty())
+				FrameData::set_render_algorithm(ralgo_name);
 		}
 	}
 
@@ -110,11 +86,11 @@ private:
 	{
 		DIRTY_LIGHT = DIRTY_CUSTOM << 1,
 		DIRTY_MODEL = DIRTY_CUSTOM << 2,
-		DIRTY_RALGO = DIRTY_CUSTOM << 3,
-		DIRTY_MOUSE = DIRTY_CUSTOM << 4
+		DIRTY_RALGO = DIRTY_CUSTOM << 3
 	};
 
-	std::string model_filename_;
+	std::string model_name;
+	std::string ralgo_name;
 };
 
 #endif /* FRAME_DATA_EQ_HPP */

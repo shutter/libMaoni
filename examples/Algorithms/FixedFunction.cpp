@@ -8,7 +8,7 @@
 #include <GL/glew.h>
 #include <Maoni.hpp>
 
-#define NORM_LENGTH 0.05
+#define NORM_LENGTH 0.05f
 
 RENDER_ALGORITHM(FixedFunction,
 		(bool, wired, false)

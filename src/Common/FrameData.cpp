@@ -3,10 +3,24 @@
 
 FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack) :
-	lights(16), // todo; query this constant
 			algorithm_factory_stack(algorithm_factory_stack), //
 			mesh_loader_stack(mesh_loader_stack)
 {
+	init();
+}
+
+FrameData::FrameData(FrameData const& other):
+			algorithm_factory_stack(other.algorithm_factory_stack), //
+			mesh_loader_stack(other.mesh_loader_stack)
+{
+	init();
+}
+
+void FrameData::init()
+{
+	lights.resize(16); // todo; query this constant
+
+	//! light 0 defaults
 	lights[0].enabled = true;
 	lights[0].position = Vector3(1.0, 0.0, 1.0);
 	lights[0].diffuse = Color(0.0, 0.0, 0.0, 0.0);

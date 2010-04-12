@@ -3,7 +3,16 @@
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
-find_package(Boost REQUIRED COMPONENTS mpi serialization)
+
+if(WIN32)
+  include(Extract)
+  extract(${CMAKE_SOURCE_DIR}/win32/boost-mpi.zip
+    ${CMAKE_CURRENT_BINARY_DIR}/boost-mpi)
+  link_directories(${CMAKE_CURRENT_BINARY_DIR}/boost-mpi)
+else(WIN32)
+  find_package(Boost REQUIRED COMPONENTS mpi serialization)
+endif(WIN32)
+
 
 set(ICET_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.zip)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
@@ -43,13 +52,13 @@ add_subdirectory(${ICET_SOURCE_DIR} ${ICET_SOURCE_DIR}/build)
 
 qt4_wrap_cpp(MAONI_ICET_MOC IceTWidget.hpp)
 
-add_library(maoni_icet SHARED
+add_library(MaoniIceT SHARED
   main.cpp
   IceTWidget.cpp
   ${MAONI_ICET_MOC}
   )
 
-target_link_libraries(maoni_icet
+target_link_libraries(MaoniIceT
   ${MAONI_LIBRARIES}
   ${MPI_LIBRARIES}
   ${Boost_LIBRARIES}

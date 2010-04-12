@@ -8,8 +8,7 @@ class IceTWidget: public RenderWidget, public boost::mpi::communicator
 Q_OBJECT
 
 public:
-	IceTWidget(AlgorithmFactory* algorithm_factory_stack,
-			MeshLoader* mesh_loader_stack);
+	IceTWidget(FrameData& framedata);
 
 	~IceTWidget();
 

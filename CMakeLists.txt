@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if(MSVC)
-  add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS /WX)
 else(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
   if(NOT WIN32)
@@ -26,6 +26,13 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
 include(Extract)
 extract(${CMAKE_SOURCE_DIR}/include/boost-la.zip ${CMAKE_BINARY_DIR}/include)
+
+if(WIN32)
+  set(QGLVIEWER_DIR ${CMAKE_BINARY_DIR}/QGLViewer)
+  extract(${CMAKE_SOURCE_DIR}/win32/QGLViewer.zip ${QGLVIEWER_DIR})
+  set(QGLVIEWER_INCLUDE_DIR ${QGLVIEWER_DIR}/include)
+  set(QGLVIEWER_LIBRARY     ${QGLVIEWER_DIR}/lib/QGLViewer2.lib)
+endif(WIN32)
 
 
 include_directories(include ${CMAKE_BINARY_DIR}/include)

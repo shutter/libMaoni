@@ -5,13 +5,13 @@
  *      Author: dpfeifer
  */
 
-#include <eq/eq.h>
+#include "EqInclude.hpp"
 
 #include <Maoni/detail/Algorithm.hpp>
 #include "FrameDataEq.hpp"
 #include "Channel.hpp"
-#include "Config.hpp"
 #include "Pipe.hpp"
+#include "ColoredOutput.hpp"
 
 /*
 
@@ -21,22 +21,27 @@
  post qt redisplay/don't block
  */
 
-struct NodeFactory: eq::NodeFactory
+class NodeFactory: public eq::NodeFactory
 {
-	eq::Channel* createChannel(eq::Window* parent)
+public:
+	NodeFactory(FrameDataEq& framedata) :
+		framedata(framedata)
 	{
-		return new Channel(parent);
 	}
 
-	eq::Config* createConfig(eq::ServerPtr parent)
+private:
+	eq::Channel* createChannel(eq::Window* window)
 	{
-		return new Config(parent);
+		return new Channel(window);
 	}
 
-	eq::Pipe* createPipe(eq::Node* parent)
+	eq::Pipe* createPipe(eq::Node* node)
 	{
-		return new Pipe(parent);
+		return new Pipe(node, framedata);
 	}
+
+private:
+	FrameDataEq& framedata;
 };
 
 #ifdef _MSC_VER
@@ -48,17 +53,19 @@ int maoni_main(int argc, char* argv[],
 {
 	eq::base::Log::level = eq::base::LOG_ERROR;
 
-	NodeFactory node_factory;
+	FrameDataEq framedata(algorithm_factory_stack, mesh_loader_stack);
+
+	NodeFactory node_factory(framedata);
 	if (!eq::init(argc, argv, &node_factory))
 	{
-		std::cerr << "\e[0;31mEqualizer init failed\e[m" << std::endl;
+		std::cerr << RED("Equalizer init failed") << std::endl;
 		return EXIT_FAILURE;
 	}
 
-	Config* config = static_cast<Config*> (eq::getConfig(argc, argv));
+	eq::Config* config = eq::getConfig(argc, argv);
 	if (!config)
 	{
-		std::cerr << "\e[0;31mCannot get config\e[m" << std::endl;
+		std::cerr << RED("Cannot get config") << std::endl;
 		return EXIT_FAILURE;
 	}
 
@@ -72,9 +79,9 @@ int maoni_main(int argc, char* argv[],
 	 makeCurrentNone()
 	 */
 
-	config->registerObject(&config->frame_data);
+	config->registerObject(&framedata);
 
-	if (!config->init(config->frame_data.getID()))
+	if (!config->init(framedata.getID()))
 	{
 		std::cerr << "Config initialization failed: "
 				<< config->getErrorMessage() << std::endl;
@@ -82,14 +89,14 @@ int maoni_main(int argc, char* argv[],
 	}
 
 	uint32_t spin = 0;
-	while (config->isRunning() && Fl::check())
+	while (config->isRunning())
 	{
-		config->frame_data.commit();
+		framedata.commit();
 		config->startFrame(++spin);
 		config->finishFrame();
 	}
 
-	config->deregisterObject(&config->frame_data);
+	config->deregisterObject(&framedata);
 
 	config->exit();
 	eq::releaseConfig(config);

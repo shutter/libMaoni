@@ -11,20 +11,17 @@ include_directories(${Boost_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR})
 set(EMPTY_SOURCE_FILE ${CMAKE_CURRENT_BINARY_DIR}/empty.c)
 file(WRITE ${EMPTY_SOURCE_FILE} "")
 add_executable(example_nothing ${EMPTY_SOURCE_FILE})
-target_link_libraries(example_nothing maoni maoni_main)
+target_link_libraries(example_nothing Maoni MaoniMain)
 
-if(MAONI_BUILD_LIB_ICET)
-  add_executable(example_nothing_icet ${EMPTY_SOURCE_FILE})
-  target_link_libraries(example_nothing_icet
-    maoni_icet maoni_main)
-endif(MAONI_BUILD_LIB_ICET)
+add_executable(example_nothing_icet ${EMPTY_SOURCE_FILE})
+target_link_libraries(example_nothing_icet MaoniIceT MaoniMain)
 
 ##############################################################
 # example with algorithms
 
 file(GLOB RENDER_ALGO_SOURCE Algorithms/*.cpp)
 add_executable(example_algorithms ${RENDER_ALGO_SOURCE})
-target_link_libraries(example_algorithms maoni maoni_main)
+target_link_libraries(example_algorithms Maoni MaoniMain)
 
 ##############################################################
 # example with loaders
@@ -36,7 +33,7 @@ set(MESH_LOADER_SOURCE
   Loaders/STL/stla_io.cpp
   )
 
-set(LIBRARIES maoni maoni_main)
+set(LIBRARIES Maoni MaoniMain)
 
 find_package(lib3ds)
 if(lib3ds_LIBRARIES)

@@ -5,7 +5,7 @@ file(GLOB MAONI_WIDGETS_SRC *.cpp)
 
 qt4_wrap_cpp(MAONI_WIDGETS_MOC ${MAONI_WIDGETS_HPP})
 
-add_library(maoni_widgets STATIC
+add_library(MaoniWidgets STATIC
   ${MAONI_WIDGETS_SRC}
   ${MAONI_WIDGETS_MOC}
   )

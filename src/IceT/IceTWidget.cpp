@@ -4,9 +4,8 @@
 
 IceTWidget* IceTWidget::singleton = 0;
 
-IceTWidget::IceTWidget(AlgorithmFactory* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack) :
-	RenderWidget(algorithm_factory_stack, mesh_loader_stack)
+IceTWidget::IceTWidget(FrameData& framedata) :
+	RenderWidget(framedata)
 {
 	BOOST_ASSERT(!singleton && "Only one Instance of IceTWidget may exist");
 	singleton = this;

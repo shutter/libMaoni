@@ -7,9 +7,14 @@
 
 #include <boost/mpi/environment.hpp>
 #include <QApplication>
+
 #include "IceTWidget.hpp"
+#include "../Common/FrameData.hpp"
 #include "../Widgets/MainWindow.hpp"
 
+#ifdef _MSC_VER
+__declspec(dllexport)
+#endif
 int maoni_main(int argc, char* argv[],
 		AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack)
@@ -17,12 +22,13 @@ int maoni_main(int argc, char* argv[],
 	boost::mpi::environment env(argc, argv);
 	QApplication app(argc, argv);
 
-	IceTWidget* icet_widget = new IceTWidget(algorithm_factory_stack,
-			mesh_loader_stack);
+	FrameData framedata(algorithm_factory_stack, mesh_loader_stack);
+
+	IceTWidget* icet_widget = new IceTWidget(framedata);
 
 	QWidget* main_window;
 	if (icet_widget->rank() == 0)
-		main_window = new MainWindow(icet_widget);
+		main_window = new MainWindow(framedata, icet_widget);
 	else
 		main_window = icet_widget;
 
