@@ -5,44 +5,18 @@
  *      Author: dpfeifer
  */
 
+#include <QApplication>
+#include <QSplashScreen>
+#include <QTimer>
+
 #include "EqInclude.hpp"
 
 #include <Maoni/detail/Algorithm.hpp>
 #include "FrameDataEq.hpp"
-#include "Channel.hpp"
-#include "Pipe.hpp"
-#include "ColoredOutput.hpp"
-
-/*
-
- In Qt idle func (wie auch immer die heisst)
- if( needsRedraw )
- config->frame()
- post qt redisplay/don't block
- */
-
-class NodeFactory: public eq::NodeFactory
-{
-public:
-	NodeFactory(FrameDataEq& framedata) :
-		framedata(framedata)
-	{
-	}
-
-private:
-	eq::Channel* createChannel(eq::Window* window)
-	{
-		return new Channel(window);
-	}
-
-	eq::Pipe* createPipe(eq::Node* node)
-	{
-		return new Pipe(node, framedata);
-	}
-
-private:
-	FrameDataEq& framedata;
-};
+#include "GLWindow.hpp"
+#include "NodeFactory.hpp"
+#include "../Widgets/MainWindow.hpp"
+//#include "RenderWidget.hpp"
 
 #ifdef _MSC_VER
 __declspec(dllexport)
@@ -58,19 +32,28 @@ int maoni_main(int argc, char* argv[],
 	NodeFactory node_factory(framedata);
 	if (!eq::init(argc, argv, &node_factory))
 	{
-		std::cerr << RED("Equalizer init failed") << std::endl;
+		std::cerr << "Equalizer init failed" << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	eq::Config* config = eq::getConfig(argc, argv);
 	if (!config)
 	{
-		std::cerr << RED("Cannot get config") << std::endl;
+		std::cerr << "Cannot get config" << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	// if the application runs as a render slave, it will never get here
 	// so don't do any UI stuff until now
+
+	QApplication app(argc, argv);
+	Q_INIT_RESOURCE(Resources);
+
+	QPixmap pixmap(":/Maoni/Splashscreen.png");
+	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
+    splash.show();
+    splash.showMessage("Loading Widgets...");
+	QTimer::singleShot(3000, &splash, SLOT(close()));
 
 	/*
 	 createQTGLWidget;
@@ -78,6 +61,9 @@ int maoni_main(int argc, char* argv[],
 	 mit: class EqQtWindow : public eq::GLWindow { implement abstract functions }
 	 makeCurrentNone()
 	 */
+
+//	MainWindow main_window(framedata, new RenderWidget(framedata));
+//	main_window.setWindowTitle("MaoniEq");
 
 	config->registerObject(&framedata);
 
@@ -88,6 +74,8 @@ int maoni_main(int argc, char* argv[],
 		return EXIT_FAILURE;
 	}
 
+//	main_window.show();
+
 	uint32_t spin = 0;
 	while (config->isRunning())
 	{
@@ -96,11 +84,13 @@ int maoni_main(int argc, char* argv[],
 		config->finishFrame();
 	}
 
+	int retval = app.exec();
+
 	config->deregisterObject(&framedata);
 
 	config->exit();
 	eq::releaseConfig(config);
 	eq::exit();
 
-	return EXIT_SUCCESS;
+	return retval;
 }

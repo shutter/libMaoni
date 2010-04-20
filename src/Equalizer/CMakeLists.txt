@@ -12,7 +12,7 @@ find_package(Equalizer REQUIRED)
 include_directories(${Equalizer_INCLUDE_DIRS})
 
 set(MAONI_EQ_SRC
-  Channel.cpp
+  NodeFactory.cpp
   main.cpp
   )
 

@@ -19,12 +19,14 @@ FrameData::FrameData(FrameData const& other):
 void FrameData::init()
 {
 	lights.resize(16); // todo; query this constant
+	std::memset(&lights[0], 0, lights.size() * sizeof(Light));
+
 
 	//! light 0 defaults
 	lights[0].enabled = true;
 	lights[0].position = Vector3(1.0, 0.0, 1.0);
-	lights[0].diffuse = Color(0.0, 0.0, 0.0, 0.0);
-	lights[0].specular = Color(1.0, 1.0, 1.0, 1.0);
+	lights[0].diffuse = Color(1.0, 0.0, 0.0, 1.0);
+	lights[0].specular = Color(1.0, 1.0, 0.0, 1.0);
 }
 
 bool FrameData::load_model(const char* filename)

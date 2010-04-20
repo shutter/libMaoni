@@ -13,7 +13,7 @@ public:
 	~IceTWidget();
 
 private:
-	void draw();
+	void paintGL();
 
 private:
 	IceTContext context;

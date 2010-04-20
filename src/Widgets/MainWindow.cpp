@@ -2,6 +2,7 @@
 #include "RenderWidget.hpp"
 #include "LightWidget.hpp"
 #include "AlgorithmWidget.hpp"
+#include "TextOutput.hpp"
 //#include "TilesWidget.hpp"
 #include "../Common/FrameData.hpp"
 #include "../Common/ImportExport.hpp"
@@ -72,6 +73,7 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 			set_foreground_color()));
 	visual_hints->addAction(foreground_color);
 
+	dock_menu = menuBar()->addMenu("&Window");
 	init_docks();
 
 	QMenu* help = menuBar()->addMenu("&Help");
@@ -93,6 +95,20 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 	action = new QAction("about &Qt", this);
 	connect(action, SIGNAL(triggered()), this, SLOT(about_qt()));
 	help->addAction(action);
+}
+
+void MainWindow::add_dock(const char* name, Qt::DockWidgetArea area,
+		QWidget *widget)
+{
+	QDockWidget *dock = new QDockWidget(name, this);
+	dock->setAllowedAreas(Qt::AllDockWidgetAreas);
+
+	QAction* action = new QAction(name, this);
+	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
+	dock_menu->addAction(action);
+
+	dock->setWidget(widget);
+	addDockWidget(area, dock);
 }
 
 void MainWindow::init_model_menu()
@@ -135,36 +151,16 @@ void MainWindow::init_model_menu()
 
 void MainWindow::init_docks()
 {
-	QMenu* menu = menuBar()->addMenu("&Window");
-
-	QDockWidget *dock = new QDockWidget("Stefan's LightWidget", this);
-	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-	QAction* action = new QAction("Stefan's &LightWidget", this);
-	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
-	menu->addAction(action);
-
 	light_widget = new LightWidget(framedata);
-	dock->setWidget(light_widget);
-	addDockWidget(Qt::LeftDockWidgetArea, dock);
+	add_dock("Stefan's LightWidget", Qt::LeftDockWidgetArea, light_widget);
 
 	if (framedata.num_algorithms() > 0)
 	{
-		dock = new QDockWidget("Daniel's AlgorithmWidget", this);
-		dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-		action = new QAction("Daniel's &AlgorithmWidget", this);
-		connect(action, SIGNAL(triggered()), dock, SLOT(show()));
-		menu->addAction(action);
-
-		dock->setWidget(new AlgorithmWidget(framedata));
-		addDockWidget(Qt::RightDockWidgetArea, dock);
+		add_dock("Daniel's AlgorithmWidget", Qt::RightDockWidgetArea,
+				new AlgorithmWidget(framedata));
 	}
 
-	//	tiles_widget = new TilesWidget(*render_widget);
-	//	action = new QAction("&Tiles Config", this);
-	//	connect(action, SIGNAL(triggered()), this, SLOT(show_tilesconfig()));
-	//	menu->addAction(action);
+	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
 }
 
 void MainWindow::about_qt()

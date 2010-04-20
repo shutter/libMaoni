@@ -31,9 +31,11 @@ void IceTWidget::static_draw()
 	singleton->RenderWidget::draw();
 }
 
-void IceTWidget::draw()
+void IceTWidget::paintGL()
 {
+	preDraw();
 	icetDrawFrame();
+	postDraw();
 
 	// if(rank() != 0)
 	// 	updateGL();

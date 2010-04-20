@@ -16,6 +16,8 @@ Q_OBJECT
 public:
 	MainWindow(FrameData& framedata, RenderWidget* render_widget);
 
+	void add_dock(const char* name, Qt::DockWidgetArea area, QWidget *widget);
+
 private slots:
 	void about_qt();
 	void about_maoni();
@@ -39,6 +41,8 @@ private:
 	LightWidget* light_widget;
 //	TilesWidget* tiles_widget;
 	QDialog* tiles_dialog;
+
+	QMenu* dock_menu;
 };
 
 #endif /* MAIN_WINDOW_HPP */
