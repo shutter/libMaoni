@@ -5,19 +5,26 @@ find_package(Boost REQUIRED)
 find_package(GLEW  REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR})
 
+add_custom_target(examples)
+
+macro(add_example NAME)
+  add_executable(${NAME} EXCLUDE_FROM_ALL ${ARGN})
+  add_dependencies(examples ${NAME})
+endmacro(add_example NAME)
+
 ##############################################################
 # example without source
 
 set(EMPTY_SOURCE_FILE ${CMAKE_CURRENT_BINARY_DIR}/empty.c)
 file(WRITE ${EMPTY_SOURCE_FILE} "")
-add_executable(example_nothing ${EMPTY_SOURCE_FILE})
+add_example(example_nothing ${EMPTY_SOURCE_FILE})
 target_link_libraries(example_nothing Maoni MaoniMain)
 
 ##############################################################
 # example with algorithms
 
 file(GLOB RENDER_ALGO_SOURCE Algorithms/*.cpp)
-add_executable(example_algorithms ${RENDER_ALGO_SOURCE})
+add_example(example_algorithms ${RENDER_ALGO_SOURCE})
 target_link_libraries(example_algorithms Maoni MaoniMain)
 
 ##############################################################
@@ -36,26 +43,26 @@ if(lib3ds_LIBRARIES)
   set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
 endif(lib3ds_LIBRARIES)
 
-add_executable(example_loaders ${MESH_LOADER_SOURCE})
+add_example(example_loaders ${MESH_LOADER_SOURCE})
 target_link_libraries(example_loaders ${LIBRARIES} Maoni)
 
 ##############################################################
 # example with both algorithms and loaders
 
-add_executable(example_full ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+add_example(example_full ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
 target_link_libraries(example_full ${LIBRARIES} Maoni)
 
 ##############################################################
 # example with both algorithms and loaders, using Equalizer
 
-add_executable(example_eq ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+add_example(example_eq ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
 target_link_libraries(example_eq ${LIBRARIES} MaoniEq)
 
 ##############################################################
 # example with both algorithms and loaders, using IceT
 
-add_executable(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
-target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
+#add_example(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+#target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
 
 ##############################################################
 

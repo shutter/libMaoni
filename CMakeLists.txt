@@ -1,6 +1,6 @@
 # Copyright (c) 2009 Daniel Pfeifer, University of Zurich
 
-cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(Maoni)
 
 set(CMAKE_BUILD_TYPE Debug)
@@ -36,24 +36,16 @@ endif(WIN32)
 
 
 include_directories(include ${CMAKE_BINARY_DIR}/include)
-add_subdirectory(src)
-
 install(DIRECTORY include/ DESTINATION include COMPONENT headers)
 
-
-option(MAONI_BUILD_DOCUMENTATION OFF)
-if(MAONI_BUILD_DOCUMENTATION)
-  set(THIS_PROJECT_NAME libMaoni)
-  include(AddReference)
-  include(AddDocumentation)
-  add_subdirectory(doc)
-endif(MAONI_BUILD_DOCUMENTATION)
+add_subdirectory(src)
+add_subdirectory(examples)
 
 
-option(MAONI_BUILD_EXAMPLES OFF)
-if(MAONI_BUILD_EXAMPLES)
-  add_subdirectory(examples)
-endif(MAONI_BUILD_EXAMPLES)
+set(THIS_PROJECT_NAME libMaoni)
+include(AddReference)
+include(AddDocumentation)
+add_subdirectory(doc EXCLUDE_FROM_ALL)
 
 
 set(CPACK_PACKAGE_NAME "Maoni")
