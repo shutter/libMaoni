@@ -1,8 +1,19 @@
 /*
- * Vector.hpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: 27.07.2009
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef MAONI_VECTOR_HPP
@@ -11,60 +22,12 @@
 #include <Maoni/detail/Vector.hpp>
 
 //! a two component floating-point vector
-typedef Vector<2> Vector2;
-
-template<>
-struct Vector<2> : VectorBase<2>
-{
-	Vector()
-	{
-		data[0] = data[1] = 0.f;
-	}
-
-	Vector(float x, float y)
-	{
-		data[0] = x;
-		data[1] = y;
-	}
-};
+typedef detail::Vector<2> Vector2;
 
 //! a three component floating-point vector
-typedef Vector<3> Vector3;
-
-template<>
-struct Vector<3> : VectorBase<3>
-{
-	Vector()
-	{
-		data[0] = data[1] = data[2] = 0.f;
-	}
-
-	Vector(float x, float y, float z)
-	{
-		data[0] = x;
-		data[1] = y;
-		data[2] = z;
-	}
-};
+typedef detail::Vector<3> Vector3;
 
 //! a four component floating-point vector
-typedef Vector<4> Vector4;
-
-template<>
-struct Vector<4> : VectorBase<4>
-{
-	Vector()
-	{
-		data[0] = data[1] = data[2] = data[3] = 0.f;
-	}
-
-	Vector(float x, float y, float z, float w)
-	{
-		data[0] = x;
-		data[1] = y;
-		data[2] = z;
-		data[3] = w;
-	}
-};
+typedef detail::Vector<4> Vector4;
 
 #endif /* MAONI_VECTOR_HPP */

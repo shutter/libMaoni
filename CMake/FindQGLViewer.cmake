@@ -9,6 +9,7 @@
 find_path(QGLVIEWER_INCLUDE_DIR qglviewer.h
   /usr/include
   /usr/local/include
+  /opt/local/include
   /usr/include/QGLViewer
   /usr/include/qglviewer-qt4
   $ENV{ProgramFiles}/libQGLViewer/QGLViewer
@@ -21,6 +22,7 @@ find_library(QGLVIEWER_LIBRARY
   PATHS
     /usr/lib
     /usr/local/lib
+    /opt/local/lib
     $ENV{ProgramFiles}/libQGLViewer
   )
 
