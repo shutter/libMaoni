@@ -25,13 +25,14 @@ int maoni_main(int argc, char* argv[],
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
     splash.showMessage("Loading Widgets...");
-	QTimer::singleShot(3000, &splash, SLOT(close()));
 
 	FrameData framedata(algorithm_factory_stack, mesh_loader_stack);
 
 	MainWindow main_window(framedata, new RenderWidget(framedata));
 	main_window.setWindowTitle("Maoni");
-	main_window.show();
+
+	QTimer::singleShot(1000, &main_window, SLOT(show()));
+	QTimer::singleShot(1337, &splash, SLOT(close()));
 
 	return app.exec();
 }

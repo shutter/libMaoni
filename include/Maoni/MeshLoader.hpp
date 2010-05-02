@@ -27,15 +27,7 @@
  * \param EXT  The file extension associated with this loader
  * \param NAME The name of the file format.
  */
-#define MESH_LOADER(EXT, NAME)                                                 \
-    class MeshLoader_##EXT: public MeshLoader                                  \
-	{                                                                          \
-        const char* const name() const      { return     #NAME; }              \
-        const char* const extension() const { return "." #EXT;  }              \
-        bool load(Model& model, const char* filename) const;                   \
-    };                                                                         \
-    MeshLoader_##EXT MeshLoader_##EXT##__;                                     \
-    bool MeshLoader_##EXT::load(Model& model, const char* filename) const      \
+#define MESH_LOADER(EXT, NAME) MESH_LOADER_I(MeshLoader_##EXT, #NAME, "." #EXT)
 
 #include <Maoni/detail/MeshLoader.hpp>
 
