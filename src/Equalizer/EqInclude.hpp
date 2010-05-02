@@ -8,6 +8,7 @@
 #  //pragma warning(disable: 512)
 #endif
 
+#include <QMetaType>
 #include <eq/eq.h>
 
 #ifdef _MSC_VER

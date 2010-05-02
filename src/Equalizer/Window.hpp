@@ -10,9 +10,7 @@
 
 #include "EqInclude.hpp"
 
-eq::base::Lockable<eq::Window*> _qtWindow = 0;
-
-class Window: public eq::Window
+class EQWindow: public eq::Window
 {
 
 private:

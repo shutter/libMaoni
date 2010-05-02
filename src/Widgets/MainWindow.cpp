@@ -184,7 +184,7 @@ void MainWindow::load_model(QString filename)
 	{
 		filename = QFileDialog::getOpenFileName(this,
 				"Choose the model file to load", "Models/trico.ply",
-				MeshLoader::all_filters());
+				framedata.mesh_loader_filters());
 	}
 
 	if (filename.isNull())

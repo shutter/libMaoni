@@ -16,7 +16,7 @@
 #include "GLWindow.hpp"
 #include "NodeFactory.hpp"
 #include "../Widgets/MainWindow.hpp"
-//#include "RenderWidget.hpp"
+#include "RenderWidget.hpp"
 
 #ifdef _MSC_VER
 __declspec(dllexport)
@@ -62,8 +62,8 @@ int maoni_main(int argc, char* argv[],
 	 makeCurrentNone()
 	 */
 
-//	MainWindow main_window(framedata, new RenderWidget(framedata));
-//	main_window.setWindowTitle("MaoniEq");
+	MainWindow main_window(framedata, new RenderWidget(framedata));
+	main_window.setWindowTitle("MaoniEq");
 
 	config->registerObject(&framedata);
 
@@ -74,7 +74,7 @@ int maoni_main(int argc, char* argv[],
 		return EXIT_FAILURE;
 	}
 
-//	main_window.show();
+	main_window.show();
 
 	uint32_t spin = 0;
 	while (config->isRunning())

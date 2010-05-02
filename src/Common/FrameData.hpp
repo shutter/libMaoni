@@ -24,6 +24,8 @@ public:
 	//! get the amount of mesh loaders
 	std::size_t num_loaders() const;
 
+	const char* mesh_loader_filters();
+
 	std::size_t num_lights() const
 	{
 		return lights.size();
@@ -50,6 +52,8 @@ protected:
 private:
 	AlgorithmFactory* algorithm_factory_stack;
 	MeshLoader* mesh_loader_stack;
+
+	std::string mesh_loader_filters_;
 
 	Algorithm::Ptr render_algorithm_;
 

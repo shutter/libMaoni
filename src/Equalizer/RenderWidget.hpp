@@ -9,15 +9,24 @@
 #define MAONI_EQ_RENDER_WIDGET_HPP
 
 #include "../Widgets/RenderWidget.hpp"
+//#include "EqInclude.hpp"
+
+namespace eq
+{
+class Config;
+}
 
 class RenderWidgetEq: RenderWidget
 {
 public:
-	RenderWidgetEq();
+	RenderWidgetEq(FrameData& framedata, eq::Config* config);
 	~RenderWidgetEq();
 
 private:
 	void paintGL();
+
+private:
+	eq::Config* config;
 };
 
 #endif /* MAONI_EQ_RENDER_WIDGET_HPP */

@@ -7,7 +7,8 @@
 
 #include "RenderWidget.hpp"
 
-RenderWidgetEq::RenderWidgetEq()
+RenderWidgetEq::RenderWidgetEq(FrameData& framedata, eq::Config* config) :
+	RenderWidget(framedata), config(config)
 {
 }
 
@@ -27,4 +28,8 @@ void RenderWidgetEq::paintGL()
 	preDraw();
 	draw();
 	postDraw();
+
+//	framedata.commit();
+//	config->startFrame(0);
+//	config->finishFrame();
 }

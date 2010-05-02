@@ -12,8 +12,10 @@ find_package(Equalizer REQUIRED)
 include_directories(${Equalizer_INCLUDE_DIRS})
 
 set(MAONI_EQ_SRC
-  NodeFactory.cpp
   main.cpp
+  NodeFactory.cpp
+  RenderWidget.cpp
+  Window.cpp
   )
 
 if(MSVC)

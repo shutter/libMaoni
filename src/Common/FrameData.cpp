@@ -1,5 +1,6 @@
 #include "FrameData.hpp"
 #include <boost/algorithm/string/predicate.hpp>
+#include <sstream>
 
 FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack) :
@@ -46,7 +47,7 @@ bool FrameData::load_model(const char* filename)
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			return i->load_i(model_, filename) && model_.set_bezier_mesh(
+			return i->load(model_, filename) && model_.set_bezier_mesh(
 					Model::none);
 	}
 
@@ -80,6 +81,23 @@ std::size_t FrameData::num_loaders() const
 		++num;
 
 	return num;
+}
+
+const char* FrameData::mesh_loader_filters()
+{
+	if (mesh_loader_filters_.empty())
+	{
+		std::stringstream stream;
+		stream << "All files (*.*)";
+		for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
+		{
+			stream << ";;" << i->name() << " (*." << i->extension() << ")";
+		}
+
+		mesh_loader_filters_ = stream.str();
+	}
+
+	return mesh_loader_filters_.c_str();
 }
 
 void FrameData::draw() const
