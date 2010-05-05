@@ -10,13 +10,31 @@
 #include <QTimer>
 
 #include "EqInclude.hpp"
+#include "eQute.hpp"
 
 #include <Maoni/detail/Algorithm.hpp>
 #include "FrameDataEq.hpp"
-#include "GLWindow.hpp"
-#include "NodeFactory.hpp"
+#include "Node.hpp"
 #include "../Widgets/MainWindow.hpp"
 #include "RenderWidget.hpp"
+
+class NodeFactory: public eQute<RenderWidgetEq>::Factory
+{
+public:
+	NodeFactory(FrameDataEq& framedata) :
+		framedata(framedata)
+	{
+	}
+
+private:
+	eq::Node* createNode(eq::Config* config)
+	{
+		return new Node(config, framedata);
+	}
+
+private:
+	FrameDataEq& framedata;
+};
 
 #ifdef _MSC_VER
 __declspec(dllexport)
@@ -51,7 +69,7 @@ int maoni_main(int argc, char* argv[],
 
 	QPixmap pixmap(":/Maoni/Splashscreen.png");
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
-    splash.show();
+	splash.show();
 
 	MainWindow main_window(framedata, new RenderWidgetEq(framedata, config));
 	main_window.setWindowTitle("Maoni using Equalizer Parallel Rendering");

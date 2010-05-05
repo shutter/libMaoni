@@ -13,19 +13,16 @@ include_directories(${Equalizer_INCLUDE_DIRS})
 
 set(MAONI_EQ_SRC
   main.cpp
-  NodeFactory.cpp
   RenderWidget.cpp
-  Window.cpp
   )
 
 if(MSVC)
   set(MAONI_EQ_SRC ${MAONI_EQ_SRC}
-  Channel.hpp
-  ColoredOutput.hpp
   EqInclude.hpp
+  equte.hpp
   FrameDataEq.hpp
-  Pipe.hpp
-  Window.hpp
+  Node.hpp
+  RenderWidget.hpp
   )
 endif(MSVC)
 

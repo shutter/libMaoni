@@ -10,22 +10,25 @@
 
 #include "EqInclude.hpp"
 #include "../Widgets/RenderWidget.hpp"
+#include "eQute.hpp"
 
-class RenderWidgetEq: public RenderWidget
+class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::Proxy
 {
 public:
-	RenderWidgetEq(FrameData& framedata, eq::Config* config);
-	~RenderWidgetEq();
+	RenderWidgetEq(FrameData& framedata, eq::Config* config) :
+		RenderWidget(framedata), config(config)
+	{
+	}
 
-	static RenderWidgetEq* instance();
+	using QGLViewer::paintGL;
+
+	static void static_draw(eq::Channel* channel);
 
 private:
-	void paintGL();
+	void glDraw();
 
 private:
 	eq::Config* config;
-
-	static eq::base::Lockable<RenderWidgetEq*> instance_;
 };
 
 #endif /* MAONI_EQ_RENDER_WIDGET_HPP */
