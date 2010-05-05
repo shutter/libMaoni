@@ -52,18 +52,9 @@ int maoni_main(int argc, char* argv[],
 	QPixmap pixmap(":/Maoni/Splashscreen.png");
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
-    splash.showMessage("Loading Widgets...");
-	QTimer::singleShot(3000, &splash, SLOT(close()));
 
-	/*
-	 createQTGLWidget;
-	 _qtWindow = new EqQtWindow( qtGLWidget );
-	 mit: class EqQtWindow : public eq::GLWindow { implement abstract functions }
-	 makeCurrentNone()
-	 */
-
-	MainWindow main_window(framedata, new RenderWidget(framedata));
-	main_window.setWindowTitle("MaoniEq");
+	MainWindow main_window(framedata, new RenderWidgetEq(framedata, config));
+	main_window.setWindowTitle("Maoni using Equalizer Parallel Rendering");
 
 	config->registerObject(&framedata);
 
@@ -74,15 +65,8 @@ int maoni_main(int argc, char* argv[],
 		return EXIT_FAILURE;
 	}
 
-	main_window.show();
-
-	uint32_t spin = 0;
-	while (config->isRunning())
-	{
-		framedata.commit();
-		config->startFrame(++spin);
-		config->finishFrame();
-	}
+	QTimer::singleShot(1000, &main_window, SLOT(show()));
+	QTimer::singleShot(1337, &splash, SLOT(close()));
 
 	int retval = app.exec();
 

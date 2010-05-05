@@ -5,17 +5,19 @@
  *      Author: daniel
  */
 
-#ifndef GLWINDOW_HPP_
-#define GLWINDOW_HPP_
+#ifndef MAONI_EQ_GLWINDOW_HPP
+#define MAONI_EQ_GLWINDOW_HPP
 
 #include "EqInclude.hpp"
+#include <QGLWidget>
 
 class GLWindow: public eq::GLWindow
 {
 public:
-	GLWindow(eq::Window* parent) :
-		eq::GLWindow(parent)
+	GLWindow(eq::Window* window, QGLWidget* qglwidget) :
+		eq::GLWindow(window), qglwidget(qglwidget)
 	{
+		makeCurrent();
 	}
 
 	~GLWindow()
@@ -32,13 +34,22 @@ private:
 	{
 	}
 
+	void makeCurrent() const
+	{
+		qglwidget->makeCurrent();
+	}
+
 	void swapBuffers()
 	{
+		qglwidget->swapBuffers();
 	}
 
 	void joinNVSwapBarrier(uint32_t, uint32_t)
 	{
 	}
+
+private:
+	QGLWidget* qglwidget;
 };
 
-#endif /* GLWINDOW_HPP_ */
+#endif /* MAONI_EQ_GLWINDOW_HPP */

@@ -32,7 +32,7 @@ int maoni_main(int argc, char* argv[],
 	else
 		main_window = icet_widget;
 
-	main_window->setWindowTitle("Maoni Parallel Renderer");
+	main_window->setWindowTitle("Maoni using IceT Parallel Rendering");
 	main_window->show();
 
 	return app.exec();

@@ -20,9 +20,11 @@ public:
 	}
 
 private:
-	eq::Channel* createChannel(eq::Window* window);
-
 	eq::Node* createNode(eq::Config* config);
+
+	eq::Window* createWindow(eq::Pipe* pipe);
+
+	eq::Channel* createChannel(eq::Window* window);
 
 private:
 	FrameDataEq& framedata;

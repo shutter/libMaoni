@@ -61,8 +61,8 @@ target_link_libraries(example_eq ${LIBRARIES} MaoniEq)
 ##############################################################
 # example with both algorithms and loaders, using IceT
 
-#add_example(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
-#target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
+add_example(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
 
 ##############################################################
 
