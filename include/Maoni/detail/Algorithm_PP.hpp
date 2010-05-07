@@ -10,12 +10,7 @@
 
 #include <boost/preprocessor/cat.hpp>
 #include <Maoni/detail/Algorithm.hpp>
-
-#ifdef VMMVIEW_USE_EQUALIZER
-#  include <Maoni/detail/Algorithm_PP_Equalizer.hpp>
-#else
-#  include <Maoni/detail/Algorithm_PP_Simple.hpp>
-#endif
+#include <Maoni/detail/Algorithm_PP_Simple.hpp>
 
 #define RENDER_ALGORITHM_X(T, V, D) ((T, V, D)) RENDER_ALGORITHM_Y
 #define RENDER_ALGORITHM_Y(T, V, D) ((T, V, D)) RENDER_ALGORITHM_X
@@ -46,7 +41,7 @@
 			ALGORITHM_SETTERS(SEQ)                                             \
                                                                                \
 			const char* name() const { return #NAME; }                         \
-			void config(AlgoConfigManager& manager)                            \
+			void config(AlgorithmConfig& manager)                              \
 			{                                                                  \
 				ALGORITHM_ADD_PROPERTIES(SEQ)                                  \
 			}                                                                  \

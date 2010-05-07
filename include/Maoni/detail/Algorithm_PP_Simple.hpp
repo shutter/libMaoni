@@ -13,7 +13,7 @@
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
-#include <boost/bind.hpp>
+//#include <boost/bind.hpp>
 
 #define ALGO_TYP(TVD) BOOST_PP_TUPLE_ELEM(3, 0, TVD)
 #define ALGO_VAL(TVD) BOOST_PP_TUPLE_ELEM(3, 1, TVD)
@@ -81,10 +81,11 @@
 
 //
 #define ALGORITHM_ADD_PROPERTIES_I(r, data, elem)                              \
-   manager.add_property(BOOST_PP_STRINGIZE(ALGO_VAL(elem)),                    \
-   boost::bind(&Config::BOOST_PP_CAT(set_, ALGO_VAL(elem)), this, _1),         \
-/* ALGO_TYP(elem)(ALGO_DEF(elem))); */                                         \
-   ALGO_VAL(elem));                                                            \
+   manager.property(BOOST_PP_STRINGIZE(ALGO_VAL(elem)), ALGO_VAL(elem));       \
+
+//   boost::bind(&Config::BOOST_PP_CAT(set_, ALGO_VAL(elem)), this, _1),
+///* ALGO_TYP(elem)(ALGO_DEF(elem))); */
+//   ALGO_VAL(elem));
 
 #define ALGORITHM_ADD_PROPERTIES(SEQ)                                          \
    BOOST_PP_SEQ_FOR_EACH(ALGORITHM_ADD_PROPERTIES_I,, SEQ)                     \
