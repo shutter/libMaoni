@@ -2,17 +2,16 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <sstream>
 
-FrameData::FrameData(AlgorithmFactory* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack) :
-			algorithm_factory_stack(algorithm_factory_stack), //
-			mesh_loader_stack(mesh_loader_stack)
+FrameData::FrameData(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
+	algorithm_stack(algorithm_stack), mesh_loader_stack(mesh_loader_stack),
+			render_algorithm_(0)
 {
 	init();
 }
 
-FrameData::FrameData(FrameData const& other):
-			algorithm_factory_stack(other.algorithm_factory_stack), //
-			mesh_loader_stack(other.mesh_loader_stack)
+FrameData::FrameData(FrameData const& other) :
+	algorithm_stack(other.algorithm_stack), //
+			mesh_loader_stack(other.mesh_loader_stack), render_algorithm_(0)
 {
 	init();
 }
@@ -21,7 +20,6 @@ void FrameData::init()
 {
 	lights.resize(16); // todo; query this constant
 	std::memset(&lights[0], 0, lights.size() * sizeof(Light));
-
 
 	//! light 0 defaults
 	lights[0].enabled = true;
@@ -56,10 +54,10 @@ bool FrameData::load_model(const char* filename)
 
 void FrameData::set_render_algorithm(std::string const& name)
 {
-	for (AlgorithmFactory* i = algorithm_factory_stack; i; i = i->next)
+	for (Algorithm* i = algorithm_stack; i; i = i->next)
 	{
 		if (name == i->name())
-			render_algorithm_ = i->algorithm();
+			render_algorithm_ = i;
 	}
 }
 
@@ -67,7 +65,7 @@ std::size_t FrameData::num_algorithms() const
 {
 	std::size_t num = 0;
 
-	for (AlgorithmFactory* i = algorithm_factory_stack; i; i = i->next)
+	for (Algorithm* i = algorithm_stack; i; i = i->next)
 		++num;
 
 	return num;

@@ -65,8 +65,6 @@ private:
 	QtEnumPropertyManager* enum_manager;
 	QtColorPropertyManager* color_manager;
 	FilePathManager* filepath_manager;
-
-	AlgoConfig::Ptr config;
 };
 
 #endif /* VMMVIEW_ALGORITHM_WIDGET_HPP */

@@ -42,11 +42,10 @@ std::string const& Texture::operator=(std::string const& other)
 	return other;
 }
 
-Texture::operator unsigned int()
+Texture::operator unsigned int() const
 {
 	if (!name_)
 	{
-
 		glGenTextures(1, &name_);
 
 		QImage image(path_.c_str());

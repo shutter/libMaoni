@@ -17,7 +17,7 @@
 static QStringList AlgorithmNames()
 {
 	QStringList list;
-	for (AlgorithmFactory* i = AlgorithmFactory::stack; i; i = i->next)
+	for (Algorithm* i = Algorithm::stack; i; i = i->next)
 		list.append(i->name());
 	return list;
 }
@@ -92,8 +92,8 @@ void AlgorithmWidget::choose(int index)
 	texture_pointers.clear();
 
 	property_browser->clear();
-	config = AlgorithmFactory::create_config(name);
-	config->config(*this);
+
+	framedata.config_algorithm(*this);
 }
 
 void AlgorithmWidget::property(const char* name, int& value)

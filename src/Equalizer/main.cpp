@@ -39,13 +39,12 @@ private:
 #ifdef _MSC_VER
 __declspec(dllexport)
 #endif
-int maoni_main(int argc, char* argv[],
-		AlgorithmFactory* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack)
+int maoni_main(int argc, char* argv[], //
+		Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	eq::base::Log::level = eq::base::LOG_ERROR;
 
-	FrameDataEq framedata(algorithm_factory_stack, mesh_loader_stack);
+	FrameDataEq framedata(algorithm_stack, mesh_loader_stack);
 
 	NodeFactory node_factory(framedata);
 	if (!eq::init(argc, argv, &node_factory))

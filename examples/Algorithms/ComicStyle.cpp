@@ -6,9 +6,7 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/ShaderProgram.hpp>
-#include <Maoni/ScopedLocks.hpp>
+#include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 130),
 		varying vec3 lightDir;

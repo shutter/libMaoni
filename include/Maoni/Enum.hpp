@@ -20,13 +20,20 @@
 #define MAONI_ENUM_HPP
 
 #define ENUM(NAME, VALUES)                                                     \
-    struct NAME: Enum                                                          \
+    class NAME: public Enum                                                    \
     {                                                                          \
+    public:                                                                    \
         NAME(int value) :                                                      \
             Enum(value)                                                        \
         {                                                                      \
         }                                                                      \
                                                                                \
+        enum                                                                   \
+        {                                                                      \
+            BOOST_PP_SEQ_ENUM(VALUES)                                          \
+        };                                                                     \
+                                                                               \
+    private:                                                                   \
         int size() const                                                       \
         {                                                                      \
    	        return BOOST_PP_SEQ_SIZE(VALUES);                                  \
@@ -38,11 +45,6 @@
                 { BOOST_PP_SEQ_FOR_EACH(COMMA_SEP_STRINGS,, VALUES) 0 };       \
             return name_stack;                                                 \
         }                                                                      \
-                                                                               \
-        enum                                                                   \
-        {                                                                      \
-            BOOST_PP_SEQ_ENUM(VALUES)                                          \
-        };                                                                     \
     }                                                                          \
 
 #include <Maoni/detail/Enum.hpp>

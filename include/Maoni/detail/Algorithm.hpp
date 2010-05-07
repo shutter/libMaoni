@@ -8,16 +8,13 @@
 #ifndef VMMVIEW_COMMON_RENDER_ALGORITHM_HPP
 #define VMMVIEW_COMMON_RENDER_ALGORITHM_HPP
 
-#include <boost/shared_ptr.hpp>
-#include <boost/noncopyable.hpp>
-
-#include <Maoni/Color.hpp>
-#include <Maoni/Model.hpp>
 #include <Maoni/detail/Extensible.hpp>
-#include <Maoni/detail/ShaderProgram.hpp>
 
 class Enum;
+class Color;
+class Model;
 class Texture;
+class ShaderProgram;
 
 struct AlgorithmConfig
 {
@@ -31,38 +28,13 @@ struct AlgorithmConfig
 	virtual void property(const char* name, ShaderProgram& value) = 0;
 };
 
-struct Algorithm: boost::noncopyable
+struct Algorithm: Extensible<Algorithm>
 {
-	typedef boost::shared_ptr<Algorithm> Ptr;
-
 	virtual const char* name() const = 0;
+
 	virtual void render(const Model& model) const = 0;
-	//virtual void config(AlgorithmConfig& algo_config) = 0;
-};
 
-struct AlgoConfig: boost::noncopyable
-{
-	typedef boost::shared_ptr<AlgoConfig> Ptr;
-
-	virtual const char* name() const = 0;
 	virtual void config(AlgorithmConfig& algo_config) = 0;
-};
-
-struct AlgorithmFactory: Extensible<AlgorithmFactory>
-{
-	static AlgoConfig::Ptr create_config(const std::string& name)
-	{
-		for (AlgorithmFactory* i = stack; i; i = i->next)
-		{
-			if (name == i->name())
-				return i->config();
-		}
-		return AlgoConfig::Ptr();
-	}
-
-	virtual const char* name() const = 0;
-	virtual Algorithm::Ptr algorithm() = 0;
-	virtual AlgoConfig::Ptr config() = 0;
 };
 
 #endif /* VMMVIEW_COMMON_RENDER_ALGORITHM_HPP */

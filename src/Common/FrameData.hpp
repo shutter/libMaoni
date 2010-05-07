@@ -9,7 +9,7 @@
 class FrameData
 {
 public:
-	FrameData(AlgorithmFactory* algorithm_factory_stack,
+	FrameData(Algorithm* algorithm_factory_stack,
 			MeshLoader* mesh_loader_stack);
 
 	FrameData(FrameData const& other);
@@ -17,6 +17,12 @@ public:
 	virtual bool load_model(const char* filename);
 
 	virtual void set_render_algorithm(std::string const& name);
+
+	void config_algorithm(AlgorithmConfig& manager)
+	{
+		if (render_algorithm_)
+			render_algorithm_->config(manager);
+	}
 
 	//! get the amount of render algorithms
 	std::size_t num_algorithms() const;
@@ -50,12 +56,12 @@ protected:
 	std::vector<Light> lights;
 
 private:
-	AlgorithmFactory* algorithm_factory_stack;
+	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
 	std::string mesh_loader_filters_;
 
-	Algorithm::Ptr render_algorithm_;
+	Algorithm* render_algorithm_;
 
 	Model model_;
 };
