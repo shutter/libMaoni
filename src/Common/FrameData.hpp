@@ -52,7 +52,7 @@ public:
 private:
 	void init();
 
-protected:
+public: // FIXME: for testing made public, should be protected:
 	std::vector<Light> lights;
 
 private:

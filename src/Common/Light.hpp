@@ -5,11 +5,12 @@
  *      Author: stefan
  */
 
-#ifndef LIGHT_HPP
-#define LIGHT_HPP
+#ifndef MAONI_LIGHT_HPP
+#define MAONI_LIGHT_HPP
 
 #include <Maoni/Color.hpp>
 #include <Maoni/Vector.hpp>
+#include <boost/serialization/nvp.hpp>
 
 struct Light
 {
@@ -32,6 +33,27 @@ struct Light
 	Vector3 spot_direction;
 	float cut_off;
 	float exponent;
+
+	template<class Archive>
+	void serialize(Archive & archive, unsigned int)
+	{
+		archive & BOOST_SERIALIZATION_NVP(enabled);
+		archive & BOOST_SERIALIZATION_NVP(show_bulp);
+		archive & BOOST_SERIALIZATION_NVP(position);
+
+		archive & BOOST_SERIALIZATION_NVP(ambient);
+		archive & BOOST_SERIALIZATION_NVP(diffuse);
+		archive & BOOST_SERIALIZATION_NVP(specular);
+
+		archive & BOOST_SERIALIZATION_NVP(const_att);
+		archive & BOOST_SERIALIZATION_NVP(lin_att);
+		archive & BOOST_SERIALIZATION_NVP(quad_att);
+
+		archive & BOOST_SERIALIZATION_NVP(is_spot);
+		archive & BOOST_SERIALIZATION_NVP(spot_direction);
+		archive & BOOST_SERIALIZATION_NVP(cut_off);
+		archive & BOOST_SERIALIZATION_NVP(exponent);
+	}
 };
 
-#endif /* LIGHT_HPP */
+#endif /* MAONI_LIGHT_HPP */
