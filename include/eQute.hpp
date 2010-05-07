@@ -1,5 +1,5 @@
 /*
- * eQute - extremely Qool utility template experiment
+ * eQute - extremely qualified universal toolkit experiment
  *
  * Copyright (C) 2010 Daniel Pfeifer, University of Zurich
  * All rights reserved.
@@ -69,6 +69,7 @@ struct eQute
 			eq::GLWindow(window), widget(widget)
 		{
 			makeCurrent();
+			initGLEW();
 		}
 
 		Widget* getWidget() const

@@ -10,7 +10,7 @@
 
 #include "EqInclude.hpp"
 #include "../Widgets/RenderWidget.hpp"
-#include "eQute.hpp"
+#include <eQute.hpp>
 
 class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::Proxy
 {

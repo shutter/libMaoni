@@ -10,7 +10,7 @@
 #include <QTimer>
 
 #include "EqInclude.hpp"
-#include "eQute.hpp"
+#include <eQute.hpp>
 
 #include <Maoni/detail/Algorithm.hpp>
 #include "FrameDataEq.hpp"
