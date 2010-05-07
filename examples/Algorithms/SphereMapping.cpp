@@ -6,10 +6,7 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/ShaderProgram.hpp>
-#include <Maoni/ScopedLocks.hpp>
-#include <Maoni/Texture.hpp>
+#include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 130),
 
@@ -38,7 +35,10 @@ SHADER_PROGRAM(SphereMappingShader,
 		(VERTEX, vertex_source)(FRAGMENT, fragment_source),
 );
 
+ENUM(Object, (Teacup)(Teaspoon)(Teapot)(Model));
+
 RENDER_ALGORITHM(SphereMapping,
+		(Object, object, Object::Teapot)
 		(ShaderProgram, shader, SphereMappingShader())
 		(Texture, sphere_texture, "./Models/sphere3.jpg")
 )
@@ -48,5 +48,19 @@ RENDER_ALGORITHM(SphereMapping,
 	ScopedBindTexture texture_lock(sphere_texture);
 	ScopedUseProgram shader_lock(shader);
 
-	model.draw();
+	switch (object)
+	{
+	case Object::Teacup:
+		solid_teacup(1.f);
+		break;
+	case Object::Teaspoon:
+		solid_teaspoon(1.f);
+		break;
+	case Object::Teapot:
+		solid_teapot(1.f);
+		break;
+	case Object::Model:
+	default:
+		model.draw();
+	}
 }
