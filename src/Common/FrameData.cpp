@@ -30,37 +30,10 @@ void FrameData::init()
 
 void FrameData::load_model(const char* filename)
 {
-	if (boost::algorithm::equals(filename, "<teacup>"))
-	{
-		model_.set_bezier_mesh(Model::teacup);
-		return;
-	}
-
-	if (boost::algorithm::equals(filename, "<teapot>"))
-	{
-		model_.set_bezier_mesh(Model::teapot);
-		return;
-	}
-
-	if (boost::algorithm::equals(filename, "<teaspoon>"))
-	{
-		model_.set_bezier_mesh(Model::teaspoon);
-		return;
-	}
-
-	if (boost::algorithm::equals(filename, "<spiral>"))
-	{
-		model_.set_bezier_mesh(Model::spiral);
-		return;
-	}
-
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-		{
 			i->load(model_, filename);
-			model_.set_bezier_mesh(Model::none);
-		}
 	}
 }
 

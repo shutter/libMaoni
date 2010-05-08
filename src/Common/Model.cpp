@@ -14,52 +14,8 @@
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
-static void qglviewer_spiral()
-{
-	const float nbSteps = 200.0;
-
-	glBegin(GL_QUAD_STRIP);
-
-	for (int i = 0; i < nbSteps; ++i)
-	{
-		const float ratio = i / nbSteps;
-		const float angle = 21.f * ratio;
-		const float c = cos(angle);
-		const float s = sin(angle);
-		const float r1 = 1.f - 0.8f * ratio;
-		const float r2 = 0.8f - 0.8f * ratio;
-		const float alt = ratio - 0.5f;
-		const float nor = 0.5f;
-		const float up = sqrt(1.f - nor * nor);
-		glColor3f(1.f - ratio, 0.2f, ratio);
-		glNormal3f(nor * c, up, nor * s);
-		glVertex3f(r1 * c, alt, r1 * s);
-		glVertex3f(r2 * c, alt + 0.05f, r2 * s);
-	}
-
-	glEnd();
-}
-
 void Model::draw() const
 {
-	switch (bezier_mesh)
-	{
-	case teacup:
-		solid_teacup(1.f);
-		return;
-	case teapot:
-		solid_teapot(1.f);
-		return;
-	case teaspoon:
-		solid_teaspoon(1.f);
-		return;
-	case spiral:
-		qglviewer_spiral();
-		return;
-	default:
-		break;
-	}
-
 	glBegin(GL_TRIANGLES);
 
 	for (size_t i = 0; i < indices.size(); i++)
@@ -145,16 +101,15 @@ void Model::fix_scale()
 	// calculate bounding box
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
+		Vector3& pos = vertices[v].position;
 		for (size_t i = 0; i < 3; ++i)
 		{
-			lower_left.data[i] = std::min(lower_left[i],
-					vertices[v].position[i]);
-			upper_right.data[i] = std::max(upper_right[i],
-					vertices[v].position[i]);
+			lower_left.data[i] = std::min(lower_left[i], pos[i]);
+			upper_right.data[i] = std::max(upper_right[i], pos[i]);
 		}
 	}
 
-	std::clog << "\n";
+	std::clog << std::flush;
 	std::clog << "lower_left = (" << (lower_left | X) << ", " //
 			<< (lower_left | Y) << ", " << (lower_left | Z) << ")\n";
 	std::clog << "upper_right = (" << (upper_right | X) << ", " //

@@ -21,7 +21,7 @@ public:
 private slots:
 	void about_qt();
 	void about_maoni();
-	void load_model(QString name = QString());
+	void load_model();
 	void import_lights(QString name = QString());
 	void export_lights(QString name = QString());
 	void set_background_color(QColor background_color = QColor());
@@ -32,7 +32,6 @@ private slots:
 	void show_tilesconfig();
 
 private:
-	void init_model_menu();
 	void init_docks();
 
 private:

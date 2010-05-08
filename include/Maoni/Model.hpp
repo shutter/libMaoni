@@ -1,32 +1,40 @@
 /*
- * Model.hpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: Jul 22, 2009
- *      Author: dpfeifer
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MODEL_HPP
-#define MODEL_HPP
+#ifndef MAONI_MODEL_HPP
+#define MAONI_MODEL_HPP
 
-#include "Vertex.hpp"
+#include <Maoni/Vertex.hpp>
 #include <vector>
-#include <boost/noncopyable.hpp>
 
-class Model: private boost::noncopyable
+class Model
 {
 public:
-	enum BezierMesh
+	Model()
 	{
-		none, teapot, teacup, teaspoon, spiral
-	};
-
-	Model() :
-		bezier_mesh(teapot)
-	{
+		reset();
 	}
 
 	//! clear the model
 	void clear();
+
+	//! reset the model to the Stanford Bunny
+	void reset();
 
 	//!
 	bool empty() const;
@@ -57,17 +65,12 @@ public:
 	//! Calculate the face or vertex normals of the current vertex data.
 	void calculate_normals();
 
-	bool set_bezier_mesh(BezierMesh mesh)
-	{
-		bezier_mesh = mesh;
-		return true;
-	}
-
 private:
+	Model(Model const&);
+	void operator=(Model const&);
+
 	std::vector<Vertex> vertices;
 	std::vector<std::size_t> indices;
-
-	BezierMesh bezier_mesh;
 };
 
-#endif /* MODEL_HPP */
+#endif /* MAONI_MODEL_HPP */
