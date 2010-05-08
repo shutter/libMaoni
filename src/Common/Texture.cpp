@@ -29,15 +29,23 @@ Texture::~Texture()
 
 Texture const& Texture::operator=(Texture const& other)
 {
-	reset();
-	path_ = other.path_;
+	if (path_ != other.path_)
+	{
+		reset();
+		path_ = other.path_;
+	}
+
 	return other;
 }
 
 std::string const& Texture::operator=(std::string const& other)
 {
-	reset();
-	path_ = other;
+	if (path_ != other)
+	{
+		reset();
+		path_ = other;
+	}
+
 	return other;
 }
 

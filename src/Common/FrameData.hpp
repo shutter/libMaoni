@@ -55,7 +55,7 @@ private:
 public: // FIXME: for testing made public, should be protected:
 	std::vector<Light> lights;
 
-private:
+//private:
 	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 

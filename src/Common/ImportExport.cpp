@@ -22,6 +22,9 @@ int export_lights(std::string const& filename, FrameData const& framedata)
 
 	boost::archive::xml_oarchive archive(file);
 	archive << boost::serialization::make_nvp("lights", framedata.lights);
+
+	archive << boost::serialization::make_nvp("algorithm", *framedata.render_algorithm_);
+
 	return 0;
 }
 
@@ -33,5 +36,8 @@ int import_lights(std::string const& filename, FrameData & framedata)
 
 	boost::archive::xml_iarchive archive(file);
 	archive >> boost::serialization::make_nvp("lights", framedata.lights);
+
+	archive >> boost::serialization::make_nvp("algorithm", *framedata.render_algorithm_);
+
 	return 0;
 }
