@@ -28,74 +28,93 @@ void FrameData::init()
 	lights[0].specular = Color(1.0, 1.0, 0.0, 1.0);
 }
 
-bool FrameData::load_model(const char* filename)
+void FrameData::load_model(const char* filename)
 {
 	if (boost::algorithm::equals(filename, "<teacup>"))
-		return model_.set_bezier_mesh(Model::teacup);
+	{
+		model_.set_bezier_mesh(Model::teacup);
+		return;
+	}
 
 	if (boost::algorithm::equals(filename, "<teapot>"))
-		return model_.set_bezier_mesh(Model::teapot);
+	{
+		model_.set_bezier_mesh(Model::teapot);
+		return;
+	}
 
 	if (boost::algorithm::equals(filename, "<teaspoon>"))
-		return model_.set_bezier_mesh(Model::teaspoon);
+	{
+		model_.set_bezier_mesh(Model::teaspoon);
+		return;
+	}
 
 	if (boost::algorithm::equals(filename, "<spiral>"))
-		return model_.set_bezier_mesh(Model::spiral);
+	{
+		model_.set_bezier_mesh(Model::spiral);
+		return;
+	}
 
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			return i->load(model_, filename) && model_.set_bezier_mesh(
-					Model::none);
+			i->load(model_, filename);
+	}
+}
+
+class algo_setter
+{
+public:
+	algo_setter(std::string const& name, Algorithm*& algorithm) :
+		name(name), algorithm(algorithm)
+	{
 	}
 
-	return false;
-}
+	void operator()(Algorithm*& algo)
+	{
+		if (name == algo->name())
+			algorithm = algo;
+	}
+
+private:
+	std::string const& name;
+	Algorithm*& algorithm;
+};
 
 void FrameData::set_render_algorithm(std::string const& name)
 {
-	for (Algorithm* i = algorithm_stack; i; i = i->next)
-	{
-		if (name == i->name())
-			render_algorithm_ = i;
-	}
+	for_each_algorithm(algo_setter(name, render_algorithm_));
 }
+
+class count
+{
+public:
+	count(std::size_t& value) :
+		value(value)
+	{
+	}
+
+	template<typename T>
+	void operator()(T)
+	{
+		++value;
+	}
+
+private:
+	std::size_t& value;
+};
 
 std::size_t FrameData::num_algorithms() const
 {
 	std::size_t num = 0;
-
-	for (Algorithm* i = algorithm_stack; i; i = i->next)
-		++num;
-
+	for_each_algorithm(count(num));
 	return num;
 }
 
 std::size_t FrameData::num_loaders() const
 {
 	std::size_t num = 0;
-
-	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
-		++num;
-
+	for_each_loader(count(num));
 	return num;
-}
-
-const char* FrameData::mesh_loader_filters()
-{
-	if (mesh_loader_filters_.empty())
-	{
-		std::stringstream stream;
-		stream << "All files (*.*)";
-		for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
-		{
-			stream << ";;" << i->name() << " (*." << i->extension() << ")";
-		}
-
-		mesh_loader_filters_ = stream.str();
-	}
-
-	return mesh_loader_filters_.c_str();
 }
 
 void FrameData::draw() const

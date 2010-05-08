@@ -102,11 +102,9 @@ MESH_LOADER(ply, Stanford Triangle Format)
 
 	PlyFile* file = ply_open_for_reading(const_cast<char*> (filename),
 			&nPlyElems, &elemNames, &fileType, &version);
-	if (!file) {
-		std::cerr << "Unable to open PLY file " << filename << " for reading."
-				<< std::endl;
-		return false;
-	}
+	if (!file)
+		throw std::runtime_error("Unable to open PLY file for reading.");
+
 	BOOST_ASSERT( elemNames != 0 );
 
 #ifndef NDEBUG
@@ -167,6 +165,4 @@ MESH_LOADER(ply, Stanford Triangle Format)
 
 	model.calculate_normals();
 	model.fix_scale();
-
-	return true;
 }

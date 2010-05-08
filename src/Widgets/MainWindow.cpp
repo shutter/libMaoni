@@ -178,22 +178,51 @@ void MainWindow::about_maoni()
 				"<a href=\"http://github.com/purpleKarrot/libMaoni\">http://github.com/purpleKarrot/libMaoni</a>");
 }
 
+class append_filter
+{
+public:
+	append_filter(QString& filter) :
+		filter(filter)
+	{
+		filter = "All files (*.*)";
+	}
+
+	void operator()(MeshLoader* loader)
+	{
+		filter += QString(";;%1 (*.%2)").arg(loader->name()).arg(loader->extension());
+	}
+
+private:
+	QString& filter;
+};
+
 void MainWindow::load_model(QString filename)
 {
 	if (filename.isNull())
 	{
+		QString filter;
+		framedata.for_each_loader(append_filter(filter));
 		filename = QFileDialog::getOpenFileName(this,
-				"Choose the model file to load", "Models/trico.ply",
-				framedata.mesh_loader_filters());
+				"Choose the model file to load", "Models/trico.ply", filter);
 	}
 
 	if (filename.isNull())
 		return;
 
-	if (!framedata.load_model(filename.toStdString().c_str()))
+	try
+	{
+		framedata.load_model(filename.toStdString().c_str());
+	}
+	catch (std::exception& e)
 	{
 		QMessageBox::warning(this, "Error", //
-				"Could not load file \"" + filename + "\"");
+				"Exception caught while loading \"" + filename + "\":\n"
+						+ e.what());
+	}
+	catch (...)
+	{
+		QMessageBox::warning(this, "Error", //
+				"Unknown exception caught while loading \"" + filename + "\".");
 	}
 }
 

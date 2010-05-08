@@ -14,19 +14,30 @@
 #include <QVBoxLayout>
 #include <iostream>
 
-static QStringList AlgorithmNames()
+class append_name
 {
-	QStringList list;
-	for (Algorithm* i = Algorithm::stack; i; i = i->next)
-		list.append(i->name());
-	return list;
-}
+public:
+	append_name(QStringList& list) :
+		list(list)
+	{
+	}
+
+	void operator()(Algorithm* algorithm)
+	{
+		list.append(algorithm->name());
+	}
+
+private:
+	QStringList& list;
+};
 
 AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	QWidget(parent), framedata(framedata)
 {
 	algo_chooser = new QComboBox;
-	algo_chooser->addItems(AlgorithmNames());
+	QStringList list;
+	framedata.for_each_algorithm(append_name(list));
+	algo_chooser->addItems(list);
 	algo_chooser->show();
 
 	property_browser = new QtTreePropertyBrowser;

@@ -16,11 +16,7 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 
 	Lib3dsFile *file = lib3ds_file_load(filename);
 	if (!file)
-	{
-		std::cerr << "***ERROR***\nLoading file failed: " << filename
-				<< std::endl;
-		return false;
-	}
+		throw std::runtime_error("Loading file failed");
 
 	int offset = 0;
 	for (Lib3dsMesh* m = file->meshes; m; m = m->next)
@@ -45,6 +41,4 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 
 	model.calculate_normals();
 	model.fix_scale();
-
-	return true;
 }

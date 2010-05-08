@@ -14,7 +14,19 @@ public:
 
 	FrameData(FrameData const& other);
 
-	virtual bool load_model(const char* filename);
+	template<typename Function>
+	void for_each_algorithm(Function function) const
+	{
+		for_each(algorithm_stack, function);
+	}
+
+	template<typename Function>
+	void for_each_loader(Function function) const
+	{
+		for_each(mesh_loader_stack, function);
+	}
+
+	virtual void load_model(const char* filename);
 
 	virtual void set_render_algorithm(std::string const& name);
 
@@ -29,8 +41,6 @@ public:
 
 	//! get the amount of mesh loaders
 	std::size_t num_loaders() const;
-
-	const char* mesh_loader_filters();
 
 	std::size_t num_lights() const
 	{
@@ -52,10 +62,18 @@ public:
 private:
 	void init();
 
-public: // FIXME: for testing made public, should be protected:
+	template<typename T, typename Function>
+	void for_each(T* stack, Function function) const
+	{
+		for (T* i = stack; i; i = i->next)
+			function(i);
+	}
+
+public:
+	// FIXME: for testing made public, should be protected:
 	std::vector<Light> lights;
 
-//private:
+	//private:
 	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 

@@ -8,7 +8,7 @@
 #include <GL/glew.h>
 #include <Maoni.hpp>
 
-SHADER_SOURCE(vertex_source, (version 130),
+SHADER_SOURCE(vertex_source, (version 120),
 		varying vec3 lightDir;
 		varying vec3 normal;
 

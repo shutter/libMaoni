@@ -24,11 +24,11 @@ public:
 	{
 	}
 
-	virtual bool load_model(const char* filename)
+	virtual void load_model(const char* filename)
 	{
 		setDirty(DIRTY_MODEL);
 		model_name = filename;
-		return FrameData::load_model(filename);
+		FrameData::load_model(filename);
 	}
 
 	virtual void set_render_algorithm(std::string const& name)
