@@ -1,17 +1,21 @@
 #include "FrameData.hpp"
 #include <boost/algorithm/string/predicate.hpp>
-#include <sstream>
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+#include <boost/serialization/vector.hpp>
+#include "serialize.hpp"
+#include <fstream>
 
 FrameData::FrameData(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
 	algorithm_stack(algorithm_stack), mesh_loader_stack(mesh_loader_stack),
-			render_algorithm_(0)
+		render_algorithm_(0)
 {
 	init();
 }
 
 FrameData::FrameData(FrameData const& other) :
 	algorithm_stack(other.algorithm_stack), //
-			mesh_loader_stack(other.mesh_loader_stack), render_algorithm_(0)
+		mesh_loader_stack(other.mesh_loader_stack), render_algorithm_(0)
 {
 	init();
 }
@@ -28,13 +32,15 @@ void FrameData::init()
 	lights[0].specular = Color(1.0, 1.0, 0.0, 1.0);
 }
 
-void FrameData::load_model(const char* filename)
+void FrameData::load_model(std::string const& filename)
 {
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			i->load(model_, filename);
+			i->load(model_, filename.c_str());
 	}
+
+	model_name = filename;
 }
 
 class algo_setter
@@ -59,6 +65,7 @@ private:
 void FrameData::set_render_algorithm(std::string const& name)
 {
 	for_each_algorithm(algo_setter(name, render_algorithm_));
+	algorithm_name = name;
 }
 
 class count
@@ -99,4 +106,35 @@ void FrameData::draw() const
 		render_algorithm_->render(model_);
 	else
 		model_.draw();
+}
+
+void FrameData::export_scene(const char* filename)
+{
+	std::ofstream file(filename);
+	if (!file)
+		return;
+
+	boost::archive::xml_oarchive archive(file);
+	archive << boost::serialization::make_nvp("lights", lights);
+	archive << boost::serialization::make_nvp("model", model_name);
+	archive << boost::serialization::make_nvp("renderer", algorithm_name);
+	archive << boost::serialization::make_nvp("algorithm", *render_algorithm_);
+}
+
+void FrameData::import_scene(const char* filename)
+{
+	std::ifstream file(filename);
+	if (!file)
+		return;
+
+	boost::archive::xml_iarchive archive(file);
+	archive >> boost::serialization::make_nvp("lights", lights);
+
+	archive >> boost::serialization::make_nvp("model", model_name);
+	load_model(model_name);
+
+	archive >> boost::serialization::make_nvp("renderer", algorithm_name);
+	set_render_algorithm(algorithm_name);
+
+	archive >> boost::serialization::make_nvp("algorithm", *render_algorithm_);
 }

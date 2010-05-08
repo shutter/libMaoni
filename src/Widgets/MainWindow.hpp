@@ -22,10 +22,10 @@ private slots:
 	void about_qt();
 	void about_maoni();
 	void load_model();
-	void import_lights(QString name = QString());
-	void export_lights(QString name = QString());
-	void set_background_color(QColor background_color = QColor());
-	void set_foreground_color(QColor foreground_color = QColor());
+	void import_scene();
+	void export_scene();
+	void set_background_color();
+	void set_foreground_color();
 	void snapshot();
 //	void quit();
 	void show_logo(int state);

@@ -5,7 +5,6 @@
 #include "TextOutput.hpp"
 //#include "TilesWidget.hpp"
 #include "../Common/FrameData.hpp"
-#include "../Common/ImportExport.hpp"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -24,31 +23,33 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 #include "../Images/stanford-bunny.xpm"
 	setWindowIcon( QPixmap(stanford_bunny_xpm));
 
+	QAction* action;
 	QMenu* file = menuBar()->addMenu("&File");
 
 	//! this entry is shown iff there is at least one loader available
 	if (framedata.num_loaders() > 0)
 	{
-		QAction* load = new QAction("load &Model...", this);
-		connect(load, SIGNAL(triggered()), this, SLOT(load_model()));
-		file->addAction(load);
+		action = new QAction("Load &Model...", this);
+		connect(action, SIGNAL(triggered()), this, SLOT(load_model()));
+		file->addAction(action);
+		file->addSeparator();
 	}
 
-	QAction* import_lights = new QAction("&Import Lights", this);
-	connect(import_lights, SIGNAL(triggered()), this, SLOT(import_lights()));
-	file->addAction(import_lights);
+	action = new QAction("&Import Scene", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(import_scene()));
+	file->addAction(action);
 
-	QAction* export_lights = new QAction("&Export Lights", this);
-	connect(export_lights, SIGNAL(triggered()), this, SLOT(export_lights()));
-	file->addAction(export_lights);
+	action = new QAction("&Export Scene", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(export_scene()));
+	file->addAction(action);
 
 	file->addSeparator();
 
-	QAction* snapshot = new QAction("&Snapshot", this);
-	connect(snapshot, SIGNAL(triggered()), this, SLOT(snapshot()));
-	file->addAction(snapshot);
+	action = new QAction("&Snapshot", this);
+	connect(action, SIGNAL(triggered()), this, SLOT(snapshot()));
+	file->addAction(action);
 
-	QAction* action = new QAction("&Quit", this);
+	action = new QAction("&Quit", this);
 	connect(action, SIGNAL(triggered()), this, SLOT(close()));
 	file->addAction(action);
 
@@ -191,19 +192,16 @@ void MainWindow::load_model()
 	}
 }
 
-void MainWindow::set_background_color(QColor background_color)
+void MainWindow::set_background_color()
 {
-	background_color = QColorDialog::getColor(Qt::black, this,
-		"Choose the background color", 0);
-
-	render_widget->setBackgroundColor(background_color);
+	render_widget->setBackgroundColor(QColorDialog::getColor(Qt::black, this,
+		"Choose the background color", 0));
 }
 
-void MainWindow::set_foreground_color(QColor foreground_color)
+void MainWindow::set_foreground_color()
 {
-	foreground_color = QColorDialog::getColor(Qt::white, this,
-		"Choose the grid color", 0);
-	render_widget->setForegroundColor(foreground_color);
+	render_widget->setForegroundColor(QColorDialog::getColor(Qt::white, this,
+		"Choose the grid color", 0));
 }
 
 void MainWindow::snapshot()
@@ -216,46 +214,43 @@ void MainWindow::show_logo(int state)
 	std::cout << "show_logo: " << state << std::endl;
 }
 
-void MainWindow::import_lights(QString filename)
+void MainWindow::import_scene()
 {
-	if (filename.isNull())
-	{
-		filename = QFileDialog::getOpenFileName(this,
-			"Choose a light config file to load", "lights.xml", tr(
-				"XML Files (*.xml)"));
-	}
+	QString filename = QFileDialog::getOpenFileName(this,
+		"Choose a light config file to load", "maoni.xml", tr(
+			"XML Files (*.xml)"));
 
 	if (filename.isNull())
 		return;
 
-	int status = ::import_lights(filename.toStdString().c_str(), framedata);
-	if (status < 0)
+	try
 	{
-		QMessageBox::warning(this, "Error", //
-			status + ": Could not import from file \"" + filename + "\"");
+		framedata.import_scene(filename.toStdString().c_str());
 	}
-	else
+	catch (std::exception&e)
 	{
-		light_widget->update_browser();
+		QMessageBox::warning(this, "Error", e.what());
 	}
+
+	light_widget->update_browser();
 }
 
-void MainWindow::export_lights(QString filename)
+void MainWindow::export_scene()
 {
-	if (filename.isNull())
-	{
-		filename = QFileDialog::getSaveFileName(this,
-			"Choose a filename to export the lights config to", "lights.xml",
-			tr("XML Files (*.xml)"));
-	}
+	QString filename = QFileDialog::getSaveFileName(this,
+		"Choose a filename to export the lights config to", "maoni.xml", tr(
+			"XML Files (*.xml)"));
 
 	if (filename.isNull())
 		return;
 
-	if (::export_lights(filename.toStdString().c_str(), framedata) < 0)
+	try
 	{
-		QMessageBox::warning(this, "Error", //
-			"Could not export to file \"" + filename + "\"");
+		framedata.export_scene(filename.toStdString().c_str());
+	}
+	catch (std::exception&e)
+	{
+		QMessageBox::warning(this, "Error", e.what());
 	}
 }
 

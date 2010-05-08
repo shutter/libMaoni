@@ -11,23 +11,11 @@ class FrameData
 {
 public:
 	FrameData(Algorithm* algorithm_factory_stack,
-			MeshLoader* mesh_loader_stack);
+		MeshLoader* mesh_loader_stack);
 
 	FrameData(FrameData const& other);
 
-	template<typename Function>
-	void for_each_algorithm(Function function) const
-	{
-		for_each(algorithm_stack, function);
-	}
-
-	template<typename Function>
-	void for_each_loader(Function function) const
-	{
-		for_each(mesh_loader_stack, function);
-	}
-
-	virtual void load_model(const char* filename);
+	virtual void load_model(std::string const& filename);
 
 	virtual void set_render_algorithm(std::string const& name);
 
@@ -60,6 +48,23 @@ public:
 
 	void draw() const;
 
+public:
+	void export_scene(const char* filename);
+	void import_scene(const char* filename);
+
+public:
+	template<typename Function>
+	void for_each_algorithm(Function function) const
+	{
+		for_each(algorithm_stack, function);
+	}
+
+	template<typename Function>
+	void for_each_loader(Function function) const
+	{
+		for_each(mesh_loader_stack, function);
+	}
+
 private:
 	void init();
 
@@ -70,19 +75,18 @@ private:
 			function(i);
 	}
 
-public:
-	// FIXME: for testing made public, should be protected:
+protected:
 	std::vector<Light> lights;
 
-	//private:
+private:
 	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
-	std::string mesh_loader_filters_;
-
 	Algorithm* render_algorithm_;
+	std::string algorithm_name;
 
 	Model model_;
+	std::string model_name;
 };
 
 #endif /* FRAME_DATA_HPP */
