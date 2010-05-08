@@ -90,11 +90,8 @@ AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	property_browser->setFactoryForManager(filepath_manager, filepath_factory);
 }
 
-void AlgorithmWidget::choose(int index)
+void AlgorithmWidget::update_browser()
 {
-	std::string name = algo_chooser->currentText().toStdString();
-	framedata.set_render_algorithm(name);
-
 	int_pointers.clear();
 	bool_pointers.clear();
 	float_pointers.clear();
@@ -105,6 +102,13 @@ void AlgorithmWidget::choose(int index)
 	property_browser->clear();
 
 	framedata.config_algorithm(*this);
+}
+
+void AlgorithmWidget::choose(int index)
+{
+	std::string name = algo_chooser->currentText().toStdString();
+	framedata.set_render_algorithm(name);
+	update_browser();
 }
 
 void AlgorithmWidget::property(const char* name, int& value)

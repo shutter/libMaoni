@@ -37,6 +37,7 @@ public:
 	}
 
 private slots:
+	void update_browser();
 	void choose(int index);
 
 	void value_changed(QtProperty* property, int value);

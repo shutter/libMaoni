@@ -120,13 +120,16 @@ void MainWindow::add_dock(const char* name, Qt::DockWidgetArea area,
 
 void MainWindow::init_docks()
 {
-	light_widget = new LightWidget(framedata);
+	LightWidget* light_widget = new LightWidget(framedata);
+	connect(this, SIGNAL(data_updated()), light_widget, SLOT(update_browser()));
 	add_dock("Stefan's LightWidget", Qt::LeftDockWidgetArea, light_widget);
 
 	if (framedata.num_algorithms() > 0)
 	{
+		AlgorithmWidget* algo_widget = new AlgorithmWidget(framedata);
+		connect(this, SIGNAL(data_updated()), algo_widget, SLOT(update_browser()));
 		add_dock("Daniel's AlgorithmWidget", Qt::RightDockWidgetArea,
-			new AlgorithmWidget(framedata));
+			algo_widget);
 	}
 
 	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
@@ -232,7 +235,7 @@ void MainWindow::import_scene()
 		QMessageBox::warning(this, "Error", e.what());
 	}
 
-	light_widget->update_browser();
+	emit data_updated();
 }
 
 void MainWindow::export_scene()

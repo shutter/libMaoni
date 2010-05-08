@@ -5,8 +5,6 @@
 #include <QDialog>
 
 class RenderWidget;
-class LightWidget;
-//class TilesWidget;
 class FrameData;
 
 class MainWindow: public QMainWindow
@@ -27,9 +25,11 @@ private slots:
 	void set_background_color();
 	void set_foreground_color();
 	void snapshot();
-//	void quit();
 	void show_logo(int state);
 	void show_tilesconfig();
+
+signals:
+	void data_updated();
 
 private:
 	void init_docks();
@@ -37,8 +37,7 @@ private:
 private:
 	FrameData& framedata;
 	RenderWidget* render_widget;
-	LightWidget* light_widget;
-//	TilesWidget* tiles_widget;
+
 	QDialog* tiles_dialog;
 
 	QMenu* dock_menu;
