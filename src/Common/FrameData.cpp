@@ -57,7 +57,10 @@ void FrameData::load_model(const char* filename)
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
+		{
 			i->load(model_, filename);
+			model_.set_bezier_mesh(Model::none);
+		}
 	}
 }
 

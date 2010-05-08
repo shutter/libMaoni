@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include <stdexcept>
 #include <iostream>
 
 #include "stla_io.h"

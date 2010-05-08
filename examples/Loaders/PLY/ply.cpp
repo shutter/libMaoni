@@ -8,6 +8,7 @@
 #include <Maoni/MeshLoader.hpp>
 #include "plyfile.h"
 #include <boost/cstdint.hpp>
+#include <stdexcept>
 #include <iostream>
 
 static bool _invertFaces = false;
@@ -90,7 +91,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 	}
 }
 
-MESH_LOADER(ply, Stanford Triangle Format)
+MESH_LOADER(ply, Stanford PLY)
 {
 	model.clear();
 

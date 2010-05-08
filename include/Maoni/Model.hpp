@@ -10,7 +10,6 @@
 
 #include "Vertex.hpp"
 #include <vector>
-#include <boost/array.hpp>
 #include <boost/noncopyable.hpp>
 
 class Model: private boost::noncopyable
@@ -65,14 +64,8 @@ public:
 	}
 
 private:
-	void calculateBoundingBox();
-
-private:
 	std::vector<Vertex> vertices;
 	std::vector<std::size_t> indices;
-
-	typedef boost::array<Vector3, 2> BoundingBox;
-	BoundingBox bounding_box;
 
 	BezierMesh bezier_mesh;
 };

@@ -8,6 +8,8 @@
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
 #include <Maoni/Teaset.h>
+#include <boost/array.hpp>
+#include <iostream>
 
 #include <boost/la/all.hpp>
 using namespace boost::la;
@@ -75,9 +77,6 @@ void Model::clear()
 {
 	vertices.clear();
 	indices.clear();
-
-	bounding_box[0] = Vector3();
-	bounding_box[1] = Vector3();
 }
 
 //!
@@ -137,40 +136,45 @@ void Model::calculate_normals()
 		vertices[i].normal /= magnitude(vertices[i].normal);
 }
 
-/* Calculate the bounding box of the current vertex data. */
-void Model::calculateBoundingBox()
+/* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
+void Model::fix_scale()
 {
-	bounding_box[0] = vertices[0].position;
-	bounding_box[1] = vertices[0].position;
+	Vector3 lower_left = vertices[0].position;
+	Vector3 upper_right = vertices[0].position;
+
+	// calculate bounding box
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
 		for (size_t i = 0; i < 3; ++i)
 		{
-			bounding_box[0].data[i] = std::min(bounding_box[0][i],
+			lower_left.data[i] = std::min(lower_left[i],
 					vertices[v].position[i]);
-			bounding_box[1].data[i] = std::max(bounding_box[1][i],
+			upper_right.data[i] = std::max(upper_right[i],
 					vertices[v].position[i]);
 		}
 	}
-}
 
-/* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
-void Model::fix_scale()
-{
-	// calculate bounding box if not yet done
-	calculateBoundingBox();
+	std::clog << "\n";
+	std::clog << "lower_left = (" << (lower_left | X) << ", " //
+			<< (lower_left | Y) << ", " << (lower_left | Z) << ")\n";
+	std::clog << "upper_right = (" << (upper_right | X) << ", " //
+			<< (upper_right | Y) << ", " << (upper_right | Z) << ")\n";
 
 	// find largest dimension and determine scale factor
 	float factor = 0.0f;
 	for (size_t i = 0; i < 3; ++i)
-		factor = std::max(factor, bounding_box[1][i] - bounding_box[0][i]);
+		factor = std::max(factor, upper_right[i] - lower_left[i]);
 
 	factor = 2.f / factor;
+	std::clog << "scale factor = " << factor << "\n";
 
 	// determine scale offset
 	Vector3 offset;
 	for (size_t i = 0; i < 3; ++i)
-		offset.data[i] = (bounding_box[0][i] + bounding_box[1][i]) * 0.5f;
+		offset.data[i] = (lower_left[i] + upper_right[i]) * 0.5f;
+
+	std::clog << "offset = (" << (offset | X) << ", " //
+			<< (offset | Y) << ", " << (offset | Z) << ")" << std::endl;
 
 	// scale the data
 	for (size_t v = 0; v < vertices.size(); ++v)
@@ -179,16 +183,6 @@ void Model::fix_scale()
 		{
 			vertices[v].position.data[i] -= offset[i];
 			vertices[v].position.data[i] *= factor;
-		}
-	}
-
-	// scale the bounding box
-	for (size_t v = 0; v < 2; ++v)
-	{
-		for (size_t i = 0; i < 3; ++i)
-		{
-			bounding_box[v].data[i] = bounding_box[v][i] - offset[i];
-			bounding_box[v].data[i] = bounding_box[v][i] * factor;
 		}
 	}
 }

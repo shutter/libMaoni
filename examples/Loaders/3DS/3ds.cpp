@@ -8,7 +8,7 @@
 #include <Maoni/MeshLoader.hpp>
 #include <lib3ds/file.h>
 #include <lib3ds/mesh.h>
-#include <iostream>
+#include <stdexcept>
 
 MESH_LOADER(3ds, 3D Studio Max Model)
 {

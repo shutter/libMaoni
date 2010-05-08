@@ -5,6 +5,7 @@
 #include <Maoni/Model.hpp>
 #include <Maoni/detail/Algorithm.hpp>
 #include <Maoni/detail/MeshLoader.hpp>
+#include <string>
 
 class FrameData
 {
