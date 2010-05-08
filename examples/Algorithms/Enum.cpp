@@ -7,6 +7,7 @@
 
 #include <GL/glew.h>
 #include <Maoni.hpp>
+#include "Teaset.h"
 
 static void qglviewer_spiral()
 {

@@ -1,6 +1,6 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource prefix="/Maoni">
-    <file alias="Splashscreen.png">../Images/Splashscreen.png</file>
+    <file alias="Splashscreen.jpg">../Images/Splashscreen.jpg</file>
   </qresource>
 </RCC>

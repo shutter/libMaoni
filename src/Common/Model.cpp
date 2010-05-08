@@ -7,7 +7,6 @@
 
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
-#include <Maoni/Teaset.h>
 #include <boost/array.hpp>
 #include <iostream>
 

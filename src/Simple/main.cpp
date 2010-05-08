@@ -20,7 +20,7 @@ int maoni_main(int argc, char* argv[], //
 	QApplication app(argc, argv);
 	Q_INIT_RESOURCE(Resources);
 
-	QPixmap pixmap(":/Maoni/Splashscreen.png");
+	QPixmap pixmap(":/Maoni/Splashscreen.jpg");
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
 	splash.show();
 	splash.showMessage("Loading Widgets...");
