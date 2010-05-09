@@ -1,11 +1,14 @@
 /*
- * NodeFactory.cpp
+ * Node.hpp
  *
- *  Created on: 20.04.2010
+ *  Created on: 05.05.2010
  *      Author: daniel
  */
 
-#include "NodeFactory.hpp"
+#ifndef MAONI_EQ_NODE_HPP
+#define MAONI_EQ_NODE_HPP
+
+#include "EqInclude.hpp"
 #include "FrameDataEq.hpp"
 
 class Node: public eq::Node
@@ -13,10 +16,6 @@ class Node: public eq::Node
 public:
 	Node(eq::Config* config, FrameDataEq const& framedata) :
 		eq::Node(config), framedata(framedata)
-	{
-	}
-
-	~Node()
 	{
 	}
 
@@ -54,32 +53,4 @@ private:
 	FrameDataEq framedata;
 };
 
-class Channel: public eq::Channel
-{
-public:
-	Channel(eq::Window* parent) :
-		eq::Channel(parent)
-	{
-	}
-
-private:
-	void frameDraw(const uint32_t spin)
-	{
-		eq::Channel::frameDraw(spin);
-
-		const FrameData& framedata =
-				static_cast<const Node*> (getNode())->getFrameData();
-
-		framedata.draw();
-	}
-};
-
-eq::Channel* NodeFactory::createChannel(eq::Window* window)
-{
-	return new Channel(window);
-}
-
-eq::Node* NodeFactory::createNode(eq::Config* config)
-{
-	return new Node(config, framedata);
-}
+#endif /* MAONI_EQ_NODE_HPP */

@@ -22,9 +22,9 @@ Q_OBJECT // Enable signals and slots
 
 public:
 	LightWidget(FrameData& framedata, QWidget *parent = 0);
-	void update_browser();
 
 private slots:
+	void update_browser();
 	void choose(int i);
 
 	void value_changed(QtProperty* property, bool value);

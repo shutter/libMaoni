@@ -23,7 +23,7 @@ target_link_libraries(example_nothing Maoni MaoniMain)
 ##############################################################
 # example with algorithms
 
-file(GLOB RENDER_ALGO_SOURCE Algorithms/*.cpp)
+file(GLOB RENDER_ALGO_SOURCE Algorithms/*.c*)
 add_example(example_algorithms ${RENDER_ALGO_SOURCE})
 target_link_libraries(example_algorithms Maoni MaoniMain)
 
@@ -61,8 +61,8 @@ target_link_libraries(example_eq ${LIBRARIES} MaoniEq)
 ##############################################################
 # example with both algorithms and loaders, using IceT
 
-#add_example(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
-#target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
+add_example(example_icet ${RENDER_ALGO_SOURCE} ${MESH_LOADER_SOURCE})
+target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
 
 ##############################################################
 

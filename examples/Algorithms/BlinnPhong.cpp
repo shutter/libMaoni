@@ -6,11 +6,9 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/ShaderProgram.hpp>
-#include <Maoni/ScopedLocks.hpp>
+#include <Maoni.hpp>
 
-SHADER_SOURCE(vertex_source, (version 130),
+SHADER_SOURCE(vertex_source, (version 120),
 		/*
 		 * Vertex shader for Phong/Blinn-Phong Shading with one light source.
 		 * Copyright (c) 2007, Tobias Wolf <twolf@access.unizh.ch>
@@ -36,7 +34,7 @@ SHADER_SOURCE(vertex_source, (version 130),
 		}
 );
 
-SHADER_SOURCE(fragment_source, (version 130),
+SHADER_SOURCE(fragment_source, (version 120),
 		/*
 		 * Fragment shader for Phong/Blinn-Phong Shading with one light source.
 		 *  Copyright (c) 2007, Tobias Wolf <twolf@access.unizh.ch>

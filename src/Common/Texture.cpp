@@ -11,7 +11,6 @@
 
 #include <QImage>
 #include <QGLWidget>
-#include <iostream>
 
 Texture::Texture(const std::string& path) :
 	path_(path), name_(0)
@@ -30,29 +29,33 @@ Texture::~Texture()
 
 Texture const& Texture::operator=(Texture const& other)
 {
-	reset();
-	path_ = other.path_;
+	if (path_ != other.path_)
+	{
+		reset();
+		path_ = other.path_;
+	}
+
 	return other;
 }
 
 std::string const& Texture::operator=(std::string const& other)
 {
-	reset();
-	path_ = other;
+	if (path_ != other)
+	{
+		reset();
+		path_ = other;
+	}
+
 	return other;
 }
 
-Texture::operator unsigned int()
+Texture::operator unsigned int() const
 {
 	if (!name_)
 	{
-
 		glGenTextures(1, &name_);
 
 		QImage image(path_.c_str());
-
-		std::cout << "loading " << path_ << " " << image.isNull() <<std::endl;
-
 		QImage teximage = QGLWidget::convertToGLFormat(image);
 
 		ScopedBindTexture texture_lock(name_);

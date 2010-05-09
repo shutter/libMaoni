@@ -7,57 +7,14 @@
 
 #include <GL/glew.h>
 #include <Maoni/Model.hpp>
-#include <Maoni/Teaset.h>
+#include <boost/array.hpp>
+#include <iostream>
 
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
-static void qglviewer_spiral()
-{
-	const float nbSteps = 200.0;
-
-	glBegin(GL_QUAD_STRIP);
-
-	for (int i = 0; i < nbSteps; ++i)
-	{
-		const float ratio = i / nbSteps;
-		const float angle = 21.f * ratio;
-		const float c = cos(angle);
-		const float s = sin(angle);
-		const float r1 = 1.f - 0.8f * ratio;
-		const float r2 = 0.8f - 0.8f * ratio;
-		const float alt = ratio - 0.5f;
-		const float nor = 0.5f;
-		const float up = sqrt(1.f - nor * nor);
-		glColor3f(1.f - ratio, 0.2f, ratio);
-		glNormal3f(nor * c, up, nor * s);
-		glVertex3f(r1 * c, alt, r1 * s);
-		glVertex3f(r2 * c, alt + 0.05f, r2 * s);
-	}
-
-	glEnd();
-}
-
 void Model::draw() const
 {
-	switch (bezier_mesh)
-	{
-	case teacup:
-		solid_teacup(1.f);
-		return;
-	case teapot:
-		solid_teapot(1.f);
-		return;
-	case teaspoon:
-		solid_teaspoon(1.f);
-		return;
-	case spiral:
-		qglviewer_spiral();
-		return;
-	default:
-		break;
-	}
-
 	glBegin(GL_TRIANGLES);
 
 	for (size_t i = 0; i < indices.size(); i++)
@@ -75,9 +32,6 @@ void Model::clear()
 {
 	vertices.clear();
 	indices.clear();
-
-	bounding_box[0] = Vector3();
-	bounding_box[1] = Vector3();
 }
 
 //!
@@ -137,40 +91,44 @@ void Model::calculate_normals()
 		vertices[i].normal /= magnitude(vertices[i].normal);
 }
 
-/* Calculate the bounding box of the current vertex data. */
-void Model::calculateBoundingBox()
-{
-	bounding_box[0] = vertices[0].position;
-	bounding_box[1] = vertices[0].position;
-	for (size_t v = 1; v < vertices.size(); ++v)
-	{
-		for (size_t i = 0; i < 3; ++i)
-		{
-			bounding_box[0].data[i] = std::min(bounding_box[0][i],
-					vertices[v].position[i]);
-			bounding_box[1].data[i] = std::max(bounding_box[1][i],
-					vertices[v].position[i]);
-		}
-	}
-}
-
 /* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
 void Model::fix_scale()
 {
-	// calculate bounding box if not yet done
-	calculateBoundingBox();
+	Vector3 lower_left = vertices[0].position;
+	Vector3 upper_right = vertices[0].position;
+
+	// calculate bounding box
+	for (size_t v = 1; v < vertices.size(); ++v)
+	{
+		Vector3& pos = vertices[v].position;
+		for (size_t i = 0; i < 3; ++i)
+		{
+			lower_left.data[i] = std::min(lower_left[i], pos[i]);
+			upper_right.data[i] = std::max(upper_right[i], pos[i]);
+		}
+	}
+
+	std::clog << std::flush;
+	std::clog << "lower_left = (" << (lower_left | X) << ", " //
+			<< (lower_left | Y) << ", " << (lower_left | Z) << ")\n";
+	std::clog << "upper_right = (" << (upper_right | X) << ", " //
+			<< (upper_right | Y) << ", " << (upper_right | Z) << ")\n";
 
 	// find largest dimension and determine scale factor
 	float factor = 0.0f;
 	for (size_t i = 0; i < 3; ++i)
-		factor = std::max(factor, bounding_box[1][i] - bounding_box[0][i]);
+		factor = std::max(factor, upper_right[i] - lower_left[i]);
 
 	factor = 2.f / factor;
+	std::clog << "scale factor = " << factor << "\n";
 
 	// determine scale offset
 	Vector3 offset;
 	for (size_t i = 0; i < 3; ++i)
-		offset.data[i] = (bounding_box[0][i] + bounding_box[1][i]) * 0.5f;
+		offset.data[i] = (lower_left[i] + upper_right[i]) * 0.5f;
+
+	std::clog << "offset = (" << (offset | X) << ", " //
+			<< (offset | Y) << ", " << (offset | Z) << ")" << std::endl;
 
 	// scale the data
 	for (size_t v = 0; v < vertices.size(); ++v)
@@ -179,16 +137,6 @@ void Model::fix_scale()
 		{
 			vertices[v].position.data[i] -= offset[i];
 			vertices[v].position.data[i] *= factor;
-		}
-	}
-
-	// scale the bounding box
-	for (size_t v = 0; v < 2; ++v)
-	{
-		for (size_t i = 0; i < 3; ++i)
-		{
-			bounding_box[v].data[i] = bounding_box[v][i] - offset[i];
-			bounding_box[v].data[i] = bounding_box[v][i] * factor;
 		}
 	}
 }

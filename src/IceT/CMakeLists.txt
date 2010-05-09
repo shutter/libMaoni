@@ -1,23 +1,38 @@
 # Copyright (c) 2009, 2010 Daniel Pfeifer, University of Zurich
 
+include(Extract)
+
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
 
-if(WIN32)
-  include(Extract)
-  extract(${CMAKE_SOURCE_DIR}/win32/boost-mpi.zip
-    ${CMAKE_CURRENT_BINARY_DIR}/boost-mpi)
-  link_directories(${CMAKE_CURRENT_BINARY_DIR}/boost-mpi)
-else(WIN32)
-  find_package(Boost REQUIRED COMPONENTS mpi serialization)
-endif(WIN32)
+set(BOOST_MPI_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/boost-mpi-1.40.0.zip)
+set(BOOST_MPI_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/boost-mpi-1.40.0)
+extract(${BOOST_MPI_FILE} ${BOOST_MPI_SOURCE_DIR})
+add_library(boost_mpi
+  ${BOOST_MPI_SOURCE_DIR}/broadcast.cpp
+  ${BOOST_MPI_SOURCE_DIR}/communicator.cpp
+  ${BOOST_MPI_SOURCE_DIR}/computation_tree.cpp
+  ${BOOST_MPI_SOURCE_DIR}/content_oarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/environment.cpp
+  ${BOOST_MPI_SOURCE_DIR}/exception.cpp
+  ${BOOST_MPI_SOURCE_DIR}/graph_communicator.cpp
+  ${BOOST_MPI_SOURCE_DIR}/group.cpp
+  ${BOOST_MPI_SOURCE_DIR}/intercommunicator.cpp
+  ${BOOST_MPI_SOURCE_DIR}/mpi_datatype_cache.cpp
+  ${BOOST_MPI_SOURCE_DIR}/mpi_datatype_oarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/packed_iarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/packed_oarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/packed_skeleton_iarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/packed_skeleton_oarchive.cpp
+  ${BOOST_MPI_SOURCE_DIR}/point_to_point.cpp
+  ${BOOST_MPI_SOURCE_DIR}/request.cpp
+  ${BOOST_MPI_SOURCE_DIR}/text_skeleton_oarchive.cpp
+  )
 
 
 set(ICET_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.zip)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
-
-include(Extract)
 extract(${ICET_FILE} ${ICET_SOURCE_DIR})
 
 
@@ -61,6 +76,6 @@ add_library(MaoniIceT SHARED
 target_link_libraries(MaoniIceT
   ${MAONI_LIBRARIES}
   ${MPI_LIBRARIES}
-  ${Boost_LIBRARIES}
+  boost_mpi
   icet icet_mpi icet_strategies
   )

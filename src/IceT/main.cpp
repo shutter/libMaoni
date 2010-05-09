@@ -15,14 +15,13 @@
 #ifdef _MSC_VER
 __declspec(dllexport)
 #endif
-int maoni_main(int argc, char* argv[],
-		AlgorithmFactory* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack)
+int maoni_main(int argc, char* argv[], //
+		Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	boost::mpi::environment env(argc, argv);
 	QApplication app(argc, argv);
 
-	FrameData framedata(algorithm_factory_stack, mesh_loader_stack);
+	FrameData framedata(algorithm_stack, mesh_loader_stack);
 
 	IceTWidget* icet_widget = new IceTWidget(framedata);
 
@@ -32,7 +31,7 @@ int maoni_main(int argc, char* argv[],
 	else
 		main_window = icet_widget;
 
-	main_window->setWindowTitle("Maoni Parallel Renderer");
+	main_window->setWindowTitle("Maoni using IceT Parallel Rendering");
 	main_window->show();
 
 	return app.exec();

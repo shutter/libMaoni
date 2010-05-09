@@ -5,7 +5,7 @@ set(QT_USE_QTOPENGL ON)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
-find_package(Boost     REQUIRED)
+find_package(Boost     REQUIRED COMPONENTS serialization)
 find_package(GLEW      REQUIRED)
 find_package(OpenGL    REQUIRED)
 find_package(QGLViewer REQUIRED)
@@ -43,7 +43,7 @@ target_link_libraries(Maoni ${MAONI_LIBRARIES})
 
 
 add_subdirectory(Equalizer)
-#add_subdirectory(IceT)
+add_subdirectory(IceT)
 
 
 add_library(MaoniMain STATIC main.cpp)

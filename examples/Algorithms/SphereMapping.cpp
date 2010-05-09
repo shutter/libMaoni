@@ -6,41 +6,38 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/ShaderProgram.hpp>
-#include <Maoni/ScopedLocks.hpp>
-#include <Maoni/Texture.hpp>
+#include <Maoni.hpp>
 
-SHADER_SOURCE(vertex_source, (version 130),
+SHADER_SOURCE(vertex_source, (version 120),
 
-		varying vec3 normal;
+	varying vec3 normal;
 
-		void main()
-		{
-			normal = gl_NormalMatrix * gl_Normal;
+	void main()
+	{
+		normal = gl_NormalMatrix * gl_Normal;
 
-			gl_Position = ftransform();
-		}
+		gl_Position = ftransform();
+	}
 );
 
-SHADER_SOURCE(fragment_source, (version 130),
+SHADER_SOURCE(fragment_source, (version 120),
 
-		uniform sampler2D texture;
-		varying vec3 normal;
+	uniform sampler2D texture;
+	varying vec3 normal;
 
-		void main()
-		{
-			gl_FragColor = texture2D(texture, vec2(0.5) + 0.5 * normalize(normal).xy);
-		}
+	void main()
+	{
+		gl_FragColor = texture2D(texture, vec2(0.5) + 0.5 * normalize(normal).xy);
+	}
 );
 
 SHADER_PROGRAM(SphereMappingShader,
-		(VERTEX, vertex_source)(FRAGMENT, fragment_source),
+	(VERTEX, vertex_source)(FRAGMENT, fragment_source),
 );
 
 RENDER_ALGORITHM(SphereMapping,
-		(ShaderProgram, shader, SphereMappingShader())
-		(Texture, sphere_texture, "./Models/sphere3.jpg")
+	(ShaderProgram, shader, SphereMappingShader())
+	(Texture, sphere_texture, "./Models/sphere3.jpg")
 )
 {
 	ScopedDisable lighting_lock(GL_LIGHTING);

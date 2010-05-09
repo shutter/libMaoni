@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include <stdexcept>
 #include <iostream>
 
 #include "stla_io.h"
@@ -19,11 +20,7 @@ MESH_LOADER(stl, StereoLithography)
 		std::cout << "  The file \"" << filename
 				<< "\" seems to be a legal ASCII STL file." << std::endl;
 	} else {
-		std::cout << "  The file \"" << filename
-				<< "\" does NOT seem to be a legal ASCII STL file."
-				<< std::endl;
-
-		return false;
+		throw std::runtime_error("The file does NOT seem to be a legal ASCII STL file.");
 	}
 
 	// print file stats
@@ -49,11 +46,8 @@ MESH_LOADER(stl, StereoLithography)
 	error = stla_read(filename, node_num, face_num, node_xyz, face_node,
 			face_normal);
 
-	if (error) {
-		std::cout << std::endl;
-		std::cout << "An error occured while reading stl file.";
-		return false;
-	}
+	if (error)
+		throw std::runtime_error("An error occured while reading stl file.");
 
 	// copy vertices
 	for (int i = 0; i < node_num; i++)
@@ -80,6 +74,4 @@ MESH_LOADER(stl, StereoLithography)
 
 	model.calculate_normals();
 	model.fix_scale();
-
-	return true;
 }

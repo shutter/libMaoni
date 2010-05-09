@@ -26,7 +26,7 @@ struct MeshLoader: Extensible<MeshLoader>
 {
 	virtual const char* const name() const = 0;
 	virtual const char* const extension() const = 0;
-	virtual bool load(Model& mesh, const char* filename) const = 0;
+	virtual void load(Model& mesh, const char* filename) const = 0;
 };
 
 #define MESH_LOADER_I(LOADER, NAME, EXTENSION)                                 \
@@ -42,12 +42,12 @@ struct MeshLoader: Extensible<MeshLoader>
             return EXTENSION;                                                  \
         }                                                                      \
                                                                                \
-        bool load(Model& model, const char* filename) const;                   \
+        void load(Model& model, const char* filename) const;                   \
                                                                                \
         static LOADER instance;                                                \
     };                                                                         \
                                                                                \
     LOADER LOADER::instance;                                                   \
-    bool LOADER::load(Model& model, const char* filename) const                \
+    void LOADER::load(Model& model, const char* filename) const                \
 
 #endif /* MAONI_DETAIL_MESH_LOADER_HPP */

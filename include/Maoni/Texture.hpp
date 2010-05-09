@@ -23,7 +23,7 @@ public:
 
 	std::string const& operator=(std::string const& other);
 
-	operator unsigned int();
+	operator unsigned int() const;
 
 	operator const std::string&() const;
 
@@ -31,7 +31,7 @@ public:
 
 private:
 	std::string path_;
-	unsigned int name_;
+	mutable unsigned int name_;
 };
 
 #endif /* VMMVIEW_TEXTURE_HPP */

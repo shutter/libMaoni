@@ -8,13 +8,9 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/RenderAlgorithm.hpp>
-#include <Maoni/ShaderProgram.hpp>
-#include <Maoni/ScopedLocks.hpp>
-#include <Maoni/Texture.hpp>
-#include <Maoni/Color.hpp>
+#include <Maoni.hpp>
 
-SHADER_SOURCE(vertex_source, (version 130),
+SHADER_SOURCE(vertex_source, (version 120),
 
 		const int LIGHT_COUNT = 1; //Anzahl der berücksichtigten Lichter
 		varying vec3 N; //NormalenVektor
@@ -33,7 +29,7 @@ SHADER_SOURCE(vertex_source, (version 130),
 		}
 );
 
-SHADER_SOURCE(fragment_source, (version 130),
+SHADER_SOURCE(fragment_source, (version 120),
 
 		const float PI = 3.14159265; //Pi, zur Berechnung der Rotation
 		const int LIGHT_COUNT = 1; //Anzahl der berücksichtigten Lichter

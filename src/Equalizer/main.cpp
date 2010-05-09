@@ -10,24 +10,41 @@
 #include <QTimer>
 
 #include "EqInclude.hpp"
+#include <eQute.hpp>
 
 #include <Maoni/detail/Algorithm.hpp>
 #include "FrameDataEq.hpp"
-#include "GLWindow.hpp"
-#include "NodeFactory.hpp"
+#include "Node.hpp"
 #include "../Widgets/MainWindow.hpp"
 #include "RenderWidget.hpp"
+
+class NodeFactory: public eQute<RenderWidgetEq>::Factory
+{
+public:
+	NodeFactory(FrameDataEq& framedata) :
+		framedata(framedata)
+	{
+	}
+
+private:
+	eq::Node* createNode(eq::Config* config)
+	{
+		return new Node(config, framedata);
+	}
+
+private:
+	FrameDataEq& framedata;
+};
 
 #ifdef _MSC_VER
 __declspec(dllexport)
 #endif
-int maoni_main(int argc, char* argv[],
-		AlgorithmFactory* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack)
+int maoni_main(int argc, char* argv[], //
+		Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	eq::base::Log::level = eq::base::LOG_ERROR;
 
-	FrameDataEq framedata(algorithm_factory_stack, mesh_loader_stack);
+	FrameDataEq framedata(algorithm_stack, mesh_loader_stack);
 
 	NodeFactory node_factory(framedata);
 	if (!eq::init(argc, argv, &node_factory))
@@ -49,21 +66,12 @@ int maoni_main(int argc, char* argv[],
 	QApplication app(argc, argv);
 	Q_INIT_RESOURCE(Resources);
 
-	QPixmap pixmap(":/Maoni/Splashscreen.png");
+	QPixmap pixmap(":/Maoni/Splashscreen.jpg");
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
-    splash.show();
-    splash.showMessage("Loading Widgets...");
-	QTimer::singleShot(3000, &splash, SLOT(close()));
+	splash.show();
 
-	/*
-	 createQTGLWidget;
-	 _qtWindow = new EqQtWindow( qtGLWidget );
-	 mit: class EqQtWindow : public eq::GLWindow { implement abstract functions }
-	 makeCurrentNone()
-	 */
-
-	MainWindow main_window(framedata, new RenderWidget(framedata));
-	main_window.setWindowTitle("MaoniEq");
+	MainWindow main_window(framedata, new RenderWidgetEq(framedata, config));
+	main_window.setWindowTitle("Maoni using Equalizer Parallel Rendering");
 
 	config->registerObject(&framedata);
 
@@ -74,15 +82,8 @@ int maoni_main(int argc, char* argv[],
 		return EXIT_FAILURE;
 	}
 
-	main_window.show();
-
-	uint32_t spin = 0;
-	while (config->isRunning())
-	{
-		framedata.commit();
-		config->startFrame(++spin);
-		config->finishFrame();
-	}
+	QTimer::singleShot(1000, &main_window, SLOT(show()));
+	QTimer::singleShot(1337, &splash, SLOT(close()));
 
 	int retval = app.exec();
 

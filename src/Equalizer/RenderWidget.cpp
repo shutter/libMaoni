@@ -6,30 +6,16 @@
  */
 
 #include "RenderWidget.hpp"
+#include "Node.hpp"
 
-RenderWidgetEq::RenderWidgetEq(FrameData& framedata, eq::Config* config) :
-	RenderWidget(framedata), config(config)
+void RenderWidgetEq::glDraw()
 {
+	// framedata.commit();
+	config->startFrame(0);
+	config->finishFrame();
 }
 
-RenderWidgetEq::~RenderWidgetEq()
+void RenderWidgetEq::static_draw(eq::Channel* channel)
 {
-}
-
-/*
- * In Qt idle func (wie auch immer die heisst)
- * if( needsRedraw )
- * config->frame()
- * post qt redisplay/don't block
- */
-
-void RenderWidgetEq::paintGL()
-{
-	preDraw();
-	draw();
-	postDraw();
-
-//	framedata.commit();
-//	config->startFrame(0);
-//	config->finishFrame();
+	static_cast<const Node*> (channel->getNode())->getFrameData().draw();
 }

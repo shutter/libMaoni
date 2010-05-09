@@ -5,26 +5,31 @@
 #include <Maoni/Model.hpp>
 #include <Maoni/detail/Algorithm.hpp>
 #include <Maoni/detail/MeshLoader.hpp>
+#include <string>
 
 class FrameData
 {
 public:
-	FrameData(AlgorithmFactory* algorithm_factory_stack,
-			MeshLoader* mesh_loader_stack);
+	FrameData(Algorithm* algorithm_factory_stack,
+		MeshLoader* mesh_loader_stack);
 
 	FrameData(FrameData const& other);
 
-	virtual bool load_model(const char* filename);
+	virtual void load_model(std::string const& filename);
 
 	virtual void set_render_algorithm(std::string const& name);
+
+	void config_algorithm(AlgorithmConfig& manager)
+	{
+		if (render_algorithm_)
+			render_algorithm_->config(manager);
+	}
 
 	//! get the amount of render algorithms
 	std::size_t num_algorithms() const;
 
 	//! get the amount of mesh loaders
 	std::size_t num_loaders() const;
-
-	const char* mesh_loader_filters();
 
 	std::size_t num_lights() const
 	{
@@ -43,21 +48,45 @@ public:
 
 	void draw() const;
 
+public:
+	void export_scene(const char* filename);
+	void import_scene(const char* filename);
+
+public:
+	template<typename Function>
+	void for_each_algorithm(Function function) const
+	{
+		for_each(algorithm_stack, function);
+	}
+
+	template<typename Function>
+	void for_each_loader(Function function) const
+	{
+		for_each(mesh_loader_stack, function);
+	}
+
 private:
 	void init();
+
+	template<typename T, typename Function>
+	void for_each(T* stack, Function function) const
+	{
+		for (T* i = stack; i; i = i->next)
+			function(i);
+	}
 
 protected:
 	std::vector<Light> lights;
 
 private:
-	AlgorithmFactory* algorithm_factory_stack;
+	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
-	std::string mesh_loader_filters_;
-
-	Algorithm::Ptr render_algorithm_;
+	Algorithm* render_algorithm_;
+	std::string algorithm_name;
 
 	Model model_;
+	std::string model_name;
 };
 
 #endif /* FRAME_DATA_HPP */

@@ -8,22 +8,24 @@
 #ifndef MAONI_EQ_RENDER_WIDGET_HPP
 #define MAONI_EQ_RENDER_WIDGET_HPP
 
+#include "EqInclude.hpp"
 #include "../Widgets/RenderWidget.hpp"
-//#include "EqInclude.hpp"
+#include <eQute.hpp>
 
-namespace eq
-{
-class Config;
-}
-
-class RenderWidgetEq: RenderWidget
+class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::Proxy
 {
 public:
-	RenderWidgetEq(FrameData& framedata, eq::Config* config);
-	~RenderWidgetEq();
+	RenderWidgetEq(FrameData& framedata, eq::Config* config) :
+		RenderWidget(framedata), config(config)
+	{
+	}
+
+	using QGLViewer::paintGL;
+
+	static void static_draw(eq::Channel* channel);
 
 private:
-	void paintGL();
+	void glDraw();
 
 private:
 	eq::Config* config;
