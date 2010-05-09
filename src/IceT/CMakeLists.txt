@@ -65,11 +65,16 @@ include_directories(${ICET_SOURCE_DIR}/include/)
 
 add_subdirectory(${ICET_SOURCE_DIR} ${ICET_SOURCE_DIR}/build)
 
-qt4_wrap_cpp(MAONI_ICET_MOC IceTWidget.hpp)
+qt4_wrap_cpp(MAONI_ICET_MOC
+  RenderWidget.hpp
+  TilesWidget.hpp
+  )
 
 add_library(MaoniIceT SHARED
+  FrameData.cpp
   main.cpp
-  IceTWidget.cpp
+  RenderWidget.cpp
+  TilesWidget.cpp
   ${MAONI_ICET_MOC}
   )
 

@@ -16,26 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAONI_ICET_TILE_HPP
-#define MAONI_ICET_TILE_HPP
+#ifndef MAONI_ICET_RENDERWIDGET_HPP
+#define MAONI_ICET_RENDERWIDGET_HPP
 
-#include <boost/serialization/nvp.hpp>
-#include <boost/mpi/datatype.hpp>
+#include "../Widgets/RenderWidget.hpp"
+#include <GL/ice-t.h>
 
-struct Tile
+class RenderWidgetIceT: public RenderWidget
 {
-	int x, y, width, height;
+Q_OBJECT
 
-	template<class Archive>
-	void serialize(Archive & archive, unsigned int)
-	{
-		archive & BOOST_SERIALIZATION_NVP(x);
-		archive & BOOST_SERIALIZATION_NVP(y);
-		archive & BOOST_SERIALIZATION_NVP(width);
-		archive & BOOST_SERIALIZATION_NVP(height);
-	}
+public:
+	RenderWidgetIceT(FrameData& framedata);
+
+	~RenderWidgetIceT();
+
+private:
+	void paintGL();
+
+private:
+	IceTContext context;
+	static RenderWidgetIceT* singleton;
+	static void static_draw();
 };
 
-BOOST_IS_MPI_DATATYPE(Tile)
-
-#endif /* MAONI_ICET_TILE_HPP */
+#endif /* MAONI_ICET_RENDERWIDGET_HPP */

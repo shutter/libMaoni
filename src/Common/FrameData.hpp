@@ -78,15 +78,15 @@ private:
 protected:
 	std::vector<Light> lights;
 
+	std::string model_name;
+	std::string ralgo_name;
+
 private:
 	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
 	Algorithm* render_algorithm_;
-	std::string algorithm_name;
-
 	Model model_;
-	std::string model_name;
 };
 
 #endif /* FRAME_DATA_HPP */
