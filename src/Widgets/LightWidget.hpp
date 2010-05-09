@@ -13,6 +13,7 @@
 #include "RenderWidget.hpp"
 #include "qtpropertymanager.h"
 #include "qttreepropertybrowser.h"
+#include "qvector3dpropertymanager.h"
 
 class FrameData;
 
@@ -30,6 +31,7 @@ private slots:
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
+	void value_changed(QtProperty* property, const QVector3D& value);
 
 	void update_combobox();
 
@@ -46,15 +48,12 @@ private:
 	QtBoolPropertyManager* bool_manager;
 	QtDoublePropertyManager* double_manager;
 	QtColorPropertyManager* color_manager;
+	QVector3DPropertyManager* vector3d_manager;
 	QtGroupPropertyManager* group_manager;
 
 	QtProperty *is_on;
 	QtProperty *show_bulp;
-	QtProperty *pos_x;
-	QtProperty *pos_y;
-	QtProperty *pos_z;
-	QtProperty *pos_v;
-	QtProperty *light_position;
+	QtProperty *position;
 	QtProperty *ambient;
 	QtProperty *diffuse;
 	QtProperty *specular;
