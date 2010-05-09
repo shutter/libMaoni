@@ -36,8 +36,8 @@ SHADER_SOURCE(fragment_source, (version 120),
 		varying vec3 N; //NormalenVektor
 		varying vec3 V; //VertexVektor
 		varying vec3 lightvec[LIGHT_COUNT]; //LichtVektor(en)
-		uniform sampler2D Texture0; //normale Textur
-		uniform sampler2D Texture1; //NormalMap
+		uniform sampler2D color_map; //normale Textur
+		uniform sampler2D normal_map; //NormalMap
 
 		//dreht einen Punkt um eine Achse im Raum
 		//@a: Achse um die gedreht wird
@@ -59,7 +59,7 @@ SHADER_SOURCE(fragment_source, (version 120),
 			mat3 M = mat3(T, B, N); //Werte zu Matrix zusammensetzen
 
 			//normale aus den NormalMapDaten und den Matricen errechnen
-			vec3 normal = normalize((vec3(texture2D(Texture1, TexCoord)) - vec3(0.5, 0.5, 0.5)) * M);
+			vec3 normal = normalize((vec3(texture2D(normal_map, TexCoord)) - vec3(0.5, 0.5, 0.5)) * M);
 			normal = gl_NormalMatrix * normal;
 
 			//Normale Lichtberechnung aus dem Per-Pixel-light-Shader
@@ -77,7 +77,7 @@ SHADER_SOURCE(fragment_source, (version 120),
 			}
 			EndColor += gl_FrontMaterial.emission;
 
-			gl_FragColor = (gl_FrontLightModelProduct.sceneColor + EndColor) * texture2D(Texture0, TexCoord);
+			gl_FragColor = (gl_FrontLightModelProduct.sceneColor + EndColor) * texture2D(color_map, TexCoord);
 		}
 );
 
@@ -87,8 +87,8 @@ SHADER_PROGRAM(DGLBumpMappingShader,
 
 RENDER_ALGORITHM(DGLBumpMapping,
 		(ShaderProgram, shader, DGLBumpMappingShader())
-		(Texture, bump_texture, "./Models/shader_diffuse_bumpmapping_cg_texture.jpg")
-		(Texture, normal_texture, "./Models/shader_diffuse_bumpmapping_cg_normal.jpg")
+		(Texture, color_texture, "../examples/Models/dgl_color_map.jpg")
+		(Texture, normal_texture, "../examples/Models/dgl_normal_map.jpg")
 		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
 		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
 		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
@@ -104,14 +104,11 @@ RENDER_ALGORITHM(DGLBumpMapping,
 	glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
 	ScopedDisable lighting_lock(GL_LIGHTING);
-	ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
+	ScopedEnable color_map_2D_lock(GL_TEXTURE_2D);
+	ScopedBindTexture color_map_lock(color_texture);
+	ScopedEnable normal_map_2D_lock(GL_TEXTURE_2D);
+	ScopedBindTexture normal_map_lock(normal_texture);
 	ScopedUseProgram shader_lock(shader);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, normal_texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, bump_texture);
 
 	model.draw();
 }
