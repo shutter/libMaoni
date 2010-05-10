@@ -1,0 +1,105 @@
+
+[def __ICET__      [@http://www.cs.unm.edu/~kmorel/IceT/ IceT]]
+[def __EQUALIZER__ [@http://www.equalizergraphics.com/ Equalizer]]
+
+[section Used Libraries and Tools]
+
+blah blah..
+
+[section Git]
+[@http://git-scm.com/ Git] is a free & open source, distributed version control
+system  designed to handle everything from small to very large projects with
+speed and efficiency.
+
+Every Git clone is a full-fledged repository with complete history and full
+revision tracking capabilities, not dependent on network access or a central
+server. Branching and merging are fast and easy to do.
+[endsect]
+
+[section CMake]
+[@http://www.cmake.org/ CMake] is a family of tools designed to build, test and
+package software. CMake is used to control the software compilation process
+using simple platform and compiler independent configuration files. CMake
+generates native makefiles and workspaces that can be used in the compiler
+environment of your choice. 
+[endsect]
+
+[section Doxygen]
+[@http://www.stack.nl/~dimitri/doxygen/ Doxygen] is a documentation system for
+C++, C, Java, Objective-C, Python, IDL (Corba and Microsoft flavors), Fortran,
+VHDL, PHP, C#, and to some extent D.
+[endsect]
+
+[section BoostBook]
+The [@http://www.boost.org/doc/html/boostbook.html BoostBook] documentation
+format is an extension of [@http://www.docbook.org/ DocBook], an SGML- or
+XML-based format for describing documentation. BoostBook augments DocBook with
+semantic markup that aids in the documentation of C++ libraries, specifically
+the [@http://www.boost.org/ Boost C++ libraries], by providing the ability to
+express and refer to C++ constructs such as namespaces, classes, overloaded
+functions, templates, and specializations.
+[endsect]
+
+[section QuickBook]
+[@http://www.boost.org/doc/html/quickbook.html QuickBook] is a WikiWiki style
+documentation tool geared towards C++ documentation using simple rules and
+markup for simple formatting tasks. QuickBook extends the WikiWiki concept. Like
+the WikiWiki, QuickBook documents are simple text files. A single QuickBook
+document can generate a fully linked set of nice HTML and PostScript/PDF
+documents complete with images and syntax- colorized source code. 
+[endsect]
+
+[section Qt]
+[@http://qt.nokia.com/ Qt] is a cross-platform application and UI framework.
+Using Qt, you can write web-enabled applications once and deploy them across
+desktop, mobile and embedded operating systems without rewriting the source
+code.
+[endsect]
+
+[section Qt Property Browser]
+The [@http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Widgets/qtpropertybrowser
+Qt Property Browser Framework] provides a browser widget that displays the given
+properties with labels and corresponding editing widgets.
+
+[@http://doc.trolltech.com/qq/qq18-propertybrowser.html] shows how to use file
+properties.
+[endsect]
+
+
+[section Equalizer]
+[@http://www.equalizergraphics.com/ Equalizer] is the standard middleware to
+create and deploy parallel OpenGL-based applications. It enables applications to
+benefit from multiple graphics cards, processors and computers to scale the
+rendering performance, visual quality and display size. An Equalizer application
+runs unmodified on any visualization system, from a simple workstation to large
+scale graphics clusters, multi-GPU workstations and Virtual Reality
+installations.
+[endsect]
+
+[section IceT]
+The [@http://www.cs.unm.edu/~kmorel/IceT/ Image Composition Engine for Tiles] is
+a high-performance sort-last parallel rendering library. In addition to
+providing accelerated rendering for a standard display, IceT provides the unique
+ability to generate images for tiled displays. The overall resolution of the
+display may be several times larger than any viewport that may be rendered by a
+single machine.
+
+IceT is currently available for use in large scale, high performance
+visualization and graphics applications. It is used in multiple production
+products like [@http://www.paraview.org/ ParaView] and
+[@http://www.llnl.gov/visit VisIt]. The IceT library is quite stable now.
+Although development has slowed, you can track it with the
+[@https://www.ohloh.net/p/IceT Ohloh] project.
+[endsect]
+
+[section Open MPI]
+The [@http://www.open-mpi.org/ Open MPI] Project is an open source
+[@http://www.mpi-forum.org/ MPI-2] implementation that is developed and
+maintained by a consortium of academic, research, and industry partners. Open
+MPI is therefore able to combine the expertise, technologies, and resources from
+all across the High Performance Computing community in order to build the best
+MPI library available. Open MPI offers advantages for system and software
+vendors, application developers and computer science researchers. 
+[endsect]
+
+[endsect]

@@ -23,6 +23,7 @@
 #include <QWidget>
 #include <qtpropertymanager.h>
 #include <qttreepropertybrowser.h>
+#include <qvector3dpropertymanager.h>
 #include "Tile.hpp"
 
 class TilesWidget: public QWidget
@@ -45,6 +46,8 @@ private:
 
 	QtEnumPropertyManager* enum_manager;
 	QtRectPropertyManager* rect_manager;
+	QVector3DPropertyManager* vector3d_manager;
+	QtGroupPropertyManager* group_manager;
 };
 
 #endif /* MAONI_ICET_TILESWIDGET_HPP */

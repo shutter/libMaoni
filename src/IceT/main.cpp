@@ -42,6 +42,9 @@ int maoni_main(int argc, char* argv[], //
 
 	RenderWidgetIceT* icet_widget = new RenderWidgetIceT(framedata);
 
+	TilesWidget tw;
+	tw.show();
+
 	QWidget* main_window;
 	if (framedata.master())
 	{

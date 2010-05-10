@@ -34,7 +34,8 @@ TilesWidget::TilesWidget(QWidget *parent) :
 
 	enum_manager = new QtEnumPropertyManager(this);
 	rect_manager = new QtRectPropertyManager(this);
-	QtIntPropertyManager* int_manager = new QtIntPropertyManager(this);
+	vector3d_manager = new QVector3DPropertyManager(this);
+	group_manager = new QtGroupPropertyManager(this);
 
 	connect(enum_manager, SIGNAL(valueChanged(QtProperty*, int)), //
 		this, SLOT(enum_changed(QtProperty*, int)));
@@ -43,11 +44,13 @@ TilesWidget::TilesWidget(QWidget *parent) :
 
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
+	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
 
-	property_browser->setFactoryForManager(int_manager, int_factory);
 	property_browser->setFactoryForManager(enum_manager, enum_factory);
 	property_browser->setFactoryForManager(
 		rect_manager->subIntPropertyManager(), int_factory);
+	property_browser->setFactoryForManager(
+		vector3d_manager->subDoublePropertyManager(), double_factory);
 
 	update_browser();
 }
@@ -64,15 +67,25 @@ void TilesWidget::update_browser()
 	enum_manager->setValue(property, 3);
 	property_browser->addProperty(property);
 
-	QString name = "Tile on Rank %1";
+	QString name = "Rank %1";
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		Tile& tile = tiles[i];
 		indices[property] = i;
-		QtProperty* property = rect_manager->addProperty(name.arg(i));
-		rect_manager->setValue(property, //
+
+		QtProperty* group = group_manager->addProperty(name.arg(i));
+		QtProperty* rect = rect_manager->addProperty("Viewport");
+		QtProperty* min = vector3d_manager->addProperty("Minimum");
+		QtProperty* max = vector3d_manager->addProperty("Maximum");
+
+		rect_manager->setValue(rect, //
 			QRect(tile.x, tile.y, tile.width, tile.height));
-		property_browser->addProperty(property);
+
+		group->addSubProperty(rect);
+		group->addSubProperty(min);
+		group->addSubProperty(max);
+
+		property_browser->addProperty(group);
 	}
 }
 
