@@ -19,6 +19,16 @@
 #ifndef MAONI_MESH_LOADER_HPP
 #define MAONI_MESH_LOADER_HPP
 
+#include <Maoni/Model.hpp>
+#include <Maoni/detail/Extensible.hpp>
+
+struct MeshLoader: Extensible<MeshLoader>
+{
+	virtual const char* const name() const = 0;
+	virtual const char* const extension() const = 0;
+	virtual void load(Model& mesh, const char* filename) const = 0;
+};
+
 /**
  * Define a custom MeshLoader.
  *
