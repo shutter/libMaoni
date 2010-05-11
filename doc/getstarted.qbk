@@ -12,9 +12,6 @@ This is a how-to develop for libMaoni from scratch using
 [@http://www.ubuntu.com/ Ubuntu 10.04 Linux] and [@http://eclipse.org/downloads/ 
 Eclipse IDE for C/C++ Developers].
 
-[note If you followed the Installing instruction above, you may want to jump
-directly to the [link libmaoni.tutorial Tutorial].]
-
 [section How-to Github]
 GIT allows an alternative work flow people aren't used from CVS or SVN. You
 don't have to become a libMaoni developer and don't have to gain access to the
@@ -52,21 +49,25 @@ This will update your remote repository as well as your local files.
 
 
 [section How-to build libMaoni]
-We use cmake to check for dependencies and creating the makefiles and need some other packages:[br]
-[teletype]$ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev
+We use cmake to check for dependencies and creating the makefiles and need some 
+other [@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,dblatex,lib3ds-dev packages]:
+[teletype]
 
+  $ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev
 
 For developing libMaoni, you have to install equalizer, a parallel rendering
 framework where libMaoni was intended to be a viewer for when the project
-started. You can get equalizer
-[@https://sourceforge.net/projects/equalizer/files/ from sourceforge].
+started. You can get equalizer from
+[@https://sourceforge.net/projects/equalizer/files/ sourceforge].
 
   $ sudo aptitude install uuid-dev bison flex
   $ make -j4
   $ sudo make install
 
-For developing libMaoni with IceT you also need to install the following:[br]
-[teletype]$ sudo aptitude install mpich2 (boost_mpi??)
+For developing libMaoni with IceT you also need to install the following:
+[teletype]
+
+  $ sudo aptitude install mpich2 (boost_mpi??)
 
 
 Now let us build libMaoni! Still in the terminal create a "build" folder as
@@ -83,16 +84,20 @@ Enter this folder and create the Makefiles:
 If there are still some dependencies missing you will get an error now.
 
 
-The different kinds of building libMaoni are controlled by make arguments, e.g.:[br]
-[table:id libMaoni make parameters
+The different kinds of building libMaoni are controlled by make arguments, e.g.:
+
+[table:1 libMaoni make parameters
     [[Parameter] [Build]]
     [[`$ make examples`]      [compiles the viewer including file-loaders and algorithms]]
     [[`$ make libMaoni-man`]  [creates the unix manpages]]
     [[`$ make libMaoni-html`] [creates the html api and documentation]]
+    [[`$ make libMaoni-pdf`] [creates the pdf api and documentation]]
 ]
 [endsect]
 
 [section How-to commit modifications]
+[teletype]
+
   $ git add .
 
 use filepaths instead of . if you don't want to add every modification to a
@@ -110,10 +115,13 @@ commit to your remote repository on github:
 
   $ git push origin master
 
-[note Remember the name convention:
-* upstream is git://github.com/purpleKarrot/libMaoni.git
-* origin is your remote repository
-* master is your local repository]
+[note Remember the repository names!]
+[table:2 GIT repository names
+    [[Reference] [Location]]
+    [[`upstream`]   [git://github.com/purpleKarrot/libMaoni.git (read only)]]
+    [[`origin`]  	[your remote repository on github.com (read and write)]]
+    [[`master`]		[your local clone]]
+]
 
 If you like to make your changes public to the whole libMaoni community, use the
 pullrequest button on github to ask for your code being pulled to purpleKarrot's

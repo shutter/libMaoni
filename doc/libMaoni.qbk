@@ -5,7 +5,9 @@
    [purpose common rendering framework]
 ]
 
-
+[include motivation.qbk]
+[include getstarted.qbk]
+[include tutorial.qbk]
 [xinclude maoni-ref.xml]
 [include design.qbk]
 [include software.qbk]
