@@ -1,10 +1,59 @@
 
+[c++]
+
 [section Tutorial]
 In Maoni everithing is optional.
 The simplest application built on Maoni consist of zero lines of code.
 
 [section Custom File Loader]
-[macroref MESH_LOADER Click me!]
+So we start by implementing a loader for meshes. To do so, declare a class and
+inherit from `MeshLoader`. You will have to implement three virtual functions:
+
+# `name()` shall return the name of your loader.
+# `extension()` shall return the file extension (including the dot) 
+# `load()` shall read the mesh data from the file named `filename` and fill it
+   into the [classref Model].
+
+Lastly, create an instance of your loader. This may be either global, or static
+inside your loader class. The result will be the same. Now your code would look
+like this one:
+
+  class PlyLoader: public MeshLoader
+  {
+    const char* const name() const
+    {
+      return "Stanford PLY";
+    }
+  
+    const char* const extension() const
+    {
+      return ".ply";
+    }
+  
+    void load(Model& model, const char* filename) const;
+  
+    static PlyLoader instance;
+  };
+  
+  PlyLoader  PlyLoader::instance;
+  
+  void PlyLoader::load(Model& model, const char* filename) const
+  {
+    ...
+  }
+
+It wouldn't be very DRY if you had to implement the same class skeleton for each
+loader, so we provide the macro [macroref MESH_LOADER] as a shortcut. The following
+code expands to the code above:
+
+  MESH_LOADER(ply, Stanford PLY)
+  {
+    ...
+  }
+
+[note You can define as many loaders as you want. Just link them all together with
+libMaoni, they will register themselves automatically.]
+
 [endsect]
 
 [section Custom Render Algorithm]

@@ -1,7 +1,4 @@
 
-[def __ICET__      [@http://www.cs.unm.edu/~kmorel/IceT/ IceT]]
-[def __EQUALIZER__ [@http://www.equalizergraphics.com/ Equalizer]]
-
 [section Used Libraries and Tools]
 
 blah blah..
@@ -65,6 +62,17 @@ properties with labels and corresponding editing widgets.
 properties.
 [endsect]
 
+[section Boost LA]
+[@http://www.revergestudios.com/boost-la/ Boost LA] provides a set of generic
+linear algebra algorithms, primarily for working with vectors and matrices of
+static size. The library also defines vector and matrix data types, however it
+allows users to introduce their own types by specializing the
+[@http://www.revergestudios.com/boost-la/vector_traits.html vector_traits] and
+[@http://www.revergestudios.com/boost-la/matrix_traits.html matrix_traits]
+templates.
+
+Note that Boost LA is not part of Boost. 
+[endsect]
 
 [section Equalizer]
 [@http://www.equalizergraphics.com/ Equalizer] is the standard middleware to
