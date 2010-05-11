@@ -71,7 +71,12 @@ allows users to introduce their own types by specializing the
 [@http://www.revergestudios.com/boost-la/matrix_traits.html matrix_traits]
 templates.
 
-Note that Boost LA is not part of Boost. 
+Note that Boost LA is not part of Boost.
+
+Note that it is currently impossible to define vector_traits for Qt's vector
+types. The Author is aware of the problem and workin on a solution (see
+[@http://lists.boost.org/Archives/boost/2010/05/166314.php this thread] for
+details).
 [endsect]
 
 [section Equalizer]

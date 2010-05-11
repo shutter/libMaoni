@@ -67,7 +67,7 @@ started. You can get equalizer from
 For developing libMaoni with IceT you also need to install the following:
 [teletype]
 
-  $ sudo aptitude install mpich2 (boost_mpi??)
+  $ sudo aptitude install libopenmpi-dev
 
 
 Now let us build libMaoni! Still in the terminal create a "build" folder as
