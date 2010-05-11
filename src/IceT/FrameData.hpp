@@ -16,26 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAONI_ICET_TILE_HPP
-#define MAONI_ICET_TILE_HPP
+#ifndef MAONI_ICET_FRAMEDATA_HPP
+#define MAONI_ICET_FRAMEDATA_HPP
 
-#include <boost/serialization/nvp.hpp>
-#include <boost/mpi/datatype.hpp>
+#include "../Common/FrameData.hpp"
+#include <boost/mpi/communicator.hpp>
 
-struct Tile
+class FrameDataIceT: public FrameData
 {
-	int x, y, width, height;
-
-	template<class Archive>
-	void serialize(Archive & archive, unsigned int)
+public:
+	FrameDataIceT(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
+		FrameData(algorithm_stack, mesh_loader_stack)
 	{
-		archive & BOOST_SERIALIZATION_NVP(x);
-		archive & BOOST_SERIALIZATION_NVP(y);
-		archive & BOOST_SERIALIZATION_NVP(width);
-		archive & BOOST_SERIALIZATION_NVP(height);
 	}
+
+	~FrameDataIceT();
+
+	bool master() const
+	{
+		return world.rank() == 0;
+	}
+
+private:
+	boost::mpi::communicator world;
 };
 
-BOOST_IS_MPI_DATATYPE(Tile)
-
-#endif /* MAONI_ICET_TILE_HPP */
+#endif /* MAONI_ICET_FRAMEDATA_HPP */

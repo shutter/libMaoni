@@ -1,0 +1,16 @@
+
+[section Tutorial]
+In Maoni everithing is optional.
+The simplest application built on Maoni consist of zero lines of code.
+
+[section Custom File Loader]
+[macroref MESH_LOADER Click me!]
+[endsect]
+
+[section Custom Render Algorithm]
+[endsect]
+
+[section Custom Shader Programs]
+[endsect]
+
+[endsect]

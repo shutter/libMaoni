@@ -65,7 +65,7 @@ private:
 void FrameData::set_render_algorithm(std::string const& name)
 {
 	for_each_algorithm(algo_setter(name, render_algorithm_));
-	algorithm_name = name;
+	ralgo_name = name;
 }
 
 class count
@@ -117,7 +117,7 @@ void FrameData::export_scene(const char* filename)
 	boost::archive::xml_oarchive archive(file);
 	archive << boost::serialization::make_nvp("lights", lights);
 	archive << boost::serialization::make_nvp("model", model_name);
-	archive << boost::serialization::make_nvp("renderer", algorithm_name);
+	archive << boost::serialization::make_nvp("renderer", ralgo_name);
 	archive << boost::serialization::make_nvp("algorithm", *render_algorithm_);
 }
 
@@ -133,8 +133,8 @@ void FrameData::import_scene(const char* filename)
 	archive >> boost::serialization::make_nvp("model", model_name);
 	load_model(model_name);
 
-	archive >> boost::serialization::make_nvp("renderer", algorithm_name);
-	set_render_algorithm(algorithm_name);
+	archive >> boost::serialization::make_nvp("renderer", ralgo_name);
+	set_render_algorithm(ralgo_name);
 
 	archive >> boost::serialization::make_nvp("algorithm", *render_algorithm_);
 }

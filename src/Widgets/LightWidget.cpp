@@ -40,21 +40,14 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	bool_manager = new QtBoolPropertyManager(this);
 	double_manager = new QtDoublePropertyManager(this);
 	color_manager = new QtColorPropertyManager(this);
+	vector3d_manager = new QVector3DPropertyManager(this);
 	group_manager = new QtGroupPropertyManager(this);
 
 	is_on = bool_manager->addProperty("activate");
 	is_on->setToolTip("Turn light on and off");
 	show_bulp = bool_manager->addProperty("show bulp");
 	show_bulp->setToolTip("Draw the light source");
-	pos_x = double_manager->addProperty("pos x");
-	pos_y = double_manager->addProperty("pos y");
-	pos_z = double_manager->addProperty("pos z");
-	pos_v = double_manager->addProperty("pos v");
-	light_position = group_manager->addProperty("light position");
-	light_position->addSubProperty(pos_x);
-	light_position->addSubProperty(pos_y);
-	light_position->addSubProperty(pos_z);
-	light_position->addSubProperty(pos_v);
+	position = vector3d_manager->addProperty("position");
 	ambient = color_manager->addProperty("ambient");
 	ambient->setToolTip(
 			"Bounced light which is assumed to be so scattered that there is no way to tell its original direction, but it disappears if this light source is turned off.");
@@ -99,6 +92,8 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	property_browser->setFactoryForManager(color_manager, color_factory);
 	property_browser->setFactoryForManager(
 			color_manager->subIntPropertyManager(), int_factory);
+	property_browser->setFactoryForManager(
+		vector3d_manager->subDoublePropertyManager(), double_factory);
 
 	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), this,
 			SLOT(value_changed(QtProperty*, bool)));
@@ -106,6 +101,8 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 			SLOT(value_changed(QtProperty*, double)));
 	connect(color_manager, SIGNAL(valueChanged(QtProperty*, QColor)), this,
 			SLOT(value_changed(QtProperty*, QColor)));
+	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, QVector3D)), this,
+			SLOT(value_changed(QtProperty*, QVector3D)));
 
 	light_chooser->setCurrentIndex(0);
 	choose(0);
@@ -134,7 +131,7 @@ void LightWidget::choose(int i)
 	property_browser->addProperty(is_on);
 
 	show_bulp->setEnabled(light.enabled);
-	light_position->setEnabled(light.enabled);
+	position->setEnabled(light.enabled);
 	ambient->setEnabled(light.enabled);
 	diffuse->setEnabled(light.enabled);
 	specular->setEnabled(light.enabled);
@@ -146,10 +143,9 @@ void LightWidget::choose(int i)
 
 	bool_manager->setValue(show_bulp, light.show_bulp);
 	property_browser->addProperty(show_bulp);
-	double_manager->setValue(pos_x, light.position | X);
-	double_manager->setValue(pos_y, light.position | Y);
-	double_manager->setValue(pos_z, light.position | Z);
-	property_browser->addProperty(light_position);
+	vector3d_manager->setValue(position, //
+		QVector3D(light.position | X, light.position | Y, light.position | Z));
+	property_browser->addProperty(position);
 	color_manager->setValue(ambient, colorOTB(light.ambient));
 	property_browser->addProperty(ambient);
 	color_manager->setValue(diffuse, colorOTB(light.diffuse));
@@ -209,13 +205,7 @@ void LightWidget::value_changed(QtProperty* property, bool value)
 void LightWidget::value_changed(QtProperty* property, double value)
 {
 	std::string name = property->propertyName().toStdString();
-	if (name == "pos x" || name == "pos y" || name == "pos z")
-	{
-		framedata.light(current_id).position = Vector3(double_manager->value(
-				pos_x), double_manager->value(pos_y), double_manager->value(
-				pos_z));
-	}
-	else if (name == "constant attenuation")
+	if (name == "constant attenuation")
 	{
 		framedata.light(current_id).const_att = value;
 	}
@@ -258,6 +248,12 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 	{
 		framedata.light(current_id).specular = colorBTO(value);
 	}
+}
+
+void LightWidget::value_changed(QtProperty* property, const QVector3D& value)
+{
+	framedata.light(current_id).position = //
+		Vector3(value.x(), value.y(), value.z());
 }
 
 void LightWidget::update_browser()

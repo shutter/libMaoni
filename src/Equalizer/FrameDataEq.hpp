@@ -27,14 +27,12 @@ public:
 	virtual void load_model(const char* filename)
 	{
 		setDirty(DIRTY_MODEL);
-		model_name = filename;
 		FrameData::load_model(filename);
 	}
 
 	virtual void set_render_algorithm(std::string const& name)
 	{
 		setDirty(DIRTY_RALGO);
-		ralgo_name = name;
 		FrameData::set_render_algorithm(name);
 	}
 
@@ -68,15 +66,13 @@ public:
 		if (dirty & DIRTY_MODEL)
 		{
 			is >> model_name;
-			if (!model_name.empty())
-				FrameData::load_model(model_name.c_str());
+			FrameData::load_model(model_name);
 		}
 
 		if (dirty & DIRTY_RALGO)
 		{
 			is >> ralgo_name;
-			if (!ralgo_name.empty())
-				FrameData::set_render_algorithm(ralgo_name);
+			FrameData::set_render_algorithm(ralgo_name);
 		}
 	}
 
@@ -87,9 +83,6 @@ private:
 		DIRTY_MODEL = DIRTY_CUSTOM << 2,
 		DIRTY_RALGO = DIRTY_CUSTOM << 3
 	};
-
-	std::string model_name;
-	std::string ralgo_name;
 };
 
 #endif /* FRAME_DATA_EQ_HPP */
