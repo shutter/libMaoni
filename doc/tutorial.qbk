@@ -18,7 +18,7 @@ Lastly, create an instance of your loader. This may be either global, or static
 inside your loader class. The result will be the same. Now your code would look
 like this one:
 
-  class PlyLoader: public MeshLoader
+  class PlyLoader: public ``[classref MeshLoader]``
   {
     const char* const name() const
     {
@@ -35,9 +35,9 @@ like this one:
     static PlyLoader instance;
   };
   
-  PlyLoader  PlyLoader::instance;
+  PlyLoader PlyLoader::instance;
   
-  void PlyLoader::load(Model& model, const char* filename) const
+  void PlyLoader::load(``[classref Model]``& model, const char* filename) const
   {
     ...
   }
@@ -51,8 +51,8 @@ code expands to the code above:
     ...
   }
 
-[note You can define as many loaders as you want. Just link them all together with
-libMaoni, they will register themselves automatically.]
+You can define as many loaders as you want. Just link them all together with libMaoni;
+they will register themselves automatically.
 
 [endsect]
 
