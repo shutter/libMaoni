@@ -4,7 +4,7 @@
 #include "Light.hpp"
 #include <Maoni/Model.hpp>
 #include <Maoni/detail/Algorithm.hpp>
-#include <Maoni/detail/MeshLoader.hpp>
+#include <Maoni/MeshLoader.hpp>
 #include <string>
 
 class FrameData
