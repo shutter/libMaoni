@@ -44,24 +44,14 @@ private:
 AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	QWidget(parent), framedata(framedata)
 {
+	setWindowTitle("Algorithm");
+
 	algo_chooser = new QComboBox;
 	QStringList list;
 	framedata.for_each_algorithm(append_name(list));
 	algo_chooser->addItems(list);
-	algo_chooser->show();
-
-	property_browser = new QtTreePropertyBrowser;
-	property_browser->show();
-
-	QVBoxLayout* layout = new QVBoxLayout;
-	layout->addWidget(algo_chooser);
-	layout->addWidget(property_browser);
-
-	setLayout(layout);
-	setWindowTitle("Algorithm");
-
-	connect(algo_chooser, SIGNAL(currentIndexChanged(int)), this,
-			SLOT(choose(int)));
+	connect(algo_chooser, SIGNAL(currentIndexChanged(int)), //
+		this, SLOT(choose(int)));
 
 	int_manager = new QtIntPropertyManager(this);
 	bool_manager = new QtBoolPropertyManager(this);
@@ -90,6 +80,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	QtColorEditorFactory* color_factory = new QtColorEditorFactory(this);
 	FileEditFactory* filepath_factory = new FileEditFactory(this);
 
+	property_browser = new QtTreePropertyBrowser;
 	property_browser->setFactoryForManager(int_manager, int_factory);
 	property_browser->setFactoryForManager(bool_manager, bool_factory);
 	property_browser->setFactoryForManager(double_manager, double_factory);
@@ -98,6 +89,16 @@ AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	property_browser->setFactoryForManager(
 			color_manager->subIntPropertyManager(), int_factory);
 	property_browser->setFactoryForManager(filepath_manager, filepath_factory);
+
+	QVBoxLayout* layout = new QVBoxLayout;
+
+	if (framedata.num_algorithms() > 1)
+		layout->addWidget(algo_chooser);
+
+	layout->addWidget(property_browser);
+
+	setLayout(layout);
+	choose(0);
 }
 
 void AlgorithmWidget::update_browser()
