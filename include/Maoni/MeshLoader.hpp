@@ -37,7 +37,7 @@ struct MeshLoader: Extensible<MeshLoader>
  * \param EXT  The file extension associated with this loader
  * \param NAME The name of the file format.
  */
-#define MESH_LOADER(EXT, NAME) MESH_LOADER_I(MeshLoader_##EXT, #NAME, "." #EXT)
+#define MESH_LOADER(EXT, NAME) MESH_LOADER_I(MeshLoader_##EXT, #NAME, #EXT)
 
 #include <Maoni/detail/MeshLoader.hpp>
 
