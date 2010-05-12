@@ -40,10 +40,13 @@ add_subdirectory(src)
 add_subdirectory(examples)
 
 
-set(THIS_PROJECT_NAME libMaoni)
-include(AddReference)
-include(AddDocumentation)
-add_subdirectory(doc EXCLUDE_FROM_ALL)
+# Building of Documentation is tested on Linux only
+if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+  set(THIS_PROJECT_NAME libMaoni)
+  include(AddReference)
+  include(AddDocumentation)
+  add_subdirectory(doc EXCLUDE_FROM_ALL)
+endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
 
 set(CPACK_PACKAGE_NAME "Maoni")

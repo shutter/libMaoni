@@ -10,7 +10,7 @@ So we start by implementing a loader for meshes. To do so, declare a class and
 inherit from `MeshLoader`. You will have to implement three virtual functions:
 
 # `name()` shall return the name of your loader.
-# `extension()` shall return the file extension (including the dot) 
+# `extension()` shall return the file extension (without the dot).
 # `load()` shall read the mesh data from the file named `filename` and fill it
    into the [classref Model].
 
@@ -27,7 +27,7 @@ like this one:
   
     const char* const extension() const
     {
-      return ".ply";
+      return "ply";
     }
   
     void load(Model& model, const char* filename) const;
