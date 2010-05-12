@@ -1,8 +1,19 @@
 /*
- * texture.cpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: 31.10.2009
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <GL/glew.h>
@@ -13,68 +24,36 @@
 #include <QGLWidget>
 
 Texture::Texture(const std::string& path) :
-	path_(path), name_(0)
+	Path(path), name(0)
 {
-}
-
-Texture::Texture(Texture const& other) :
-	path_(other.path_), name_(0)
-{
-}
-
-Texture::~Texture()
-{
-	reset();
-}
-
-Texture const& Texture::operator=(Texture const& other)
-{
-	if (path_ != other.path_)
-	{
-		reset();
-		path_ = other.path_;
-	}
-
-	return other;
-}
-
-std::string const& Texture::operator=(std::string const& other)
-{
-	if (path_ != other)
-	{
-		reset();
-		path_ = other;
-	}
-
-	return other;
 }
 
 Texture::operator unsigned int() const
 {
-	if (!name_)
+	if (!name)
 	{
-		glGenTextures(1, &name_);
+		glGenTextures(1, &name);
 
-		QImage image(path_.c_str());
+		QImage image(std::string(*this).c_str());
 		QImage teximage = QGLWidget::convertToGLFormat(image);
 
-		ScopedBindTexture texture_lock(name_);
+		ScopedBindTexture texture_lock(name);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, 4, teximage.width(), teximage.height(),
-				0, GL_RGBA, GL_UNSIGNED_BYTE, teximage.bits());
+			0, GL_RGBA, GL_UNSIGNED_BYTE, teximage.bits());
 	}
 
-	return name_;
-}
-
-Texture::operator const std::string&() const
-{
-	return path_;
+	return name;
 }
 
 void Texture::reset()
 {
-	glDeleteTextures(1, &name_);
-	name_ = 0;
+	glDeleteTextures(1, &name);
+	name = 0;
+}
+
+const char* const Texture::filter() const
+{
+	return "Image files (*.jpg *.png)";
 }

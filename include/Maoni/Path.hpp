@@ -16,24 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VMMVIEW_TEXTURE_HPP
-#define VMMVIEW_TEXTURE_HPP
+#ifndef MAONI_PATH_HPP
+#define MAONI_PATH_HPP
 
-#include <Maoni/Path.hpp>
+#include <string>
 
-class Texture: public Path
+class Path
 {
 public:
-	Texture(std::string const& path);
+	Path(std::string const& path);
 
-	operator unsigned int() const;
+	virtual ~Path();
+
+	std::string const& operator=(std::string const& other);
+
+	operator const std::string&() const;
+
+	virtual const char* const filter() const;
 
 private:
-	void reset();
-	const char* const filter() const;
+	Path(Path const& other);
+	void operator=(Path const& other);
+	virtual void reset();
 
 private:
-	mutable unsigned int name;
+	std::string path;
 };
 
-#endif /* VMMVIEW_TEXTURE_HPP */
+#endif /* MAONI_PATH_HPP */
