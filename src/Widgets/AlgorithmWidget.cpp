@@ -1,18 +1,28 @@
 /*
- * RernderAlgoWidget.cpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: 07.12.2009
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "AlgorithmWidget.hpp"
 #include "../Common/FrameData.hpp"
-#include <Maoni/detail/Algorithm.hpp>
 #include <Maoni/detail/Enum.hpp>
+#include <Maoni/Path.hpp>
 #include <qteditorfactory.h>
 #include <fileeditfactory.h>
 #include <QVBoxLayout>
-#include <iostream>
 
 class append_name
 {
@@ -97,7 +107,7 @@ void AlgorithmWidget::update_browser()
 	float_pointers.clear();
 	double_pointers.clear();
 	color_pointers.clear();
-	texture_pointers.clear();
+	path_pointers.clear();
 
 	property_browser->clear();
 
@@ -165,13 +175,13 @@ void AlgorithmWidget::property(const char* name, Color& value)
 	color_pointers[property] = &value;
 }
 
-void AlgorithmWidget::property(const char* name, Texture& value)
+void AlgorithmWidget::property(const char* name, Path& value)
 {
 	QtProperty* property = filepath_manager->addProperty(name);
 	filepath_manager->setValue(property, QString::fromStdString(value));
-	filepath_manager->setFilter(property, "Image files (*.jpg *.png)");
+	filepath_manager->setFilter(property, value.filter());
 	property_browser->addProperty(property);
-	texture_pointers[property] = &value;
+	path_pointers[property] = &value;
 }
 
 void AlgorithmWidget::value_changed(QtProperty* property, int value)
@@ -205,6 +215,6 @@ void AlgorithmWidget::value_changed(QtProperty* property, const QColor& value)
 
 void AlgorithmWidget::value_changed(QtProperty* property, const QString& value)
 {
-	if (texture_pointers.contains(property))
-		*texture_pointers[property] = Texture(value.toStdString());
+	if (path_pointers.contains(property))
+		*path_pointers[property] = value.toStdString();
 }

@@ -11,9 +11,9 @@
 #include <Maoni/detail/Extensible.hpp>
 
 class Enum;
+class Path;
 class Color;
 class Model;
-class Texture;
 class ShaderProgram;
 
 struct AlgorithmConfig
@@ -23,8 +23,8 @@ struct AlgorithmConfig
 	virtual void property(const char* name, float& value) = 0;
 	virtual void property(const char* name, double& value) = 0;
 	virtual void property(const char* name, Enum& value) = 0;
+	virtual void property(const char* name, Path& value) = 0;
 	virtual void property(const char* name, Color& value) = 0;
-	virtual void property(const char* name, Texture& value) = 0;
 	virtual void property(const char* name, ShaderProgram& value) = 0;
 };
 
