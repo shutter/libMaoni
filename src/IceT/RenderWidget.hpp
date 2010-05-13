@@ -33,6 +33,7 @@ public:
 
 private:
 	void paintGL();
+	void stopAnimation();
 
 private:
 	IceTContext context;

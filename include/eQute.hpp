@@ -40,10 +40,10 @@
 template<typename Widget>
 struct eQute
 {
-	class Proxy
+	class WidgetBase
 	{
 	public:
-		Proxy()
+		WidgetBase()
 		{
 			instance = static_cast<Widget*> (this);
 			instance.data->doneCurrent();
@@ -164,6 +164,6 @@ struct eQute
 };
 
 template<typename Widget>
-eq::base::Lockable<Widget*> eQute<Widget>::Proxy::instance;
+eq::base::Lockable<Widget*> eQute<Widget>::WidgetBase::instance;
 
 #endif /* EQUTE_HPP_INCLUDED */

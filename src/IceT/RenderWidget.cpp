@@ -17,6 +17,7 @@
  */
 
 #include "RenderWidget.hpp"
+#include "FrameData.hpp"
 #include <GL/ice-t_mpi.h>
 #include <boost/assert.hpp>
 
@@ -45,6 +46,16 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	icetAddTile(WINDOW_WIDTH,WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, 1);
 	icetAddTile(0,           0,             WINDOW_WIDTH, WINDOW_HEIGHT, 2);
 	icetAddTile(WINDOW_WIDTH,0,             WINDOW_WIDTH, WINDOW_HEIGHT, 3);
+
+	// slaves should animate from the beginning
+	if (!framedata.master())
+	{
+		startAnimation();
+
+		//TODO: disconnect all signals!
+		//disconnect(this, 0);
+		//dumpObjectInfo();
+	}
 }
 
 RenderWidgetIceT::~RenderWidgetIceT()
@@ -59,10 +70,16 @@ void RenderWidgetIceT::static_draw()
 
 void RenderWidgetIceT::paintGL()
 {
+	framedata.animate();
+
 	preDraw();
 	icetDrawFrame();
 	postDraw();
+}
 
-	// if(rank() != 0)
-	// 	updateGL();
+void RenderWidgetIceT::stopAnimation()
+{
+	// slaves should keep animating
+	if (framedata.master())
+		QGLViewer::stopAnimation();
 }

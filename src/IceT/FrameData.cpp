@@ -17,7 +17,30 @@
  */
 
 #include "FrameData.hpp"
+#include <boost/mpi/collectives.hpp>
+#include "../Common/serialize.hpp"
 
 FrameDataIceT::~FrameDataIceT()
 {
+}
+
+void FrameDataIceT::animate()
+{
+	//	if (model_changed)
+	//	{
+	//		broadcast(world, model_name, 0);
+	//		if (!master())
+	//			load_model(model_name);
+	//	}
+
+	//	if (ralgo_changed)
+	{
+		broadcast(world, ralgo_name, 0);
+		if (!master())
+			set_render_algorithm(ralgo_name);
+	}
+
+	//if(settings_changed)
+	if (renderer)
+		broadcast(world, *renderer, 0);
 }

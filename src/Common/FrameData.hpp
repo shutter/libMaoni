@@ -21,8 +21,8 @@ public:
 
 	void config_algorithm(AlgorithmConfig& manager)
 	{
-		if (render_algorithm_)
-			render_algorithm_->config(manager);
+		if (renderer)
+			renderer->config(manager);
 	}
 
 	//! get the amount of render algorithms
@@ -47,6 +47,17 @@ public:
 	}
 
 	void draw() const;
+
+	//! return if these settings belong to the master
+	//! settings are broadcasted from the master to the slaves
+	virtual bool master() const
+	{
+		return true;
+	}
+
+	virtual void animate()
+	{
+	}
 
 public:
 	void export_scene(const char* filename);
@@ -81,11 +92,12 @@ protected:
 	std::string model_name;
 	std::string ralgo_name;
 
+	Algorithm* renderer;
+
 private:
 	Algorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
-	Algorithm* render_algorithm_;
 	Model model_;
 };
 

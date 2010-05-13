@@ -37,6 +37,8 @@ public:
 		return world.rank() == 0;
 	}
 
+	void animate();
+
 private:
 	boost::mpi::communicator world;
 };

@@ -19,7 +19,6 @@ set(MAONI_EQ_SRC
 if(MSVC)
   set(MAONI_EQ_SRC ${MAONI_EQ_SRC}
   EqInclude.hpp
-  equte.hpp
   FrameDataEq.hpp
   Node.hpp
   RenderWidget.hpp

@@ -7,15 +7,15 @@
 #include <fstream>
 
 FrameData::FrameData(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
-	algorithm_stack(algorithm_stack), mesh_loader_stack(mesh_loader_stack),
-		render_algorithm_(0)
+	renderer(0), algorithm_stack(algorithm_stack), mesh_loader_stack(
+		mesh_loader_stack)
 {
 	init();
 }
 
 FrameData::FrameData(FrameData const& other) :
-	algorithm_stack(other.algorithm_stack), //
-		mesh_loader_stack(other.mesh_loader_stack), render_algorithm_(0)
+	renderer(0), algorithm_stack(other.algorithm_stack), //
+		mesh_loader_stack(other.mesh_loader_stack)
 {
 	init();
 }
@@ -64,7 +64,7 @@ private:
 
 void FrameData::set_render_algorithm(std::string const& name)
 {
-	for_each_algorithm(algo_setter(name, render_algorithm_));
+	for_each_algorithm(algo_setter(name, renderer));
 	ralgo_name = name;
 }
 
@@ -102,8 +102,8 @@ std::size_t FrameData::num_loaders() const
 
 void FrameData::draw() const
 {
-	if (render_algorithm_)
-		render_algorithm_->render(model_);
+	if (renderer)
+		renderer->render(model_);
 	else
 		model_.draw();
 }
@@ -117,8 +117,8 @@ void FrameData::export_scene(const char* filename)
 	boost::archive::xml_oarchive archive(file);
 	archive << boost::serialization::make_nvp("lights", lights);
 	archive << boost::serialization::make_nvp("model", model_name);
-	archive << boost::serialization::make_nvp("renderer", ralgo_name);
-	archive << boost::serialization::make_nvp("algorithm", *render_algorithm_);
+	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
+	archive << boost::serialization::make_nvp("renderer", *renderer);
 }
 
 void FrameData::import_scene(const char* filename)
@@ -136,5 +136,5 @@ void FrameData::import_scene(const char* filename)
 	archive >> boost::serialization::make_nvp("renderer", ralgo_name);
 	set_render_algorithm(ralgo_name);
 
-	archive >> boost::serialization::make_nvp("algorithm", *render_algorithm_);
+	archive >> boost::serialization::make_nvp("algorithm", *renderer);
 }

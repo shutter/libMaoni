@@ -12,7 +12,7 @@
 #include "../Widgets/RenderWidget.hpp"
 #include <eQute.hpp>
 
-class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::Proxy
+class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::WidgetBase
 {
 public:
 	RenderWidgetEq(FrameData& framedata, eq::Config* config) :
