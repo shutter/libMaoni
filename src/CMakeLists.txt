@@ -5,7 +5,7 @@ set(QT_USE_QTOPENGL ON)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
-find_package(Boost     REQUIRED COMPONENTS serialization)
+find_package(Boost     REQUIRED)
 find_package(GLEW      REQUIRED)
 find_package(OpenGL    REQUIRED)
 find_package(QGLViewer REQUIRED)
@@ -18,6 +18,41 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
 
+
+add_definitions(-DBOOST_ALL_NO_LIB)
+
+set(BOOST_SERIALIZATION_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/boost-serialization-1.40.0.zip)
+set(BOOST_SERIALIZATION_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/boost-serialization-1.40.0)
+extract(${BOOST_SERIALIZATION_FILE} ${BOOST_SERIALIZATION_SOURCE_DIR})
+add_library(boost_serialization
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_archive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_iarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_iserializer.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_oarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_oserializer.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_pointer_iserializer.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_pointer_oserializer.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_serializer_map.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_text_iprimitive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_text_oprimitive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_xml_archive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/binary_iarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/binary_oarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/extended_type_info.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/extended_type_info_typeid.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/extended_type_info_no_rtti.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/polymorphic_iarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/polymorphic_oarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/stl_port.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/text_iarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/text_oarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/void_cast.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/xml_grammar.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/xml_iarchive.cpp
+  ${BOOST_SERIALIZATION_SOURCE_DIR}/xml_oarchive.cpp
+  )
+
+
 add_subdirectory(Common)
 add_subdirectory(Widgets)
 add_subdirectory(QPropertyBrowser)
@@ -28,7 +63,7 @@ set(MAONI_LIBRARIES
   ${QT_LIBRARIES}
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
-  ${Boost_LIBRARIES}
+  boost_serialization
   ${GLEW_LIBRARY}
   ${OPENGL_LIBRARIES}
   )
