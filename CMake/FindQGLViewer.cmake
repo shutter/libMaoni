@@ -13,17 +13,20 @@ find_path(QGLVIEWER_INCLUDE_DIR qglviewer.h
   /usr/include/QGLViewer
   /usr/include/qglviewer-qt4
   $ENV{ProgramFiles}/libQGLViewer/QGLViewer
+  /Library/Frameworks/QGLViewer.framework/Headers
   )
 
 find_library(QGLVIEWER_LIBRARY
   NAMES
     QGLViewer2
     qglviewer-qt4
+    QGLViewer
   PATHS
     /usr/lib
     /usr/local/lib
     /opt/local/lib
     $ENV{ProgramFiles}/libQGLViewer
+    /Library/Frameworks/QGLViewer.framework
   )
 
 include(FindPackageHandleStandardArgs)
