@@ -5,8 +5,8 @@
  *      Author: daniel
  */
 
-#include <Maoni/detail/ShaderProgram.hpp>
 #include <GL/glew.h>
+#include <Maoni/detail/ShaderProgram.hpp>
 #include <iostream>
 #include <string>
 
