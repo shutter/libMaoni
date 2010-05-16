@@ -36,16 +36,15 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	icetStrategy(ICET_STRATEGY_REDUCE);
 	icetDrawFunc(static_draw);
 
+//	if (framedata.master())
+//		icetBoundingBoxf(-1.f, 0.f, -1.f, 1.f, -1.f, 1.f);
+//	else
+//		icetBoundingBoxf(-0.f, 1.f, -1.f, 1.f, -1.f, 1.f);
+
 	icetResetTiles();
 
-	int WINDOW_HEIGHT = 250;
-	int WINDOW_WIDTH  = 250;
-//	icetAddTile(0, 0, 500, 500, 0);
-
-	icetAddTile(0,           WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-	icetAddTile(WINDOW_WIDTH,WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, 1);
-	icetAddTile(0,           0,             WINDOW_WIDTH, WINDOW_HEIGHT, 2);
-	icetAddTile(WINDOW_WIDTH,0,             WINDOW_WIDTH, WINDOW_HEIGHT, 3);
+	icetAddTile(0, 0, width(), height(), 0);
+	icetAddTile(width(), 0, width(), height(), 1);
 
 	// slaves should animate from the beginning
 	if (!framedata.master())
