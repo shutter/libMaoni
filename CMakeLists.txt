@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(Maoni)
 
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if(MSVC)
@@ -22,8 +22,12 @@ include(${CTOOLBOX_USE_FILE})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
+
 include(Extract)
 extract(${CMAKE_SOURCE_DIR}/include/boost-la.zip ${CMAKE_BINARY_DIR}/include)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/include/boost/la
+  DESTINATION include/boost COMPONENT boost_la)
+
 
 if(WIN32)
   set(QGLVIEWER_DIR ${CMAKE_BINARY_DIR}/QGLViewer)
@@ -34,7 +38,9 @@ endif(WIN32)
 
 
 include_directories(include ${CMAKE_BINARY_DIR}/include)
-install(DIRECTORY include/ DESTINATION include COMPONENT headers)
+install(DIRECTORY include/Maoni DESTINATION include COMPONENT headers)
+install(FILES include/Maoni.hpp DESTINATION include COMPONENT headers)
+
 
 add_subdirectory(src)
 add_subdirectory(examples)
@@ -51,7 +57,7 @@ endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
 set(CPACK_PACKAGE_NAME "Maoni")
 set(CPACK_PACKAGE_VENDOR "http://github.com/purpleKarrot/libMaoni")
-set(CPACK_PACKAGE_CONTACT Daniel Pfeifer)
+set(CPACK_PACKAGE_CONTACT "Daniel Pfeifer")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "common viewing framework")
 set(CPACK_PACKAGE_VERSION "0.8.15")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
@@ -61,7 +67,12 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Maoni")
 
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 
-set(CPACK_COMPONENTS_ALL headers devlibs runlibs)
+set(CPACK_COMPONENTS_ALL boost_la headers devlibs runlibs)
+
+set(CPACK_COMPONENT_BOOST_LA_DISPLAY_NAME "(Boost)LA")
+set(CPACK_COMPONENT_BOOST_LA_DESCRIPTION
+  "Boost LA provides a set of generic linear algebra algorithms, "
+  "primarily for working with vectors and matrices of static size.")
 
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Headers")
 set(CPACK_COMPONENT_HEADERS_DESCRIPTION
