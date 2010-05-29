@@ -1,7 +1,10 @@
 
 [section Used Libraries and Tools]
 
-blah blah..
+We have used well known tools for libMaonis toolchain to create all the software 
+artefacts such as different binaries, documentation and installers in a smart way.
+Here you will find some lines about these tools as well as the libraries we have 
+integrated into this project by choice or cause there were required.   
 
 [section Git]
 [@http://git-scm.com/ Git] is a free & open source, distributed version control
