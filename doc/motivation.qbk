@@ -1,20 +1,55 @@
-[section About]
-LibMaoni is a 3D rendering framework developed at the [@http://vmml.ifi.uzh.ch/ Visualization and Multimedia Lab (VMML)] at the [@http://www.ifi.uzh.ch Insitute of Informatics] of [@http://www.uzh.ch University of Zurich UZH] as a Master Project. The project description states:
-[“The challenge posed here is the development of a common 3D viewer platform which can be used for different graphics and visualization projects, thus supporting different data structures for handling the 3D data, support for specific rendering functions, and variable interaction capabilities. The viewer should support some advanced rendering features to generate images that exhibit more than basic surface illumination and shading.]
-[endsect]
+LibMaoni is a 3D rendering framework developed at the [@http://vmml.ifi.uzh.ch/
+Visualization and Multimedia Lab (VMML)] at the [@http://www.ifi.uzh.ch Insitute
+of Informatics] of [@http://www.uzh.ch University of Zurich UZH] as a Master
+Project. The project description states:
+["The challenge posed here is the development of a common 3D viewer platform
+which can be used for different graphics and visualization projects, thus
+supporting different data structures for handling the 3D data, support for
+specific rendering functions, and variable interaction capabilities. The viewer
+should support some advanced rendering features to generate images that exhibit
+more than basic surface illumination and shading.]
 
 [section Motivation]
-In computer graphics, it is common to develop specialized algorithms which need to be embedded in a testing environment to run. Yet the researcher should not build the testing environment herself and struggle with GUI-design, window context and mouse events but being able to concentrate on the development of the render algorithms.
+In computer graphics, it is common to develop specialized algorithms which need
+to be embedded in a testing environment to run. Yet the researcher should not
+build the testing environment herself and struggle with GUI-design, window
+context and mouse events but being able to concentrate on the development of the
+render algorithms.
 
-When turning a 3D model to find the right spot for a snapshot, a high frame rate facilitates the work. To enable fast rendering multiple factors have to be addressed: a mixture of memory preserving but still fast access to the data of the internal representation of the 3D model, an efficient render algorithm and the use of the GPUs capabilities.
+When turning a 3D model to find the right spot for a snapshot, a high frame rate
+facilitates the work. To enable fast rendering multiple factors have to be
+addressed: a mixture of memory preserving but still fast access to the data of
+the internal representation of the 3D model, an efficient render algorithm and
+the use of the GPUs capabilities.
 
-Another important aspect is the permission to distribute the work, e.g. to demonstrate the capabilities of an algorithm to other researchers or on a congress without getting problems with product licenses. Actually the software has also to be distributable in a technical way: portable to different operating systems as binary package or for development.
+Another important aspect is the permission to distribute the work, e.g. to
+demonstrate the capabilities of an algorithm to other researchers or on a
+congress without getting problems with product licenses. Actually the software
+has also to be distributable in a technical way: portable to different operating
+systems as binary package or for development.
 
-LibMaoni addresses all these needs and even more! You can extend libMaoni by data loaders and algorithms just by linking against the library. The framework uses a simple vertex model but feel free to extend or replace this representation or load your model data directly in the algorithm. Speaking about algorithms: libMaoni’s macros allow to implement an algorithm and its shaders as well as the necessary GUI elements for changing the algorithms settings in one single file without changing the source code of the core system; Have a look at the sample algorithms to get a first impression. 
+LibMaoni addresses all these needs and even more! You can extend libMaoni by
+data loaders and algorithms just by linking against the library. The framework
+uses a simple vertex model but feel free to extend or replace this
+representation or load your model data directly in the algorithm. Speaking about
+algorithms: libMaoni's macros allow to implement an algorithm and its shaders as
+well as the necessary GUI elements for changing the algorithms settings in one
+single file without changing the source code of the core system; Have a look at
+the sample algorithms to get a first impression. 
 
-LibMaoni’s viewer compiles in three versions: a simple renderer using the computer’s internal graphic card, a distributed renderer using the ICE-T tile rendering framework and another distributed renderer using the equalizer library which allows cave rendering.
+LibMaoni's viewer compiles in three versions: a simple renderer using the
+computer's internal graphic card, a distributed renderer using the IceT tile
+rendering framework and another distributed renderer using the equalizer library
+which allows cave rendering.
 
-Every software artifact used for libMaoni is licensed as GNU GPL or similar and free for use, modification and redistribution at least in a research environment. The installed tool chain allows building every part of the framework for its own: the different viewers with and without algorithms and loaders, the html and PDF documentations as well as Unix Manpages, and last but not least, pack the whole project into binary installers for Windows, Mac (dmg) and Linux (deb).
+Every software artifact used for libMaoni is licensed as GNU GPL or similar and
+free for use, modification and redistribution at least in a research
+environment. The installed tool chain allows building every part of the
+framework for its own: the different viewers with and without algorithms and
+loaders, the html and PDF documentations as well as Unix Manpages, and last but
+not least, pack the whole project into binary installers for Windows, Mac (dmg)
+and Linux (deb).
 
-The Project is hosted on [@http://www.github.com], feel free to use, enhance and extend libMaoni, distribute new features and algorithms and give feedback.
+The Project is hosted on [@http://www.github.com], feel free to use, enhance and
+extend libMaoni, distribute new features and algorithms and give feedback.
 [endsect]
