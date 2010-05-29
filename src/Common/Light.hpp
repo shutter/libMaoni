@@ -16,7 +16,7 @@ struct Light
 {
 	bool enabled;
 	bool show_bulp;
-	Vector3 position;
+	Vec3 position;
 
 	//! Color
 	Color ambient;
@@ -30,7 +30,7 @@ struct Light
 
 	//! Spot
 	bool is_spot;
-	Vector3 spot_direction;
+	Vec3 spot_direction;
 	float cut_off;
 	float exponent;
 

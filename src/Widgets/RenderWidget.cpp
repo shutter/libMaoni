@@ -45,11 +45,11 @@ void RenderWidget::draw_light(int i, Light const& light) const
 		glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, light.cut_off);
 		glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, light.spot_direction);
 		glLightf(GL_LIGHT0 + i, GL_SPOT_EXPONENT, light.exponent);
-		glLightfv(GL_LIGHT0 + i, GL_POSITION, Vector4(light.position | XYZ1));
+		glLightfv(GL_LIGHT0 + i, GL_POSITION, Vec4(light.position | XYZ1));
 	}
 	else
 	{
-		glLightfv(GL_LIGHT0 + i, GL_POSITION, Vector4(light.position | XYZ0));
+		glLightfv(GL_LIGHT0 + i, GL_POSITION, Vec4(light.position | XYZ0));
 	}
 
 	if (light.show_bulp)

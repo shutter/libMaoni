@@ -19,10 +19,10 @@ struct Vertex
 	}
 
 	Vertex(
-			const Vector3& position_,
-			const Vector3& normal_,
+			const Vec3& position_,
+			const Vec3& normal_,
 			const Color& color_,
-			const Vector2& texcoord_) :
+			const Vec2& texcoord_) :
 		position(position_), normal(normal_), color(color_),
 				texcoord(texcoord_)
 	{
@@ -43,10 +43,10 @@ struct Vertex
 		return *this;
 	}
 
-	Vector3 position;
-	Vector3 normal;
+	Vec3 position;
+	Vec3 normal;
 	Color color;
-	Vector2 texcoord;
+	Vec2 texcoord;
 };
 
 #endif /* VERTEX_HPP */

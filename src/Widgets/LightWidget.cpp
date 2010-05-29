@@ -219,7 +219,7 @@ void LightWidget::value_changed(QtProperty* property, double value)
 	}
 	else if (name == "spot x" || name == "spot y" || name == "spot z")
 	{
-		framedata.light(current_id).spot_direction = Vector3(
+		framedata.light(current_id).spot_direction = Vec3(
 				double_manager->value(spot_dir_x), double_manager->value(
 						spot_dir_y), double_manager->value(spot_dir_z));
 	}
@@ -253,7 +253,7 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 void LightWidget::value_changed(QtProperty* property, const QVector3D& value)
 {
 	framedata.light(current_id).position = //
-		Vector3(value.x(), value.y(), value.z());
+		Vec3(value.x(), value.y(), value.z());
 }
 
 void LightWidget::update_browser()

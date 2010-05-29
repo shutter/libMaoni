@@ -22,12 +22,12 @@
 #include <Maoni/detail/Vector.hpp>
 
 //! a two component floating-point vector
-typedef detail::Vector<2> Vector2;
+typedef detail::Vector<2> Vec2;
 
 //! a three component floating-point vector
-typedef detail::Vector<3> Vector3;
+typedef detail::Vector<3> Vec3;
 
 //! a four component floating-point vector
-typedef detail::Vector<4> Vector4;
+typedef detail::Vector<4> Vec4;
 
 #endif /* MAONI_VECTOR_HPP */

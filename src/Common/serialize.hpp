@@ -44,20 +44,20 @@ void serialize(Archive& archive, Color& color, unsigned int)
 }
 
 template<class Archive>
-void serialize(Archive& archive, Vector2& vector2, unsigned int)
+void serialize(Archive& archive, Vec2& vector2, unsigned int)
 {
 	archive & make_nvp("x", vector2 | X) & make_nvp("y", vector2 | Y);
 }
 
 template<class Archive>
-void serialize(Archive& archive, Vector3& vector3, unsigned int)
+void serialize(Archive& archive, Vec3& vector3, unsigned int)
 {
 	archive & make_nvp("x", vector3 | X) & make_nvp("y", vector3 | Y)
 			& make_nvp("z", vector3 | Z);
 }
 
 template<class Archive>
-void serialize(Archive& archive, Vector4& vector4, unsigned int)
+void serialize(Archive& archive, Vec4& vector4, unsigned int)
 {
 	archive & make_nvp("x", vector4 | X) & make_nvp("y", vector4 | Y)
 			& make_nvp("z", vector4 | Z) & make_nvp("w", vector4 | W);

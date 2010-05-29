@@ -67,7 +67,7 @@ void Model::calculate_normals()
 	std::size_t i0, i1, i2;
 
 	for (size_t i = 0; i < vertices.size(); ++i)
-		vertices[i].normal = Vector3(0, 0, 0);
+		vertices[i].normal = Vec3(0, 0, 0);
 
 	// iterate over all triangles and add their normals to adjacent vertices
 	for (size_t i = 0; i < indices.size(); i += 3)
@@ -76,10 +76,10 @@ void Model::calculate_normals()
 		i1 = indices[i + 1];
 		i2 = indices[i + 2];
 
-		Vector3 const& p1 = vertices[i0].position;
-		Vector3 const& p2 = vertices[i1].position;
-		Vector3 const& p3 = vertices[i2].position;
-		Vector3 normal = cross(p2 - p1, p3 - p1);
+		Vec3 const& p1 = vertices[i0].position;
+		Vec3 const& p2 = vertices[i1].position;
+		Vec3 const& p3 = vertices[i2].position;
+		Vec3 normal = cross(p2 - p1, p3 - p1);
 
 		vertices[i0].normal = vertices[i0].normal + normal;
 		vertices[i1].normal = vertices[i1].normal + normal;
@@ -94,13 +94,13 @@ void Model::calculate_normals()
 /* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
 void Model::fix_scale()
 {
-	Vector3 lower_left = vertices[0].position;
-	Vector3 upper_right = vertices[0].position;
+	Vec3 lower_left = vertices[0].position;
+	Vec3 upper_right = vertices[0].position;
 
 	// calculate bounding box
 	for (size_t v = 1; v < vertices.size(); ++v)
 	{
-		Vector3& pos = vertices[v].position;
+		Vec3& pos = vertices[v].position;
 		for (size_t i = 0; i < 3; ++i)
 		{
 			lower_left.data[i] = std::min(lower_left[i], pos[i]);
@@ -123,7 +123,7 @@ void Model::fix_scale()
 	std::clog << "scale factor = " << factor << "\n";
 
 	// determine scale offset
-	Vector3 offset;
+	Vec3 offset;
 	for (size_t i = 0; i < 3; ++i)
 		offset.data[i] = (lower_left[i] + upper_right[i]) * 0.5f;
 
