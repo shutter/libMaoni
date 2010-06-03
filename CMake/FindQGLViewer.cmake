@@ -10,6 +10,7 @@ find_path(QGLVIEWER_INCLUDE_DIR qglviewer.h
   /usr/include
   /usr/local/include
   /opt/local/include
+  /opt/local/include/QGLViewer
   /usr/include/QGLViewer
   /usr/include/qglviewer-qt4
   $ENV{ProgramFiles}/libQGLViewer/QGLViewer

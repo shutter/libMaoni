@@ -3,7 +3,11 @@
 # lib3ds_INCLUDE_DIRS - where to find lib3ds/*.h
 # lib3ds_LIBRARIES    - the libraries to link against to use lib3ds
 
-find_path(lib3ds_INCLUDE_DIRS lib3ds/file.h)
+find_path(lib3ds_INCLUDE_DIRS lib3ds/file.h
+  /usr/include
+  /usr/local/include
+  /opt/local/include
+  )
 
 find_library(lib3ds_LIBRARIES 3ds)
 
