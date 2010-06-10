@@ -24,8 +24,6 @@
 
 class RenderWidgetIceT: public RenderWidget
 {
-Q_OBJECT
-
 public:
 	RenderWidgetIceT(FrameData& framedata);
 

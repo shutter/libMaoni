@@ -69,9 +69,8 @@ void RenderWidgetIceT::static_draw()
 
 void RenderWidgetIceT::paintGL()
 {
-	framedata.animate();
-
 	preDraw();
+	framedata.animate();
 	icetDrawFrame();
 	postDraw();
 }

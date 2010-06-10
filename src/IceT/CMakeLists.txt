@@ -66,7 +66,6 @@ include_directories(${ICET_SOURCE_DIR}/include/)
 add_subdirectory(${ICET_SOURCE_DIR} ${ICET_SOURCE_DIR}/build)
 
 qt4_wrap_cpp(MAONI_ICET_MOC
-  RenderWidget.hpp
   TilesWidget.hpp
   )
 

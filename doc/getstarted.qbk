@@ -6,10 +6,24 @@
 
 [section Parallel Rendering]
 [endsect]
-
+0
 [section Building from Source]
+Download the [@http://github.com/purpleKarrot/libMaoni/archives/master libMaoni
+source code] and extract it to your directory of choice.
 
 [section github.com]
+There is an [@http://code.google.com/p/git-osx-installer/ Installer for OSX],
+Windows users might want to use [@http://code.google.com/p/msysgit/ msysGit],
+Ubuntu users [@apt://git-core click here].
+
+See the [@http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html
+Git Tutorial] to get started, then see
+[@http://www.kernel.org/pub/software/scm/git/docs/everyday.html Everyday Git]
+for a useful minimum set of commands, and "man git-commandname" for
+documentation of each command. See the 
+[@http://www.kernel.org/pub/software/scm/git/docs/user-manual.html Git User's
+Manual] for a more in-depth introduction.
+
 [section How-to use github and Checkout a Project]
 GIT allows an alternative work flow people aren't used from CVS or SVN. You
 don't have to become a libMaoni developer and don't have to gain access to the

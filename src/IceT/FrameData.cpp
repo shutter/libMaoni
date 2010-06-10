@@ -19,6 +19,7 @@
 #include "FrameData.hpp"
 #include <boost/mpi/collectives.hpp>
 #include "../Common/serialize.hpp"
+#include <GL/gl.h>
 
 FrameDataIceT::~FrameDataIceT()
 {
@@ -26,6 +27,18 @@ FrameDataIceT::~FrameDataIceT()
 
 void FrameDataIceT::animate()
 {
+	double matrix[16];
+
+	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+	broadcast(world, matrix, 0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixd(matrix);
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
+	broadcast(world, matrix, 0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(matrix);
+
 	//	if (model_changed)
 	//	{
 	//		broadcast(world, model_name, 0);

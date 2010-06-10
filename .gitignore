@@ -1,7 +1,4 @@
 .cproject
 .project
 build
-lib
 *~
-
-/build
