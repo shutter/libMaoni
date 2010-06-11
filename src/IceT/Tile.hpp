@@ -21,18 +21,49 @@
 
 #include <boost/serialization/nvp.hpp>
 #include <boost/mpi/datatype.hpp>
+#include <Maoni/Vector.hpp>
 
-struct Tile
+struct Tile_
 {
+	bool visible;
+
 	int x, y, width, height;
 
 	template<class Archive>
 	void serialize(Archive & archive, unsigned int)
 	{
+		archive & BOOST_SERIALIZATION_NVP(visible);
+
 		archive & BOOST_SERIALIZATION_NVP(x);
 		archive & BOOST_SERIALIZATION_NVP(y);
 		archive & BOOST_SERIALIZATION_NVP(width);
 		archive & BOOST_SERIALIZATION_NVP(height);
+	}
+};
+
+struct BoundingBox
+{
+	Vec3 v1;
+	Vec3 v2;
+
+	template<class Archive>
+	void serialize(Archive & archive, unsigned int)
+	{
+		archive & BOOST_SERIALIZATION_NVP(v1);
+		archive & BOOST_SERIALIZATION_NVP(v2);
+	}
+};
+
+struct Tile
+{
+	Tile_ tile;
+	BoundingBox bounding_box;
+
+	template<class Archive>
+	void serialize(Archive & archive, unsigned int)
+	{
+		archive & BOOST_SERIALIZATION_NVP(tile);
+		archive & BOOST_SERIALIZATION_NVP(bounding_box);
 	}
 };
 

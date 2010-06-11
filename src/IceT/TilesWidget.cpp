@@ -21,8 +21,8 @@
 #include <QVBoxLayout>
 #include <iostream>
 
-TilesWidget::TilesWidget(QWidget *parent) :
-	QWidget(parent), tiles(4)
+TilesWidget::TilesWidget(FrameDataIceT& framedata) :
+	framedata(framedata)
 {
 	property_browser = new QtTreePropertyBrowser;
 	property_browser->show();
@@ -68,9 +68,9 @@ void TilesWidget::update_browser()
 	property_browser->addProperty(property);
 
 	QString name = "Rank %1";
-	for (std::size_t i = 0; i < tiles.size(); ++i)
+	for (std::size_t i = 0; i < framedata.tiles.size(); ++i)
 	{
-		Tile& tile = tiles[i];
+		Tile& tile = framedata.tiles[i];
 		indices[property] = i;
 
 		QtProperty* group = group_manager->addProperty(name.arg(i));
@@ -79,7 +79,7 @@ void TilesWidget::update_browser()
 		QtProperty* max = vector3d_manager->addProperty("Maximum");
 
 		rect_manager->setValue(rect, //
-			QRect(tile.x, tile.y, tile.width, tile.height));
+			QRect(tile.tile.x, tile.tile.y, tile.tile.width, tile.tile.height));
 
 		group->addSubProperty(rect);
 		group->addSubProperty(min);
@@ -96,9 +96,9 @@ void TilesWidget::enum_changed(QtProperty* property, int value)
 
 void TilesWidget::rect_changed(QtProperty* property, QRect const& value)
 {
-	Tile& tile = tiles[indices[property]];
-	tile.x = value.x();
-	tile.y = value.y();
-	tile.width = value.width();
-	tile.height = value.height();
+	Tile& tile = framedata.tiles[indices[property]];
+	tile.tile.x = value.x();
+	tile.tile.y = value.y();
+	tile.tile.width = value.width();
+	tile.tile.height = value.height();
 }

@@ -24,14 +24,14 @@
 #include <qtpropertymanager.h>
 #include <qttreepropertybrowser.h>
 #include <qvector3dpropertymanager.h>
-#include "Tile.hpp"
+#include "FrameData.hpp"
 
 class TilesWidget: public QWidget
 {
 Q_OBJECT
 
 public:
-	TilesWidget(QWidget *parent = 0);
+	TilesWidget(FrameDataIceT& framedata);
 	void update_browser();
 
 private slots:
@@ -39,7 +39,7 @@ private slots:
 	void rect_changed(QtProperty* property, const QRect& value);
 
 private:
-	std::vector<Tile> tiles;
+	FrameDataIceT& framedata;
 	QMap<QtProperty*, std::size_t> indices;
 
 	QtTreePropertyBrowser* property_browser;

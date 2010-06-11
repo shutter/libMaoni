@@ -132,7 +132,7 @@ void MainWindow::init_docks()
 			algo_widget);
 	}
 
-	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
+//	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
 }
 
 void MainWindow::about_qt()

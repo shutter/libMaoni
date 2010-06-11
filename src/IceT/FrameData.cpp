@@ -19,7 +19,32 @@
 #include "FrameData.hpp"
 #include <boost/mpi/collectives.hpp>
 #include "../Common/serialize.hpp"
+#include <GL/ice-t_mpi.h>
 #include <GL/gl.h>
+
+FrameDataIceT::FrameDataIceT(Algorithm* algorithm_stack,
+		MeshLoader* mesh_loader_stack) :
+	FrameData(algorithm_stack, mesh_loader_stack), //
+			world(), tiles(world.size())
+{
+	int rows = sqrt(tiles.size());
+	int width = 640;
+	int height = 480;
+
+	for (std::size_t i = 0; i < tiles.size(); ++i)
+	{
+		int col = i / rows;
+		int row = i % rows;
+
+		tiles[i].tile.visible = i == 0;
+
+		tiles[i].tile.x = col * width;
+		tiles[i].tile.y = row * height;
+
+		tiles[i].tile.width = width;
+		tiles[i].tile.height = height;
+	}
+}
 
 FrameDataIceT::~FrameDataIceT()
 {
@@ -38,6 +63,27 @@ void FrameDataIceT::animate()
 	broadcast(world, matrix, 0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(matrix);
+
+	// TODO: if(tiles_changed)
+	{
+		broadcast(world, tiles, 0);
+
+		icetResetTiles();
+		for (std::size_t i = 0; i < tiles.size(); ++i)
+		{
+//			if (tiles[i].tile.visible)
+//			{
+				icetAddTile(tiles[i].tile.x, tiles[i].tile.y, //
+						tiles[i].tile.width, tiles[i].tile.height, i);
+//			}
+
+			if (i == world.rank())
+			{
+				BoundingBox& bb = tiles[0].bounding_box;
+				//icetBoundingBoxf(0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+			}
+		}
+	}
 
 	//	if (model_changed)
 	//	{
