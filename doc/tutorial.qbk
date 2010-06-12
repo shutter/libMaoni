@@ -57,9 +57,145 @@ they will register themselves automatically.
 [endsect]
 
 [section Custom Render Algorithm]
+
+You probably will use libMaoni mainly to develop or test your own (parallel) renderer 
+where you can benefit of the GUI, OpenGL context, UI event-handling and so forth, on 
+which you don't have to care of.
+
+If you have a look at the algorithms folder, you will find some simple examples on how 
+to use parameters, textures and shader for your algorithm. As you can see from the 
+following code, we use macros and this for several reasons:
+
+# Reduce of complexity – the macros will expand to state of the art C++ code
+# Syntax highlighting – you are able to program your algorithms/shader in your favorite 
+IDE having C++ highlighting
+# Resource creation and access – you do not have to care about registering GUI parameters 
+and OpenGL textures
+
+To get a feeling, we will analyze the structure of a simple fixed function algorithm 
+without shader:
+
+  RENDER_ALGORITHM(FixedFunction,
+  		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
+  		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
+  		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
+  		(float, shininess, 51.2))
+  {
+  	glEnable(GL_COLOR_MATERIAL);
+  	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+  	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+  	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+  	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
+  
+  	model.draw();
+  }
+
+The macro [macroref RENDER_ALGORITHM] expands the code above to the render algorithm 
+class by the name ['FixedFunction]. The sequence of parameters will available in the 
+render algorithm widget so you can modify the behavior of your algorithm while 
+rendering in one of libMaoni's viewer. The following data structures can be used:
+
+[table:1 libMaoni make parameters
+    [[name] [data structure]]
+    [[int] [Adds a textbox for int values]]
+    [[bool] [Adds a checkbox]]
+    [[float] [Adds a textbox for float values]]
+    [[double] [Adds a textbox for double values]]
+    [[Enum] [Adds a drop-down menu]]
+    [[Path] [Adds a file open dialog]]
+    [[Color] [Adds a color picker dialog]]
+]
+
+[tip You will find these data structures in the example algorithms.]
+
+As you can see in the fixed function code above, there will be four settings in the 
+algorithm widget to set the material properties of the model. The draw function is 
+provided by the model data structure and contains a simple triangle renderer.
+
 [endsect]
 
 [section Custom Shader Programs]
+
+There are two macros, one for vertex and another for fragment shader. Have a look at 
+the sample code for sphere mapping:
+
+  SHADER_SOURCE(vertex_source, (version 120),
+  
+  	varying vec3 normal;
+  
+  	void main()
+  	{
+  		normal = gl_NormalMatrix * gl_Normal;
+  
+  		gl_Position = ftransform();
+  	}
+  );
+  
+  SHADER_SOURCE(fragment_source, (version 120),
+  
+  	uniform sampler2D texture;
+  	varying vec3 normal;
+  
+  	void main()
+  	{
+  		gl_FragColor = texture2D(texture, vec2(0.5) + 0.5 * normalize(normal).xy);
+  	}
+  );
+  
+  SHADER_PROGRAM(SphereMappingShader,
+  	(VERTEX, vertex_source)(FRAGMENT, fragment_source),
+  );
+  
+  RENDER_ALGORITHM(SphereMapping,
+  	(ShaderProgram, shader, SphereMappingShader())
+  	(Texture, sphere_texture, "../examples/Models/sphere3.jpg")
+  )
+  {
+  	ScopedDisable lighting_lock(GL_LIGHTING);
+  	ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
+  	ScopedBindTexture texture_lock(sphere_texture);
+  	ScopedUseProgram shader_lock(shader);
+  
+  	model.draw();
+  }
+
+The first three code blocks are necessary for using shaders, the last one you already 
+know from the algorithm tutorial. They shader macros have the following structure: 
+
+  ``[macroref SHADER_SOURCE]``(shader_source_name, (version GLSL),
+  	shader_variables;
+  
+  	void main()
+  	{
+  		shader_code;
+  	}
+  };
+
+You have to register your shaders to the [macroref SHADER_PROGRAM] and map the shader 
+program to the render algorithm widget in the parameter sequence as well as lock the 
+shader for use:
+
+  ScopedUseProgram shader_lock(shader);
+
+[tip This is also a macro having the structure ScopedUseProgram ['shader_name]_lock(['shader_name])]
+
+[section Texture macros]
+In the shader example code you could see the use of textures e.g.: 
+
+  ScopedDisable lighting_lock(GL_LIGHTING);
+  ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
+  ScopedBindTexture texture_lock(sphere_texture);
+
+# disable lighting
+# enable a 2D texture named ['texture]
+# bind the image file chosen by the ['sphere_texture] parameter to ['texture].
+
+[note The macro names sometimes contain the name of the variables used. Have a look at 
+the exampel algorithms to get an idea on how to use the lock macros for one or multiple 
+textures.]
+
+[endsect]
+
 [endsect]
 
 [endsect]
