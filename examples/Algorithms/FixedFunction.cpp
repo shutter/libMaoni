@@ -24,8 +24,8 @@ RENDER_ALGORITHM(FixedFunction,
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 
-	if (wired)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (wired) // set triangle draw to edges only
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	model.draw();
 
@@ -39,9 +39,10 @@ RENDER_ALGORITHM(FixedFunction,
 			glVertex3fv(vertices[i].position);
 			glVertex3fv((vertices[i].position + vertices[i].normal * NORM_LENGTH));
 		}
+		glEnd();
 	}
-	glEnd();
 
-	if (wired)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	if (wired) // reset triangles draw to filled
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
