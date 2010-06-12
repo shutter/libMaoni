@@ -10,8 +10,8 @@ if(MSVC)
   add_definitions(
     /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS)
 else(MSVC)
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-# set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC")
+  # 64bit needs this
+  add_definitions(-fPIC)
 endif(MSVC)
 
 set(CTOOLBOX_USE_FILE ${CMAKE_BINARY_DIR}/UseCToolBox.cmake)

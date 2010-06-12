@@ -21,15 +21,12 @@
 
 #include "../Common/FrameData.hpp"
 #include <boost/mpi/communicator.hpp>
+#include "Tile.hpp"
 
 class FrameDataIceT: public FrameData
 {
 public:
-	FrameDataIceT(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
-		FrameData(algorithm_stack, mesh_loader_stack)
-	{
-	}
-
+	FrameDataIceT(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack);
 	~FrameDataIceT();
 
 	bool master() const
@@ -37,10 +34,17 @@ public:
 		return world.rank() == 0;
 	}
 
+	int rank() const
+	{
+		return world.rank();
+	}
+
 	void animate();
 
 private:
 	boost::mpi::communicator world;
+public:
+	std::vector<Tile> tiles;
 };
 
 #endif /* MAONI_ICET_FRAMEDATA_HPP */

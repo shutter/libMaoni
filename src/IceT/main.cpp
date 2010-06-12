@@ -42,13 +42,13 @@ int maoni_main(int argc, char* argv[], //
 
 	RenderWidgetIceT* icet_widget = new RenderWidgetIceT(framedata);
 
-//	TilesWidget tw;
-//	tw.show();
-
 	QWidget* main_window;
 	if (framedata.master())
 	{
-		main_window = new MainWindow(framedata, icet_widget);
+		MainWindow* mw = new MainWindow(framedata, icet_widget);
+		mw->add_dock("Tile Config", Qt::LeftDockWidgetArea, //
+				new TilesWidget(framedata));
+		main_window = mw;
 		splash.show();
 	}
 	else
@@ -56,7 +56,8 @@ int maoni_main(int argc, char* argv[], //
 		main_window = icet_widget;
 	}
 
-	main_window->setWindowTitle("Maoni using IceT Parallel Rendering");
+	QString window_title("Maoni using IceT Parallel Rendering; Rank %1");
+	main_window->setWindowTitle(window_title.arg(framedata.rank()));
 
 	QTimer::singleShot(1000, main_window, SLOT(show()));
 	QTimer::singleShot(1337, &splash, SLOT(close()));
