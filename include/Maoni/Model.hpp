@@ -67,7 +67,7 @@ public:
 		return indices;
 	}
 
-	//! Draw the model by sequentially load the triangles
+	//! Draw the model by sequentially loading the triangles
 	void draw() const;
 
 	//! Attempt to preallocate enough memory for specified number of vertices

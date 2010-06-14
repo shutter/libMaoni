@@ -30,7 +30,7 @@
 
 struct Vertex
 {
-	//! Create a vertex having only its position set.
+	//! Create a vertex having only its position set implicit.
     /*!
       \param x The x-coordinate of the vertex position
       \param y The y-coordinate of the vertex position
@@ -58,7 +58,7 @@ struct Vertex
 	{
 	}
 
-	//! Create a vertex by cloning another one.
+	//! Create a vertex by using the data of another one.
 	/*!
 	  \param other A const reference to a vertex
 	 */
@@ -68,7 +68,7 @@ struct Vertex
 	{
 	}
 
-	//! Overwrite the vertex data by the data of another vertex
+	//! Overwrite the vertex data by the data of another vertex when using the assignment operator
 	/*!
 	  \param other A const reference to a vertex
 	 */

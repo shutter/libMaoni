@@ -97,7 +97,7 @@ public:
 		return impl[3];
 	}
 
-	//! The RGBA array getter
+	//! Make the color implicity return a pointer to its RGBA float array
     /*!
       \return The arithmetic RGBA float array pointer
     */

@@ -37,9 +37,9 @@ public:
 
 	virtual ~Path();
 
-	//! The file-path set operator
+	//! The file-path assignment operator
 	/*!
-	  \param other A const reference to string
+	  \param other A const reference to a string value
 	 */
 	std::string const& operator=(std::string const& other);
 

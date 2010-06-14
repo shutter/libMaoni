@@ -36,9 +36,9 @@ public:
     */
 	Texture(std::string const& path);
 
-	//! The OpenGL texture reference getter
+	//! Make the texture implicitly return the glTexture value
     /*!
-      \return The reference number for this texture in the OpenGL State Machine
+      \return The reference number of this texture set in the OpenGL state machine
     */
 	operator unsigned int() const;
 
