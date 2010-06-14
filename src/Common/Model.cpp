@@ -1,8 +1,19 @@
 /*
- * Mesh.cpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: Jul 30, 2009
- *      Author: shutter
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <GL/glew.h>
@@ -34,7 +45,6 @@ void Model::clear()
 	indices.clear();
 }
 
-//!
 bool Model::empty() const
 {
 	return indices.empty();
@@ -91,7 +101,6 @@ void Model::calculate_normals()
 		vertices[i].normal /= magnitude(vertices[i].normal);
 }
 
-/* Scales the data to be within +- baseSize/2 (default 2.0) coordinates. */
 void Model::fix_scale()
 {
 	Vec3 lower_left = vertices[0].position;

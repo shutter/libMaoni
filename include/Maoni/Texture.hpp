@@ -21,11 +21,25 @@
 
 #include <Maoni/Path.hpp>
 
+//! Texture class
+/*!
+  The texture class is used to store file-path information of jpg or png
+  pictures, which can be loaded as OpenGL texture in a render algorithm.
+*/
+
 class Texture: public Path
 {
 public:
+    //! Creates a texture object from a path as string value
+    /*!
+      \param path The path as a constant string reference
+    */
 	Texture(std::string const& path);
 
+	//! The OpenGL texture reference getter
+    /*!
+      \return The reference number for this texture in the OpenGL State Machine
+    */
 	operator unsigned int() const;
 
 private:
