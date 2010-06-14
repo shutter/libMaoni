@@ -53,13 +53,81 @@ code expands to the code above:
 
 You can define as many loaders as you want. Just link them all together with libMaoni;
 they will register themselves automatically.
-
 [endsect]
 
 [section Custom Render Algorithm]
+Implementing rendering algorithms with libMaoni is very similar to implementing mesh
+loaders. Again you just inherit your class from a provided parent, implement virtual
+functions and create an instance. Again we provide a macro as a shortcut.
+
+Inherit from [classref Algorithm] and implement the following functions:
+
+# `name()` shall return the name of your renderer.
+# `render()` contains your rendering code.
+# `config()` is used to communicate your settings with libMaoni. This function is
+  used to populate the user interface, serialize settings into XML and distribute
+  them to other instances when rendering in parallel.
+
+  example source
+
+[macroref RENDER_ALGORITHM] helps you save some boilerplate: 
+
+  example source  
+
+[endsect]
+
+[section Enumerations]
+
+  some explanations
+  
 [endsect]
 
 [section Custom Shader Programs]
-[endsect]
+To use shader programs, declare a class and inherit from [classref ShaderProgram]. In
+the constructor, call [funcref ShaderProgram::attach] for each shader source string.
 
+  struct MyProgram: ShaderProgram
+  {
+    MyProgram()
+    {
+      attach(GL_VERTEX_SHADER, vertex_source);
+      attach(GL_FRAGMENT_SHADER, fragment_source);
+    }
+  };
+  
+As always, libMaoni provides a shortcut: [macroref SHADER_PROGRAM]. So you can simply
+put:
+
+  SHADER_PROGRAM(MyProgram,
+    (VERTEX, vertex_source) (FRAGMENT, fragment_source),
+  );
+
+If you want to write the shader source code directly in your .cpp file, you may use the
+macro [macroref SHADER_SOURCE]. This macro takes three parameters:
+
+# the name of the shader. This is how the source string will be called.
+# zero or more directives (without the `#`, each wrapped in braces). Used to specify
+  the version, enable extensions and so on.
+# the (unquoted) shader source code.
+
+Example:
+
+  SHADER_SOURCE(my_shader, (version 110) (extension all : disable),
+    main()
+    {
+      ...
+    }
+  );
+
+Will expand to:
+
+  const char* const my_shader =
+    "#version 110\n"
+    "#extension all : disable\n"
+    "main() { ... }";
+
+To instanciate your shader program, use it as a member of your rendering algorithm.
+Note that `ShaderProgram` and all derived classes convert implicitely to `GLuint`, so
+you can pass a shader object directly to `glUseProgram`.
+[endsect]
 [endsect]

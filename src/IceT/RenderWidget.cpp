@@ -36,20 +36,11 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	icetStrategy(ICET_STRATEGY_REDUCE);
 	icetDrawFunc(static_draw);
 
-	if (framedata.master())
-		icetBoundingBoxf(0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
-//	else
-//		icetBoundingBoxf(-0.f, 1.f, -1.f, 1.f, -1.f, 1.f);
-
 	// slaves should animate from the beginning
 	if (!framedata.master())
-	{
 		startAnimation();
 
-		//TODO: disconnect all signals!
-		//disconnect(this, 0);
-		//dumpObjectInfo();
-	}
+	framedata.resize(width(), height());
 }
 
 RenderWidgetIceT::~RenderWidgetIceT()
@@ -75,4 +66,10 @@ void RenderWidgetIceT::stopAnimation()
 	// slaves should keep animating
 	if (framedata.master())
 		QGLViewer::stopAnimation();
+}
+
+void RenderWidgetIceT::resizeGL(int width, int height)
+{
+	framedata.resize(width, height);
+	RenderWidget::resizeGL(width, height);
 }

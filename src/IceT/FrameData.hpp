@@ -26,7 +26,7 @@
 class FrameDataIceT: public FrameData
 {
 public:
-	FrameDataIceT(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack);
+	FrameDataIceT(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack);
 	~FrameDataIceT();
 
 	bool master() const
@@ -41,8 +41,12 @@ public:
 
 	void animate();
 
+	void resize(int w, int h);
+
 private:
 	boost::mpi::communicator world;
+	int width, height;
+
 public:
 	std::vector<Tile> tiles;
 };

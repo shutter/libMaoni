@@ -6,7 +6,7 @@
  */
 
 #include <GL/glew.h>
-#include <Maoni/detail/ShaderProgram.hpp>
+#include <Maoni/ShaderProgram.hpp>
 #include <iostream>
 #include <string>
 

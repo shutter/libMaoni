@@ -21,7 +21,7 @@
 
 #include <QWidget>
 #include <QComboBox>
-#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
 #include <qttreepropertybrowser.h>
 #include <qtpropertymanager.h>
 #include <filepathmanager.h>

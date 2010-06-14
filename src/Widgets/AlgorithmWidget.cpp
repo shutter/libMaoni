@@ -32,7 +32,7 @@ public:
 	{
 	}
 
-	void operator()(Algorithm* algorithm)
+	void operator()(RenderAlgorithm* algorithm)
 	{
 		list.append(algorithm->name());
 	}

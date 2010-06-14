@@ -7,7 +7,7 @@
 #include "../Common/Light.hpp"
 //#include "../Common/Tile.hpp"
 #include <Maoni/Model.hpp>
-#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/detail/MeshLoader.hpp>
 
 class FrameData;

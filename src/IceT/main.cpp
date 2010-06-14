@@ -29,7 +29,7 @@
 __declspec(dllexport)
 #endif
 int maoni_main(int argc, char* argv[], //
-	Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
+	RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	boost::mpi::environment env(argc, argv);
 	QApplication app(argc, argv);

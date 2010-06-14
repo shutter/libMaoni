@@ -3,14 +3,14 @@
 
 #include "Light.hpp"
 #include <Maoni/Model.hpp>
-#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/MeshLoader.hpp>
 #include <string>
 
 class FrameData
 {
 public:
-	FrameData(Algorithm* algorithm_factory_stack,
+	FrameData(RenderAlgorithm* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack);
 
 	FrameData(FrameData const& other);
@@ -59,6 +59,10 @@ public:
 	{
 	}
 
+	virtual void resize(int width, int height)
+	{
+	}
+
 public:
 	void export_scene(const char* filename);
 	void import_scene(const char* filename);
@@ -92,10 +96,10 @@ protected:
 	std::string model_name;
 	std::string ralgo_name;
 
-	Algorithm* renderer;
+	RenderAlgorithm* renderer;
 
 private:
-	Algorithm* algorithm_stack;
+	RenderAlgorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
 	Model model_;

@@ -12,7 +12,7 @@
 #include "EqInclude.hpp"
 #include <eQute.hpp>
 
-#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
 #include "FrameDataEq.hpp"
 #include "Node.hpp"
 #include "../Widgets/MainWindow.hpp"
@@ -40,7 +40,7 @@ private:
 __declspec(dllexport)
 #endif
 int maoni_main(int argc, char* argv[], //
-		Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
+		RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	eq::base::Log::level = eq::base::LOG_ERROR;
 

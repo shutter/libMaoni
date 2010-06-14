@@ -1,7 +1,7 @@
 [library libMaoni
    [quickbook 1.5]
-   [authors [Hutter, Stefan], [Pfeifer, Daniel]]
-   [copyright 2009 2010 Stefan Hutter, Daniel Pfeifer]
+   [authors [Pfeifer, Daniel]]
+   [copyright 2009 2010 Daniel Pfeifer]
    [purpose common rendering framework]
 ]
 

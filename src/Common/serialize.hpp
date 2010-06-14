@@ -23,7 +23,7 @@
 #include <Maoni/Color.hpp>
 #include <Maoni/Vector.hpp>
 #include <Maoni/Texture.hpp>
-#include <Maoni/detail/Algorithm.hpp>
+#include <Maoni/RenderAlgorithm.hpp>
 
 #include <boost/serialization/serialization.hpp>
 #include <boost/la/all.hpp>
@@ -121,7 +121,7 @@ private:
 };
 
 template<class Archive>
-void serialize(Archive& archive, Algorithm& algorithm, unsigned int)
+void serialize(Archive& archive, RenderAlgorithm& algorithm, unsigned int)
 {
 	AlgorithmSerializer<Archive> serializer(archive);
 	algorithm.config(serializer);

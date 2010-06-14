@@ -22,27 +22,21 @@
 #include <GL/ice-t_mpi.h>
 #include <GL/gl.h>
 
-FrameDataIceT::FrameDataIceT(Algorithm* algorithm_stack,
-		MeshLoader* mesh_loader_stack) :
+FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
+	MeshLoader* mesh_loader_stack) :
 	FrameData(algorithm_stack, mesh_loader_stack), //
-			world(), tiles(world.size())
+		world(), tiles(world.size())
 {
 	int rows = sqrt(tiles.size());
-	int width = 640;
-	int height = 480;
-
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		int col = i / rows;
 		int row = i % rows;
 
-		tiles[i].tile.visible = i == 0;
+		tiles[i].visible = true; //i == 0;
 
-		tiles[i].tile.x = col * width;
-		tiles[i].tile.y = row * height;
-
-		tiles[i].tile.width = width;
-		tiles[i].tile.height = height;
+		tiles[i].x = col * 640;
+		tiles[i].y = row * 480;
 	}
 }
 
@@ -68,38 +62,52 @@ void FrameDataIceT::animate()
 	{
 		broadcast(world, tiles, 0);
 
+		int w, h;
 		icetResetTiles();
 		for (std::size_t i = 0; i < tiles.size(); ++i)
 		{
-//			if (tiles[i].tile.visible)
-//			{
-				icetAddTile(tiles[i].tile.x, tiles[i].tile.y, //
-						tiles[i].tile.width, tiles[i].tile.height, i);
-//			}
+			Tile& tile = tiles[0];
+
+			//if (tile.visible)
+			//{
+			w = width;
+			h = height;
+			broadcast(world, w, i);
+			broadcast(world, h, i);
+			icetAddTile(tile.x, tile.y, w, h, i);
+			//}
 
 			if (i == world.rank())
 			{
-				BoundingBox& bb = tiles[0].bounding_box;
-				//icetBoundingBoxf(0.f, 0.f, 0.f, 0.f, 0.f, 0.f);
+				icetBoundingBoxf( //
+					tile.min.data[0], tile.max.data[0], //
+					tile.min.data[1], tile.max.data[1], //
+					tile.min.data[2], tile.max.data[2]);
 			}
 		}
 	}
 
-	//	if (model_changed)
+	//TODO: if (model_changed)
 	//	{
 	//		broadcast(world, model_name, 0);
 	//		if (!master())
 	//			load_model(model_name);
 	//	}
 
-	//	if (ralgo_changed)
+	//TODO: if (ralgo_changed)
 	{
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
 	}
 
-	//if(settings_changed)
+	//TODO: if(settings_changed)
 	if (renderer)
 		broadcast(world, *renderer, 0);
+}
+
+void FrameDataIceT::resize(int w, int h)
+{
+	width = w;
+	height = h;
 }

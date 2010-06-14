@@ -15,7 +15,7 @@
 __declspec(dllexport)
 #endif
 int maoni_main(int argc, char* argv[], //
-		Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
+		RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	QApplication app(argc, argv);
 	Q_INIT_RESOURCE(Resources);

@@ -36,7 +36,7 @@ public:
 
 private slots:
 	void enum_changed(QtProperty* property, int value);
-	void rect_changed(QtProperty* property, const QRect& value);
+	void point_changed(QtProperty* property, const QPoint& value);
 
 private:
 	FrameDataIceT& framedata;
@@ -45,7 +45,7 @@ private:
 	QtTreePropertyBrowser* property_browser;
 
 	QtEnumPropertyManager* enum_manager;
-	QtRectPropertyManager* rect_manager;
+	QtPointPropertyManager* point_manager;
 	QVector3DPropertyManager* vector3d_manager;
 	QtGroupPropertyManager* group_manager;
 };

@@ -14,7 +14,7 @@
 class FrameDataEq: public FrameData, public eq::Object
 {
 public:
-	FrameDataEq(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
+	FrameDataEq(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
 		FrameData(algorithm_stack, mesh_loader_stack)
 	{
 	}

@@ -33,14 +33,14 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	setWindowTitle("Tile Config");
 
 	enum_manager = new QtEnumPropertyManager(this);
-	rect_manager = new QtRectPropertyManager(this);
+	point_manager = new QtPointPropertyManager(this);
 	vector3d_manager = new QVector3DPropertyManager(this);
 	group_manager = new QtGroupPropertyManager(this);
 
 	connect(enum_manager, SIGNAL(valueChanged(QtProperty*, int)), //
 		this, SLOT(enum_changed(QtProperty*, int)));
-	connect(rect_manager, SIGNAL(valueChanged(QtProperty*, QRect const&)), //
-		this, SLOT(rect_changed(QtProperty*, QRect const&)));
+	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
+		this, SLOT(point_changed(QtProperty*, QPoint const&)));
 
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
@@ -48,7 +48,7 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 
 	property_browser->setFactoryForManager(enum_manager, enum_factory);
 	property_browser->setFactoryForManager(
-		rect_manager->subIntPropertyManager(), int_factory);
+		point_manager->subIntPropertyManager(), int_factory);
 	property_browser->setFactoryForManager(
 		vector3d_manager->subDoublePropertyManager(), double_factory);
 
@@ -74,14 +74,15 @@ void TilesWidget::update_browser()
 		indices[property] = i;
 
 		QtProperty* group = group_manager->addProperty(name.arg(i));
-		QtProperty* rect = rect_manager->addProperty("Viewport");
+		QtProperty* point = point_manager->addProperty("Offset");
 		QtProperty* min = vector3d_manager->addProperty("Minimum");
 		QtProperty* max = vector3d_manager->addProperty("Maximum");
 
-		rect_manager->setValue(rect, //
-			QRect(tile.tile.x, tile.tile.y, tile.tile.width, tile.tile.height));
+		point_manager->setValue(point, QPoint(tile.x, tile.y));
+		vector3d_manager->setValue(min, QVector3D(tile.min.data[0], tile.min.data[1], tile.min.data[2]));
+		vector3d_manager->setValue(max, QVector3D(tile.max.data[0], tile.max.data[1], tile.max.data[2]));
 
-		group->addSubProperty(rect);
+		group->addSubProperty(point);
 		group->addSubProperty(min);
 		group->addSubProperty(max);
 
@@ -94,11 +95,9 @@ void TilesWidget::enum_changed(QtProperty* property, int value)
 	std::cout << "set strategy to " << value << std::endl;
 }
 
-void TilesWidget::rect_changed(QtProperty* property, QRect const& value)
+void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
 {
 	Tile& tile = framedata.tiles[indices[property]];
-	tile.tile.x = value.x();
-	tile.tile.y = value.y();
-	tile.tile.width = value.width();
-	tile.tile.height = value.height();
+	tile.x = value.x();
+	tile.y = value.y();
 }

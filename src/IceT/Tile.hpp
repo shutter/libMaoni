@@ -23,47 +23,25 @@
 #include <boost/mpi/datatype.hpp>
 #include <Maoni/Vector.hpp>
 
-struct Tile_
+struct Tile
 {
-	bool visible;
+	Tile() :
+		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f)
+	{
+	}
 
-	int x, y, width, height;
+	bool visible;
+	int x, y; //< offset
+	Vec3 min, max; //< axis aligned bounding box
 
 	template<class Archive>
 	void serialize(Archive & archive, unsigned int)
 	{
 		archive & BOOST_SERIALIZATION_NVP(visible);
-
 		archive & BOOST_SERIALIZATION_NVP(x);
 		archive & BOOST_SERIALIZATION_NVP(y);
-		archive & BOOST_SERIALIZATION_NVP(width);
-		archive & BOOST_SERIALIZATION_NVP(height);
-	}
-};
-
-struct BoundingBox
-{
-	Vec3 v1;
-	Vec3 v2;
-
-	template<class Archive>
-	void serialize(Archive & archive, unsigned int)
-	{
-		archive & BOOST_SERIALIZATION_NVP(v1);
-		archive & BOOST_SERIALIZATION_NVP(v2);
-	}
-};
-
-struct Tile
-{
-	Tile_ tile;
-	BoundingBox bounding_box;
-
-	template<class Archive>
-	void serialize(Archive & archive, unsigned int)
-	{
-		archive & BOOST_SERIALIZATION_NVP(tile);
-		archive & BOOST_SERIALIZATION_NVP(bounding_box);
+		archive & BOOST_SERIALIZATION_NVP(min);
+		archive & BOOST_SERIALIZATION_NVP(max);
 	}
 };
 

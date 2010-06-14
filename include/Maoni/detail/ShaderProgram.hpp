@@ -1,8 +1,19 @@
 /*
- * shader_program.hpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: 18.10.2009
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef VMMVIEW_COMMON_SHADER_PROGRAM_HPP
@@ -39,34 +50,5 @@
 #define SHADER_PROGRAM_ATTACH(R, DATA, ELEM)                                   \
    ShaderProgram::attach(BOOST_PP_TUPLE_ELEM(2, 0, ELEM),                      \
                          BOOST_PP_TUPLE_ELEM(2, 1, ELEM));                     \
-
-
-
-class ShaderProgram
-{
-public:
-	ShaderProgram();
-
-	ShaderProgram(ShaderProgram const& other);
-
-	~ShaderProgram();
-
-	const ShaderProgram& operator=(ShaderProgram const& other);
-
-	operator unsigned int() const;
-
-protected:
-	void attach(unsigned int type, const char* source)
-	{
-		shaders.insert(shader_t(type, source));
-	}
-
-private:
-	mutable unsigned int name;
-
-	typedef std::pair<unsigned int, const char*> shader_t;
-	typedef std::set<shader_t> shader_set_t;
-	shader_set_t shaders;
-};
 
 #endif /* VMMVIEW_COMMON_SHADER_PROGRAM_HPP */

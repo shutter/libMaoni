@@ -8,10 +8,10 @@
 __declspec(dllimport)
 #endif
 int maoni_main(int argc, char* argv[],
-		Algorithm* algorithm_factory_stack,
+		RenderAlgorithm* algorithm_factory_stack,
 		MeshLoader* mesh_loader_stack);
 
 int main(int argc, char* argv[])
 {
-	return maoni_main(argc, argv, Algorithm::stack, MeshLoader::stack);
+	return maoni_main(argc, argv, RenderAlgorithm::stack, MeshLoader::stack);
 }

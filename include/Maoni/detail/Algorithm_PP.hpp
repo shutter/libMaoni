@@ -19,8 +19,6 @@
 #ifndef MAONI_DETAIL_ALGORITHM_PP_HPP
 #define MAONI_DETAIL_ALGORITHM_PP_HPP
 
-#include <Maoni/detail/Algorithm.hpp>
-
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
@@ -35,7 +33,7 @@
 
 #define RENDER_ALGORITHM_I(NAME, SEQ)                                          \
                                                                                \
-	class NAME: public Algorithm                                               \
+	class NAME: public RenderAlgorithm                                         \
 	{                                                                          \
 	public:                                                                    \
         NAME() BOOST_PP_SEQ_FOR_EACH_I(ALGORITHM_CTOR_I,, SEQ) {}              \

@@ -6,7 +6,7 @@
 #include "serialize.hpp"
 #include <fstream>
 
-FrameData::FrameData(Algorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
+FrameData::FrameData(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
 	renderer(0), algorithm_stack(algorithm_stack), mesh_loader_stack(
 		mesh_loader_stack)
 {
@@ -46,12 +46,12 @@ void FrameData::load_model(std::string const& filename)
 class algo_setter
 {
 public:
-	algo_setter(std::string const& name, Algorithm*& algorithm) :
+	algo_setter(std::string const& name, RenderAlgorithm*& algorithm) :
 		name(name), algorithm(algorithm)
 	{
 	}
 
-	void operator()(Algorithm*& algo)
+	void operator()(RenderAlgorithm*& algo)
 	{
 		if (name == algo->name())
 			algorithm = algo;
@@ -59,7 +59,7 @@ public:
 
 private:
 	std::string const& name;
-	Algorithm*& algorithm;
+	RenderAlgorithm*& algorithm;
 };
 
 void FrameData::set_render_algorithm(std::string const& name)
