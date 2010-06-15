@@ -26,11 +26,10 @@
   The texture class is used to store file-path information of jpg or png
   pictures, which can be loaded as OpenGL texture in a render algorithm.
 */
-
 class Texture: public Path
 {
 public:
-    //! Creates a texture object from a path as string value
+    //! Constructs a texture object from a path as string value
     /*!
       \param path The path as a constant string reference
     */
@@ -38,7 +37,7 @@ public:
 
 	//! Make the texture implicitly return the glTexture value
     /*!
-      \return The reference number of this texture set in the OpenGL state machine
+      \return The OpenGL handle of this texture
     */
 	operator unsigned int() const;
 
