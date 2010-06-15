@@ -31,8 +31,8 @@
 /**
  * \brief Define a shader program.
  *
- * Expands program name, shader sources and uniform buffer objects to a
- * shader program struct
+ * Expands program name, shader sources and uniform buffer (to be implemented)
+ * objects to a shader program struct
  */
 #define SHADER_PROGRAM(NAME, SOURCE, UNIFORM)                                  \
 	SHADER_PROGRAM_I(NAME,                                                     \

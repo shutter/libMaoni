@@ -1,17 +1,33 @@
 /*
- * VMMView.hpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: Jul 22, 2009
- *      Author: dpfeifer
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef MAONI_RENDER_ALGORITHM_HPP
 #define MAONI_RENDER_ALGORITHM_HPP
 
 /**
- * Define a custom render algorithm.
+ * \brief Define a custom render algorithm.
  *
- * Some description on how to use this macro.
+ * Extends the algorithm name and its GUI controlled variables to a
+ * RenderAlgorithm subclass, which will be linked against libMaoni.
+ * The macro ensures the right interface to make the algorithm available
+ * in the drop down menu of the render algorithm widget.
+ * Have a look at the RenderAlgorithm-tutorial and algorithm examples for
+ * information about concrete implementation.
  *
  * \param NAME The name of this algorithm.
  * \param BSEQ A sequence of parameters. Each parameter has the form
