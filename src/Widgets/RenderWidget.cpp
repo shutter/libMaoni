@@ -17,6 +17,7 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::init()
 {
+	logo.calc_pos(width(), height());
 	glewInit();
 }
 
@@ -58,15 +59,22 @@ void RenderWidget::draw_light(int i, Light const& light) const
 
 void RenderWidget::draw()
 {
-	glClearDepth(1);
+/*	glClearDepth(1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);*/
 
 	for (std::size_t i = 0; i < framedata.num_lights(); ++i)
 		draw_light(i, framedata.light(i));
 
 	framedata.draw();
+
+	logo.draw();
+}
+
+void RenderWidget::resizeGL(int width, int height){
+	logo.calc_pos(width, height);
+	QGLViewer::resizeGL(width, height);
 }
 
 QString RenderWidget::helpString() const

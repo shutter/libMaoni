@@ -21,17 +21,30 @@
 
 #include <set>
 
+//! ShaderProgramm Class
+/*!
+  To be able to use shaders in a RenderAlgorithm, they have to be compiled.
+  This class holds the shader sources and compiles them to a shader program
+  as soon as it is accessed.
+*/
 class ShaderProgram
 {
 public:
+	//! Constructs an empty shader program
 	ShaderProgram();
 
+	//! Constructs a shader program by copying the shader sources of another program
 	ShaderProgram(ShaderProgram const& other);
 
+	//! Destruct the shader program and removes it from the OpenGL state machine
 	~ShaderProgram();
 
 	const ShaderProgram& operator=(ShaderProgram const& other);
 
+	//! Compiles the shaders to a shader program
+	/*!
+	  \return The OpenGL handle of this shader program
+	 */
 	operator unsigned int() const;
 
 protected:
@@ -51,7 +64,8 @@ private:
 /**
  * \brief Define shader source code.
  *
- * bla blubb
+ * Expands shader name, GLSL version directives and the source code to a
+ * shader source stored as const char array
  */
 #define SHADER_SOURCE(NAME, DIRECTIVES, SOURCE) const char* const NAME =       \
 	BOOST_PP_SEQ_FOLD_LEFT(SHADER_FOLD_DIRECTIVES,, DIRECTIVES) #SOURCE        \
@@ -59,7 +73,8 @@ private:
 /**
  * \brief Define a shader program.
  *
- * bla blubb
+ * Expands program name, shader sources and uniform buffer (to be implemented)
+ * objects to a shader program struct
  */
 #define SHADER_PROGRAM(NAME, SOURCE, UNIFORM)                                  \
 	SHADER_PROGRAM_I(NAME,                                                     \

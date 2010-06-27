@@ -26,6 +26,8 @@ private slots:
 	void set_foreground_color();
 	void snapshot();
 	void show_logo(int state);
+	void set_logo_path();
+	void set_logo(bool checked);
 	void show_tilesconfig();
 
 signals:

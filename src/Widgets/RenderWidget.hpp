@@ -5,6 +5,7 @@
 #include <boost/noncopyable.hpp>
 
 #include "../Common/Light.hpp"
+#include "../Common/Logo.hpp"
 //#include "../Common/Tile.hpp"
 #include <Maoni/Model.hpp>
 #include <Maoni/RenderAlgorithm.hpp>
@@ -21,11 +22,16 @@ public:
 
 	virtual ~RenderWidget();
 
+	Logo logo;
+
 private:
 	void init();
 	QString helpString() const;
 
 	void draw_light(int i, Light const& light) const;
+
+protected:
+	void resizeGL(int width, int height);
 
 protected:
 	void draw();

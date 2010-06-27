@@ -30,9 +30,14 @@ struct MeshLoader: Extensible<MeshLoader>
 };
 
 /**
- * Define a custom MeshLoader.
+ * \brief Define a custom MeshLoader.
  *
- * Some description on how to use this macro.
+ * Extends a model file extension and description to a MeshLoader subclass,
+ * which will be linked against libMaoni.
+ * The macro ensures the right interface to make the new file type available
+ * in the model-file choose dialog.
+ * Have a look at the MeshLoader-tutorial and loader examples for information
+ * about concrete implementation.
  *
  * \param EXT  The file extension associated with this loader
  * \param NAME The name of the file format.

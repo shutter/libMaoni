@@ -80,6 +80,19 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 		set_foreground_color()));
 	visual_hints->addAction(foreground_color);
 
+	visual_hints->addSeparator();
+
+	QAction* logo_path = new QAction("&set logo path", this);
+	connect(logo_path, SIGNAL(triggered()), this, SLOT(
+		set_logo_path()));
+	visual_hints->addAction(logo_path);
+
+	QAction* logo = new QAction("&render logo", this);
+	logo->setCheckable(true);
+	connect(logo, SIGNAL(triggered(bool)), this, SLOT(
+		set_logo(bool)));
+	visual_hints->addAction(logo);
+
 	dock_menu = menuBar()->addMenu("&Window");
 	init_docks();
 
@@ -215,6 +228,19 @@ void MainWindow::snapshot()
 void MainWindow::show_logo(int state)
 {
 	std::cout << "show_logo: " << state << std::endl;
+}
+
+void MainWindow::set_logo(bool checked){
+		render_widget->logo.set_render(checked);
+}
+
+void MainWindow::set_logo_path(){
+	QString tmp = QFileDialog::getOpenFileName(this,
+		"Choose a logo texture to load", "../examples/Models/",
+			"Textures (*.png *.jpg)");
+	if(tmp !=""){
+		render_widget->logo.set_path(tmp.toStdString());
+	}
 }
 
 void MainWindow::import_scene()

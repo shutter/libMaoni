@@ -21,17 +21,39 @@
 
 #include <string>
 
+//! Path class
+/*!
+  The path class defines a container for file-path information.
+*/
+
 class Path
 {
 public:
+    //! Creates a path object from a path as string value
+    /*!
+      \param path The path as a constant string reference
+    */
 	Path(std::string const& path);
 
 	virtual ~Path();
 
+	//! The file-path assignment operator
+	/*!
+	  \param other A const reference to a string value
+	 */
 	std::string const& operator=(std::string const& other);
 
+	//! The file-path call operator
+    /*!
+      \return The file-path as const string reference
+    */
 	operator const std::string&() const;
 
+	//! Implement in the subclass for file-type constraint
+	/*!
+	  \return The file-type description and type-list to use in file-dialogs
+			  as const char pointer. E.g. "Image files (*.jpg *.png)"
+	 */
 	virtual const char* const filter() const;
 
 private:

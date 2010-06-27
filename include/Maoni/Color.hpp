@@ -19,27 +19,25 @@
 #ifndef VMMVIEW_COLOR_HPP
 #define VMMVIEW_COLOR_HPP
 
-//! A color class
+//! Color class
 /*!
   The color class is used to exchange color information from GUI or loader
   to algorithms to the OpenGL state machine. It consists of arithmetic (0.f to 1.f) RGBA values
 */
 
-
 class Color
 {
 public:
-    //! Creating a color object from scratch initialized by 1.0f
+    //! Creates a color object from scratch initialized by 1.0f
 	Color()
 	{
 		impl[0] = impl[1] = impl[2] = impl[3] = 1.f;
 	}
 
-    //! Creating a color object from another color object reference
+    //! Creates a color object from another color object reference
     /*!
       \param other a color reference argument.
     */
-
 	Color(Color const& other)
 	{
 		impl[0] = other.red();
@@ -48,7 +46,7 @@ public:
 		impl[3] = other.alpha();
 	}
 
-    //! Creating a color object from RGBA values
+    //! Creates a color object from RGBA values
     /*!
       \param red a float argument.
       \param green a float argument.
@@ -99,7 +97,7 @@ public:
 		return impl[3];
 	}
 
-	//! The RGBA array getter
+	//! Make the color implicity return a pointer to its RGBA float array
     /*!
       \return The arithmetic RGBA float array pointer
     */
