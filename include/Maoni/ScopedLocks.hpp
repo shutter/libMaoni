@@ -22,15 +22,15 @@
 #include <Maoni/detail/ScopedLocks.hpp>
 
 /*!
-  Enable an OpenGL setting by creating an ScopedEnable object to ensure it is
-  reset to its original state when the RenderAlgorithm is switched (RAII)
+ Enable an OpenGL setting by creating an ScopedEnable object to ensure it is
+ reset to its original state when the RenderAlgorithm is switched (RAII)
  */
 struct ScopedEnable: detail::ScopedEnable
 {
 	//! Constructs a ScopedEnable object and enables a certain OpenGL state parameter
-    /*!
-      \param cap An OpenGL state parameter's number
-    */
+	/*!
+	 \param cap An OpenGL state parameter's number
+	 */
 	ScopedEnable(GLenum cap) :
 		detail::ScopedEnable(cap)
 	{
@@ -39,15 +39,15 @@ struct ScopedEnable: detail::ScopedEnable
 };
 
 /*!
-  Disable an OpenGL setting by creating an ScopedDisable object to ensure it is
-  reset to its original state when the RenderAlgorithm is switched (RAII)
+ Disable an OpenGL setting by creating an ScopedDisable object to ensure it is
+ reset to its original state when the RenderAlgorithm is switched (RAII)
  */
 struct ScopedDisable: detail::ScopedEnable
 {
 	//! Constructs a ScopedDisable object and disable a certain OpenGL state parameter
-    /*!
-      \param cap An OpenGL state parameter's number
-    */
+	/*!
+	 \param cap An OpenGL state parameter's number
+	 */
 	ScopedDisable(GLenum cap) :
 		detail::ScopedEnable(cap)
 	{
@@ -56,16 +56,16 @@ struct ScopedDisable: detail::ScopedEnable
 };
 
 /*!
-  Loads a shader program and ensures that it is removed from the OpenGL state machine
-  when the RenderAlgorithm is switched (RAII)
+ Loads a shader program and ensures that it is removed from the OpenGL state machine
+ when the RenderAlgorithm is switched (RAII)
  */
 class ScopedUseProgram
 {
 public:
 	//! Constructs a ScopedUseProgram object and loads the shader program
-    /*!
-      \param name The shader handle of the RenderAlgorithm
-    */
+	/*!
+	 \param name The shader handle of the RenderAlgorithm
+	 */
 	ScopedUseProgram(GLint name)
 	{
 		glGetIntegerv(GL_CURRENT_PROGRAM, &name_);
@@ -82,29 +82,34 @@ private:
 };
 
 /*!
-  Binds a texture and ensures that it is removed from the OpenGL state machine
-  when the RenderAlgorithm is switched (RAII)
+ Binds a texture and ensures that it is removed from the OpenGL state machine
+ when the RenderAlgorithm is switched (RAII)
  */
 class ScopedBindTexture
 {
 public:
 	//! Constructs a ScopedBindTexture object and binds the texture
 	/*!
-	  \param name The OpenGL Texture handle
+	 \param name The OpenGL Texture handle
+	 \param unit The OpenGL Texture unit. default is GL_TEXTURE0
 	 */
-	ScopedBindTexture(GLint name)
+	ScopedBindTexture(GLint name, GLenum unit = GL_TEXTURE0) :
+		unit_(unit)
 	{
+		glActiveTexture(unit_);
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &name_);
 		glBindTexture(GL_TEXTURE_2D, name);
 	}
 
 	~ScopedBindTexture()
 	{
+		glActiveTexture(unit_);
 		glBindTexture(GL_TEXTURE_2D, name_);
 	}
 
 private:
 	GLint name_;
+	GLenum unit_;
 };
 
 #endif /* VMMVIEW_SCOPED_LOCKS_HPP */
