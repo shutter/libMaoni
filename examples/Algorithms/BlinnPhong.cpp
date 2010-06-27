@@ -114,7 +114,8 @@ RENDER_ALGORITHM(BlinnPhong,
 {
 	ScopedUseProgram shader_lock(shader);
 
-	glEnable(GL_COLOR_MATERIAL);
+	ScopedEnable color_material_lock(GL_COLOR_MATERIAL);
+
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);

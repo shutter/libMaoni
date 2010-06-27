@@ -18,7 +18,8 @@ RENDER_ALGORITHM(FixedFunction,
 		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
 		(float, shininess, 51.2))
 {
-	glEnable(GL_COLOR_MATERIAL);
+	ScopedEnable color_material_lock(GL_COLOR_MATERIAL);
+
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
