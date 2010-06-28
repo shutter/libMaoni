@@ -172,6 +172,8 @@ installers here's the how-to.
     [[`Qt libraries 4.6.2 for MAC OS X`]  [[@http://qt.nokia.com/downloads]]]
     [[`QGLViewer`]  [[@http://www.libqglviewer.com/download.html]]]
     [[`lib3ds`]  [[@http://code.google.com/p/lib3ds/]]]
+    [[`wget`]  [[@http://rudix.org/packages-uvw.html#wget]] oder MacPorts]
+    [[`glew`]  [[@http://glew.sourceforge.net/]]]
 ]
 
 Install GIT and CMAKE dimages. Download and unpack boost 1.40.0 and install boost-headers. 
