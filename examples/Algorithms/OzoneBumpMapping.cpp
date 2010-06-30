@@ -1,9 +1,4 @@
 /*
- *
- *
- *  Created on: 9 May 2010
- *      Author: stefan
- *
  *      from http://www.ozone3d.net/tutorials/bump_mapping.php
  */
 
@@ -92,14 +87,14 @@ RENDER_ALGORITHM(OzoneBumpMapping,
 	(ShaderProgram, shader, OzoneBumpMappingShader())
 	(Texture, color_texture, "../examples/Models/ozone_color_map.jpg")
 	(Texture, normal_texture, "../examples/Models/ozone_normal_map.jpg")
-	(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
-	(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
-	(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
+	(Color, ambient, Color(0.6, 0.6, 0.6, 1.0))
+	(Color, diffuse, Color(0.8, 0.8, 0.8, 1.0))
+	(Color, specular, Color(0.6, 0.6, 0.6, 0.0))
 	(Color, emission, Color(0.0, 0.0, 0.0, 0.0))
 	(float, shininess, 51.2)
 )
 {
-	glEnable(GL_COLOR_MATERIAL);
+	ScopedEnable material_color_lock(GL_COLOR_MATERIAL);
 	glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
@@ -108,10 +103,13 @@ RENDER_ALGORITHM(OzoneBumpMapping,
 
 	ScopedDisable lighting_lock(GL_LIGHTING);
 	ScopedEnable color_map_2D_lock(GL_TEXTURE_2D);
-	ScopedBindTexture color_map_lock(color_texture);
+	ScopedBindTexture color_map_lock(color_texture, GL_TEXTURE0);
 	ScopedEnable normal_map_2D_lock(GL_TEXTURE_2D);
-	ScopedBindTexture normal_map_lock(normal_texture);
+	ScopedBindTexture normal_map_lock(normal_texture, GL_TEXTURE1);
 	ScopedUseProgram shader_lock(shader);
+
+	glUniform1i(glGetUniformLocation(shader, "color_map"), 0);
+	glUniform1i(glGetUniformLocation(shader, "normal_map"), 1);
 
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  0.0f);	// Bottom Left Of The Texture and Quad
@@ -119,6 +117,5 @@ RENDER_ALGORITHM(OzoneBumpMapping,
 		glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  0.0f);	// Top Right Of The Texture and Quad
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  0.0f);	// Top Left Of The Texture and Quad
 	glEnd();
-
 }
 

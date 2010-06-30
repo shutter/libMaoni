@@ -1,9 +1,4 @@
 /*
- * DGLBumpMapping.cpp
- *
- *  Created on: 5 Mar 2010
- *      Author: stefan
- *
  *      from http://wiki.delphigl.com/index.php/shader_Bumpmapping
  */
 
@@ -96,7 +91,7 @@ RENDER_ALGORITHM(DGLBumpMapping,
 		(float, shininess, 51.2)
 )
 {
-	glEnable(GL_COLOR_MATERIAL);
+	ScopedEnable material_color_lock(GL_COLOR_MATERIAL);
 	glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
@@ -104,11 +99,14 @@ RENDER_ALGORITHM(DGLBumpMapping,
 	glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
 	ScopedDisable lighting_lock(GL_LIGHTING);
-	ScopedEnable color_map_2D_lock(GL_TEXTURE_2D);
-	ScopedBindTexture color_map_lock(color_texture);
 	ScopedEnable normal_map_2D_lock(GL_TEXTURE_2D);
-	ScopedBindTexture normal_map_lock(normal_texture);
+	ScopedBindTexture normal_map_lock(normal_texture, GL_TEXTURE0);
+	ScopedEnable color_map_2D_lock(GL_TEXTURE_2D);
+	ScopedBindTexture color_map_lock(color_texture, GL_TEXTURE1);
 	ScopedUseProgram shader_lock(shader);
+
+	glUniform1i(glGetUniformLocation(shader, "normal_map"), 0);
+	glUniform1i(glGetUniformLocation(shader, "color_map"), 1);
 
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  0.0f);	// Bottom Left Of The Texture and Quad
