@@ -69,6 +69,8 @@ public:
 		glActiveTexture( GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+
 		glBegin( GL_QUADS);
 		{
 			glTexCoord2f(0.0f, 0.0f);

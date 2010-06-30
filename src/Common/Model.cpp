@@ -35,7 +35,6 @@ void Model::draw() const
 		glNormal3fv(vertices[indices[i]].normal);
 		glVertex3fv(vertices[indices[i]].position);
 	}
-	glColor4f(1.f, 1.f, 1.f, 1.f);
 	glEnd();
 }
 
