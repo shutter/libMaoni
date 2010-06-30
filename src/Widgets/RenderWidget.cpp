@@ -2,7 +2,7 @@
 #include "RenderWidget.hpp"
 #include "../Common/FrameData.hpp"
 #include <boost/algorithm/string/predicate.hpp>
-
+#include <QFileDialog>
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
@@ -18,7 +18,6 @@ RenderWidget::~RenderWidget()
 void RenderWidget::init()
 {
 	glewInit();
-	logo.calc_pos(width(), height());
 }
 
 void RenderWidget::draw_light(int i, Light const& light) const
@@ -63,13 +62,24 @@ void RenderWidget::draw()
 		draw_light(i, framedata.light(i));
 
 	framedata.draw();
-
-	logo.draw();
 }
 
 void RenderWidget::resizeGL(int width, int height){
-	logo.calc_pos(width, height);
+	framedata.resize(width, height);
 	QGLViewer::resizeGL(width, height);
+}
+
+void RenderWidget::set_logo(bool checked){
+		framedata.enable_logo(checked);
+}
+
+void RenderWidget::set_logo_path(){
+	QString tmp = QFileDialog::getOpenFileName(this,
+		"Choose a logo texture to load", "../examples/Models/",
+			"Textures (*.png *.jpg)");
+	if(tmp !=""){
+		framedata.set_logo_path(tmp.toStdString());
+	}
 }
 
 QString RenderWidget::helpString() const

@@ -5,7 +5,6 @@
 #include <boost/noncopyable.hpp>
 
 #include "../Common/Light.hpp"
-#include "../Common/Logo.hpp"
 //#include "../Common/Tile.hpp"
 #include <Maoni/Model.hpp>
 #include <Maoni/RenderAlgorithm.hpp>
@@ -22,7 +21,9 @@ public:
 
 	virtual ~RenderWidget();
 
-	Logo logo;
+private slots:
+	void set_logo_path();
+	void set_logo(bool checked);
 
 private:
 	void init();

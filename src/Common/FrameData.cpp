@@ -124,6 +124,8 @@ void FrameData::draw() const
 		renderer->render(model_);
 	else
 		model_.draw();
+
+	logo.draw();
 }
 
 void FrameData::export_scene(const char* filename)

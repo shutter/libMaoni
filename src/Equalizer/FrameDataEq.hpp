@@ -1,8 +1,19 @@
 /*
- * FrameDataEq.h
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: Sep 1, 2009
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef FRAME_DATA_EQ_HPP
@@ -42,46 +53,17 @@ public:
 		return FrameData::light(i);
 	}
 
-	void serialize(eq::net::DataOStream& os, const uint64_t dirty)
-	{
-		eq::Object::serialize(os, dirty);
+	void serialize(eq::net::DataOStream& os, const uint64_t dirty);
 
-		if (dirty & DIRTY_LIGHT)
-			os << lights;
-
-		if (dirty & DIRTY_MODEL)
-			os << model_name;
-
-		if (dirty & DIRTY_RALGO)
-			os << ralgo_name;
-	}
-
-	void deserialize(eq::net::DataIStream& is, const uint64_t dirty)
-	{
-		eq::Object::deserialize(is, dirty);
-
-		if (dirty & DIRTY_LIGHT)
-			is >> lights;
-
-		if (dirty & DIRTY_MODEL)
-		{
-			is >> model_name;
-			FrameData::load_model(model_name);
-		}
-
-		if (dirty & DIRTY_RALGO)
-		{
-			is >> ralgo_name;
-			FrameData::set_render_algorithm(ralgo_name);
-		}
-	}
+	void deserialize(eq::net::DataIStream& is, const uint64_t dirty);
 
 private:
 	enum DirtyBits
 	{
 		DIRTY_LIGHT = DIRTY_CUSTOM << 1,
 		DIRTY_MODEL = DIRTY_CUSTOM << 2,
-		DIRTY_RALGO = DIRTY_CUSTOM << 3
+		DIRTY_RALGO = DIRTY_CUSTOM << 3,
+		DIRTY_RENDERER = DIRTY_CUSTOM << 4
 	};
 };
 

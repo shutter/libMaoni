@@ -67,9 +67,3 @@ void RenderWidgetIceT::stopAnimation()
 	if (framedata.master())
 		QGLViewer::stopAnimation();
 }
-
-void RenderWidgetIceT::resizeGL(int width, int height)
-{
-	framedata.resize(width, height);
-	RenderWidget::resizeGL(width, height);
-}

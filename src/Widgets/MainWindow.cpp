@@ -3,7 +3,6 @@
 #include "LightWidget.hpp"
 #include "AlgorithmWidget.hpp"
 #include "TextOutput.hpp"
-//#include "TilesWidget.hpp"
 #include "../Common/FrameData.hpp"
 
 #include <QMenu>
@@ -83,13 +82,13 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 	visual_hints->addSeparator();
 
 	QAction* logo_path = new QAction("&set logo path", this);
-	connect(logo_path, SIGNAL(triggered()), this, SLOT(
+	connect(logo_path, SIGNAL(triggered()), render_widget, SLOT(
 		set_logo_path()));
 	visual_hints->addAction(logo_path);
 
 	QAction* logo = new QAction("&render logo", this);
 	logo->setCheckable(true);
-	connect(logo, SIGNAL(triggered(bool)), this, SLOT(
+	connect(logo, SIGNAL(triggered(bool)), render_widget, SLOT(
 		set_logo(bool)));
 	visual_hints->addAction(logo);
 
@@ -225,24 +224,6 @@ void MainWindow::snapshot()
 	render_widget->saveSnapshot(false, false);
 }
 
-void MainWindow::show_logo(int state)
-{
-	std::cout << "show_logo: " << state << std::endl;
-}
-
-void MainWindow::set_logo(bool checked){
-		render_widget->logo.set_render(checked);
-}
-
-void MainWindow::set_logo_path(){
-	QString tmp = QFileDialog::getOpenFileName(this,
-		"Choose a logo texture to load", "../examples/Models/",
-			"Textures (*.png *.jpg)");
-	if(tmp !=""){
-		render_widget->logo.set_path(tmp.toStdString());
-	}
-}
-
 void MainWindow::import_scene()
 {
 	QString filename = QFileDialog::getOpenFileName(this,
@@ -281,19 +262,4 @@ void MainWindow::export_scene()
 	{
 		QMessageBox::warning(this, "Error", e.what());
 	}
-}
-
-void MainWindow::show_tilesconfig()
-{
-	if (!tiles_dialog)
-	{
-		tiles_dialog = new QDialog(this);
-		connect(tiles_dialog, SIGNAL(accepted()), this, SLOT(show_logo(1)));
-		connect(tiles_dialog, SIGNAL(finished()), this, SLOT(show_logo(2)));
-		connect(tiles_dialog, SIGNAL(rejected()), this, SLOT(show_logo(3)));
-	}
-	tiles_dialog->show();
-	//    tiles_dialog->raise();
-	//    tiles_dialog->activateWindow();
-
 }

@@ -110,4 +110,5 @@ void FrameDataIceT::resize(int w, int h)
 {
 	width = w;
 	height = h;
+	FrameData::resize(w, h);
 }

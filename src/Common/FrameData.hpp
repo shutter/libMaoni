@@ -23,6 +23,7 @@
 #include <Maoni/Model.hpp>
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/MeshLoader.hpp>
+#include "../Common/Logo.hpp"
 #include <string>
 
 class FrameData
@@ -66,6 +67,14 @@ public:
 
 	void draw() const;
 
+	void enable_logo(bool render){
+		logo.set_render(render);
+	}
+
+	void set_logo_path(std::string path){
+		logo.set_path(path);
+	}
+
 	//! return if these settings belong to the master
 	//! settings are broadcasted from the master to the slaves
 	virtual bool master() const
@@ -79,6 +88,7 @@ public:
 
 	virtual void resize(int width, int height)
 	{
+		logo.calc_pos(width, height);
 	}
 
 public:
@@ -113,6 +123,8 @@ protected:
 
 	std::string model_name;
 	std::string ralgo_name;
+
+	Logo logo;
 
 	RenderAlgorithm* renderer;
 
