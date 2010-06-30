@@ -43,7 +43,7 @@ SHADER_SOURCE(fragment_source,(),
 			intensity = max(dot(lightDir,normalize(normal)),0.0);
 
 			cf = intensity * (gl_FrontMaterial.diffuse).rgb +
-							  gl_FrontMaterial.ambient.rgb;
+			gl_FrontMaterial.ambient.rgb;
 			af = gl_FrontMaterial.diffuse.a;
 
 			texel = texture2D(tex,gl_TexCoord[0].st);
@@ -55,7 +55,7 @@ SHADER_SOURCE(fragment_source,(),
 			a = af * at;
 
 			float coef = smoothstep(1.0,0.2,intensity);
-			c += coef *  vec3(texture2D(l3d,gl_TexCoord[0].st));
+			c += coef * vec3(texture2D(l3d,gl_TexCoord[0].st));
 
 			gl_FragColor = vec4(c, a);
 		}
@@ -93,18 +93,29 @@ RENDER_ALGORITHM(MultiTexture,
 	glUniform1i(glGetUniformLocation(shader, "tex"), 0);
 	glUniform1i(glGetUniformLocation(shader, "l3d"), 1);
 
-	int tunits;
-	glGetIntegerv(GL_MAX_TEXTURE_UNITS, &tunits);
+	static bool test = false;
+	if (!test)
+	{
+		int tunits;
+		glGetIntegerv(GL_MAX_TEXTURE_UNITS, &tunits);
 
-	int iunits;
-	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &iunits);
+		int iunits;
+		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &iunits);
 
-	std::cout << "avaible units in fixed function pipeline: " << tunits << ", and in fragment processing: " << iunits << std::endl;
+		std::cout << "avaible units in fixed function pipeline: " << tunits
+				<< ", and in fragment processing: " << iunits << std::endl;
+
+		test = true;
+	}
 
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  0.0f);	// Bottom Left Of The Texture and Quad
-		glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  0.0f);	// Bottom Right Of The Texture and Quad
-		glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  0.0f);	// Top Right Of The Texture and Quad
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  0.0f);	// Top Left Of The Texture and Quad
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left Of The Texture and Quad
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(1.0f, -1.0f, 0.0f); // Bottom Right Of The Texture and Quad
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f); // Top Right Of The Texture and Quad
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 0.0f); // Top Left Of The Texture and Quad
 	glEnd();
 }
