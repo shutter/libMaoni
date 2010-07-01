@@ -14,6 +14,7 @@ include_directories(${Equalizer_INCLUDE_DIRS})
 set(MAONI_EQ_SRC
   main.cpp
   RenderWidget.cpp
+  FrameDataEq.cpp
   )
 
 if(MSVC)

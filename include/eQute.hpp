@@ -114,12 +114,24 @@ struct eQute
 		}
 
 	private:
+		// todo: https://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209
 		bool configInitOSWindow(const uint32_t id)
 		{
 			Widget* widget = Widget::getInstance();
 
 			if (!widget)
+			{
+				// Share context only between Eq-created OS windows
+				eq::OSWindow* osWindow = getSharedContextWindow()->getOSWindow();
+				if (dynamic_cast<GLWindow*> (osWindow))
+				{
+					const eq::WindowVector& windows = getPipe()->getWindows();
+					EQASSERT( windows.size() > 1 );
+					setSharedContextWindow(windows[1]);
+				}
+
 				return eq::Window::configInitOSWindow(id);
+			}
 
 			setOSWindow(new GLWindow(this, widget));
 			return true;

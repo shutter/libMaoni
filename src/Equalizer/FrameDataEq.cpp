@@ -17,6 +17,7 @@
  */
 
 #include "FrameDataEq.hpp"
+#include "Maoni/Enum.hpp"
 
 class Serializer: public AlgorithmConfig
 {
@@ -84,7 +85,10 @@ void FrameDataEq::serialize(eq::net::DataOStream& os, const uint64_t dirty)
 		os << ralgo_name;
 
 	if (dirty & DIRTY_RENDERER)
-		renderer.config(Serializer(os));
+	{
+		Serializer serializer(os);
+		renderer->config(serializer);
+	}
 }
 
 class Deserializer: public AlgorithmConfig
@@ -126,7 +130,7 @@ private:
 	{
 		std::string temp;
 		is >> temp;
-		value = Path(temp);
+		value = temp;
 	}
 
 	void property(const char*, Color& value)
@@ -164,7 +168,8 @@ void FrameDataEq::deserialize(eq::net::DataIStream& is, const uint64_t dirty)
 
 	if (dirty & DIRTY_RENDERER)
 	{
-		renderer.config(Deserializer(is));
+		Deserializer deserializer(is);
+		renderer->config(deserializer);
 	}
 }
 
