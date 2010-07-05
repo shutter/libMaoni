@@ -53,7 +53,7 @@ public:
 
 private:
 	boost::mpi::communicator world;
-	int width, height, mwidth, mheight;
+	int mwidth, mheight;
 
 public:
 	std::vector<Tile> tiles;

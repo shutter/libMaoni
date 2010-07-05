@@ -37,6 +37,7 @@ public:
 private slots:
 	void enum_changed(QtProperty* property, int value);
 	void point_changed(QtProperty* property, const QPoint& value);
+	void vector_changed(QtProperty* property, const QVector3D& value);
 
 private:
 	FrameDataIceT& framedata;

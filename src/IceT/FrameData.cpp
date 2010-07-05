@@ -27,9 +27,7 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 		world(), tiles(world.size())
 {
-	width = 640;
 	mwidth = 640;
-	height = 640;
 	mheight = 640;
 
 	int rows = sqrt(tiles.size());
@@ -67,7 +65,6 @@ void FrameDataIceT::animate()
 	{
 		broadcast(world, tiles, 0);
 
-		int w, h;
 		icetResetTiles();
 		for (std::size_t i = 0; i < tiles.size(); ++i)
 		{
@@ -75,8 +72,6 @@ void FrameDataIceT::animate()
 
 			//if (tile.visible)
 			//{
-			w = width;
-			h = height;
 			broadcast(world, tile.sx, i);
 			broadcast(world, tile.sy, i);
 			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
@@ -93,8 +88,6 @@ void FrameDataIceT::animate()
 
 		icetGetIntegerv( ICET_TILE_MAX_WIDTH, &mwidth );
 		icetGetIntegerv( ICET_TILE_MAX_HEIGHT, &mheight );
-		//std::cout << "fd mw: " << mwidth << " mh: " << mheight << std::endl;
-
 	}
 
 	//TODO: if (model_changed)
@@ -118,7 +111,5 @@ void FrameDataIceT::animate()
 
 void FrameDataIceT::resize(int w, int h)
 {
-	width = w;
-	height = h;
 	FrameData::resize(w, h);
 }

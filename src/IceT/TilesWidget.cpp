@@ -41,6 +41,9 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 			this, SLOT(enum_changed(QtProperty*, int)));
 	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
 			this, SLOT(point_changed(QtProperty*, QPoint const&)));
+	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, QVector3D const&)), //
+			this, SLOT(vector_changed(QtProperty*, QVector3D const&)));
+
 
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
@@ -113,5 +116,19 @@ void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
 	{
 		tile.sx = value.x();
 		tile.sy = value.y();
+	}
+}
+
+void TilesWidget::vector_changed(QtProperty* property, QVector3D const& value)
+{
+	QString name = property->propertyName();
+	Tile& tile = framedata.tiles[indices[property]];
+	if (name == "Minimum")
+	{
+		tile.min = Vec3(value.x(), value.y(), value.z());
+	}
+	else if (name == "Maximum")
+	{
+		tile.max = Vec3(value.x(), value.y(), value.z());
 	}
 }

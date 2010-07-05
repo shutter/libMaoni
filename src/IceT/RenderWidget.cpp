@@ -58,6 +58,7 @@ void RenderWidgetIceT::paintGL()
 	preDraw();
 	// TODO: if(tiles_changed)
 	resizeWindow();
+
 	framedata.animate();
 	icetDrawFrame();
 	postDraw();
