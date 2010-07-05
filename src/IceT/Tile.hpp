@@ -26,12 +26,13 @@
 struct Tile
 {
 	Tile() :
-		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f)
+		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f), sx(640), sy(480)
 	{
 	}
 
 	bool visible;
 	int x, y; //< offset
+	int sx, sy; //< size
 	Vec3 min, max; //< axis aligned bounding box
 
 	template<class Archive>

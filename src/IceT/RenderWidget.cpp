@@ -40,7 +40,7 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	if (!framedata.master())
 		startAnimation();
 
-	framedata.resize(width(), height());
+	//framedata.resize(width(), height());
 }
 
 RenderWidgetIceT::~RenderWidgetIceT()
@@ -56,6 +56,8 @@ void RenderWidgetIceT::static_draw()
 void RenderWidgetIceT::paintGL()
 {
 	preDraw();
+	// TODO: if(tiles_changed)
+	resizeWindow();
 	framedata.animate();
 	icetDrawFrame();
 	postDraw();
@@ -66,4 +68,13 @@ void RenderWidgetIceT::stopAnimation()
 	// slaves should keep animating
 	if (framedata.master())
 		QGLViewer::stopAnimation();
+}
+
+void RenderWidgetIceT::resizeWindow()
+{
+	FrameDataIceT framedata_ = dynamic_cast<FrameDataIceT &>( framedata );
+
+	setMinimumSize ( framedata_.getMWidth(), framedata_.getMHeight() );
+	setMaximumSize ( framedata_.getMWidth(), framedata_.getMHeight() );
+	framedata.resize( framedata_.getMWidth(), framedata_.getMHeight() );
 }

@@ -43,9 +43,17 @@ public:
 
 	void resize(int w, int h);
 
+	int getMWidth() const{
+		return mwidth;
+	}
+
+	int getMHeight() const{
+		return mheight;
+	}
+
 private:
 	boost::mpi::communicator world;
-	int width, height;
+	int width, height, mwidth, mheight;
 
 public:
 	std::vector<Tile> tiles;

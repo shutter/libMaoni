@@ -38,9 +38,9 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	group_manager = new QtGroupPropertyManager(this);
 
 	connect(enum_manager, SIGNAL(valueChanged(QtProperty*, int)), //
-		this, SLOT(enum_changed(QtProperty*, int)));
+			this, SLOT(enum_changed(QtProperty*, int)));
 	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
-		this, SLOT(point_changed(QtProperty*, QPoint const&)));
+			this, SLOT(point_changed(QtProperty*, QPoint const&)));
 
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
@@ -48,9 +48,9 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 
 	property_browser->setFactoryForManager(enum_manager, enum_factory);
 	property_browser->setFactoryForManager(
-		point_manager->subIntPropertyManager(), int_factory);
+			point_manager->subIntPropertyManager(), int_factory);
 	property_browser->setFactoryForManager(
-		vector3d_manager->subDoublePropertyManager(), double_factory);
+			vector3d_manager->subDoublePropertyManager(), double_factory);
 
 	update_browser();
 }
@@ -75,14 +75,19 @@ void TilesWidget::update_browser()
 
 		QtProperty* group = group_manager->addProperty(name.arg(i));
 		QtProperty* point = point_manager->addProperty("Offset");
+		QtProperty* size = point_manager->addProperty("Size");
 		QtProperty* min = vector3d_manager->addProperty("Minimum");
 		QtProperty* max = vector3d_manager->addProperty("Maximum");
 
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
-		vector3d_manager->setValue(min, QVector3D(tile.min.data[0], tile.min.data[1], tile.min.data[2]));
-		vector3d_manager->setValue(max, QVector3D(tile.max.data[0], tile.max.data[1], tile.max.data[2]));
+		point_manager->setValue(size, QPoint(tile.sx, tile.sy));
+		vector3d_manager->setValue(min, QVector3D(tile.min.data[0],
+				tile.min.data[1], tile.min.data[2]));
+		vector3d_manager->setValue(max, QVector3D(tile.max.data[0],
+				tile.max.data[1], tile.max.data[2]));
 
 		group->addSubProperty(point);
+		group->addSubProperty(size);
 		group->addSubProperty(min);
 		group->addSubProperty(max);
 
@@ -97,7 +102,16 @@ void TilesWidget::enum_changed(QtProperty* property, int value)
 
 void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
 {
+	QString name = property->propertyName();
 	Tile& tile = framedata.tiles[indices[property]];
-	tile.x = value.x();
-	tile.y = value.y();
+	if (name == "Offset")
+	{
+		tile.x = value.x();
+		tile.y = value.y();
+	}
+	else if (name == "Size")
+	{
+		tile.sx = value.x();
+		tile.sy = value.y();
+	}
 }
