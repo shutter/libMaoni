@@ -6,7 +6,7 @@
 
 [section Parallel Rendering]
 [endsect]
-0
+
 [section Building from Source]
 Download the [@http://github.com/purpleKarrot/libMaoni/archives/master libMaoni
 source code] and extract it to your directory of choice.
@@ -44,16 +44,16 @@ read-only url to checkout libMaoni directly to your local git repository]
 
 Open a shell and switch to your workspace and create the clone of your fork.
 
-  $ git clone git@github.com:yourLogin/libMaoni.git
+[:$ git clone git@github.com:yourLogin/libMaoni.git]
 
 and the upstream to purpleKarrots libMaoni repository:
 
-  $ git remote add upstream git://github.com/purpleKarrot/libMaoni.git
+[:$ git remote add upstream git://github.com/purpleKarrot/libMaoni.git]
 
 Update your fork (origin) from purpleKarrots libMaoni repository (upstream) so
 your fork is up to date:
 
-  $ git pull upstream master
+[:$ git pull upstream master]
 
 This will update your remote repository as well as your local files.
 
@@ -63,9 +63,8 @@ or the first steps using git]
 
 
 [section How-to Commit Modifications]
-[teletype]
 
-  $ git add .
+[:$ git add .]
 
 use filepaths instead of . if you don't want to add every modification to a
 certain commit, modifiy .gitignore to permanently ban files or folder from
@@ -74,13 +73,13 @@ commiting.
 Fix the modifications by creating a meaningful commit and keep track of your
 commits by creating a single one for every requirement:
 
-  $ git commit -m'some meaningful comment'
+[:$ git commit -m'some meaningful comment']
 
 Until now you just copied the libMaoni project to your repository on github and
 to your local harddrive and modified your local version. Upload your fixed
 commit to your remote repository on github:
 
-  $ git push origin master
+[:$ git push origin master]
 
 [note Remember the repository names!]
 [table:1 GIT repository names
@@ -104,41 +103,42 @@ Eclipse IDE for C/C++ Developers].
 
 To checkout your fork you have to install [@apt://git-core GIT] first, open a
 terminal:
-[teletype]
 
-  $ sudo aptitude install git-core
+[:$ sudo aptitude install git-core]
 
 We use cmake to check for dependencies and creating the makefiles and need some 
-other [@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,dblatex,lib3ds-dev packages]:
-[teletype]
+other [@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,dblatex,lib3ds-dev,fop packages]:
 
-  $ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev
+[:$ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev fop]
 
 For developing libMaoni, you have to install equalizer, a parallel rendering
 framework where libMaoni was intended to be a viewer for when the project
 started. You can get equalizer from
 [@https://sourceforge.net/projects/equalizer/files/ sourceforge].
 
-  $ sudo aptitude install uuid-dev bison flex
+[:$ sudo aptitude install uuid-dev bison flex
+
   $ make -j4
-  $ sudo make install
+  
+  $ sudo make install]
 
 For developing libMaoni with IceT you also need to install the following:
-[teletype]
 
-  $ sudo aptitude install libopenmpi-dev
+[:$ sudo aptitude install libopenmpi-dev]
 
 
 Now let us build libMaoni! Still in the terminal create a "build" folder as
 child the libMaoni project folder:
 
-  $ cd libMaoni
-  $ mkdir build
+[:$ cd libMaoni
+
+  $ mkdir build]
 
 Enter this folder and create the Makefiles:
 
-  $ cd build
-  $ cmake ..
+[:$ cd build
+
+  $ cmake ..]
 
 If there are still some dependencies missing you will get an error now.
 
@@ -172,7 +172,7 @@ installers here's the how-to.
     [[`Qt libraries 4.6.2 for MAC OS X`]  [[@http://qt.nokia.com/downloads]]]
     [[`QGLViewer`]  [[@http://www.libqglviewer.com/download.html]]]
     [[`lib3ds`]  [[@http://code.google.com/p/lib3ds/]]]
-    [[`wget`]  [[@http://rudix.org/packages-uvw.html#wget]] oder MacPorts]
+    [[`wget`]  [[@http://rudix.org/packages-uvw.html#wget]]]
     [[`glew`]  [[@http://glew.sourceforge.net/]]]
 ]
 

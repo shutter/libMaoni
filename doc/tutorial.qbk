@@ -7,7 +7,7 @@ The simplest application built on Maoni consist of zero lines of code.
 
 [section Custom File Loader]
 So we start by implementing a loader for meshes. To do so, declare a class and
-inherit from `MeshLoader`. You will have to implement three virtual functions:
+inherit from [classref MeshLoader]. You will have to implement three virtual functions:
 
 # `name()` shall return the name of your loader.
 # `extension()` shall return the file extension (without the dot).
@@ -56,11 +56,11 @@ they will register themselves automatically.
 [endsect]
 
 [section Custom Render Algorithm]
-Implementing rendering algorithms with libMaoni is very similar to implementing mesh
+Implementing rendering algorithms with libMaoni is very similar to mesh
 loaders. Again you just inherit your class from a provided parent, implement virtual
-functions and create an instance. Again we provide a macro as a shortcut.
+functions and create an instance. Again we provide a macro as shortcut.
 
-Inherit from [classref Algorithm] and implement the following functions:
+Inherit from [classref RenderAlgorithm] and implement the following functions:
 
 # `name()` shall return the name of your renderer.
 # `render()` contains your rendering code.
@@ -68,56 +68,62 @@ Inherit from [classref Algorithm] and implement the following functions:
   used to populate the user interface, serialize settings into XML and distribute
   them to other instances when rendering in parallel.
 
-  example source
+
+  class FixedFunction: public ``[classref RenderAlgorithm]``
+  	{
+  	public:
+  		FixedFunction() : wired(false) , vertex_normals(false) , 
+  		ambient(Color(0.24725, 0.1995, 0.0745, 1.0)) , 
+  		diffuse(Color(0.75164, 0.60648, 0.22648, 1.0)) , 
+  		specular(Color(0.628281, 0.555802, 0.366065, 0.0)) , 
+  		shininess(51.2)   {}
+  
+  		const char* name() const { return "FixedFunction"; }
+  
+  		void render(const Model& model) const;
+  
+  		void config(AlgorithmConfig& manager)
+  		{
+  			manager.property("wired", wired); 
+  			manager.property("vertex_normals", vertex_normals); 
+  			manager.property("ambient", ambient); 
+  			manager.property("diffuse", diffuse); 
+  			manager.property("specular", specular); 
+  			manager.property("shininess", shininess);
+  		}
+  
+  	private:
+  		bool wired; 
+  		bool vertex_normals; 
+  		Color ambient; 
+  		Color diffuse; 
+  		Color specular; 
+  		float shininess;
+  
+  		static FixedFunction instance;
+  	};
+  
+  	FixedFunction  FixedFunction::instance;
+  	void FixedFunction::render(const Model& model) const
+
 
 [macroref RENDER_ALGORITHM] helps you save some boilerplate: 
 
-  example source  
-
-[endsect]
-
-[section Enumerations]
-
-  some explanations
-
-[/  
-
-You probably will use libMaoni mainly to develop or test your own (parallel) renderer 
-where you can benefit of the GUI, OpenGL context, UI event-handling and so forth, on 
-which you don't have to care of.
-
-If you have a look at the algorithms folder, you will find some simple examples on how 
-to use parameters, textures and shader for your algorithm. As you can see from the 
-following code, we use macros and this for several reasons:
-
-# Reduce of complexity – the macros will expand to state of the art C++ code
-# Syntax highlighting – you are able to program your algorithms/shader in your favorite 
-IDE having C++ highlighting
-# Resource creation and access – you do not have to care about registering GUI parameters 
-and OpenGL textures
-
-To get a feeling, we will analyze the structure of a simple fixed function algorithm 
-without shader:
-
   RENDER_ALGORITHM(FixedFunction,
+  		(bool, wired, false)
+  		(bool, vertex_normals, false)
   		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
   		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
   		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
   		(float, shininess, 51.2))
   {
-  	glEnable(GL_COLOR_MATERIAL);
-  	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-  	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-  	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-  	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
-  
+  	...
   	model.draw();
   }
 
-The macro [macroref RENDER_ALGORITHM] expands the code above to the render algorithm 
-class by the name ['FixedFunction]. The sequence of parameters will available in the 
-render algorithm widget so you can modify the behavior of your algorithm while 
-rendering in one of libMaoni's viewer. The following data structures can be used:
+The sequence of parameters will be available in the render algorithm widget so you can 
+modify the behavior of your algorithm while rendering in one of libMaoni's viewer.
+The following data structures can be used:
 
 [table:1 libMaoni make parameters
     [[name] [data structure]]
@@ -130,97 +136,75 @@ rendering in one of libMaoni's viewer. The following data structures can be used
     [[Color] [Adds a color picker dialog]]
 ]
 
+As you can see in the FixedFunction code above, there will be settings for drawing the model 
+only wired, additionaly draw the vertex normals and to set the model's material properties. 
+The draw function is provided by the model data structure and contains a simple triangle renderer.
+
 [tip You will find these data structures in the example algorithms.]
 
-As you can see in the fixed function code above, there will be four settings in the 
-algorithm widget to set the material properties of the model. The draw function is 
-provided by the model data structure and contains a simple triangle renderer.
-
 [endsect]
 
-[section Custom Shader Programs]
+[section Enumerations]
 
-There are two macros, one for vertex and another for fragment shader. Have a look at 
-the sample code for sphere mapping:
+Enumerators will appear as drop-down menu in the algorithm widget. To make the selection avaiable 
+in the render algorithm, the enumarator is implemented as class:
 
-  SHADER_SOURCE(vertex_source, (version 120),
-  
-  	varying vec3 normal;
-  
-  	void main()
+  class ColorSelect: public ``[classref Enum]``
   	{
-  		normal = gl_NormalMatrix * gl_Normal;
+  	public:
+  		ColorSelect(int value) :
+  		Enum(value)
+  		{
+  		}
   
-  		gl_Position = ftransform();
+  		enum
+  		{
+  			Red, Green, Blue
+  		};
+  
+  	private:
+  		int size() const
+  		{
+  			return 3;
+  		}
+  
+  		const char* const * names() const
+  		{
+  			static const char* const name_stack[] =
+  				{ "Red", "Green", "Blue",   0 };
+  			return name_stack;
+  		}
   	}
+
+[macroref ENUM] expands to the code above:
+
+  ENUM(ColorSelect,
+  	(Red)
+  	(Green)
+  	(Blue)
   );
-  
-  SHADER_SOURCE(fragment_source, (version 120),
-  
-  	uniform sampler2D texture;
-  	varying vec3 normal;
-  
-  	void main()
-  	{
-  		gl_FragColor = texture2D(texture, vec2(0.5) + 0.5 * normalize(normal).xy);
-  	}
-  );
-  
-  SHADER_PROGRAM(SphereMappingShader,
-  	(VERTEX, vertex_source)(FRAGMENT, fragment_source),
-  );
-  
-  RENDER_ALGORITHM(SphereMapping,
-  	(ShaderProgram, shader, SphereMappingShader())
-  	(Texture, sphere_texture, "../examples/Models/sphere3.jpg")
+
+Put the enumerator to your algorithm's parameter list and use it e.g. in a switch case struct: 
+
+  RENDER_ALGORITHM(EnumExample, 
+  	(ColorSelect, color_select, ColorSelect::Green)
   )
   {
-  	ScopedDisable lighting_lock(GL_LIGHTING);
-  	ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
-  	ScopedBindTexture texture_lock(sphere_texture);
-  	ScopedUseProgram shader_lock(shader);
-  
-  	model.draw();
-  }
-
-The first three code blocks are necessary for using shaders, the last one you already 
-know from the algorithm tutorial. They shader macros have the following structure: 
-
-  ``[macroref SHADER_SOURCE]``(shader_source_name, (version GLSL),
-  	shader_variables;
-  
-  	void main()
+  	switch (color_select)
   	{
-  		shader_code;
+  	case ColorSelect::Red:
+  		...
+  		break;
+  	case ColorSelect::Green:
+  		...
+  		break;
+  	case ColorSelect::Blue:
+  		...
+  		break;
+  	default:
+  		...
   	}
-  };
-
-You have to register your shaders to the [macroref SHADER_PROGRAM] and map the shader 
-program to the render algorithm widget in the parameter sequence as well as lock the 
-shader for use:
-
-  ScopedUseProgram shader_lock(shader);
-
-[tip This is also a macro having the structure ScopedUseProgram ['shader_name]_lock(['shader_name])]
-
-[section Texture macros]
-In the shader example code you could see the use of textures e.g.: 
-
-  ScopedDisable lighting_lock(GL_LIGHTING);
-  ScopedEnable texture_2D_lock(GL_TEXTURE_2D);
-  ScopedBindTexture texture_lock(sphere_texture);
-
-# disable lighting
-# enable a 2D texture named ['texture]
-# bind the image file chosen by the ['sphere_texture] parameter to ['texture].
-
-[note The macro names sometimes contain the name of the variables used. Have a look at 
-the exampel algorithms to get an idea on how to use the lock macros for one or multiple 
-textures.]
-
-[endsect]
-
-]
+  }
 
 [endsect]
 
@@ -271,5 +255,44 @@ Will expand to:
 To instanciate your shader program, use it as a member of your rendering algorithm.
 Note that `ShaderProgram` and all derived classes convert implicitely to `GLuint`, so
 you can pass a shader object directly to `glUseProgram`.
+
+[section ScopedLocks macros]
+ScopedLocks are an implementation of the Resource Acquisition Is Initialization pattern (RAII).
+If you change an OpenGL state in your render algorithm and then switch to another one, that algorithm 
+probably will run on parameters which were not intened by the author. So wrap changes to OpenGL in a
+ScopedLock and it will assure the parameter is resetted to the state before when the destructor
+is called. The same goes for shader programs and textures.
+
+LibMaoni has four kind of ScopedLocks avaiable:
+
+* [classref ScopedEnable] to enable an OpenGL state
+* [classref ScopedDisable] to disable an OpenGL state
+* [classref ScopedUseProgram] to activate a shader program
+* [classref ScopedBindTexture] to bind a texture
+
+[endsect]
+
+[section MultiTexturing]
+Textures are loaded in the render algorithm and mapped to a uniform variable (e.g. uniform sampler2D) of a shader program.
+Use [classref ScopedBindTexture] to temporarily bind your texture and glUniform1i for the mapping.
+For every texture you need a pair of those in your render algorithm:
+
+  ScopedBindTexture tex1_lock(tex1, GL_TEXTURE0);
+  ScopedBindTexture tex2_lock(tex2, GL_TEXTURE1);
+  ScopedUseProgram shader_lock(shader);
+  glUniform1i(glGetUniformLocation(shader, "tex1"), 0);
+  glUniform1i(glGetUniformLocation(shader, "tex2"), 0);
+
+[caution the shader program has to be compiled and loaded (e.g. by [classref ScopedUseProgram]) before you can map uniform variables!]
+
+[note If you would like to use some other binding parameters feel free to implement the binding directly 
+in the render algorithm. Just do not forget to reset states after drawing or you will probably end in 
+debugging side effects.]
+
+[note The texture name appears as uniform variable in the shader program and - if settable by the user - as 
+Texture object in the render algorithm's parameter list. glUniform1i uses the uniform variable name, the ScopedLock 
+the Texture object.]
+
+[endsect]
 [endsect]
 [endsect]
