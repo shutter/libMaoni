@@ -14,13 +14,14 @@ else(MSVC)
   add_definitions(-fPIC)
 endif(MSVC)
 
-set(CTOOLBOX_USE_FILE ${CMAKE_BINARY_DIR}/UseCToolBox.cmake)
-file(DOWNLOAD
-  http://github.com/purpleKarrot/CToolBox/raw/master/UseCToolBox.cmake
-  ${CTOOLBOX_USE_FILE})
-include(${CTOOLBOX_USE_FILE})
+#set(CTOOLBOX_USE_FILE ${CMAKE_BINARY_DIR}/UseCToolBox.cmake)
+#file(DOWNLOAD
+#  http://github.com/purpleKarrot/CToolBox/raw/master/UseCToolBox.cmake
+#  ${CTOOLBOX_USE_FILE})
+#include(${CTOOLBOX_USE_FILE})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR}/CToolBox)
 
 
 include(Extract)
