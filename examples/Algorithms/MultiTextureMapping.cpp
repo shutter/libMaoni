@@ -86,7 +86,6 @@ RENDER_ALGORITHM(MultiTexture,
 	ScopedDisable lighting_lock(GL_LIGHTING);
 	ScopedEnable tex_2D_lock(GL_TEXTURE_2D);
 	ScopedBindTexture tex_lock(tex, GL_TEXTURE0);
-	ScopedEnable l3d_2D_lock(GL_TEXTURE_2D);
 	ScopedBindTexture l3d_lock(l3d, GL_TEXTURE1);
 	ScopedUseProgram shader_lock(shader);
 
