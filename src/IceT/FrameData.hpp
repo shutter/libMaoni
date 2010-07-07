@@ -26,7 +26,8 @@
 class FrameDataIceT: public FrameData
 {
 public:
-	FrameDataIceT(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack);
+	FrameDataIceT(RenderAlgorithm* algorithm_stack,
+			MeshLoader* mesh_loader_stack);
 	~FrameDataIceT();
 
 	bool master() const
@@ -43,17 +44,59 @@ public:
 
 	void resize(int w, int h);
 
-	int getMWidth() const{
+	virtual int getMWidth() const
+	{
 		return mwidth;
 	}
 
-	int getMHeight() const{
+	virtual int getMHeight() const
+	{
 		return mheight;
 	}
 
+	virtual void setLightChanged()
+	{
+		change ^= LIGHT_CHANGED;
+	}
+
+	virtual void setModelChanged()
+	{
+		change ^= MODEL_CHANGED;
+	}
+
+	virtual void setRalgoChanged()
+	{
+		change ^= RALGO_CHANGED;
+	}
+
+	virtual void setRendererChanged()
+	{
+		change ^= RENDERER_CHANGED;
+	}
+
+	virtual void setTilesChanged()
+	{
+		change ^= TILES_CHANGED;
+	}
+
+	virtual bool getTilesChanged() const
+	{
+		return ( (change & TILES_CHANGED) == TILES_CHANGED );
+	}
 private:
 	boost::mpi::communicator world;
 	int mwidth, mheight;
+
+	enum change_bits
+	{
+		LIGHT_CHANGED = 1,
+		MODEL_CHANGED = 2,
+		RALGO_CHANGED = 4,
+		RENDERER_CHANGED = 8,
+		TILES_CHANGED = 16
+	};
+
+	int change;
 
 public:
 	std::vector<Tile> tiles;

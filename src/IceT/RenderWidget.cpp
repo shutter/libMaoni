@@ -56,8 +56,8 @@ void RenderWidgetIceT::static_draw()
 void RenderWidgetIceT::paintGL()
 {
 	preDraw();
-	// TODO: if(tiles_changed)
-	resizeWindow();
+	if (framedata.getTilesChanged())
+		resizeWindow();
 
 	framedata.animate();
 	icetDrawFrame();
@@ -73,9 +73,7 @@ void RenderWidgetIceT::stopAnimation()
 
 void RenderWidgetIceT::resizeWindow()
 {
-	FrameDataIceT framedata_ = dynamic_cast<FrameDataIceT &>( framedata );
-
-	setMinimumSize ( framedata_.getMWidth(), framedata_.getMHeight() );
-	setMaximumSize ( framedata_.getMWidth(), framedata_.getMHeight() );
-	framedata.resize( framedata_.getMWidth(), framedata_.getMHeight() );
+	setMinimumSize(framedata.getMWidth(), framedata.getMHeight());
+	setMaximumSize(framedata.getMWidth(), framedata.getMHeight());
+	framedata.resize(framedata.getMWidth(), framedata.getMHeight());
 }

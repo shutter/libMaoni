@@ -30,7 +30,7 @@ class FrameData
 {
 public:
 	FrameData(RenderAlgorithm* algorithm_factory_stack,
-		MeshLoader* mesh_loader_stack);
+			MeshLoader* mesh_loader_stack);
 
 	FrameData(FrameData const& other);
 
@@ -67,11 +67,13 @@ public:
 
 	void draw() const;
 
-	void enable_logo(bool render){
+	void enable_logo(bool render)
+	{
 		logo.set_render(render);
 	}
 
-	void set_logo_path(std::string path){
+	void set_logo_path(std::string path)
+	{
 		logo.set_path(path);
 	}
 
@@ -89,6 +91,38 @@ public:
 	virtual void resize(int width, int height)
 	{
 		logo.calc_pos(width, height);
+	}
+
+	virtual int getMWidth() const
+	{
+	}
+
+	virtual int getMHeight() const
+	{
+	}
+
+	virtual void setLightChanged()
+	{
+	}
+
+	virtual void setModelChanged()
+	{
+	}
+
+	virtual void setRalgoChanged()
+	{
+	}
+
+	virtual void setRendererChanged()
+	{
+	}
+
+	virtual void setTilesChanged()
+	{
+	}
+
+	virtual bool getTilesChanged() const
+	{
 	}
 
 public:

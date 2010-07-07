@@ -23,12 +23,14 @@
 #include <GL/gl.h>
 
 FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
-	MeshLoader* mesh_loader_stack) :
+		MeshLoader* mesh_loader_stack) :
 	FrameData(algorithm_stack, mesh_loader_stack), //
-		world(), tiles(world.size())
+			world(), tiles(world.size())
 {
 	mwidth = 640;
 	mheight = 640;
+
+	change ^= TILES_CHANGED;
 
 	int rows = sqrt(tiles.size());
 	for (std::size_t i = 0; i < tiles.size(); ++i)
@@ -53,15 +55,15 @@ void FrameDataIceT::animate()
 
 	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
 	broadcast(world, matrix, 0);
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode( GL_PROJECTION);
 	glLoadMatrixd(matrix);
 
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
 	broadcast(world, matrix, 0);
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode( GL_MODELVIEW);
 	glLoadMatrixd(matrix);
 
-	// TODO: if(tiles_changed)
+	if ((change & TILES_CHANGED) == TILES_CHANGED)
 	{
 		broadcast(world, tiles, 0);
 
@@ -80,14 +82,14 @@ void FrameDataIceT::animate()
 			if (i == world.rank())
 			{
 				icetBoundingBoxf( //
-					tile.min.data[0], tile.max.data[0], //
-					tile.min.data[1], tile.max.data[1], //
-					tile.min.data[2], tile.max.data[2]);
+						tile.min.data[0], tile.max.data[0], //
+						tile.min.data[1], tile.max.data[1], //
+						tile.min.data[2], tile.max.data[2]);
 			}
 		}
 
-		icetGetIntegerv( ICET_TILE_MAX_WIDTH, &mwidth );
-		icetGetIntegerv( ICET_TILE_MAX_HEIGHT, &mheight );
+		icetGetIntegerv(ICET_TILE_MAX_WIDTH, &mwidth);
+		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &mheight);
 	}
 
 	//TODO: if (model_changed)
@@ -97,16 +99,18 @@ void FrameDataIceT::animate()
 	//			load_model(model_name);
 	//	}
 
-	//TODO: if (ralgo_changed)
+	if ((change & RALGO_CHANGED) == RALGO_CHANGED)
 	{
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
 	}
 
-	//TODO: if(settings_changed)
-	if (renderer)
-		broadcast(world, *renderer, 0);
+	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
+	{
+		if (renderer)
+			broadcast(world, *renderer, 0);
+	}
 }
 
 void FrameDataIceT::resize(int w, int h)
