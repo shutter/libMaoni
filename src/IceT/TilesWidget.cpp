@@ -100,6 +100,7 @@ void TilesWidget::update_browser()
 
 void TilesWidget::enum_changed(QtProperty* property, int value)
 {
+	//TODO: implement
 	std::cout << "set strategy to " << value << std::endl;
 }
 
@@ -117,6 +118,7 @@ void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
 		tile.sx = value.x();
 		tile.sy = value.y();
 	}
+	framedata.setTilesChanged();
 }
 
 void TilesWidget::vector_changed(QtProperty* property, QVector3D const& value)
@@ -131,4 +133,5 @@ void TilesWidget::vector_changed(QtProperty* property, QVector3D const& value)
 	{
 		tile.max = Vec3(value.x(), value.y(), value.z());
 	}
+	framedata.setTilesChanged();
 }

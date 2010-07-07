@@ -30,6 +30,7 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	mwidth = 640;
 	mheight = 640;
 
+	change = 0;
 	change ^= TILES_CHANGED;
 
 	int rows = sqrt(tiles.size());

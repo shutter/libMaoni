@@ -30,6 +30,24 @@ public:
 			MeshLoader* mesh_loader_stack);
 	~FrameDataIceT();
 
+	virtual void load_model(const char* filename)
+	{
+		setModelChanged();
+		FrameData::load_model(filename);
+	}
+
+	virtual void set_render_algorithm(std::string const& name)
+	{
+		setRalgoChanged();
+		FrameData::set_render_algorithm(name);
+	}
+
+	virtual Light& light(std::size_t i)
+	{
+		setLightChanged();
+		return FrameData::light(i);
+	}
+
 	bool master() const
 	{
 		return world.rank() == 0;
