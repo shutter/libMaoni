@@ -35,7 +35,7 @@ public:
 	{
 	}
 
-	virtual void load_model(const char* filename)
+	virtual void load_model(const std::string& filename)
 	{
 		setDirty(DIRTY_MODEL);
 		FrameData::load_model(filename);

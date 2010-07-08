@@ -23,6 +23,8 @@
 #include <boost/mpi/communicator.hpp>
 #include "Tile.hpp"
 
+#include <iostream>
+
 class FrameDataIceT: public FrameData
 {
 public:
@@ -30,7 +32,7 @@ public:
 			MeshLoader* mesh_loader_stack);
 	~FrameDataIceT();
 
-	virtual void load_model(const char* filename)
+	virtual void load_model(std::string const& filename)
 	{
 		setModelChanged();
 		FrameData::load_model(filename);
@@ -74,33 +76,38 @@ public:
 
 	virtual void setLightChanged()
 	{
-		change ^= LIGHT_CHANGED;
+		change |= LIGHT_CHANGED;
 	}
 
 	virtual void setModelChanged()
 	{
-		change ^= MODEL_CHANGED;
+		change |= MODEL_CHANGED;
 	}
 
 	virtual void setRalgoChanged()
 	{
-		change ^= RALGO_CHANGED;
+		change |= RALGO_CHANGED;
 	}
 
 	virtual void setRendererChanged()
 	{
-		change ^= RENDERER_CHANGED;
+		change |= RENDERER_CHANGED;
 	}
 
 	virtual void setTilesChanged()
 	{
-		change ^= TILES_CHANGED;
+		change |= TILES_CHANGED;
 	}
 
-	virtual bool getTilesChanged() const
+	virtual bool getDoResize() const
 	{
-		return ( (change & TILES_CHANGED) == TILES_CHANGED );
+		return do_resize;
 	}
+
+	virtual void setDoResize(bool flag){
+		do_resize = flag;
+	}
+
 private:
 	boost::mpi::communicator world;
 	int mwidth, mheight;
@@ -114,7 +121,8 @@ private:
 		TILES_CHANGED = 16
 	};
 
-	int change;
+	short change;
+	bool do_resize;
 
 public:
 	std::vector<Tile> tiles;

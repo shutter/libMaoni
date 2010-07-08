@@ -121,7 +121,11 @@ public:
 	{
 	}
 
-	virtual bool getTilesChanged() const
+	virtual bool getDoResize() const
+	{
+	}
+
+	virtual void setDoResize(bool flag)
 	{
 	}
 

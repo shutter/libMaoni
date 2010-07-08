@@ -31,7 +31,6 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	mheight = 640;
 
 	change = 0;
-	change ^= TILES_CHANGED;
 
 	int rows = sqrt(tiles.size());
 	for (std::size_t i = 0; i < tiles.size(); ++i)
@@ -52,6 +51,7 @@ FrameDataIceT::~FrameDataIceT()
 
 void FrameDataIceT::animate()
 {
+	broadcast(world, change, 0);
 	double matrix[16];
 
 	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
@@ -66,6 +66,8 @@ void FrameDataIceT::animate()
 
 	if ((change & TILES_CHANGED) == TILES_CHANGED)
 	{
+		setDoResize(true);
+
 		broadcast(world, tiles, 0);
 
 		icetResetTiles();
@@ -93,15 +95,26 @@ void FrameDataIceT::animate()
 		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &mheight);
 	}
 
-	//TODO: if (model_changed)
-	//	{
-	//		broadcast(world, model_name, 0);
-	//		if (!master())
-	//			load_model(model_name);
-	//	}
+	if ((change & LIGHT_CHANGED) == LIGHT_CHANGED)
+	{
+		std::cout << "light changed" << std::endl;
+
+		broadcast(world, lights, 0);
+	}
+
+	if ((change & MODEL_CHANGED) == MODEL_CHANGED)
+	{
+		std::cout << "model changed" << std::endl;
+
+		broadcast(world, model_name, 0);
+		if (!master())
+			load_model(model_name.c_str());
+	}
 
 	if ((change & RALGO_CHANGED) == RALGO_CHANGED)
 	{
+		std::cout << "ralgo changed" << std::endl;
+
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
@@ -109,9 +122,13 @@ void FrameDataIceT::animate()
 
 	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
 	{
+		std::cout << "renderer changed" << std::endl;
+
 		if (renderer)
 			broadcast(world, *renderer, 0);
 	}
+
+	change = 0;
 }
 
 void FrameDataIceT::resize(int w, int h)

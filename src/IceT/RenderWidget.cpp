@@ -56,8 +56,11 @@ void RenderWidgetIceT::static_draw()
 void RenderWidgetIceT::paintGL()
 {
 	preDraw();
-	if (framedata.getTilesChanged())
+	if (framedata.getDoResize())
+	{
 		resizeWindow();
+		framedata.setDoResize(false);
+	}
 
 	framedata.animate();
 	icetDrawFrame();
