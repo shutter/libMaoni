@@ -60,7 +60,7 @@ public:
 		return lights[i];
 	}
 
-	const Light& light(std::size_t i) const
+	virtual const Light& light(std::size_t i) const
 	{
 		return lights[i];
 	}

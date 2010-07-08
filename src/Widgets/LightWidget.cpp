@@ -123,7 +123,8 @@ void LightWidget::update_combobox()
 void LightWidget::choose(int i)
 {
 	current_id = i;
-	const Light& light = framedata.light(i);
+	const FrameData& framedatac = framedata;
+	const Light& light = framedatac.light(i);
 
 	property_browser->clear();
 

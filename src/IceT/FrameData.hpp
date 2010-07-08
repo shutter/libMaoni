@@ -50,6 +50,11 @@ public:
 		return FrameData::light(i);
 	}
 
+	virtual const Light& light(std::size_t i) const
+	{
+		return FrameData::light(i);
+	}
+
 	bool master() const
 	{
 		return world.rank() == 0;
