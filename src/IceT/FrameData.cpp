@@ -33,12 +33,14 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	change = 0;
 
 	int rows = sqrt(tiles.size());
+	std::cout << "rows: " << rows << std::endl;
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		int col = i / rows;
 		int row = i % rows;
 
-		tiles[i].visible = true; //i == 0;
+		if (i == 0)
+			tiles[i].visible = true;
 
 		tiles[i].x = col * 640;
 		tiles[i].y = row * 480;
@@ -75,12 +77,12 @@ void FrameDataIceT::animate()
 		{
 			Tile& tile = tiles[i];
 
-			//if (tile.visible)
-			//{
-			broadcast(world, tile.sx, i);
-			broadcast(world, tile.sy, i);
-			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
-			//}
+			if (tile.visible)
+			{
+				broadcast(world, tile.sx, i);
+				broadcast(world, tile.sy, i);
+				icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
+			}
 
 			if (i == world.rank())
 			{

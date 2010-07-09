@@ -40,6 +40,8 @@ void Logo::draw() const
 		glActiveTexture( GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
+		GLfloat color[4];
+		glGetFloatv( GL_CURRENT_COLOR, color);
 		glColor4f(1.f, 1.f, 1.f, 1.f);
 
 		glBegin( GL_QUADS);
@@ -54,6 +56,8 @@ void Logo::draw() const
 			glVertex2f(pos_x1, pos_y1); // Top left of the texture and quad
 		}
 		glEnd();
+
+		glColor4fv(color);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);

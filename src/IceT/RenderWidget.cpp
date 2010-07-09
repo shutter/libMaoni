@@ -39,8 +39,6 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	// slaves should animate from the beginning
 	if (!framedata.master())
 		startAnimation();
-
-	//framedata.resize(width(), height());
 }
 
 RenderWidgetIceT::~RenderWidgetIceT()
