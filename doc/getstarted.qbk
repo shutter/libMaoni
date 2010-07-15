@@ -5,6 +5,32 @@
 [endsect]
 
 [section Parallel Rendering]
+For Equalizer as well as IceT the master node needs remote access to the 
+render clients without password prompt. Install [@apt://openssh-server OpenSSH Server] 
+on the clients, create a key pair on the master and copy the public key to the 
+authorized_keys file on the clients ([@http://www.open-mpi.org/faq/?category=rsh#ssh-keys How-To]). 
+You have to login once to accept the connection before the client can be used 
+for parallel rendering.
+
+[table MPI, IceT and Equalizer resources
+    [[Resource] [URL]]
+    [[`OpenSSHKeys`]  [[@https://help.ubuntu.com/community/SSH/OpenSSH/Keys]]]
+    [[`Open MPI`]  [[@http://www.open-mpi.org/]]]
+    [[`Open MPI FAQ`]    [[@http://www.open-mpi.org/faq/]]]
+    [[`IceT Project`]  [[@http://www.cs.unm.edu/~kmorel/IceT/]]]
+    [[`IceT User Guide`]  [[@http://www.cs.unm.edu/~kmorel/IceT/IceTUsersGuide.pdf]]]
+]
+
+[section IceT]
+
+Parallel rendering using IceT needs [@apt://libopenmpi-dev Open MPI] installed. 
+Install, build or copy libMaonis's IceT binary to the same workpath on all the 
+machines. Start the application e.g.:
+
+[:$ mpirun -np \[number of processes\] --host \[comma separated host names\] \[path to executable\] -display :0]
+
+[endsect]
+
 [endsect]
 
 [section Building from Source]
@@ -82,7 +108,7 @@ commit to your remote repository on github:
 [:$ git push origin master]
 
 [note Remember the repository names!]
-[table:1 GIT repository names
+[table GIT repository names
     [[Reference] [Location]]
     [[`upstream`]   [git://github.com/purpleKarrot/libMaoni.git (read only)]]
     [[`origin`]  	[your remote repository on github.com (read and write)]]
@@ -145,7 +171,7 @@ If there are still some dependencies missing you will get an error now.
 
 The different kinds of building libMaoni are controlled by make arguments, e.g.:
 
-[table:2 libMaoni make parameters
+[table libMaoni make parameters
     [[Parameter] [Build]]
     [[`$ make examples`]      [compiles the viewer including file-loaders and algorithms]]
     [[`$ make libMaoni-man`]  [creates the unix manpages]]
@@ -164,7 +190,7 @@ installers here's the how-to.
 
 [section Developing libMaoni on Mac OSX]
 
-[table:3 necessary tools and libraries on Mac OSX
+[table necessary tools and libraries on Mac OSX
     [[Software] [URL]]
     [[`GIT`]    [[@http://code.google.com/p/git-osx-installer/]]]
     [[`CMAKE`]  [[@http://cmake.org/]]]
@@ -195,7 +221,7 @@ There is some software you need to be able to checkout the git-repository and to
 build libMaoni. Sometimes there are several products avaiable but here's a list 
 of software we tested and used our own.
 
-[table:4 necessary tools and libraries on Windows
+[table necessary tools and libraries on Windows
     [[Software] [URL]]
     [[`GIT`]      [[@http://code.google.com/p/msysgit/]]]
     [[`CMAKE`]  [[@http://cmake.org/]]]
