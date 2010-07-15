@@ -44,4 +44,5 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 
 	model.calculate_normals();
 	model.fix_scale();
+	model.generate_vbo();
 }

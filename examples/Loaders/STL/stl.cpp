@@ -74,4 +74,5 @@ MESH_LOADER(stl, StereoLithography)
 
 	model.calculate_normals();
 	model.fix_scale();
+	model.generate_vbo();
 }

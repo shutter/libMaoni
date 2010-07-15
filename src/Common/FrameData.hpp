@@ -129,6 +129,11 @@ public:
 	{
 	}
 
+	virtual void setDrawRange(unsigned int myrank, unsigned int ranks)
+	{
+		model_.setDrawRange(myrank, ranks);
+	}
+
 public:
 	void export_scene(const char* filename);
 	void import_scene(const char* filename);

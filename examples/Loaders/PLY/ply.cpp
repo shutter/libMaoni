@@ -166,4 +166,5 @@ MESH_LOADER(ply, Stanford PLY)
 
 	model.calculate_normals();
 	model.fix_scale();
+	model.generate_vbo();
 }
