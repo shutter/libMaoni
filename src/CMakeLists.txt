@@ -18,6 +18,7 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
 
+
 add_definitions(-DBOOST_ALL_NO_LIB)
 
 find_package(Boost COMPONENTS serialization)
@@ -57,6 +58,12 @@ if(NOT Boost_SERIALIZATION_FOUND)
     )
   set(Boost_LIBRARIES ${Boost_LIBRARIES} boost_serialization)
 endif(NOT Boost_SERIALIZATION_FOUND)
+
+
+include(Extract)
+extract(${CMAKE_CURRENT_SOURCE_DIR}/boost-la.zip ${CMAKE_BINARY_DIR}/include)
+include_directories(${CMAKE_BINARY_DIR}/include)
+
 
 add_subdirectory(Common)
 add_subdirectory(Widgets)

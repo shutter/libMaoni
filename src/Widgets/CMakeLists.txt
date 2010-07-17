@@ -11,3 +11,5 @@ add_library(MaoniWidgets STATIC
   ${MAONI_WIDGETS_MOC}
   ${MAONI_WIDGETS_RCC}
   )
+
+add_dependencies(MaoniWidgets QtPropertyBrowser)

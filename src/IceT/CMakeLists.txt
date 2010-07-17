@@ -83,3 +83,16 @@ target_link_libraries(MaoniIceT
   boost_mpi
   icet icet_mpi icet_strategies
   )
+
+install(TARGETS MaoniIceT
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  COMPONENT devlibs
+  )
+
+if(WIN32)
+  install(TARGETS MaoniIceT
+    RUNTIME DESTINATION bin
+    COMPONENT runlibs
+    )
+endif(WIN32)
