@@ -34,6 +34,16 @@ public:
 
 	FrameData(FrameData const& other);
 
+	virtual	int myrank() const
+	{
+		return 0;
+	}
+
+	virtual	int ranks() const
+	{
+		return 1;
+	}
+
 	virtual void load_model(std::string const& filename);
 
 	virtual void set_render_algorithm(std::string const& name);
@@ -127,11 +137,6 @@ public:
 
 	virtual void setDoResize(bool flag)
 	{
-	}
-
-	virtual void setDrawRange(unsigned int myrank, unsigned int ranks)
-	{
-		model_->setDrawRange(myrank, ranks);
 	}
 
 public:

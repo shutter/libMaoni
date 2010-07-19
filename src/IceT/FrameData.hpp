@@ -60,9 +60,14 @@ public:
 		return world.rank() == 0;
 	}
 
-	int rank() const
+	int myrank() const
 	{
 		return world.rank();
+	}
+
+	int ranks() const
+	{
+		return world.size();
 	}
 
 	void animate();

@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include "../VBOModel.hpp"
 #include "plyfile.h"
 #include <boost/cstdint.hpp>
 #include <stdexcept>
@@ -93,7 +94,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 
 MESH_LOADER(ply, Stanford PLY)
 {
-	model->clear();
+	model.reset(new VBOModel);
 
 	int nPlyElems;
 	char** elemNames;
@@ -164,7 +165,8 @@ MESH_LOADER(ply, Stanford PLY)
 		free(elemNames[i]);
 	free(elemNames);
 
+	dynamic_cast<VBOModel*>(model.get())->setDrawRange(myrank, ranks);
 	model->calculate_normals();
 	model->fix_scale();
-	model->generate_vbo();
+	dynamic_cast<VBOModel*>(model.get())->generate_vbo();
 }

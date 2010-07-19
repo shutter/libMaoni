@@ -111,7 +111,6 @@ void FrameDataIceT::animate()
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
-			FrameData::setDrawRange(world.rank(), tiles.size());
 	}
 
 	if ((change & RALGO_CHANGED) == RALGO_CHANGED)

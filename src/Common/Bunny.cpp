@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Maoni/Model.hpp>
+#include "Bunny.hpp"
 
 static float vertex_data[] = { 0.007426f, 0.057009f, 0.018721f, -0.007444f,
 	0.052014f, 0.002792f, 0.009992f, 0.056341f, 0.003380f, -0.067141f,
@@ -409,7 +409,7 @@ static unsigned short index_data[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 9,
 	275, 285, 146, 148, 414, 433, 428, 414, 432, 433, 374, 440, 375, 427, 375,
 	440, };
 
-void Model::reset()
+Bunny::Bunny()
 {
 	std::size_t num = sizeof(vertex_data) / (3 * sizeof(vertex_data[0]));
 	reserve_vertices(num);

@@ -24,66 +24,17 @@
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
-GLuint vboVertexBuffer; // ID of VBO for vertices
-GLuint vboNormalBuffer; // ID of VBO normals
-GLuint vboColorBuffer; // ID of VBO colors
-GLuint vboTexCoordBuffer; // ID of VBO texCoords
-GLuint vboIndexBuffer; // ID of VBO faces
-
 void Model::draw() const
 {
-	if (!vbo_loaded)
+	glBegin( GL_TRIANGLES);
+	for (size_t i = 0; i < indices.size(); i++)
 	{
-		std::cout << "no vbo!" << std::endl;
-		glBegin(GL_TRIANGLES);
-		for (size_t i = 0; i < indices.size(); i++)
-		{
-			glColor4fv(vertices[indices[i]].color);
-			glTexCoord2fv(vertices[indices[i]].texcoord);
-			glNormal3fv(vertices[indices[i]].normal);
-			glVertex3fv(vertices[indices[i]].position);
-		}
-		glEnd();
+		glColor4fv(vertices[indices[i]].color);
+		glTexCoord2fv(vertices[indices[i]].texcoord);
+		glNormal3fv(vertices[indices[i]].normal);
+		glVertex3fv(vertices[indices[i]].position);
 	}
-	else
-	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertexBuffer);
-		glVertexPointer(3, GL_FLOAT, 0, (char *) NULL); // Set The Vertex Pointer To The Vertex Buffer
-
-		glBindBuffer(GL_ARRAY_BUFFER, vboNormalBuffer);
-		glNormalPointer(GL_FLOAT, 0, (char *) NULL); // Set The Normal Pointer To The Normal Buffer
-
-		glBindBuffer(GL_ARRAY_BUFFER, vboColorBuffer);
-		glColorPointer(4, GL_FLOAT, 0, (char *) NULL); // Set The Color Pointer To The Color Buffer
-
-		glBindBuffer(GL_ARRAY_BUFFER, vboTexCoordBuffer);
-		glTexCoordPointer(2, GL_FLOAT, 0, (char *) NULL); // Set The TexCoord Pointer To The TexCoord Buffer
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
-
-		glDrawRangeElements(GL_TRIANGLES, start_, end_, count_,
-				GL_UNSIGNED_INT, (char *) NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
-}
-
-void Model::clear()
-{
-	vertices.clear();
-	indices.clear();
-	vbo_loaded = false;
+	glEnd();
 }
 
 bool Model::empty() const
@@ -189,109 +140,4 @@ void Model::fix_scale()
 			vertices[v].position.data[i] *= factor;
 		}
 	}
-}
-
-void Model::generate_vbo()
-{
-	vsize = vertices.size();
-	isize = indices.size();
-	std::cout << "vertices: " << vsize << " indices: " << isize << std::endl;
-
-	GLfloat* vbo_vertices = new GLfloat[vsize * 3];
-	GLfloat* vbo_normals = new GLfloat[vsize * 3];
-	GLfloat* vbo_colors = new GLfloat[vsize * 4];
-	GLfloat* vbo_texCoords = new GLfloat[vsize * 2];
-	GLuint* ibo_list = new GLuint[isize];
-
-	for (size_t i = 0; i < vsize; ++i)
-	{
-
-		vbo_vertices[i * 3] = vertices[i].position[0];
-		vbo_vertices[i * 3 + 1] = vertices[i].position[1];
-		vbo_vertices[i * 3 + 2] = vertices[i].position[2];
-		vbo_normals[i * 3] = vertices[i].normal[0];
-		vbo_normals[i * 3 + 1] = vertices[i].normal[1];
-		vbo_normals[i * 3 + 2] = vertices[i].normal[2];
-		vbo_colors[i * 4] = vertices[i].color[0];
-		vbo_colors[i * 4 + 1] = vertices[i].color[1];
-		vbo_colors[i * 4 + 2] = vertices[i].color[2];
-		vbo_colors[i * 4 + 3] = vertices[i].color[3];
-		vbo_texCoords[i * 2] = vertices[i].texcoord[0];
-		vbo_texCoords[i * 2 + 1] = vertices[i].texcoord[1];
-		/*		std::cout << vbo_vertices[i * 3] << " " << vbo_vertices[i * 3 + 1]
-		 << " " << vbo_vertices[i * 3 + 2] << " " << vbo_normals[i * 3]
-		 << " " << vbo_normals[i * 3 + 1] << " " << vbo_normals[i * 3
-		 + 2] << " " << vbo_colors[i * 4] << " "
-		 << vbo_colors[i * 4 + 1] << " " << vbo_colors[i * 4 + 2] << " "
-		 << vbo_colors[i * 4 + 3] << " " << vbo_texCoords[i * 2] << " "
-		 << vbo_texCoords[i * 2 + 1] << std::endl;*/
-	}
-
-	for (size_t i = 0; i < isize; ++i)
-	{
-		ibo_list[i] = indices[i];
-		// std::cout << ibo_list[i] << " ";
-	}
-
-	glGenBuffers(1, &vboIndexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize * sizeof(GLuint), ibo_list,
-			GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vboVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vboVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vsize * 3 * sizeof(GLfloat), vbo_vertices,
-			GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vboNormalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vboNormalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vsize * 3 * sizeof(GLfloat), vbo_normals,
-			GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vboColorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vboColorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vsize * 4 * sizeof(GLfloat), vbo_colors,
-			GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vboTexCoordBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vboTexCoordBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vsize * 2 * sizeof(GLfloat), vbo_texCoords,
-			GL_STATIC_DRAW);
-
-	delete[] ibo_list;
-	delete[] vbo_vertices;
-	delete[] vbo_normals;
-	delete[] vbo_colors;
-	delete[] vbo_texCoords;
-
-	start_ = 0;
-	end_ = isize;
-	count_ = isize;
-	vbo_loaded = true;
-}
-
-void Model::setStartVertex(unsigned int start)
-{
-	start_ = start;
-}
-void Model::setEndVertex(unsigned int end)
-{
-	if (end > end_)
-	{
-		count_ = isize;
-		end_ = isize;
-	}
-	else
-	{
-		count_ = end - start_;
-		end_ = end;
-	}
-}
-
-void Model::setDrawRange(unsigned int myrank, unsigned int ranks)
-{
-	int frag = isize / ranks;
-	setStartVertex(myrank * frag);
-	setEndVertex((myrank + 1) * (frag + 1));
-	std::cout << "start: " << start_ << "end: " << end_ << "count: " << count_ << std::endl;
 }

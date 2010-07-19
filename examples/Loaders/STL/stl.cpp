@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include "../VBOModel.hpp"
 #include <stdexcept>
 #include <iostream>
 
@@ -13,7 +14,7 @@
 
 MESH_LOADER(stl, StereoLithography)
 {
-	model->clear();
+	model.reset(new VBOModel);
 
 	// check if correct ascii stl file
 	if (stla_check(filename)) {
@@ -72,7 +73,8 @@ MESH_LOADER(stl, StereoLithography)
 	delete[] face_normal;
 	delete[] node_xyz;
 
+	dynamic_cast<VBOModel*>(model.get())->setDrawRange(myrank, ranks);
 	model->calculate_normals();
 	model->fix_scale();
-	model->generate_vbo();
+	dynamic_cast<VBOModel*>(model.get())->generate_vbo();
 }

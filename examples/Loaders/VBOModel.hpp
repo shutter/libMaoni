@@ -16,28 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAONI_MODEL_HPP
-#define MAONI_MODEL_HPP
+#ifndef MAONI_VBO_MODEL_HPP
+#define MAONI_VBO_MODEL_HPP
 
-#include <boost/scoped_ptr.hpp>
-#include <Maoni/Vertex.hpp>
-#include <vector>
+#include <Maoni/Model.hpp>
 
-//! The model class
-/*!
- The model class is libMaoni's default container for 3D data.
- Use a MeshLoader to fill in the vertex and index information.
- */
-
-class Model
+class VBOModel: public Model
 {
 public:
-	typedef boost::scoped_ptr<Model> Ptr;
-
-	//! Create an empty model
-	Model()
+	VBOModel()
 	{
 	}
+
+	//! Clear the model's index and vertex vector
+	void clear();
+
+	//! Reset the model to the Stanford Bunny
+	void reset();
 
 	//! Check whether the model contains data
 	/*!
@@ -92,13 +87,19 @@ public:
 	//! Calculate and normalize the vertex normals of the current vertex data
 	void calculate_normals();
 
-private:
-	Model(Model const&);
-	void operator=(Model const&);
+	void generate_vbo();
 
-protected:
+	void setStartVertex(unsigned int start);
+	void setEndVertex(unsigned int end);
+	void setDrawRange(unsigned int myrank, unsigned int ranks);
+
+private:
 	std::vector<Vertex> vertices;
 	std::vector<std::size_t> indices;
+
+	bool vbo_loaded;
+	unsigned int isize, vsize;
+	unsigned int start_, end_, count_;
 };
 
-#endif /* MAONI_MODEL_HPP */
+#endif /* MAONI_VBO_MODEL_HPP */
