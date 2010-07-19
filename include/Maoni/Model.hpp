@@ -34,7 +34,7 @@ public:
 	//! Creating a model object from scratch initialized by the Standford Bunny
 	Model() :
 		start_(0), end_(0), count_(0), ranks_(1), myrank_(0), //
-				isize(0), vsize(0), vbo_loaded(false)
+				isize(0), vsize(0), vbo_loaded(false), startindex((char *) NULL)
 	{
 		reset();
 	}
