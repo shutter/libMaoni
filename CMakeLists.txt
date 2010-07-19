@@ -14,20 +14,9 @@ else(MSVC)
   add_definitions(-fPIC)
 endif(MSVC)
 
-#set(CTOOLBOX_USE_FILE ${CMAKE_BINARY_DIR}/UseCToolBox.cmake)
-#file(DOWNLOAD
-#  http://github.com/purpleKarrot/CToolBox/raw/master/UseCToolBox.cmake
-#  ${CTOOLBOX_USE_FILE})
-#include(${CTOOLBOX_USE_FILE})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR}/CToolBox)
-
-
-include(Extract)
-extract(${CMAKE_SOURCE_DIR}/include/boost-la.zip ${CMAKE_BINARY_DIR}/include)
-install(DIRECTORY ${CMAKE_BINARY_DIR}/include/boost/la
-  DESTINATION include/boost COMPONENT boost_la)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CToolBox)
 
 
 if(WIN32)
@@ -38,7 +27,7 @@ if(WIN32)
 endif(WIN32)
 
 
-include_directories(include ${CMAKE_BINARY_DIR}/include)
+include_directories(include)
 install(DIRECTORY include/Maoni DESTINATION include COMPONENT headers)
 install(FILES include/Maoni.hpp DESTINATION include COMPONENT headers)
 
@@ -55,26 +44,23 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
   add_subdirectory(doc EXCLUDE_FROM_ALL)
 endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
+SET(CPACK_SOURCE_IGNORE_FILES "/[.][^/]*;${CMAKE_BINARY_DIR}/")
 
-set(CPACK_PACKAGE_NAME "Maoni")
+set(CPACK_PACKAGE_NAME "libMaoni")
 set(CPACK_PACKAGE_VENDOR "http://github.com/purpleKarrot/libMaoni")
-set(CPACK_PACKAGE_CONTACT "Daniel Pfeifer")
+set(CPACK_PACKAGE_CONTACT "Daniel Pfeifer <daniel@pfeifer-mail.de>")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "common viewing framework")
-set(CPACK_PACKAGE_VERSION "0.8.15")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "8")
-set(CPACK_PACKAGE_VERSION_PATCH "15")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "4")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Maoni")
 
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 
-set(CPACK_COMPONENTS_ALL boost_la headers devlibs runlibs)
+set(CPACK_COMPONENTS_ALL headers devlibs runlibs)
 
-set(CPACK_COMPONENT_BOOST_LA_DISPLAY_NAME "(Boost)LA")
-set(CPACK_COMPONENT_BOOST_LA_DESCRIPTION
-  "Boost LA provides a set of generic linear algebra algorithms, "
-  "primarily for working with vectors and matrices of static size.")
-
+set(CPACK_COMPONENT_HEADERS_GROUP dev)
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Headers")
 set(CPACK_COMPONENT_HEADERS_DESCRIPTION
   "C++ header files for use with Maoni")
@@ -88,6 +74,17 @@ set(CPACK_COMPONENT_RUNLIBS_DESCRIPTION
   "Libraries used to run Maoni based programs")
 
 set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/src/Icons/stanford-bunny.ico")
+
+set(CPACK_DPUT_HOST "ppa:purplekarrot/ppa")
+
+set(CPACK_DEBIAN_BUILD_DEPENDS
+  libqt4-dev
+  libqglviewer-qt4-dev
+  libboost1.40-dev
+  libboost-serialization1.40-dev
+  libglew1.5-dev
+  libopenmpi-dev
+  )
 
 #todo: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
 

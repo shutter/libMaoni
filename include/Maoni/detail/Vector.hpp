@@ -21,7 +21,6 @@
 
 #include <boost/assert.hpp>
 #include <boost/static_assert.hpp>
-#include <boost/la/vector_assign.hpp>
 
 namespace detail
 {
@@ -32,14 +31,6 @@ struct VectorBase
 	operator const float*() const
 	{
 		return data;
-	}
-
-	template<class R>
-	operator R() const
-	{
-		R r;
-		boost::la::assign(r, *this);
-		return r;
 	}
 
 	float data[D];

@@ -2,6 +2,12 @@
 [section Getting Started]
 
 [section Installing and Using]
+Users of Ubuntu and Ubuntu derivatives (such as Kubuntu) rejoice! 
+
+[: sudo add-apt-repository ppa:purplekarrot/ppa
+   sudo apt-get update
+   sudo apt-get install maoni]
+
 [endsect]
 
 [section Parallel Rendering]

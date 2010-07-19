@@ -7,6 +7,7 @@
 
 #include <GL/glew.h>
 #include <Maoni.hpp>
+#include <cmath>
 #include "Teaset.h"
 
 static void qglviewer_spiral()
@@ -19,13 +20,13 @@ static void qglviewer_spiral()
 	{
 		const float ratio = i / nbSteps;
 		const float angle = 21.f * ratio;
-		const float c = cos(angle);
-		const float s = sin(angle);
+		const float c = std::cos(angle);
+		const float s = std::sin(angle);
 		const float r1 = 1.f - 0.8f * ratio;
 		const float r2 = 0.8f - 0.8f * ratio;
 		const float alt = ratio - 0.5f;
 		const float nor = 0.5f;
-		const float up = sqrt(1.f - nor * nor);
+		const float up = std::sqrt(1.f - nor * nor);
 		glColor3f(1.f - ratio, 0.2f, ratio);
 		glNormal3f(nor * c, up, nor * s);
 		glVertex3f(r1 * c, alt, r1 * s);

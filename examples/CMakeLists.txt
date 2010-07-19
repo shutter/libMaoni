@@ -3,7 +3,8 @@
 ##############################################################
 find_package(Boost REQUIRED)
 find_package(GLEW  REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIRS} ${GLEW_INCLUDE_DIR}
+   ${CMAKE_BINARY_DIR}/include)
 
 add_custom_target(examples)
 
