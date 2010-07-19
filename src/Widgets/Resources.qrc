@@ -2,5 +2,6 @@
 <RCC version="1.0">
   <qresource prefix="/Maoni">
     <file alias="Splashscreen.jpg">../Images/Splashscreen.jpg</file>
+    <file alias="libmaoni_logo.png">../Images/libmaoni_logo.png</file>
   </qresource>
 </RCC>
