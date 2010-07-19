@@ -48,6 +48,8 @@ void FrameData::init()
 	lights[0].position = Vec3(1.0, 0.0, 1.0);
 	lights[0].diffuse = Color(1.0, 0.0, 0.0, 1.0);
 	lights[0].specular = Color(1.0, 1.0, 0.0, 1.0);
+
+	model_.reset(new Model);
 }
 
 void FrameData::load_model(std::string const& filename)
@@ -57,6 +59,10 @@ void FrameData::load_model(std::string const& filename)
 		if (boost::algorithm::iends_with(filename, i->extension()))
 			i->load(model_, filename.c_str());
 	}
+
+	//! make sure we have a valid model even if the loader failed
+	if (!model_)
+		model_.reset(new Model);
 
 	model_name = filename;
 }
@@ -120,10 +126,12 @@ std::size_t FrameData::num_loaders() const
 
 void FrameData::draw() const
 {
+	assert(model_);
+
 	if (renderer)
-		renderer->render(model_);
+		renderer->render(*model_);
 	else
-		model_.draw();
+		model_->draw();
 
 	logo.draw();
 }

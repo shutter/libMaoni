@@ -26,7 +26,7 @@ struct MeshLoader: Extensible<MeshLoader>
 {
 	virtual const char* const name() const = 0;
 	virtual const char* const extension() const = 0;
-	virtual void load(Model& mesh, const char* filename) const = 0;
+	virtual void load(Model::Ptr& mesh, const char* filename) const = 0;
 };
 
 /**

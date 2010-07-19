@@ -20,11 +20,11 @@
 #define MAONI_RENDER_ALGORITHM_HPP
 
 #include <Maoni/detail/Extensible.hpp>
+#include <Maoni/Model.hpp>
 
 class Enum;
 class Path;
 class Color;
-class Model;
 class ShaderProgram;
 
 struct AlgorithmConfig

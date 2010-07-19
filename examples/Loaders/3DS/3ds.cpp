@@ -13,7 +13,7 @@
 
 MESH_LOADER(3ds, 3D Studio Max Model)
 {
-	model.clear();
+	model->clear();
 
 	Lib3dsFile *file = lib3ds_file_load(filename);
 	if (!file)
@@ -28,7 +28,7 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 			{
 				Lib3dsVector& pos = mesh->pointL[i].pos;
 
-				model.add_vertex(Vertex(pos[0], pos[1], pos[2]));
+				model->add_vertex(Vertex(pos[0], pos[1], pos[2]));
 
 			}
 
@@ -36,13 +36,13 @@ MESH_LOADER(3ds, 3D Studio Max Model)
 			for (Lib3dsDword i = 0; i < mesh->faces; i++)
 			{
 				Lib3dsWord* points = mesh->faceL[i].points;
-				model.add_triangle(points[0] + offset, points[1] + offset, points[2] + offset);
+				model->add_triangle(points[0] + offset, points[1] + offset, points[2] + offset);
 			}
 
 			offset += mesh->points;
 		}
 
-	model.calculate_normals();
-	model.fix_scale();
-	model.generate_vbo();
+	model->calculate_normals();
+	model->fix_scale();
+	model->generate_vbo();
 }

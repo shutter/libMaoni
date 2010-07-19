@@ -32,12 +32,12 @@
             return EXTENSION;                                                  \
         }                                                                      \
                                                                                \
-        void load(Model& model, const char* filename) const;                   \
+        void load(Model::Ptr& model, const char* filename) const;              \
                                                                                \
         static LOADER instance;                                                \
     };                                                                         \
                                                                                \
     LOADER LOADER::instance;                                                   \
-    void LOADER::load(Model& model, const char* filename) const                \
+    void LOADER::load(Model::Ptr& model, const char* filename) const           \
 
 #endif /* MAONI_DETAIL_MESH_LOADER_HPP */

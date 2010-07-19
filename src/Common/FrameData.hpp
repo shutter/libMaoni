@@ -131,7 +131,7 @@ public:
 
 	virtual void setDrawRange(unsigned int myrank, unsigned int ranks)
 	{
-		model_.setDrawRange(myrank, ranks);
+		model_->setDrawRange(myrank, ranks);
 	}
 
 public:
@@ -175,7 +175,7 @@ private:
 	RenderAlgorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
-	Model model_;
+	Model::Ptr model_;
 };
 
 #endif /* FRAME_DATA_HPP */

@@ -93,7 +93,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 
 MESH_LOADER(ply, Stanford PLY)
 {
-	model.clear();
+	model->clear();
 
 	int nPlyElems;
 	char** elemNames;
@@ -138,10 +138,10 @@ MESH_LOADER(ply, Stanford PLY)
 				if (equal_strings(props[j]->name, "red"))
 					hasColors = true;
 
-			readVertices(file, nElems, model);
+			readVertices(file, nElems, *model);
 		} else if (equal_strings(elemNames[i], "face"))
 			try {
-				readTriangles(file, nElems, model);
+				readTriangles(file, nElems, *model);
 				result = true;
 			} catch (std::exception& e) {
 				std::cerr << "Unable to read PLY file, an exception occured:  "
@@ -164,7 +164,7 @@ MESH_LOADER(ply, Stanford PLY)
 		free(elemNames[i]);
 	free(elemNames);
 
-	model.calculate_normals();
-	model.fix_scale();
-	model.generate_vbo();
+	model->calculate_normals();
+	model->fix_scale();
+	model->generate_vbo();
 }

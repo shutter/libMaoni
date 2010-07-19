@@ -19,6 +19,7 @@
 #ifndef MAONI_MODEL_HPP
 #define MAONI_MODEL_HPP
 
+#include <boost/scoped_ptr.hpp>
 #include <Maoni/Vertex.hpp>
 #include <vector>
 
@@ -31,6 +32,8 @@
 class Model
 {
 public:
+	typedef boost::scoped_ptr<Model> Ptr;
+
 	//! Creating a model object from scratch initialized by the Standford Bunny
 	Model()
 	{
@@ -68,7 +71,7 @@ public:
 	}
 
 	//! Draw the model by sequentially loading the triangles
-	void draw() const;
+	virtual void draw() const;
 
 	//! Attempt to preallocate enough memory for specified number of vertices
 	void reserve_vertices(std::size_t number);
