@@ -52,6 +52,7 @@ SHADER_PROGRAM(ComicStyleShader,
 RENDER_ALGORITHM(ComicStyle,
 		(bool, wired, false)
 		(bool, bounding_sphere, false)
+		(bool, rank_colors, false)
 		(Color, comic_color, Color(0.4, 0.7, 0.5, 1.0))
 		(int, increments, 7)
 		(ShaderProgram, shader, ComicStyleShader()))
@@ -60,8 +61,39 @@ RENDER_ALGORITHM(ComicStyle,
 	ScopedUseProgram shader_lock(shader);
 
 	GLint loc_color = glGetUniformLocation(shader, "comic_color");
-	glUniform4f(loc_color, comic_color.red(), comic_color.green(),
-			comic_color.blue(), 1.0);
+
+	float red = comic_color.red();
+	float green = comic_color.green();
+	float blue = comic_color.blue();
+	if (rank_colors)
+	{
+		if (model.getMyRank() == 0)
+		{
+			red = 1.0; green = 1.0; blue = 0.0;
+		}
+		else if (model.getMyRank() == 1)
+		{
+			red = 1.0; green = 0.0; blue = 0.0;
+		}
+		else if (model.getMyRank() == 2)
+		{
+			red = 1.0; green = 0.0; blue = 1.0;
+		}
+		else if (model.getMyRank() == 3)
+		{
+			red = 0.0; green = 0.0; blue = 1.0;
+		}
+		else if (model.getMyRank() == 4)
+		{
+			red = 0.0; green = 1.0; blue = 1.0;
+		}
+		else if (model.getMyRank() == 5)
+		{
+			red = 0.0; green = 1.0; blue = 0.0;
+		}
+	}
+
+	glUniform4f(loc_color, red, green, blue, 1.0);
 
 	GLint loc_increments = glGetUniformLocation(shader, "increments");
 	glUniform1i(loc_increments, increments);
