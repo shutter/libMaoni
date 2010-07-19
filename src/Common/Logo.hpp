@@ -27,7 +27,7 @@ class Logo
 {
 public:
 	Logo() :
-		texture("../examples/Models/libmaoni_logo.png"), render(false)
+		texture(":/Maoni/libmaoni_logo.png"), render(true)
 	{
 	}
 
