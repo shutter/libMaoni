@@ -8,7 +8,10 @@
 #include <GL/glew.h>
 #include <Maoni.hpp>
 
-#define NORM_LENGTH 0.05f
+#include <boost/la/all.hpp>
+using namespace boost::la;
+
+static const float normal_length = 0.05f;
 
 RENDER_ALGORITHM(FixedFunction,
 		(bool, wired, false)
@@ -38,7 +41,7 @@ RENDER_ALGORITHM(FixedFunction,
 		{
 			glColor3f(0.f, 1.f, 0.f);
 			glVertex3fv(vertices[i].position);
-			glVertex3fv((vertices[i].position + vertices[i].normal * NORM_LENGTH));
+			glVertex3fv((vertices[i].position + vertices[i].normal * normal_length));
 		}
 		glEnd();
 	}

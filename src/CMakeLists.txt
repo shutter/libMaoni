@@ -25,10 +25,12 @@ find_package(Boost COMPONENTS serialization)
 if(NOT Boost_SERIALIZATION_FOUND)
   message(STATUS "Boost.Serialization not found, I will built it.")
   set(BOOST_SERIALIZATION_FILE
-    ${CMAKE_CURRENT_SOURCE_DIR}/boost-serialization-1.40.0.zip)
+    ${CMAKE_SOURCE_DIR}/externals/boost-serialization-1.40.0.tar.gz)
   set(BOOST_SERIALIZATION_SOURCE_DIR
     ${CMAKE_CURRENT_BINARY_DIR}/boost-serialization-1.40.0)
-  extract(${BOOST_SERIALIZATION_FILE} ${BOOST_SERIALIZATION_SOURCE_DIR})
+  file(MAKE_DIRECTORY ${BOOST_SERIALIZATION_SOURCE_DIR})
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${BOOST_SERIALIZATION_FILE}
+    WORKING_DIRECTORY ${BOOST_SERIALIZATION_SOURCE_DIR})
   add_library(boost_serialization
     ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_archive.cpp
     ${BOOST_SERIALIZATION_SOURCE_DIR}/basic_iarchive.cpp
@@ -60,8 +62,9 @@ if(NOT Boost_SERIALIZATION_FOUND)
 endif(NOT Boost_SERIALIZATION_FOUND)
 
 
-include(Extract)
-extract(${CMAKE_CURRENT_SOURCE_DIR}/boost-la.zip ${CMAKE_BINARY_DIR}/include)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/externals/boost-la.tar.gz
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 include_directories(${CMAKE_BINARY_DIR}/include)
 
 

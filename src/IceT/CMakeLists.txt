@@ -6,9 +6,11 @@ find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
 
-set(BOOST_MPI_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/boost-mpi-1.40.0.zip)
+set(BOOST_MPI_FILE ${CMAKE_SOURCE_DIR}/externals/boost-mpi-1.40.0.tar.gz)
 set(BOOST_MPI_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/boost-mpi-1.40.0)
-extract(${BOOST_MPI_FILE} ${BOOST_MPI_SOURCE_DIR})
+file(MAKE_DIRECTORY ${BOOST_MPI_SOURCE_DIR})
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${BOOST_MPI_FILE}
+  WORKING_DIRECTORY ${BOOST_MPI_SOURCE_DIR})
 add_library(boost_mpi
   ${BOOST_MPI_SOURCE_DIR}/broadcast.cpp
   ${BOOST_MPI_SOURCE_DIR}/communicator.cpp
@@ -31,9 +33,11 @@ add_library(boost_mpi
   )
 
 
-set(ICET_FILE       ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.zip)
+set(ICET_FILE ${CMAKE_SOURCE_DIR}/externals/IceT-1-0-0.tar.gz)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
-extract(${ICET_FILE} ${ICET_SOURCE_DIR})
+file(MAKE_DIRECTORY ${ICET_SOURCE_DIR})
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${ICET_FILE}
+  WORKING_DIRECTORY ${ICET_SOURCE_DIR})
 
 
 set(ICET_INSTALL_NO_DEVELOPMENT ON)

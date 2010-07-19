@@ -78,7 +78,6 @@ set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/src/Icons/stanford-bunny.ico")
 set(CPACK_DPUT_HOST "ppa:purplekarrot/ppa")
 
 set(CPACK_DEBIAN_BUILD_DEPENDS
-  unzip
   libqt4-dev
   libqglviewer-qt4-dev
   libboost1.40-dev
