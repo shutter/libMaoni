@@ -27,7 +27,7 @@ if(WIN32)
 endif(WIN32)
 
 
-include_directories(include)
+include_directories(BEFORE SYSTEM include)
 install(DIRECTORY include/Maoni DESTINATION include COMPONENT headers)
 install(FILES include/Maoni.hpp DESTINATION include COMPONENT headers)
 
