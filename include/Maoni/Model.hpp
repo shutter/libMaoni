@@ -32,7 +32,9 @@ class Model
 {
 public:
 	//! Creating a model object from scratch initialized by the Standford Bunny
-	Model()
+	Model() :
+		start_(0), end_(0), count_(0), ranks_(1), myrank_(0), //
+				isize(0), vsize(0), vbo_loaded(false)
 	{
 		reset();
 	}
@@ -67,7 +69,11 @@ public:
 		return indices;
 	}
 
-	//! Draw the model by sequentially loading the triangles
+	//! Draw the model
+	/*!
+	 If Vertex Buffer Objects were generated, the model gets drawn directly on
+	 the graphics card. If not, the model's triangles get drawn sequentially.
+	 */
 	void draw() const;
 
 	//! Attempt to preallocate enough memory for specified number of vertices
@@ -96,11 +102,36 @@ public:
 	//! Calculate and normalize the vertex normals of the current vertex data
 	void calculate_normals();
 
+	//! Creates Vertex Buffer Objects from the model data and uses
 	void generate_vbo();
 
+	//! Set the index of the model's first vertex to be drawn
+	/*!
+	 \param start The index number of the first vertex to be drawn
+	 */
 	void setStartVertex(unsigned int start);
+
+	//! Set the index of the model's last vertex to be drawn
+	/*!
+	 \param The index number of the last vertex to be drawn
+	 */
 	void setEndVertex(unsigned int end);
-	void setDrawRange(unsigned int myrank, unsigned int ranks);
+
+	//! Every rank in parallel rendering will only draw a subpart of the model
+	/*!
+	 \param myrank The render clients rank
+	 \param ranks The number of render clients
+	 */
+	void calcDrawRange(unsigned int myrank, unsigned int ranks);
+
+	unsigned int getRanks() const
+	{
+		return ranks_;
+	}
+	unsigned int getMyRank() const
+	{
+		return myrank_;
+	}
 
 private:
 	Model(Model const&);
@@ -112,6 +143,8 @@ private:
 	bool vbo_loaded;
 	unsigned int isize, vsize;
 	unsigned int start_, end_, count_;
+	unsigned int myrank_, ranks_;
+	char* startindex;
 
 };
 

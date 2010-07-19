@@ -36,7 +36,7 @@ void Model::draw() const
 	{
 		std::cout << "no vbo!" << std::endl;
 		glBegin(GL_TRIANGLES);
-		for (size_t i = 0; i < indices.size(); i++)
+		for (size_t i = start_; i < start_ + count_; i++)
 		{
 			glColor4fv(vertices[indices[i]].color);
 			glTexCoord2fv(vertices[indices[i]].texcoord);
@@ -67,7 +67,7 @@ void Model::draw() const
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
 
 		glDrawRangeElements(GL_TRIANGLES, start_, end_, count_,
-				GL_UNSIGNED_INT, (char *) NULL);
+				GL_UNSIGNED_INT, startindex);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -278,20 +278,23 @@ void Model::setEndVertex(unsigned int end)
 {
 	if (end > end_)
 	{
-		count_ = isize;
 		end_ = isize;
+		count_ = end_ - start_;
 	}
 	else
 	{
 		count_ = end - start_;
-		end_ = end;
+		end_ = isize;//end;
 	}
 }
 
-void Model::setDrawRange(unsigned int myrank, unsigned int ranks)
+void Model::calcDrawRange(unsigned int myrank, unsigned int ranks)
 {
+	myrank_ = myrank;
+	ranks_ = ranks;
 	int frag = isize / ranks;
 	setStartVertex(myrank * frag);
 	setEndVertex((myrank + 1) * (frag + 1));
-	std::cout << "start: " << start_ << "end: " << end_ << "count: " << count_ << std::endl;
+	startindex = (char*)NULL + (myrank * frag * sizeof(unsigned int));
+	std::cout << "rank" << myrank << " - start: " << start_ << ", end: " << end_ << ", count: " << count_ << std::endl;
 }

@@ -191,12 +191,14 @@ void AlgorithmWidget::value_changed(QtProperty* property, int value)
 		*int_pointers[property] = value;
 	if (enum_pointers.contains(property))
 		*enum_pointers[property] = value;
+	framedata.setRenderParamChanged();
 }
 
 void AlgorithmWidget::value_changed(QtProperty* property, bool value)
 {
 	if (bool_pointers.contains(property))
 		*bool_pointers[property] = value;
+	framedata.setRenderParamChanged();
 }
 
 void AlgorithmWidget::value_changed(QtProperty* property, double value)
@@ -205,6 +207,7 @@ void AlgorithmWidget::value_changed(QtProperty* property, double value)
 		*float_pointers[property] = value;
 	if (double_pointers.contains(property))
 		*double_pointers[property] = value;
+	framedata.setRenderParamChanged();
 }
 
 void AlgorithmWidget::value_changed(QtProperty* property, const QColor& value)
@@ -212,10 +215,12 @@ void AlgorithmWidget::value_changed(QtProperty* property, const QColor& value)
 	if (color_pointers.contains(property))
 		*color_pointers[property] = Color(value.redF(), value.greenF(),
 				value.blueF(), value.alphaF());
+	framedata.setRenderParamChanged();
 }
 
 void AlgorithmWidget::value_changed(QtProperty* property, const QString& value)
 {
 	if (path_pointers.contains(property))
 		*path_pointers[property] = value.toStdString();
+	framedata.setRenderParamChanged();
 }

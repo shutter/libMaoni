@@ -40,7 +40,7 @@ public:
 
 	virtual void set_render_algorithm(std::string const& name)
 	{
-		setRalgoChanged();
+		setRendererChanged();
 		FrameData::set_render_algorithm(name);
 	}
 
@@ -89,9 +89,9 @@ public:
 		change |= MODEL_CHANGED;
 	}
 
-	virtual void setRalgoChanged()
+	virtual void setRenderParamChanged()
 	{
-		change |= RALGO_CHANGED;
+		change |= RENDERPARAM_CHANGED;
 	}
 
 	virtual void setRendererChanged()
@@ -121,7 +121,7 @@ private:
 	{
 		LIGHT_CHANGED = 1,
 		MODEL_CHANGED = 2,
-		RALGO_CHANGED = 4,
+		RENDERPARAM_CHANGED = 4,
 		RENDERER_CHANGED = 8,
 		TILES_CHANGED = 16
 	};

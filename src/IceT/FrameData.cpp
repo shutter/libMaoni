@@ -42,8 +42,8 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 		if (i == 0)
 			tiles[i].visible = true;
 
-		tiles[i].x = col * 640;
-		tiles[i].y = row * 480;
+		tiles[i].x = 0;//col * 640;
+		tiles[i].y = 0;//row * 480;
 	}
 }
 
@@ -56,10 +56,10 @@ void FrameDataIceT::animate()
 	broadcast(world, change, 0);
 	double matrix[16];
 
-	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+/*	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
 	broadcast(world, matrix, 0);
 	glMatrixMode( GL_PROJECTION);
-	glLoadMatrixd(matrix);
+	glLoadMatrixd(matrix);*/
 
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
 	broadcast(world, matrix, 0);
@@ -77,14 +77,12 @@ void FrameDataIceT::animate()
 		{
 			Tile& tile = tiles[i];
 
-			if (tile.visible)
+			//if (tile.visible)
 			{
-				broadcast(world, tile.sx, i);
-				broadcast(world, tile.sy, i);
 				icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
 			}
 
-			if (i == world.rank())
+			//if (i == world.rank())
 			{
 				icetBoundingBoxf( //
 						tile.min.data[0], tile.max.data[0], //
@@ -111,21 +109,21 @@ void FrameDataIceT::animate()
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
-			FrameData::setDrawRange(world.rank(), tiles.size());
+		FrameData::calcDrawRange(world.rank(), tiles.size());
 	}
 
-	if ((change & RALGO_CHANGED) == RALGO_CHANGED)
+	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
 	{
-		std::cout << "ralgo changed" << std::endl;
+		std::cout << "renderer changed" << std::endl;
 
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
 	}
 
-	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
+	if ((change & RENDERPARAM_CHANGED) == RENDERPARAM_CHANGED)
 	{
-		std::cout << "renderer changed" << std::endl;
+		std::cout << "renderparameter changed" << std::endl;
 
 		if (renderer)
 			broadcast(world, *renderer, 0);

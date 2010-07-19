@@ -109,7 +109,7 @@ public:
 	{
 	}
 
-	virtual void setRalgoChanged()
+	virtual void setRenderParamChanged()
 	{
 	}
 
@@ -129,9 +129,9 @@ public:
 	{
 	}
 
-	virtual void setDrawRange(unsigned int myrank, unsigned int ranks)
+	virtual void calcDrawRange(unsigned int myrank, unsigned int ranks)
 	{
-		model_.setDrawRange(myrank, ranks);
+		model_.calcDrawRange(myrank, ranks);
 	}
 
 public:
