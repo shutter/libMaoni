@@ -1,8 +1,5 @@
 /*
- * stl.cpp
- *
- *  Created on: Jul 30, 2009
- *      Author: aishutter
+ * A STL file loader
  */
 
 #include <Maoni/MeshLoader.hpp>
@@ -12,10 +9,19 @@
 
 #include "stla_io.h"
 
-MESH_LOADER(stl, StereoLithography)
+// STL model class
+class ModelSTL: public VBOModel
 {
-	model.reset(new VBOModel);
+public:
+	ModelSTL(const char* filename, int myrank, int ranks);
+	~ModelSTL();
 
+protected:
+};
+
+// Load STL model
+ModelSTL::ModelSTL(const char* filename, int myrank, int ranks)
+{
 	// check if correct ascii stl file
 	if (stla_check(filename)) {
 		std::cout << "  The file \"" << filename
@@ -37,7 +43,6 @@ MESH_LOADER(stl, StereoLithography)
 	bool error;
 	int *face_node;
 	double *face_normal;
-	//int ierror;
 	double *node_xyz;
 
 	face_node = new int[3 * face_num];
@@ -53,7 +58,7 @@ MESH_LOADER(stl, StereoLithography)
 	// copy vertices
 	for (int i = 0; i < node_num; i++)
 	{
-		model->add_vertex(Vertex(Vec3(node_xyz[i * 3], node_xyz[i * 3 + 1],
+		add_vertex(Vertex(Vec3(node_xyz[i * 3], node_xyz[i * 3 + 1],
 				node_xyz[i * 3 + 2]), Vec3(face_normal[i * 3], face_normal[i
 				* 3 + 1], face_normal[i * 3 + 2]), Color(), Vec2()));
 	}
@@ -61,20 +66,21 @@ MESH_LOADER(stl, StereoLithography)
 	// copy nodes to triangles
 	for (int i = 0; i < face_num; i++)
 	{
-		model->add_triangle(face_node[i * 3], face_node[i * 3 + 1], face_node[i
+		add_triangle(face_node[i * 3], face_node[i * 3 + 1], face_node[i
 				* 3 + 2]);
 	}
-
-//	stla_face_node_print(face_num, face_node);
-//	stla_face_normal_print(face_num, face_normal);
-//	stla_node_xyz_print ( node_num, node_xyz );
 
 	delete[] face_node;
 	delete[] face_normal;
 	delete[] node_xyz;
 
-	dynamic_cast<VBOModel*>(model.get())->setDrawRange(myrank, ranks);
-	model->calculate_normals();
-	model->fix_scale();
-	dynamic_cast<VBOModel*>(model.get())->generate_vbo();
+	setDrawRange(myrank, ranks);
+	calculate_normals();
+	fix_scale();
+	generate_vbo();
+}
+
+MESH_LOADER(stl, StereoLithography)
+{
+	model.reset(new ModelSTL(filename, myrank, ranks));
 }

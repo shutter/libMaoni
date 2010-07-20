@@ -25,6 +25,7 @@
 #include <Maoni/MeshLoader.hpp>
 #include "../Common/Logo.hpp"
 #include <string>
+#include <vector>
 
 class FrameData
 {

@@ -20,19 +20,26 @@
 #define MAONI_VBO_MODEL_HPP
 
 #include <Maoni/Model.hpp>
+#include <vector>
+#include <Maoni/Vertex.hpp>
 
+//! The VBOModel class
+/*!
+ The VBOModel class is libMaoni's default container for 3D data.
+ Use a MeshLoader to fill in the vertex and index information, and
+ generate VBO lists.
+ */
 class VBOModel: public Model
 {
 public:
-	VBOModel()
+	VBOModel() :
+		start_(0), end_(0), count_(0), ranks_(1), myrank_(0), isize(0),
+				vsize(0), vbo_loaded(false), startindex((char *) NULL)
 	{
 	}
 
 	//! Clear the model's index and vertex vector
 	void clear();
-
-	//! Reset the model to the Stanford Bunny
-	void reset();
 
 	//! Check whether the model contains data
 	/*!
@@ -58,7 +65,7 @@ public:
 		return indices;
 	}
 
-	//! Draw the model by sequentially loading the triangles
+	//! Draw the model using vbo lists
 	virtual void draw() const;
 
 	//! Attempt to preallocate enough memory for specified number of vertices
@@ -93,6 +100,15 @@ public:
 	void setEndVertex(unsigned int end);
 	void setDrawRange(unsigned int myrank, unsigned int ranks);
 
+	unsigned int getRanks() const
+	{
+		return ranks_;
+	}
+	unsigned int getMyRank() const
+	{
+		return myrank_;
+	}
+
 private:
 	std::vector<Vertex> vertices;
 	std::vector<std::size_t> indices;
@@ -100,6 +116,8 @@ private:
 	bool vbo_loaded;
 	unsigned int isize, vsize;
 	unsigned int start_, end_, count_;
+	unsigned int myrank_, ranks_;
+	char* startindex;
 };
 
 #endif /* MAONI_VBO_MODEL_HPP */

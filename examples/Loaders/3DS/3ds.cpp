@@ -1,8 +1,5 @@
 /*
- * lib3ds.cpp
- *
- *  Created on: Jul 30, 2009
- *      Author: aishutter
+ * A 3DS file loader
  */
 
 #include <Maoni/MeshLoader.hpp>
@@ -15,7 +12,7 @@
 #include <iostream>
 #include <cstring>
 
-// Our 3DS model class
+// 3DS model class
 class CModel3DS: public Model
 {
 public:

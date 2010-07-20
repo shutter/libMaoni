@@ -20,13 +20,11 @@
 #define MAONI_MODEL_HPP
 
 #include <boost/scoped_ptr.hpp>
-#include <Maoni/Vertex.hpp>
-#include <vector>
 
 //! The model class
 /*!
- The model class is libMaoni's default container for 3D data.
- Use a MeshLoader to fill in the vertex and index information.
+ The abstract model class defines the minimal function set for a
+ model class.
  */
 
 class Model
@@ -39,68 +37,14 @@ public:
 	{
 	}
 
-	//! Check whether the model contains data
-	/*!
-	 \return True if index vector is empty, false if not
-	 */
-	bool empty() const;
-
-	//! The vertex vector getter
-	/*!
-	 \return A const reference to the model's vertex vector
-	 */
-	std::vector<Vertex> const& get_vertices() const
-	{
-		return vertices;
-	}
-
-	//! The index vector getter
-	/*!
-	 \return A const reference to the model's index vector
-	 */
-	std::vector<std::size_t> const& get_indices() const
-	{
-		return indices;
-	}
-
 	//! Draw the model
 	virtual void draw() const
 	{
 	}
 
-	//! Attempt to preallocate enough memory for specified number of vertices
-	void reserve_vertices(std::size_t number);
-
-	//! Attempt to preallocate enough memory for specified number of triangles
-	void reserve_triangles(std::size_t number);
-
-	//! Add a vertex to the vertex vector
-	/*!
-	 \param vertex A vertex const reference
-	 */
-	void add_vertex(Vertex const& vertex);
-
-	//! Add a triangle to the index vector
-	/*!
-	 \param a The first vertex number of the triangle
-	 \param b The second vertex number of the triangle
-	 \param c The third vertex number of the triangle
-	 */
-	void add_triangle(std::size_t a, std::size_t b, std::size_t c);
-
-	//! Scales the data to be within +- baseSize/2 (default 2.0) coordinates
-	void fix_scale();
-
-	//! Calculate and normalize the vertex normals of the current vertex data
-	void calculate_normals();
-
 private:
 	Model(Model const&);
 	void operator=(Model const&);
-
-protected:
-	std::vector<Vertex> vertices;
-	std::vector<std::size_t> indices;
 };
 
 #endif /* MAONI_MODEL_HPP */

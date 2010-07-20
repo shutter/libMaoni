@@ -24,8 +24,11 @@ target_link_libraries(example_nothing Maoni MaoniMain)
 ##############################################################
 # example with algorithms
 
+set(VBO_MODEL_SOURCE
+  Loaders/VBOModel.cpp
+  )
 file(GLOB RENDER_ALGO_SOURCE Algorithms/*.c*)
-add_example(example_algorithms ${RENDER_ALGO_SOURCE})
+add_example(example_algorithms ${RENDER_ALGO_SOURCE} ${VBO_MODEL_SOURCE})
 target_link_libraries(example_algorithms Maoni MaoniMain)
 
 ##############################################################

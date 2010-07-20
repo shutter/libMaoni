@@ -32,51 +32,34 @@ GLuint vboIndexBuffer; // ID of VBO faces
 
 void VBOModel::draw() const
 {
-	if (!vbo_loaded)
-	{
-		std::cout << "no vbo!" << std::endl;
-		glBegin(GL_TRIANGLES);
-		for (size_t i = 0; i < indices.size(); i++)
-		{
-			glColor4fv(vertices[indices[i]].color);
-			glTexCoord2fv(vertices[indices[i]].texcoord);
-			glNormal3fv(vertices[indices[i]].normal);
-			glVertex3fv(vertices[indices[i]].position);
-		}
-		glEnd();
-	}
-	else
-	{
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vboVertexBuffer);
+	glVertexPointer(3, GL_FLOAT, 0, (char *) NULL); // Set The Vertex Pointer To The Vertex Buffer
 
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertexBuffer);
-		glVertexPointer(3, GL_FLOAT, 0, (char *) NULL); // Set The Vertex Pointer To The Vertex Buffer
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vboNormalBuffer);
+	glNormalPointer(GL_FLOAT, 0, (char *) NULL); // Set The Normal Pointer To The Normal Buffer
 
-		glBindBuffer(GL_ARRAY_BUFFER, vboNormalBuffer);
-		glNormalPointer(GL_FLOAT, 0, (char *) NULL); // Set The Normal Pointer To The Normal Buffer
+	glEnableClientState(GL_COLOR_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vboColorBuffer);
+	glColorPointer(4, GL_FLOAT, 0, (char *) NULL); // Set The Color Pointer To The Color Buffer
 
-		glBindBuffer(GL_ARRAY_BUFFER, vboColorBuffer);
-		glColorPointer(4, GL_FLOAT, 0, (char *) NULL); // Set The Color Pointer To The Color Buffer
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vboTexCoordBuffer);
+	glTexCoordPointer(2, GL_FLOAT, 0, (char *) NULL); // Set The TexCoord Pointer To The TexCoord Buffer
 
-		glBindBuffer(GL_ARRAY_BUFFER, vboTexCoordBuffer);
-		glTexCoordPointer(2, GL_FLOAT, 0, (char *) NULL); // Set The TexCoord Pointer To The TexCoord Buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
+	glDrawRangeElements(GL_TRIANGLES, start_, end_, count_, GL_UNSIGNED_INT,
+			(char *) NULL);
 
-		glDrawRangeElements(GL_TRIANGLES, start_, end_, count_,
-				GL_UNSIGNED_INT, (char *) NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void VBOModel::clear()
@@ -279,20 +262,24 @@ void VBOModel::setEndVertex(unsigned int end)
 {
 	if (end > end_)
 	{
-		count_ = isize;
 		end_ = isize;
+		count_ = end_ - start_;
 	}
 	else
 	{
 		count_ = end - start_;
-		end_ = end;
+		end_ = isize;
 	}
 }
 
 void VBOModel::setDrawRange(unsigned int myrank, unsigned int ranks)
 {
-	int frag = isize / ranks;
-	setStartVertex(myrank * frag);
-	setEndVertex((myrank + 1) * (frag + 1));
-	std::cout << "start: " << start_ << "end: " << end_ << "count: " << count_ << std::endl;
+	myrank_ = myrank;
+	ranks_ = ranks;
+	int frag = isize / 3 / ranks;
+	setStartVertex(myrank * frag * 3);
+	setEndVertex((myrank + 1) * (frag + 1) * 3);
+	startindex = (char*) NULL + (myrank * frag * 3 * sizeof(unsigned int));
+	std::cout << "rank" << myrank << " - start: " << start_ << ", end: "
+			<< end_ << ", count: " << count_ << std::endl;
 }
