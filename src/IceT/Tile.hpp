@@ -26,7 +26,7 @@
 struct Tile
 {
 	Tile() :
-		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f), sx(640), sy(480)
+		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f), sx(1024), sy(768)
 	{
 	}
 

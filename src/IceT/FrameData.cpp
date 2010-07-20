@@ -27,8 +27,8 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 			world(), tiles(world.size())
 {
-	mwidth = 640;
-	mheight = 640;
+	mwidth = 1024;
+	mheight = 768;
 
 	change = 0;
 
