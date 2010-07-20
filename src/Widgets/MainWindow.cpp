@@ -119,17 +119,16 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 }
 
 void MainWindow::add_dock(const char* name, Qt::DockWidgetArea area,
-	QWidget *widget)
+	QWidget *widget, bool visible)
 {
 	QDockWidget *dock = new QDockWidget(name, this);
 	dock->setAllowedAreas(Qt::AllDockWidgetAreas);
 
-	QAction* action = new QAction(name, this);
-	connect(action, SIGNAL(triggered()), dock, SLOT(show()));
-	dock_menu->addAction(action);
+	dock_menu->addAction(dock->toggleViewAction());
 
 	dock->setWidget(widget);
 	addDockWidget(area, dock);
+	dock->setVisible(visible);
 }
 
 void MainWindow::init_docks()
@@ -147,7 +146,7 @@ void MainWindow::init_docks()
 	}
 
 	AnimationWidget* animation_widget = new AnimationWidget(render_widget);
-		add_dock("AnimationWidget", Qt::LeftDockWidgetArea, animation_widget);
+		add_dock("AnimationWidget", Qt::LeftDockWidgetArea, animation_widget, false);
 
 //	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
 }

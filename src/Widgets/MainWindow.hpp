@@ -14,7 +14,7 @@ Q_OBJECT
 public:
 	MainWindow(FrameData& framedata, RenderWidget* render_widget);
 
-	void add_dock(const char* name, Qt::DockWidgetArea area, QWidget *widget);
+	void add_dock(const char* name, Qt::DockWidgetArea area, QWidget *widget, bool visible=true);
 
 private slots:
 	void about_qt();
