@@ -78,6 +78,10 @@ void RenderWidget::set_logo(bool checked)
 	framedata.enable_logo(checked);
 }
 
+bool RenderWidget::logo_is_enabled() const {
+	return framedata.logo_is_enabled();
+}
+
 void RenderWidget::set_logo_path()
 {
 	QString tmp = QFileDialog::getOpenFileName(this,

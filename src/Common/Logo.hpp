@@ -27,7 +27,7 @@ class Logo
 {
 public:
 	Logo() :
-		texture(":/Maoni/libmaoni_logo.png"), render(true)
+		texture(":/Maoni/libmaoni_logo.png"), render(false)
 	{
 	}
 
@@ -43,7 +43,7 @@ public:
 		this->render = render;
 	}
 
-	bool get_render()
+	bool get_render() const
 	{
 		return render;
 	}

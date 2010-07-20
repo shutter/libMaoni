@@ -72,6 +72,10 @@ public:
 		logo.set_render(render);
 	}
 
+	bool logo_is_enabled() const{
+		return logo.get_render();
+	}
+
 	void set_logo_path(std::string path)
 	{
 		logo.set_path(path);

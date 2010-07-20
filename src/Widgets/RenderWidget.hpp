@@ -21,6 +21,8 @@ public:
 
 	virtual ~RenderWidget();
 
+	bool logo_is_enabled() const;
+
 private slots:
 	void set_logo_path();
 	void set_logo(bool checked);

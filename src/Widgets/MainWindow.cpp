@@ -91,6 +91,7 @@ MainWindow::MainWindow(FrameData& framedata, RenderWidget* render_widget) :
 	logo->setCheckable(true);
 	connect(logo, SIGNAL(triggered(bool)), render_widget, SLOT(
 		set_logo(bool)));
+	logo->setChecked(render_widget->logo_is_enabled());
 	visual_hints->addAction(logo);
 
 	dock_menu = menuBar()->addMenu("&Window");
