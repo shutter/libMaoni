@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include "../VBOModel.hpp"
 #include "plyfile.h"
 #include <boost/cstdint.hpp>
 #include <stdexcept>
@@ -93,7 +94,7 @@ static void readTriangles(PlyFile* file, const int nFaces, Model &mesh) {
 
 MESH_LOADER(ply, Stanford PLY)
 {
-	model.clear();
+	model.reset(new VBOModel);
 
 	int nPlyElems;
 	char** elemNames;
@@ -138,10 +139,10 @@ MESH_LOADER(ply, Stanford PLY)
 				if (equal_strings(props[j]->name, "red"))
 					hasColors = true;
 
-			readVertices(file, nElems, model);
+			readVertices(file, nElems, *model);
 		} else if (equal_strings(elemNames[i], "face"))
 			try {
-				readTriangles(file, nElems, model);
+				readTriangles(file, nElems, *model);
 				result = true;
 			} catch (std::exception& e) {
 				std::cerr << "Unable to read PLY file, an exception occured:  "
@@ -164,7 +165,8 @@ MESH_LOADER(ply, Stanford PLY)
 		free(elemNames[i]);
 	free(elemNames);
 
-	model.calculate_normals();
-	model.fix_scale();
-	model.generate_vbo();
+	dynamic_cast<VBOModel*>(model.get())->setDrawRange(myrank, ranks);
+	model->calculate_normals();
+	model->fix_scale();
+	dynamic_cast<VBOModel*>(model.get())->generate_vbo();
 }

@@ -6,6 +6,7 @@
  */
 
 #include <Maoni/MeshLoader.hpp>
+#include "../VBOModel.hpp"
 #include <stdexcept>
 #include <iostream>
 
@@ -13,7 +14,7 @@
 
 MESH_LOADER(stl, StereoLithography)
 {
-	model.clear();
+	model.reset(new VBOModel);
 
 	// check if correct ascii stl file
 	if (stla_check(filename)) {
@@ -52,7 +53,7 @@ MESH_LOADER(stl, StereoLithography)
 	// copy vertices
 	for (int i = 0; i < node_num; i++)
 	{
-		model.add_vertex(Vertex(Vec3(node_xyz[i * 3], node_xyz[i * 3 + 1],
+		model->add_vertex(Vertex(Vec3(node_xyz[i * 3], node_xyz[i * 3 + 1],
 				node_xyz[i * 3 + 2]), Vec3(face_normal[i * 3], face_normal[i
 				* 3 + 1], face_normal[i * 3 + 2]), Color(), Vec2()));
 	}
@@ -60,7 +61,7 @@ MESH_LOADER(stl, StereoLithography)
 	// copy nodes to triangles
 	for (int i = 0; i < face_num; i++)
 	{
-		model.add_triangle(face_node[i * 3], face_node[i * 3 + 1], face_node[i
+		model->add_triangle(face_node[i * 3], face_node[i * 3 + 1], face_node[i
 				* 3 + 2]);
 	}
 
@@ -72,7 +73,8 @@ MESH_LOADER(stl, StereoLithography)
 	delete[] face_normal;
 	delete[] node_xyz;
 
-	model.calculate_normals();
-	model.fix_scale();
-	model.generate_vbo();
+	dynamic_cast<VBOModel*>(model.get())->setDrawRange(myrank, ranks);
+	model->calculate_normals();
+	model->fix_scale();
+	dynamic_cast<VBOModel*>(model.get())->generate_vbo();
 }

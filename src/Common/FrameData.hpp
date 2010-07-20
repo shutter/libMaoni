@@ -34,6 +34,16 @@ public:
 
 	FrameData(FrameData const& other);
 
+	virtual	int myrank() const
+	{
+		return 0;
+	}
+
+	virtual	int ranks() const
+	{
+		return 1;
+	}
+
 	virtual void load_model(std::string const& filename);
 
 	virtual void set_render_algorithm(std::string const& name);
@@ -133,11 +143,6 @@ public:
 	{
 	}
 
-	virtual void calcDrawRange(unsigned int myrank, unsigned int ranks)
-	{
-		model_.calcDrawRange(myrank, ranks);
-	}
-
 public:
 	void export_scene(const char* filename);
 	void import_scene(const char* filename);
@@ -179,7 +184,7 @@ private:
 	RenderAlgorithm* algorithm_stack;
 	MeshLoader* mesh_loader_stack;
 
-	Model model_;
+	Model::Ptr model_;
 };
 
 #endif /* FRAME_DATA_HPP */

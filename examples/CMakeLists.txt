@@ -32,6 +32,7 @@ target_link_libraries(example_algorithms Maoni MaoniMain)
 # example with loaders
 
 set(MESH_LOADER_SOURCE
+  Loaders/VBOModel.cpp
   Loaders/PLY/ply.cpp Loaders/PLY/plyfile.cpp
   Loaders/STL/stl.cpp Loaders/STL/stla_io.cpp
   )

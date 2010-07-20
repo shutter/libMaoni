@@ -109,7 +109,6 @@ void FrameDataIceT::animate()
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
-		FrameData::calcDrawRange(world.rank(), tiles.size());
 	}
 
 	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)

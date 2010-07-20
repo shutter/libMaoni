@@ -57,7 +57,7 @@ int maoni_main(int argc, char* argv[], //
 	}
 
 	QString window_title("Maoni using IceT Parallel Rendering; Rank %1");
-	main_window->setWindowTitle(window_title.arg(framedata.rank()));
+	main_window->setWindowTitle(window_title.arg(framedata.myrank()));
 
 	QTimer::singleShot(1000, main_window, SLOT(show()));
 	QTimer::singleShot(1337, &splash, SLOT(close()));

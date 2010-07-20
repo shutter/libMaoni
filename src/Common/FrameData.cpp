@@ -22,6 +22,7 @@
 #include <boost/archive/xml_oarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include "serialize.hpp"
+#include "Bunny.hpp"
 #include <fstream>
 
 FrameData::FrameData(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
@@ -48,6 +49,8 @@ void FrameData::init()
 	lights[0].position = Vec3(1.0, 0.0, 1.0);
 	lights[0].diffuse = Color(1.0, 0.0, 0.0, 1.0);
 	lights[0].specular = Color(1.0, 1.0, 0.0, 1.0);
+
+	model_.reset(new Bunny);
 }
 
 void FrameData::load_model(std::string const& filename)
@@ -55,8 +58,12 @@ void FrameData::load_model(std::string const& filename)
 	for (MeshLoader* i = mesh_loader_stack; i; i = i->next)
 	{
 		if (boost::algorithm::iends_with(filename, i->extension()))
-			i->load(model_, filename.c_str());
+			i->load(model_, filename.c_str(), myrank(), ranks());
 	}
+
+	//! make sure we have a valid model even if the loader failed
+	if (!model_)
+		model_.reset(new Bunny);
 
 	model_name = filename;
 }
@@ -120,10 +127,12 @@ std::size_t FrameData::num_loaders() const
 
 void FrameData::draw() const
 {
+	assert(model_);
+
 	if (renderer)
-		renderer->render(model_);
+		renderer->render(*model_);
 	else
-		model_.draw();
+		model_->draw();
 
 	logo.draw();
 }
