@@ -85,10 +85,10 @@ ModelPLY::ModelPLY(const char* filename, int myrank, int ranks)
 		free(elemNames[i]);
 	free(elemNames);
 
-	setDrawRange(myrank, ranks);
 	calculate_normals();
 	fix_scale();
 	generate_vbo();
+	setDrawRange(myrank, ranks);
 }
 
 /*  Read the vertex and (if available/wanted) color data from the open file.  */

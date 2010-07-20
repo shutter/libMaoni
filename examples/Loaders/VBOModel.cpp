@@ -51,7 +51,7 @@ void VBOModel::draw() const
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndexBuffer);
 
 	glDrawRangeElements(GL_TRIANGLES, start_, end_, count_, GL_UNSIGNED_INT,
-			(char *) NULL);
+			startindex);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
