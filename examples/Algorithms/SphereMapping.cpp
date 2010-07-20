@@ -1,8 +1,5 @@
 /*
- * SphereMapping.cpp
- *
- *  Created on: 31 Oct 2009
- *      Author: Daniel Pfeifer
+ * A simple sphere mapping shader
  */
 
 #include <GL/glew.h>

@@ -1,12 +1,10 @@
 /*
- * FixedFunction.cpp
- *
- *  Created on: 23.07.2009
- *      Author: daniel
+ * A simple fixed function algorithm
  */
 
 #include <GL/glew.h>
 #include <Maoni.hpp>
+#include "../Loaders/VBOModel.hpp"
 
 #include <boost/la/all.hpp>
 using namespace boost::la;
@@ -29,24 +27,31 @@ RENDER_ALGORITHM(FixedFunction,
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 
 	if (wired) // set triangle draw to edges only
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	model.draw();
 
 	if (vertex_normals)
 	{
-		std::vector<Vertex> const& vertices = model.get_vertices();
-		glBegin(GL_LINES);
-		for (size_t i = 0; i < vertices.size(); i++)
+		try
 		{
-			glColor3f(0.f, 1.f, 0.f);
-			glVertex3fv(vertices[i].position);
-			glVertex3fv((vertices[i].position + vertices[i].normal * normal_length));
+			const VBOModel& vbo_model = dynamic_cast<const VBOModel&> (model);
+			std::vector<Vertex> const& vertices = vbo_model.get_vertices();
+			glBegin(GL_LINES);
+			for (size_t i = 0; i < vertices.size(); i++)
+			{
+				glColor3f(0.f, 1.f, 0.f);
+				glVertex3fv(vertices[i].position);
+				glVertex3fv((vertices[i].position + vertices[i].normal
+						* normal_length));
+			}
+			glEnd();
+		} catch (...)
+		{
+			// cast failed
 		}
-		glEnd();
 	}
 
-
 	if (wired) // reset triangles draw to filled
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

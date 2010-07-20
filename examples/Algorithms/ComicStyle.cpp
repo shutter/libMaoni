@@ -1,12 +1,10 @@
 /*
- * ComicStyle.cpp
- *
- *  Created on: 11 Mar 2010
- *      Author: stefan
+ * A simple comic style surface shader
  */
 
 #include <GL/glew.h>
 #include <Maoni.hpp>
+#include "../Loaders/VBOModel.hpp"
 
 SHADER_SOURCE(vertex_source, (version 120),
 		varying vec3 lightDir;
@@ -67,29 +65,49 @@ RENDER_ALGORITHM(ComicStyle,
 	float blue = comic_color.blue();
 	if (rank_colors)
 	{
-		if (model.getMyRank() == 0)
+		try
 		{
-			red = 1.0; green = 1.0; blue = 0.0;
-		}
-		else if (model.getMyRank() == 1)
+			const VBOModel& vbo_model = dynamic_cast<const VBOModel&> (model);
+
+			if (vbo_model.getMyRank() == 0)
+			{
+				red = 1.0;
+				green = 1.0;
+				blue = 0.0;
+			}
+			else if (vbo_model.getMyRank() == 1)
+			{
+				red = 1.0;
+				green = 0.0;
+				blue = 0.0;
+			}
+			else if (vbo_model.getMyRank() == 2)
+			{
+				red = 1.0;
+				green = 0.0;
+				blue = 1.0;
+			}
+			else if (vbo_model.getMyRank() == 3)
+			{
+				red = 0.0;
+				green = 0.0;
+				blue = 1.0;
+			}
+			else if (vbo_model.getMyRank() == 4)
+			{
+				red = 0.0;
+				green = 1.0;
+				blue = 1.0;
+			}
+			else if (vbo_model.getMyRank() == 5)
+			{
+				red = 0.0;
+				green = 1.0;
+				blue = 0.0;
+			}
+		} catch (...)
 		{
-			red = 1.0; green = 0.0; blue = 0.0;
-		}
-		else if (model.getMyRank() == 2)
-		{
-			red = 1.0; green = 0.0; blue = 1.0;
-		}
-		else if (model.getMyRank() == 3)
-		{
-			red = 0.0; green = 0.0; blue = 1.0;
-		}
-		else if (model.getMyRank() == 4)
-		{
-			red = 0.0; green = 1.0; blue = 1.0;
-		}
-		else if (model.getMyRank() == 5)
-		{
-			red = 0.0; green = 1.0; blue = 0.0;
+			// cast failed
 		}
 	}
 

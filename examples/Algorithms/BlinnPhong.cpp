@@ -1,8 +1,5 @@
 /*
- * BlinnPhong.cpp
- *
- *  Created on: Jul 22, 2009
- *      Author: dpfeifer
+ * A blinn phong illumination shader
  */
 
 #include <GL/glew.h>
