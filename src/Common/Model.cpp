@@ -292,9 +292,9 @@ void Model::calcDrawRange(unsigned int myrank, unsigned int ranks)
 {
 	myrank_ = myrank;
 	ranks_ = ranks;
-	int frag = isize / ranks;
-	setStartVertex(myrank * frag);
-	setEndVertex((myrank + 1) * (frag + 1));
-	startindex = (char*)NULL + (myrank * frag * sizeof(unsigned int));
+	int frag = isize/3/ranks;
+	setStartVertex(myrank * frag * 3);
+	setEndVertex((myrank + 1) * (frag + 1) * 3);
+	startindex = (char*)NULL + (myrank * frag * 3 * sizeof(unsigned int));
 	std::cout << "rank" << myrank << " - start: " << start_ << ", end: " << end_ << ", count: " << count_ << std::endl;
 }
