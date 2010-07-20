@@ -2,6 +2,7 @@
 #include "RenderWidget.hpp"
 #include "LightWidget.hpp"
 #include "AlgorithmWidget.hpp"
+#include "AnimationWidget.hpp"
 #include "TextOutput.hpp"
 #include "../Common/FrameData.hpp"
 
@@ -134,15 +135,18 @@ void MainWindow::init_docks()
 {
 	LightWidget* light_widget = new LightWidget(framedata);
 	connect(this, SIGNAL(data_updated()), light_widget, SLOT(update_browser()));
-	add_dock("Stefan's LightWidget", Qt::LeftDockWidgetArea, light_widget);
+	add_dock("LightWidget", Qt::LeftDockWidgetArea, light_widget);
 
 	if (framedata.num_algorithms() > 0)
 	{
 		AlgorithmWidget* algo_widget = new AlgorithmWidget(framedata);
 		connect(this, SIGNAL(data_updated()), algo_widget, SLOT(update_browser()));
-		add_dock("Daniel's AlgorithmWidget", Qt::RightDockWidgetArea,
+		add_dock("AlgorithmWidget", Qt::RightDockWidgetArea,
 			algo_widget);
 	}
+
+	AnimationWidget* animation_widget = new AnimationWidget(render_widget);
+		add_dock("AnimationWidget", Qt::LeftDockWidgetArea, animation_widget);
 
 //	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
 }
