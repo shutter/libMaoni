@@ -1,5 +1,5 @@
 /*
- * A blinn phong illumination shader
+ * A blinn phong illumination shader using one light source
  */
 
 #include <GL/glew.h>
@@ -39,9 +39,20 @@ SHADER_SOURCE(fragment_source, (version 120),
 
 		varying vec3 normalEye;
 		varying vec4 positionEye;
+		uniform vec4 color;
+		uniform int use_model_color;
 
 		void main()
 		{
+			vec4 used_color;
+			if(use_model_color == 1)
+			{
+				used_color = gl_Color;
+			}
+			else
+			{
+				used_color = color;
+			}
 			// normalize interpolated normal, compute view vector from position
 			vec3 normal = normalize(normalEye);
 			vec3 view = normalize(-positionEye).xyz;
@@ -61,12 +72,12 @@ SHADER_SOURCE(fragment_source, (version 120),
 
 			// compute the ambient component
 			//vec4 ambient = gl_FrontLightProduct[0].ambient;
-			vec4 ambient = gl_LightSource[0].ambient * gl_Color;
+			vec4 ambient = gl_LightSource[0].ambient * used_color;
 
 			// compute the diffuse component
 			float dotLN = dot(light, normal);
 			//vec4 diffuse = gl_FrontLightProduct[0].diffuse * max( dotLN, 0.0 );
-			vec4 diffuse = gl_LightSource[0].diffuse * gl_Color * max(dotLN, 0.0);
+			vec4 diffuse = gl_LightSource[0].diffuse * used_color * max(dotLN, 0.0);
 
 			// compute the specular component
 			float factor;
@@ -101,15 +112,23 @@ SHADER_PROGRAM(BlinnPhongShader,
 );
 
 RENDER_ALGORITHM(BlinnPhong,
-		(bool, wired, false)
-		(bool, bounding_sphere, false)
 		(ShaderProgram, shader, BlinnPhongShader())
+		(bool, wired, false)
+		(bool, use_model_color, true)
+		(Color, model_color, Color(0.25, 0.52, 1.0, 1.0))
 		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
 		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
 		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
 		(float, shininess, 51.2))
 {
 	ScopedUseProgram shader_lock(shader);
+
+	GLint loc_color = glGetUniformLocation(shader, "color");
+	glUniform4f(loc_color, model_color.red(), model_color.green(),
+			model_color.blue(), model_color.alpha());
+
+	GLint loc_use_model_color = glGetUniformLocation(shader, "use_model_color");
+	glUniform1i(loc_use_model_color, use_model_color);
 
 	ScopedEnable color_material_lock(GL_COLOR_MATERIAL);
 
