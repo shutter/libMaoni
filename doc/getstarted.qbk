@@ -4,9 +4,9 @@
 [section Installing and Using]
 Users of Ubuntu and Ubuntu derivatives (such as Kubuntu) rejoice! 
 
-[: sudo add-apt-repository ppa:purplekarrot/ppa
-   sudo apt-get update
-   sudo apt-get install maoni]
+[:$ sudo add-apt-repository ppa:purplekarrot/ppa]
+[:$ sudo apt-get update]
+[:$ sudo apt-get install maoni]
 
 [endsect]
 
@@ -31,12 +31,28 @@ for parallel rendering.
 
 Parallel rendering using IceT needs [@apt://libopenmpi-dev Open MPI] installed. 
 Install, build or copy libMaonis's IceT binary to the same workpath on all the 
-machines. Start the application e.g.:
+machines or use a shared drive. Start the application e.g.:
 
 [:$ mpirun -np \[number of processes\] --host \[comma separated host names\] \[path to executable\] -display :0]
 
+[tip Have a loot at the Open MPI documentation on how to create a host file to 
+define your render cluster's network environment.]
+
+[note libMaoni uses absolute Paths to load images, models and so on, thus all 
+the files need to have the same absolute filesystem path]
+
+[table: libMaoni Parallel Rendering with Ice-T
+    [[Snapshot][Description]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/parallel_dragon.jpg]]
+ [Parallel rendering of the Stanford dragon using four ranks and the Comic Style Shader Algorithm. The data rendered
+ by the ranks are dyed differently.]]
+]
+
 [endsect]
 
+[section Equalizer]
+Under Construction
+[endsect]
 [endsect]
 
 [section Building from Source]

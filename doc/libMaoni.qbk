@@ -8,6 +8,7 @@
 [include motivation.qbk]
 [include getstarted.qbk]
 [include tutorial.qbk]
+[include examples.qbk]
 [xinclude maoni-ref.xml]
 [include design.qbk]
 [include software.qbk]

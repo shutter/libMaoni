@@ -1,0 +1,23 @@
+[section Example Algorithms]
+[table: libMaoni Example Algorithms Rendering
+	[[Snapshot][Description]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/dragon_blinnphong.jpg]]
+ [A blinn phong illumination shader using one light source.]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/dragon_comicstyle.jpg]]
+ [A simple comic style surface shader.]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/dragon_spheremapping.jpg]]
+ [A simple sphere mapping shader.]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/rockerarm_fixedfunction.jpg]]
+ [A simple fixed function algorithm.]]
+]
+
+[table: libMaoni Example Algorithms Bump Mapping
+    [[Snapshot][Description]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/dgl_bump_mapping.jpg]]
+ [A simple sphere mapping shader as described at [@http://wiki.delphigl.com/index.php/shader_Bumpmapping]]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/ozone_bump_mapping.jpg]]
+ [A simple sphere mapping shader as described at [@http://www.ozone3d.net/tutorials/bump_mapping.php]]]
+    [[[$/home/shutter/workspace/libMaoni/build/doc/swiftless_bump_mapping.jpg]]
+ [A simple sphere mapping shader as described at [@http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html]]]
+]
+[endsect]
