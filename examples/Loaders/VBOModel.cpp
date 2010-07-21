@@ -283,3 +283,10 @@ void VBOModel::setDrawRange(unsigned int myrank, unsigned int ranks)
 	std::cout << "rank" << myrank << " - start: " << start_ << ", end: "
 			<< end_ << ", count: " << count_ << std::endl;
 }
+
+void VBOModel::initVBO(unsigned int myrank, unsigned int ranks){
+	calculate_normals();
+	fix_scale();
+	generate_vbo();
+	setDrawRange(myrank, ranks);
+}

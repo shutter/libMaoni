@@ -74,10 +74,7 @@ ModelSTL::ModelSTL(const char* filename, int myrank, int ranks)
 	delete[] face_normal;
 	delete[] node_xyz;
 
-	calculate_normals();
-	fix_scale();
-	generate_vbo();
-	setDrawRange(myrank, ranks);
+	initVBO(myrank, ranks);
 }
 
 MESH_LOADER(stl, StereoLithography)

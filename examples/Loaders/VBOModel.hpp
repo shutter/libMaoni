@@ -88,26 +88,48 @@ public:
 	 */
 	void add_triangle(std::size_t a, std::size_t b, std::size_t c);
 
+	//! Returns the number of ranks processing a VBOModel in parallel
+	/*!
+	 \return The number of ranks in parallel rendering
+	 */
+	unsigned int getRanks() const
+	{
+		return ranks_;
+	}
+
+	//! Returns the rank's ID
+	/*!
+	 \return The node's rank ID
+	 */
+	unsigned int getMyRank() const
+	{
+		return myrank_;
+	}
+
+	/*! Metamethod to fix scale, normalize normals, generate VBO lists and
+	 * set drawing range in the correct order
+	 */
+	/*!
+	 \param myrank The rank ID of the Maoni instance
+	 \param ranks The number of ranks processing a VBOModel in parallel
+	 */
+	void initVBO(unsigned int myrank, unsigned int ranks);
+
+private:
 	//! Scales the data to be within +- baseSize/2 (default 2.0) coordinates
 	void fix_scale();
 
 	//! Calculate and normalize the vertex normals of the current vertex data
 	void calculate_normals();
 
+	//! Creates VBO lists of the vertex data and indices
 	void generate_vbo();
+
+	//! Calculates and sets vertices to be drawn by a rendering node
+	void setDrawRange(unsigned int myrank, unsigned int ranks);
 
 	void setStartVertex(unsigned int start);
 	void setEndVertex(unsigned int end);
-	void setDrawRange(unsigned int myrank, unsigned int ranks);
-
-	unsigned int getRanks() const
-	{
-		return ranks_;
-	}
-	unsigned int getMyRank() const
-	{
-		return myrank_;
-	}
 
 private:
 	std::vector<Vertex> vertices;
