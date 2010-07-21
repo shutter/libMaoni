@@ -20,7 +20,6 @@
 #define LOGO_HPP_
 
 #include <string>
-#include <iostream>
 #include <Maoni/Texture.hpp>
 
 class Logo
