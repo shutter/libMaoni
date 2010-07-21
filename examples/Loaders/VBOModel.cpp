@@ -115,9 +115,9 @@ void VBOModel::calculate_normals()
 		Vec3 const& p3 = vertices[i2].position;
 		Vec3 normal = cross(p2 - p1, p3 - p1);
 
-		vertices[i0].normal = vertices[i0].normal + normal;
-		vertices[i1].normal = vertices[i1].normal + normal;
-		vertices[i2].normal = vertices[i2].normal + normal;
+		vertices[i0].normal += normal;
+		vertices[i1].normal += normal;
+		vertices[i2].normal += normal;
 	}
 
 	// normalize all the normals

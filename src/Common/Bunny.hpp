@@ -20,7 +20,9 @@
 #define MAONI_BUNNY_HPP
 
 #include <Maoni/Model.hpp>
+#include <boost/scoped_array.hpp>
 #include <vector>
+#include <Maoni/Vertex.hpp>
 
 class Bunny: public Model
 {
@@ -28,7 +30,18 @@ public:
 	//! Creating a model object from scratch initialized by the Stanford Bunny
 	Bunny();
 
-private:
-};
+	//! Draw the bunny
+	virtual void draw() const;
 
+private:
+	void calculate_normals();
+	void fix_scale();
+
+private:
+	size_t indices;
+	size_t vertices;
+	std::vector<Vertex> verticesv;
+	std::vector<std::size_t> indicesv;
+};
 #endif /* MAONI_BUNNY_HPP */
+
