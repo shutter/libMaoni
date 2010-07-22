@@ -176,6 +176,8 @@ protected:
 
 	std::string model_name;
 	std::string ralgo_name;
+	std::string logo_path;
+	bool logo_render;
 
 	Logo logo;
 

@@ -148,6 +148,10 @@ void FrameData::export_scene(const char* filename)
 	archive << boost::serialization::make_nvp("model", model_name);
 	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
 	archive << boost::serialization::make_nvp("renderer", *renderer);
+	logo_path = logo.get_path();
+	archive << boost::serialization::make_nvp("logo_path", logo_path);
+	logo_render = logo.get_render();
+	archive << boost::serialization::make_nvp("logo_render", logo_render);
 }
 
 void FrameData::import_scene(const char* filename)
@@ -166,4 +170,10 @@ void FrameData::import_scene(const char* filename)
 	set_render_algorithm(ralgo_name);
 
 	archive >> boost::serialization::make_nvp("algorithm", *renderer);
+
+	archive >> boost::serialization::make_nvp("logo_path", logo_path);
+	logo.set_path(logo_path);
+
+	archive >> boost::serialization::make_nvp("logo_render", logo_render);
+	logo.set_render(logo_render);
 }

@@ -37,6 +37,12 @@ public:
 		calc_pos(window_width, window_height);
 
 	}
+
+	std::string get_path() const
+	{
+		return texture;
+	}
+
 	void set_render(bool render)
 	{
 		this->render = render;
