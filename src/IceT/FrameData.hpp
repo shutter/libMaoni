@@ -109,6 +109,12 @@ public:
 		change |= TILES_CHANGED;
 	}
 
+	virtual void setStrategyChanged(){
+		change |= STRATEGY_CHANGED;
+	}
+
+	virtual void setStrategy(int strategy);
+
 	virtual bool getDoResize() const
 	{
 		return do_resize;
@@ -117,6 +123,10 @@ public:
 	virtual void setDoResize(bool flag){
 		do_resize = flag;
 	}
+
+private:
+	virtual void do_import_scene(boost::archive::xml_iarchive& archive);
+	virtual void do_export_scene(boost::archive::xml_oarchive& archive);
 
 private:
 	boost::mpi::communicator world;
@@ -128,11 +138,13 @@ private:
 		MODEL_CHANGED = 2,
 		RENDERPARAM_CHANGED = 4,
 		RENDERER_CHANGED = 8,
-		TILES_CHANGED = 16
+		TILES_CHANGED = 16,
+		STRATEGY_CHANGED = 32
 	};
 
 	short change;
 	bool do_resize;
+	int strategy_;
 
 public:
 	std::vector<Tile> tiles;

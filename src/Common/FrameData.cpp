@@ -18,8 +18,6 @@
 
 #include "FrameData.hpp"
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/archive/xml_iarchive.hpp>
-#include <boost/archive/xml_oarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include "serialize.hpp"
 #include "Bunny.hpp"
@@ -137,13 +135,7 @@ void FrameData::draw() const
 	logo.draw();
 }
 
-void FrameData::export_scene(const char* filename)
-{
-	std::ofstream file(filename);
-	if (!file)
-		return;
-
-	boost::archive::xml_oarchive archive(file);
+void FrameData::do_export_scene(boost::archive::xml_oarchive& archive){
 	archive << boost::serialization::make_nvp("lights", lights);
 	archive << boost::serialization::make_nvp("model", model_name);
 	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
@@ -154,13 +146,20 @@ void FrameData::export_scene(const char* filename)
 	archive << boost::serialization::make_nvp("logo_render", logo_render);
 }
 
-void FrameData::import_scene(const char* filename)
+
+void FrameData::export_scene(const char* filename)
 {
-	std::ifstream file(filename);
+	std::ofstream file(filename);
 	if (!file)
 		return;
 
-	boost::archive::xml_iarchive archive(file);
+	boost::archive::xml_oarchive archive(file);
+
+	do_export_scene(archive);
+}
+
+void FrameData::do_import_scene(boost::archive::xml_iarchive& archive)
+{
 	archive >> boost::serialization::make_nvp("lights", lights);
 
 	archive >> boost::serialization::make_nvp("model", model_name);
@@ -176,4 +175,14 @@ void FrameData::import_scene(const char* filename)
 
 	archive >> boost::serialization::make_nvp("logo_render", logo_render);
 	logo.set_render(logo_render);
+}
+
+void FrameData::import_scene(const char* filename)
+{
+	std::ifstream file(filename);
+	if (!file)
+		return;
+
+	boost::archive::xml_iarchive archive(file);
+	do_import_scene(archive);
 }

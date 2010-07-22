@@ -41,6 +41,8 @@ struct Tile
 		archive & BOOST_SERIALIZATION_NVP(visible);
 		archive & BOOST_SERIALIZATION_NVP(x);
 		archive & BOOST_SERIALIZATION_NVP(y);
+		archive & BOOST_SERIALIZATION_NVP(sx);
+		archive & BOOST_SERIALIZATION_NVP(sy);
 		archive & BOOST_SERIALIZATION_NVP(min);
 		archive & BOOST_SERIALIZATION_NVP(max);
 	}

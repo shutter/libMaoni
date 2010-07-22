@@ -25,7 +25,7 @@
 FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 		MeshLoader* mesh_loader_stack) :
 	FrameData(algorithm_stack, mesh_loader_stack), //
-			world(), tiles(world.size())
+			world(), tiles(world.size()), strategy_(3)
 {
 	mwidth = 1024;
 	mheight = 768;
@@ -56,10 +56,10 @@ void FrameDataIceT::animate()
 	broadcast(world, change, 0);
 	double matrix[16];
 
-/*	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
-	broadcast(world, matrix, 0);
-	glMatrixMode( GL_PROJECTION);
-	glLoadMatrixd(matrix);*/
+	/*	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+	 broadcast(world, matrix, 0);
+	 glMatrixMode( GL_PROJECTION);
+	 glLoadMatrixd(matrix);*/
 
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
 	broadcast(world, matrix, 0);
@@ -93,39 +93,64 @@ void FrameDataIceT::animate()
 
 		icetGetIntegerv(ICET_TILE_MAX_WIDTH, &mwidth);
 		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &mheight);
+		std::cout << "tiles changed" << std::endl;
+	}
+
+	if ((change & STRATEGY_CHANGED) == STRATEGY_CHANGED)
+	{
+		broadcast(world, strategy_, 0);
+
+		switch (strategy_)
+		{
+		case 0:
+			icetStrategy(ICET_STRATEGY_DIRECT);
+			break;
+		case 1:
+			icetStrategy(ICET_STRATEGY_SERIAL);
+			break;
+		case 2:
+			icetStrategy(ICET_STRATEGY_SPLIT);
+			break;
+		case 3:
+			icetStrategy(ICET_STRATEGY_REDUCE);
+			break;
+		case 4:
+			icetStrategy(ICET_STRATEGY_VTREE);
+			break;
+		default:
+			icetStrategy(ICET_STRATEGY_REDUCE);
+		}
+
+		std::cout << "strategy changed to " << strategy_ << std::endl;
 	}
 
 	if ((change & LIGHT_CHANGED) == LIGHT_CHANGED)
 	{
-		std::cout << "light changed" << std::endl;
-
 		broadcast(world, lights, 0);
+		std::cout << "light changed" << std::endl;
 	}
 
 	if ((change & MODEL_CHANGED) == MODEL_CHANGED)
 	{
-		std::cout << "model changed" << std::endl;
-
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
+		std::cout << "model changed" << std::endl;
 	}
 
 	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
 	{
-		std::cout << "renderer changed" << std::endl;
-
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
+		std::cout << "renderer changed" << std::endl;
 	}
 
 	if ((change & RENDERPARAM_CHANGED) == RENDERPARAM_CHANGED)
 	{
-		std::cout << "renderparameter changed" << std::endl;
-
 		if (renderer)
 			broadcast(world, *renderer, 0);
+		std::cout << "renderparameter changed" << std::endl;
 	}
 
 	change = 0;
@@ -134,4 +159,24 @@ void FrameDataIceT::animate()
 void FrameDataIceT::resize(int w, int h)
 {
 	FrameData::resize(w, h);
+}
+
+void FrameDataIceT::do_import_scene(boost::archive::xml_iarchive& archive)
+{
+	archive >> boost::serialization::make_nvp("tiles", tiles);
+
+	FrameData::do_import_scene(archive);
+}
+
+void FrameDataIceT::do_export_scene(boost::archive::xml_oarchive& archive)
+{
+	archive << boost::serialization::make_nvp("tiles", tiles);
+
+	FrameData::do_export_scene(archive);
+}
+
+void FrameDataIceT::setStrategy(int strategy)
+{
+	strategy_ = strategy;
+	setStrategyChanged();
 }

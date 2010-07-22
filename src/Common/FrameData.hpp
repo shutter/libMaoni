@@ -24,6 +24,8 @@
 #include <Maoni/RenderAlgorithm.hpp>
 #include <Maoni/MeshLoader.hpp>
 #include "../Common/Logo.hpp"
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
 #include <string>
 #include <vector>
 
@@ -170,6 +172,10 @@ private:
 		for (T* i = stack; i; i = i->next)
 			function(i);
 	}
+
+protected:
+	virtual void do_import_scene(boost::archive::xml_iarchive& archive);
+	virtual void do_export_scene(boost::archive::xml_oarchive& archive);
 
 protected:
 	std::vector<Light> lights;

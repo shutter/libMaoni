@@ -100,8 +100,8 @@ void TilesWidget::update_browser()
 
 void TilesWidget::enum_changed(QtProperty* property, int value)
 {
-	//TODO: implement
-	std::cout << "set strategy to " << value << std::endl;
+	framedata.setStrategy(value);
+	//std::cout << "set strategy to " << value << std::endl;
 }
 
 void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
