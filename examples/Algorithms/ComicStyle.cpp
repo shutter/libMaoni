@@ -69,42 +69,52 @@ RENDER_ALGORITHM(ComicStyle,
 		{
 			const VBOModel& vbo_model = dynamic_cast<const VBOModel&> (model);
 
-			if (vbo_model.getMyRank() == 0)
+			switch (vbo_model.getMyRank())
 			{
+			case 0: // yellow
 				red = 1.0;
 				green = 1.0;
 				blue = 0.0;
-			}
-			else if (vbo_model.getMyRank() == 1)
-			{
+				break;
+			case 1: // red
 				red = 1.0;
 				green = 0.0;
 				blue = 0.0;
-			}
-			else if (vbo_model.getMyRank() == 2)
-			{
+				break;
+			case 2: // magenta
 				red = 1.0;
 				green = 0.0;
 				blue = 1.0;
-			}
-			else if (vbo_model.getMyRank() == 3)
-			{
+				break;
+			case 3: // blue
 				red = 0.0;
 				green = 0.0;
 				blue = 1.0;
-			}
-			else if (vbo_model.getMyRank() == 4)
-			{
+				break;
+			case 4: // cyan
 				red = 0.0;
 				green = 1.0;
 				blue = 1.0;
-			}
-			else if (vbo_model.getMyRank() == 5)
-			{
+				break;
+			case 5: // green
 				red = 0.0;
 				green = 1.0;
 				blue = 0.0;
+				break;
+			case 6: // orange
+				red = 1.0;
+				green = 0.5;
+				blue = 0.0;
+				break;
+			case 7: // purple
+				red = 0.5;
+				green = 0.0;
+				blue = 0.5;
+				break;
+			default:
+				;
 			}
+
 		} catch (...)
 		{
 			// cast failed
