@@ -27,6 +27,8 @@ protected:
 	unsigned int m_TotalFaces;
 	Lib3dsFile * m_model;
 	GLuint m_VertexVBO, m_NormalVBO;
+	Lib3dsVector offset;
+	float factor;
 };
 
 // Load 3DS model
@@ -40,6 +42,35 @@ CModel3DS::CModel3DS(std::string filename)
 	{
 		throw std::runtime_error("Loading file failed");
 	}
+
+	// find resize factor
+	Lib3dsVector min;
+	Lib3dsVector max;
+	lib3ds_file_bounding_box_of_objects(m_model, true, false, false, min, max);
+
+	std::cout << "max: " << max[0] << " " << max[1] << " " << max[2]
+			<< std::endl;
+	std::cout << "min: " << min[0] << " " << min[1] << " " << min[2]
+			<< std::endl;
+
+	// find largest dimension and determine scale factor
+	factor = 0.0f;
+	for (size_t i = 0; i < 3; ++i)
+		factor = std::max(factor, max[i] - min[i]);
+
+	factor = 2.f / factor;
+	std::cout << "resize factor: " << factor << std::endl;
+
+	// determine scale offset
+
+	for (size_t i = 0; i < 3; ++i)
+		offset[i] = (min[i] + max[i]) * 0.5f;
+
+	std::cout << "offset: " << offset[0] << " " << offset[1] << " "
+			<< offset[2] << std::endl;
+
+	GetFaces();
+	CreateVBO();
 }
 
 // Destructor
@@ -76,10 +107,16 @@ void CModel3DS::CreateVBO()
 		for (unsigned int cur_face = 0; cur_face < mesh->faces; cur_face++)
 		{
 			Lib3dsFace * face = &mesh->faceL[cur_face];
-			for (unsigned int i = 0; i < 3; i++)
+			for (unsigned int i = 0; i < 3; ++i)
 			{
-				memcpy(&vertices[FinishedFaces * 3 + i],
-						mesh->pointL[face->points[i]].pos, sizeof(Lib3dsVector));
+				Lib3dsVector tmp;
+				for (unsigned int j = 0; j < 3; ++j)
+				{
+					tmp[j] = (mesh->pointL[face->points[i]].pos[j] - offset[j])
+							* factor;
+				}
+				memcpy(&vertices[FinishedFaces * 3 + i], tmp,
+						sizeof(Lib3dsVector));
 			}
 			FinishedFaces++;
 		}
@@ -127,8 +164,8 @@ void CModel3DS::draw() const
 	assert(m_TotalFaces != 0);
 
 	// Enable vertex and normal arrays
-	glEnableClientState( GL_VERTEX_ARRAY);
-	glEnableClientState( GL_NORMAL_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 
 	// Bind the vbo with the normals
 	glBindBuffer(GL_ARRAY_BUFFER, m_NormalVBO);
