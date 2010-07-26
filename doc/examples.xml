@@ -7,59 +7,54 @@
     A bunch of example algorithms facilitates the introduction to develop own render
     algorithms.
   </para>
-  <figure>
-    <title>dgl_bump_mapping</title>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="dgl_bump_mapping.jpg" />
+        <imagedata align="center" fileref="dgl_bump_mapping.jpg" />
       </imageobject>
       <caption>
         A simple sphere mapping shader as described at
         <ulink url="http://wiki.delphigl.com/index.php/shader_Bumpmapping">http://wiki.delphigl.com/index.php/shader_Bumpmapping</ulink>
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>ozone_bump_mapping</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="ozone_bump_mapping.jpg" />
+        <imagedata align="center" fileref="ozone_bump_mapping.jpg" />
       </imageobject>
       <caption>
         A simple sphere mapping shader as described at
         <ulink url="http://www.ozone3d.net/tutorials/bump_mapping.php">http://www.ozone3d.net/tutorials/bump_mapping.php</ulink>
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>swiftless_bump_mapping</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="swiftless_bump_mapping.jpg" />
+        <imagedata align="center" fileref="swiftless_bump_mapping.jpg" />
       </imageobject>
       <caption>
         A simple sphere mapping shader as described at
         <ulink url="http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html">http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html</ulink>
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>dragon_blinnphong</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="dragon_blinnphong.jpg" />
+        <imagedata align="center" fileref="dragon_blinnphong.jpg" />
       </imageobject>
       <caption>
         A Blinn-Phong reflection shader. Only the configuration of LIGHT0 is used to
         calculate the reflection.
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>dragon_comicstyle</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="dragon_comicstyle.jpg" />
+        <imagedata align="center" fileref="dragon_comicstyle.jpg" />
       </imageobject>
       <caption>
         A simple comic style surface shader. The real color range is divided into a number
@@ -67,12 +62,11 @@
         discrete steps which can be changed by the user and leeds to a single color toon effect
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>dragon_spheremapping</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="dragon_spheremapping.jpg" />
+        <imagedata align="center" fileref="dragon_spheremapping.jpg" />
       </imageobject>
       <caption>
         A simple
@@ -80,16 +74,15 @@
         shader.
       </caption>
     </mediaobject>
-  </figure>
-  <figure>
-    <title>rockerarm_fixedfunction</title>
+  </informalfigure>
+  <informalfigure>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="rockerarm_fixedfunction.jpg" />
+        <imagedata align="center" fileref="rockerarm_fixedfunction.jpg" />
       </imageobject>
       <caption>
         A simple fixed function algorithm.
       </caption>
     </mediaobject>
-  </figure>
+  </informalfigure>
 </section>
