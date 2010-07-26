@@ -1,12 +1,13 @@
 
 [section Getting Started]
+[teletype]
 
 [section Installing and Using]
 Users of Ubuntu and Ubuntu derivatives (such as Kubuntu) rejoice! 
 
-[:$ sudo add-apt-repository ppa:purplekarrot/ppa]
-[:$ sudo apt-get update]
-[:$ sudo apt-get install maoni]
+  $ sudo add-apt-repository ppa:purplekarrot/ppa
+  $ sudo apt-get update
+  $ sudo apt-get install maoni
 
 [endsect]
 
@@ -33,7 +34,7 @@ Parallel rendering using IceT needs [@apt://libopenmpi-dev Open MPI] installed.
 Install, build or copy libMaonis's IceT binary to the same workpath on all the 
 machines or use a shared drive. Start the application e.g.:
 
-[:$ mpirun -np \[number of processes\] --host \[comma separated host names\] \[path to executable\] -display :0]
+  $ mpirun -np \[number of processes\] --host \[comma separated host names\] \[path to executable\] -display :0
 
 [tip Have a loot at the Open MPI documentation on how to create a host file to 
 define your render cluster's network environment.]
@@ -92,16 +93,16 @@ read-only url to checkout libMaoni directly to your local git repository]
 
 Open a shell and switch to your workspace and create the clone of your fork.
 
-[:$ git clone git@github.com:yourLogin/libMaoni.git]
+  $ git clone git@github.com:yourLogin/libMaoni.git
 
 and the upstream to purpleKarrots libMaoni repository:
 
-[:$ git remote add upstream git://github.com/purpleKarrot/libMaoni.git]
+  $ git remote add upstream git://github.com/purpleKarrot/libMaoni.git
 
 Update your fork (origin) from purpleKarrots libMaoni repository (upstream) so
 your fork is up to date:
 
-[:$ git pull upstream master]
+  $ git pull upstream master
 
 This will update your remote repository as well as your local files.
 
@@ -112,7 +113,7 @@ or the first steps using git]
 
 [section How-to Commit Modifications]
 
-[:$ git add .]
+  $ git add .
 
 use filepaths instead of . if you don't want to add every modification to a
 certain commit, modifiy .gitignore to permanently ban files or folder from
@@ -121,13 +122,13 @@ commiting.
 Fix the modifications by creating a meaningful commit and keep track of your
 commits by creating a single one for every requirement:
 
-[:$ git commit -m'some meaningful comment']
+  $ git commit -m'some meaningful comment'
 
 Until now you just copied the libMaoni project to your repository on github and
 to your local harddrive and modified your local version. Upload your fixed
 commit to your remote repository on github:
 
-[:$ git push origin master]
+  $ git push origin master
 
 [note Remember the repository names!]
 [table GIT repository names
@@ -152,41 +153,37 @@ Eclipse IDE for C/C++ Developers].
 To checkout your fork you have to install [@apt://git-core GIT] first, open a
 terminal:
 
-[:$ sudo aptitude install git-core]
+  $ sudo aptitude install git-core
 
 We use cmake to check for dependencies and creating the makefiles and need some 
 other [@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,dblatex,lib3ds-dev,fop packages]:
 
-[:$ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev fop]
+  $ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev fop
 
 For developing libMaoni, you have to install equalizer, a parallel rendering
 framework where libMaoni was intended to be a viewer for when the project
 started. You can get equalizer from
 [@https://sourceforge.net/projects/equalizer/files/ sourceforge].
 
-[:$ sudo aptitude install uuid-dev bison flex
-
+  $ sudo aptitude install uuid-dev bison flex
   $ make -j4
-  
-  $ sudo make install]
+  $ sudo make install
 
 For developing libMaoni with IceT you also need to install the following:
 
-[:$ sudo aptitude install libopenmpi-dev]
+  $ sudo aptitude install libopenmpi-dev
 
 
 Now let us build libMaoni! Still in the terminal create a "build" folder as
 child the libMaoni project folder:
 
-[:$ cd libMaoni
-
-  $ mkdir build]
+  $ cd libMaoni
+  $ mkdir build
 
 Enter this folder and create the Makefiles:
 
-[:$ cd build
-
-  $ cmake ..]
+  $ cd build
+  $ cmake ..
 
 If there are still some dependencies missing you will get an error now.
 
@@ -212,16 +209,13 @@ installers here's the how-to.
 
 [section Developing libMaoni on Mac OSX]
 
-[table necessary tools and libraries on Mac OSX
-    [[Software] [URL]]
-    [[`GIT`]    [[@http://code.google.com/p/git-osx-installer/]]]
-    [[`CMAKE`]  [[@http://cmake.org/]]]
-    [[`Boost 1.40.0`]  [[@http://boost.org/]]]
-    [[`Qt libraries 4.6.2 for MAC OS X`]  [[@http://qt.nokia.com/downloads]]]
-    [[`QGLViewer`]  [[@http://www.libqglviewer.com/download.html]]]
-    [[`lib3ds`]  [[@http://code.google.com/p/lib3ds/]]]
-    [[`glew`]  [[@http://glew.sourceforge.net/]]]
-]
+* [@http://code.google.com/p/git-osx-installer/ GIT]
+* [@http://cmake.org/ CMake]
+* [@http://boost.org/ Boost 1.40.0]
+* [@http://qt.nokia.com/downloads Qt libraries 4.6.2 for MAC OS X]
+* [@http://www.libqglviewer.com/download.html QGLViewer]
+* [@http://code.google.com/p/lib3ds/ lib3ds]
+* [@http://glew.sourceforge.net/ glew]
 
 Install GIT and CMAKE dimages. Download and unpack boost 1.40.0 and install boost-headers. 
 Download and install QT LGPL. Download, build and install QGLViewer.
@@ -242,16 +236,12 @@ There is some software you need to be able to checkout the git-repository and to
 build libMaoni. Sometimes there are several products avaiable but here's a list 
 of software we tested and used our own.
 
-[table necessary tools and libraries on Windows
-    [[Software] [URL]]
-    [[`GIT`]      [[@http://code.google.com/p/msysgit/]]]
-    [[`CMAKE`]  [[@http://cmake.org/]]]
-    [[`CToolBox`] [[@http://github.com/purpleKarrot/CToolBox/tarball/master]]]
-    [[`Visual Studio 08`] [[@http://www.microsoft.com/express/Downloads]]]
-    [[`Boost 1.40.0 Headers`] [[@http://www.boostpro.com/]]]
-    [[`QT libraries 4.6.2 for Windows`] [[@http://qt.nokia.com/downloads]]]
-    [[`MPICH2`] [[@http://www.mcs.anl.gov/research/projects/mpich2/]]]
-]
+* [@http://code.google.com/p/msysgit/ GIT]
+* [@http://www.cmake.org/cmake/resources/software.html CMake]
+* [@http://www.microsoft.com/express/Downloads Visual C++ 2008 Express Edition]
+* [@http://www.boostpro.com/download/ BoostPro Binary Installer for Visual C++]
+* [@http://qt.nokia.com/downloads QT libraries 4.6.2 for Windows]
+* [@http://www.mcs.anl.gov/research/projects/mpich2/ MPICH2]
 
 Install Visual Studio 2008, msysgit, cmake, boost and QT.
 
