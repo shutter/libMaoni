@@ -37,12 +37,12 @@ public:
 
 	FrameData(FrameData const& other);
 
-	virtual	int myrank() const
+	virtual int myrank() const
 	{
 		return 0;
 	}
 
-	virtual	int ranks() const
+	virtual int ranks() const
 	{
 		return 1;
 	}
@@ -85,7 +85,8 @@ public:
 		logo.set_render(render);
 	}
 
-	bool logo_is_enabled() const{
+	bool logo_is_enabled() const
+	{
 		return logo.get_render();
 	}
 
@@ -144,6 +145,11 @@ public:
 
 	virtual void setDoResize(bool flag)
 	{
+	}
+
+	virtual std::string getRalgoName()
+	{
+		return ralgo_name;
 	}
 
 public:

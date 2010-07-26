@@ -23,23 +23,24 @@
 #include "Bunny.hpp"
 #include <fstream>
 
-FrameData::FrameData(RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack) :
+FrameData::FrameData(RenderAlgorithm* algorithm_stack,
+		MeshLoader* mesh_loader_stack) :
 	renderer(0), algorithm_stack(algorithm_stack), mesh_loader_stack(
-		mesh_loader_stack)
+			mesh_loader_stack)
 {
 	init();
 }
 
 FrameData::FrameData(FrameData const& other) :
 	renderer(0), algorithm_stack(other.algorithm_stack), //
-		mesh_loader_stack(other.mesh_loader_stack)
+			mesh_loader_stack(other.mesh_loader_stack)
 {
 	init();
 }
 
 void FrameData::init()
 {
-	lights.resize(16); // todo; query this constant
+	lights.resize(16); // alternative: query this constant using glGet and GL_MAX_LIGHTS
 	std::memset(&lights[0], 0, lights.size() * sizeof(Light));
 
 	//! light 0 defaults
@@ -135,7 +136,8 @@ void FrameData::draw() const
 	logo.draw();
 }
 
-void FrameData::do_export_scene(boost::archive::xml_oarchive& archive){
+void FrameData::do_export_scene(boost::archive::xml_oarchive& archive)
+{
 	archive << boost::serialization::make_nvp("lights", lights);
 	archive << boost::serialization::make_nvp("model", model_name);
 	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
@@ -145,7 +147,6 @@ void FrameData::do_export_scene(boost::archive::xml_oarchive& archive){
 	logo_render = logo.get_render();
 	archive << boost::serialization::make_nvp("logo_render", logo_render);
 }
-
 
 void FrameData::export_scene(const char* filename)
 {

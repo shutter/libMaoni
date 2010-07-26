@@ -80,13 +80,7 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	is_spot = bool_manager->addProperty("spot light");
 	is_spot->setToolTip(
 			"Make positional light source act as a spotlight by restricting the shape of the light it emits to a cone.");
-	spot_dir_x = double_manager->addProperty("spot x");
-	spot_dir_y = double_manager->addProperty("spot y");
-	spot_dir_z = double_manager->addProperty("spot z");
-	spot_direction = group_manager->addProperty("spot direction");
-	spot_direction->addSubProperty(spot_dir_x);
-	spot_direction->addSubProperty(spot_dir_y);
-	spot_direction->addSubProperty(spot_dir_z);
+	spot_dir = vector3d_manager->addProperty("spot_dir");
 	cut_off = double_manager->addProperty("cut off angle");
 	cut_off->setToolTip(
 			"Specifies the angle between the axis of the cone and a ray along the edge of the cone. The angle of the cone at the apex is then twice this value.");
@@ -104,7 +98,7 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 	property_browser->setFactoryForManager(
 			color_manager->subIntPropertyManager(), int_factory);
 	property_browser->setFactoryForManager(
-		vector3d_manager->subDoublePropertyManager(), double_factory);
+			vector3d_manager->subDoublePropertyManager(), double_factory);
 
 	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), this,
 			SLOT(value_changed(QtProperty*, bool)));
@@ -131,11 +125,16 @@ void LightWidget::update_combobox()
 	light_chooser->addItems(list);
 }
 
+void LightWidget::reload()
+{
+	choose(current_id);
+}
+
 void LightWidget::choose(int i)
 {
 	current_id = i;
 	const FrameData& framedatac = framedata;
-	const Light& light = framedatac.light(i);
+	const Light& light = framedatac.light(current_id);
 
 	property_browser->clear();
 
@@ -149,14 +148,15 @@ void LightWidget::choose(int i)
 	specular->setEnabled(light.enabled);
 	attenuation->setEnabled(light.enabled);
 	is_spot->setEnabled(light.enabled);
-	spot_direction->setEnabled(light.enabled);
+	spot_dir->setEnabled(light.enabled);
 	cut_off->setEnabled(light.enabled);
 	exponent->setEnabled(light.enabled);
 
 	bool_manager->setValue(show_bulp, light.show_bulp);
 	property_browser->addProperty(show_bulp);
 	vector3d_manager->setValue(position, //
-		QVector3D(light.position | X, light.position | Y, light.position | Z));
+			QVector3D(light.position | X, light.position | Y, light.position
+					| Z));
 	property_browser->addProperty(position);
 	color_manager->setValue(ambient, colorOTB(light.ambient));
 	property_browser->addProperty(ambient);
@@ -169,14 +169,14 @@ void LightWidget::choose(int i)
 	double_manager->setValue(quad_att, light.quad_att);
 	property_browser->addProperty(attenuation);
 
-	if (i != 0)
+	if (current_id != 0)
 	{
 		bool_manager->setValue(is_spot, light.is_spot);
 		property_browser->addProperty(is_spot);
-		double_manager->setValue(spot_dir_x, light.spot_direction | X);
-		double_manager->setValue(spot_dir_y, light.spot_direction | Y);
-		double_manager->setValue(spot_dir_z, light.spot_direction | Z);
-		property_browser->addProperty(spot_direction);
+		vector3d_manager->setValue(spot_dir, //
+				QVector3D(light.spot_direction | X, light.spot_direction | Y,
+						light.spot_direction | Z));
+		property_browser->addProperty(spot_dir);
 		double_manager->setValue(cut_off, light.cut_off);
 		property_browser->addProperty(cut_off);
 		double_manager->setValue(exponent, light.exponent);
@@ -229,12 +229,6 @@ void LightWidget::value_changed(QtProperty* property, double value)
 	{
 		framedata.light(current_id).quad_att = value;
 	}
-	else if (name == "spot x" || name == "spot y" || name == "spot z")
-	{
-		framedata.light(current_id).spot_direction = Vec3(
-				double_manager->value(spot_dir_x), double_manager->value(
-						spot_dir_y), double_manager->value(spot_dir_z));
-	}
 	else if (name == "cut off angle")
 	{
 		framedata.light(current_id).cut_off = value;
@@ -264,8 +258,18 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 
 void LightWidget::value_changed(QtProperty* property, const QVector3D& value)
 {
-	framedata.light(current_id).position = //
-		Vec3(value.x(), value.y(), value.z());
+	std::string name = property->propertyName().toStdString();
+	if (name == "position")
+	{
+
+		framedata.light(current_id).position = //
+				Vec3(value.x(), value.y(), value.z());
+	}
+	else if (name == "spot_dir")
+	{
+		framedata.light(current_id).spot_direction = //
+				Vec3(value.x(), value.y(), value.z());
+	}
 }
 
 void LightWidget::update_browser()

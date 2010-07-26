@@ -34,6 +34,7 @@ Q_OBJECT // Enable signals and slots
 
 public:
 	LightWidget(FrameData& framedata, QWidget *parent = 0);
+	void reload();
 
 private slots:
 	void update_browser();
@@ -73,10 +74,11 @@ private:
 	QtProperty *quad_att;
 	QtProperty *attenuation;
 	QtProperty *is_spot;
-	QtProperty *spot_dir_x;
-	QtProperty *spot_dir_y;
-	QtProperty *spot_dir_z;
-	QtProperty *spot_direction;
+	QtProperty *spot_dir;
+//	QtProperty *spot_dir_x;
+//	QtProperty *spot_dir_y;
+//	QtProperty *spot_dir_z;
+//	QtProperty *spot_direction;
 	QtProperty *cut_off;
 	QtProperty *exponent;
 };

@@ -6,6 +6,8 @@
 
 class RenderWidget;
 class FrameData;
+class LightWidget;
+class AlgorithmWidget;
 
 class MainWindow: public QMainWindow
 {
@@ -14,7 +16,8 @@ Q_OBJECT
 public:
 	MainWindow(FrameData& framedata, RenderWidget* render_widget);
 
-	void add_dock(const char* name, Qt::DockWidgetArea area, QWidget *widget, bool visible=true);
+	void add_dock(const char* name, Qt::DockWidgetArea area, QWidget *widget,
+			bool visible = true);
 
 private slots:
 	void about_qt();
@@ -27,7 +30,7 @@ private slots:
 	void snapshot();
 
 signals:
-	void data_updated();
+void data_updated();
 
 private:
 	void init_docks();
@@ -35,6 +38,8 @@ private:
 private:
 	FrameData& framedata;
 	RenderWidget* render_widget;
+	AlgorithmWidget* algo_widget;
+	LightWidget* light_widget;
 	QMenu* dock_menu;
 };
 

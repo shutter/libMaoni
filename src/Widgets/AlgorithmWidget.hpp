@@ -46,6 +46,8 @@ public:
 	{
 	}
 
+	void reload();
+
 private slots:
 	void update_browser();
 	void choose(int index);

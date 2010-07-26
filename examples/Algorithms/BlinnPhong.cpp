@@ -59,25 +59,25 @@ SHADER_SOURCE(fragment_source, (version 120),
 
 			// compute light vector
 			vec3 light;
-			if (gl_LightSource[0].position.w == 0.0)
+			if (gl_LightSource[1].position.w == 0.0)
 			{
 				// directional light
-				light = normalize(gl_LightSource[0].position).xyz;
+				light = normalize(gl_LightSource[1].position).xyz;
 			}
 			else
 			{
 				// point light
-				light = normalize(gl_LightSource[0].position - positionEye).xyz;
+				light = normalize(gl_LightSource[1].position - positionEye).xyz;
 			}
 
 			// compute the ambient component
-			//vec4 ambient = gl_FrontLightProduct[0].ambient;
-			vec4 ambient = gl_LightSource[0].ambient * used_color;
+			//vec4 ambient = gl_FrontLightProduct[1].ambient;
+			vec4 ambient = gl_LightSource[1].ambient * used_color;
 
 			// compute the diffuse component
 			float dotLN = dot(light, normal);
 			//vec4 diffuse = gl_FrontLightProduct[0].diffuse * max( dotLN, 0.0 );
-			vec4 diffuse = gl_LightSource[0].diffuse * used_color * max(dotLN, 0.0);
+			vec4 diffuse = gl_LightSource[1].diffuse * used_color * max(dotLN, 0.0);
 
 			// compute the specular component
 			float factor;
@@ -98,7 +98,7 @@ SHADER_SOURCE(fragment_source, (version 120),
 
 			// modified Blinn-Phong
 			vec3 halfway = normalize(light + view);
-			vec4 specular = gl_FrontLightProduct[0].specular * factor * max(pow(dot(
+			vec4 specular = gl_FrontLightProduct[1].specular * factor * max(pow(dot(
 									normal, halfway), gl_FrontMaterial.shininess), 0.0);
 
 			// sum the components up, defaulting alpha to 1.0

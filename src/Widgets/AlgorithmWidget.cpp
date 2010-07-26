@@ -51,7 +51,7 @@ AlgorithmWidget::AlgorithmWidget(FrameData& framedata, QWidget *parent) :
 	framedata.for_each_algorithm(append_name(list));
 	algo_chooser->addItems(list);
 	connect(algo_chooser, SIGNAL(currentIndexChanged(int)), //
-		this, SLOT(choose(int)));
+			this, SLOT(choose(int)));
 
 	int_manager = new QtIntPropertyManager(this);
 	bool_manager = new QtBoolPropertyManager(this);
@@ -115,6 +115,16 @@ void AlgorithmWidget::update_browser()
 	framedata.config_algorithm(*this);
 }
 
+void AlgorithmWidget::reload()
+{
+	algo_chooser->setCurrentIndex(algo_chooser->findText(QString(
+			framedata.getRalgoName().c_str()), Qt::MatchExactly));
+	update_browser();
+}
+
+// The index parameter is not used but the name of the algorithm instead.
+// It can not be removed because the slot of a drop down menu needs an
+// integer parameter as signal.
 void AlgorithmWidget::choose(int index)
 {
 	std::string name = algo_chooser->currentText().toStdString();
