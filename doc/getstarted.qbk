@@ -44,7 +44,7 @@ the files need to have the same absolute filesystem path]
 
 [table: libMaoni Parallel Rendering with Ice-T
     [[Snapshot][Description]]
-    [[[$/home/shutter/workspace/libMaoni/build/doc/parallel_dragon.jpg]]
+    [[[$parallel_dragon.jpg]]
  [Parallel rendering of the Stanford dragon using four ranks and the Comic Style Shader Algorithm. The data rendered
  by the ranks are dyed differently.]]
 ]

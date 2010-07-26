@@ -14,10 +14,11 @@ add_reference(maoni-ref.xml
   )
 
 add_documentation(libMaoni.qbk
+    splashscreen.xml
     motivation.qbk
     getstarted.qbk
     tutorial.qbk
-    examples.qbk
+    examples.xml
     maoni-ref.xml
     design.qbk
     software.qbk
