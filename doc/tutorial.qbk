@@ -2,7 +2,7 @@
 [c++]
 
 [section Tutorial]
-In Maoni everithing is optional.
+In Maoni everything is optional.
 The simplest application built on Maoni consist of zero lines of code.
 
 [section Custom File Loader]
@@ -43,7 +43,7 @@ like this one:
   }
 
 It wouldn't be very DRY if you had to implement the same class skeleton for each
-loader, so we provide the macro [macroref MESH_LOADER] as a shortcut. The following
+loader, so libMaoni provides the macro [macroref MESH_LOADER] as a shortcut. The following
 code expands to the code above:
 
   MESH_LOADER(ply, Stanford PLY)
@@ -58,7 +58,7 @@ they will register themselves automatically.
 [section Custom Render Algorithm]
 Implementing rendering algorithms with libMaoni is very similar to mesh
 loaders. Again you just inherit your class from a provided parent, implement virtual
-functions and create an instance. Again we provide a macro as shortcut.
+functions and create an instance. Again a macro is provided as shortcut.
 
 Inherit from [classref RenderAlgorithm] and implement the following functions:
 
@@ -107,7 +107,7 @@ Inherit from [classref RenderAlgorithm] and implement the following functions:
   	void FixedFunction::render(const Model& model) const
 
 
-[macroref RENDER_ALGORITHM] helps you save some boilerplate: 
+[macroref RENDER_ALGORITHM] helps you saving some boilerplate: 
 
   RENDER_ALGORITHM(FixedFunction,
   		(bool, wired, false)
@@ -140,43 +140,16 @@ As you can see in the FixedFunction code above, there will be settings for drawi
 only wired, additionaly draw the vertex normals and to set the model's material properties. 
 The draw function is provided by the model data structure and contains a simple triangle renderer.
 
-[tip You will find these data structures in the example algorithms.]
+[tip You will find these data structures in the example folder.]
 
 [endsect]
 
 [section Enumerations]
 
 Enumerators will appear as drop-down menu in the algorithm widget. To make the selection avaiable 
-in the render algorithm, the enumarator is implemented as class:
+in the render algorithm, the enumarator is implemented as class.
 
-  class ColorSelect: public ``[classref Enum]``
-  	{
-  	public:
-  		ColorSelect(int value) :
-  		Enum(value)
-  		{
-  		}
-  
-  		enum
-  		{
-  			Red, Green, Blue
-  		};
-  
-  	private:
-  		int size() const
-  		{
-  			return 3;
-  		}
-  
-  		const char* const * names() const
-  		{
-  			static const char* const name_stack[] =
-  				{ "Red", "Green", "Blue",   0 };
-  			return name_stack;
-  		}
-  	}
-
-[macroref ENUM] expands to the code above:
+Use [macroref ENUM] as follows:
 
   ENUM(ColorSelect,
   	(Red)
@@ -257,10 +230,11 @@ Note that `ShaderProgram` and all derived classes convert implicitely to `GLuint
 you can pass a shader object directly to `glUseProgram`.
 
 [section ScopedLocks macros]
-ScopedLocks are an implementation of the Resource Acquisition Is Initialization pattern (RAII).
+ScopedLocks are an implementation of the [@http://en.wikipedia.org/wiki/RAII 
+Resource Acquisition Is Initialization pattern (RAII)].
 If you change an OpenGL state in your render algorithm and then switch to another one, that algorithm 
 probably will run on parameters which were not intened by the author. So wrap changes to OpenGL in a
-ScopedLock and it will assure the parameter is resetted to the state before when the destructor
+ScopedLock and it will assure the parameter is resetted to the state it had before when the destructor
 is called. The same goes for shader programs and textures.
 
 LibMaoni has four kind of ScopedLocks avaiable:
@@ -273,8 +247,8 @@ LibMaoni has four kind of ScopedLocks avaiable:
 [endsect]
 
 [section MultiTexturing]
-Textures are loaded in the render algorithm and mapped to a uniform variable (e.g. uniform sampler2D) of a shader program.
-Use [classref ScopedBindTexture] to temporarily bind your texture and glUniform1i for the mapping.
+Textures are loaded in the render algorithm and mapped to a uniform variable (e.g. `uniform sampler2D`) of a shader program.
+Use [classref ScopedBindTexture] to temporarily bind your texture and `glUniform1i` for the mapping.
 For every texture you need a pair of those in your render algorithm:
 
   ScopedBindTexture tex1_lock(tex1, GL_TEXTURE0);
@@ -285,13 +259,13 @@ For every texture you need a pair of those in your render algorithm:
 
 [caution the shader program has to be compiled and loaded (e.g. by [classref ScopedUseProgram]) before you can map uniform variables!]
 
-[note If you would like to use some other binding parameters feel free to implement the binding directly 
-in the render algorithm. Just do not forget to reset states after drawing or you will probably end in 
+[note If you would like to use some other binding parameters, feel free to implement the binding directly 
+in the render algorithm. Just don't forget to reset states after drawing or you will end in 
 debugging side effects.]
 
 [note The texture name appears as uniform variable in the shader program and - if settable by the user - as 
-Texture object in the render algorithm's parameter list. glUniform1i uses the uniform variable name, the ScopedLock 
-the Texture object.]
+Texture object in the render algorithm's parameter list. `glUniform1i` uses the uniform variable name, the ScopedLock uses 
+the texture object.]
 
 [endsect]
 [endsect]

@@ -14,16 +14,15 @@ add_reference(maoni-ref.xml
   )
 
 add_documentation(libMaoni.qbk
-    splashscreen.xml
     motivation.qbk
     getstarted.qbk
     tutorial.qbk
-    examples.xml
+    examples.qbk
     maoni-ref.xml
     design.qbk
     software.qbk
   IMAGES
-    ../src/Images/Splashscreen.jpg
+    images/Splashscreen.jpg
     images/parallel_dragon.jpg
     images/dragon_blinnphong.jpg
     images/dragon_comicstyle.jpg

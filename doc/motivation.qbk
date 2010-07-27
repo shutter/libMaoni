@@ -22,14 +22,14 @@ addressed: a mixture of memory preserving but still fast access to the data of
 the internal representation of the 3D model, an efficient render algorithm and
 the use of the GPUs capabilities.
 
-Another important aspect is the permission to distribute the work, e.g. to
-demonstrate the capabilities of an algorithm to other researchers or on a
+Another important aspect is the permission e.g. to distribute the work to
+demonstrate the capabilities of an algorithm to other researchers or to show on a
 congress without getting problems with product licenses. Actually the software
 has also to be distributable in a technical way: portable to different operating
 systems as binary package or for development.
 
 LibMaoni addresses all these needs and even more! You can extend libMaoni by
-data loaders and algorithms just by linking against the library. The framework
+file loaders and algorithms just by linking against the library. The framework
 uses a simple vertex model but feel free to extend or replace this
 representation or load your model data directly in the algorithm. Speaking about
 algorithms: libMaoni's macros allow to implement an algorithm and its shaders as
@@ -38,8 +38,10 @@ single file without changing the source code of the core system; Have a look at
 the sample algorithms to get a first impression. 
 
 LibMaoni's viewer compiles in three versions: a simple renderer using the
-computer's internal graphic card, a distributed renderer using the IceT tile
-rendering framework and another distributed renderer using the equalizer library
+computer's internal graphic card, a distributed renderer using the 
+[@http://www.cs.unm.edu/~kmorel/IceT/ IceT] tile
+rendering framework and another distributed renderer using the 
+[@http://www.equalizergraphics.com/ Equalizer] library
 which allows cave rendering.
 
 Every software artifact used for libMaoni is licensed as GNU GPL or similar and

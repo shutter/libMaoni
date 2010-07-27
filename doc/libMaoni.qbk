@@ -1,17 +1,24 @@
 [article libMaoni
    [quickbook 1.5]
-   [version 1.0]
-   [id Manual]
    [authors [Pfeifer, Daniel],[Hutter, Stefan]]
    [copyright 2009 2010 Daniel Pfeifer, Stefan Hutter]
    [purpose common rendering framework]
 ]
 
-[xinclude splashscreen.xml]
+'''
+<informalfigure>
+  <mediaobject>
+    <imageobject>
+      <imagedata align="center" fileref="Splashscreen.jpg" />
+    </imageobject>
+  </mediaobject>
+</informalfigure>
+'''
+
 [include motivation.qbk]
 [include getstarted.qbk]
 [include tutorial.qbk]
-[xinclude examples.xml]
+[include examples.qbk]
 [xinclude maoni-ref.xml]
 [include design.qbk]
 [include software.qbk]
