@@ -3,10 +3,10 @@
 
 [section Tutorial]
 In Maoni everything is optional.
-The simplest application built on Maoni consist of zero lines of code.
+The minimal application built on Maoni consists of zero lines of code.
 
 [section Custom File Loader]
-So we start by implementing a loader for meshes. To do so, declare a class and
+We start by implementing a loader for meshes. To do so, declare a class and
 inherit from [classref MeshLoader]. You will have to implement three virtual functions:
 
 # `name()` shall return the name of your loader.
@@ -15,8 +15,7 @@ inherit from [classref MeshLoader]. You will have to implement three virtual fun
    into the [classref Model].
 
 Lastly, create an instance of your loader. This may be either global, or static
-inside your loader class. The result will be the same. Now your code would look
-like this one:
+inside your loader class. Now your code might look like this:
 
   class PlyLoader: public ``[classref MeshLoader]``
   {
@@ -42,7 +41,8 @@ like this one:
     ...
   }
 
-It wouldn't be very DRY if you had to implement the same class skeleton for each
+It wouldn't be very [@http://en.wikipedia.org/wiki/Don%27t_repeat_yourself DRY] 
+if you had to implement the same class skeleton for each
 loader, so libMaoni provides the macro [macroref MESH_LOADER] as a shortcut. The following
 code expands to the code above:
 
@@ -57,8 +57,8 @@ they will register themselves automatically.
 
 [section Custom Render Algorithm]
 Implementing rendering algorithms with libMaoni is very similar to mesh
-loaders. Again you just inherit your class from a provided parent, implement virtual
-functions and create an instance. Again a macro is provided as shortcut.
+loaders. You just inherit your class from a provided parent, implement virtual
+functions and create an instance. A macro is provided as shortcut.
 
 Inherit from [classref RenderAlgorithm] and implement the following functions:
 
@@ -122,7 +122,7 @@ Inherit from [classref RenderAlgorithm] and implement the following functions:
   }
 
 The sequence of parameters will be available in the render algorithm widget so you can 
-modify the behavior of your algorithm while rendering in one of libMaoni's viewer.
+modify the behavior of your algorithm while rendering.
 The following data structures can be used:
 
 [table:1 libMaoni make parameters
@@ -136,8 +136,8 @@ The following data structures can be used:
     [[Color] [Adds a color picker dialog]]
 ]
 
-As you can see in the FixedFunction code above, there will be settings for drawing the model 
-only wired, additionaly draw the vertex normals and to set the model's material properties. 
+As you can see in the FixedFunction code above, there are settings for drawing the model 
+in wireframe mode, the vertex normals and to change the model's material properties. 
 The draw function is provided by the model data structure and contains a simple triangle renderer.
 
 [tip You will find these data structures in the example folder.]
@@ -232,7 +232,7 @@ you can pass a shader object directly to `glUseProgram`.
 [section ScopedLocks macros]
 ScopedLocks are an implementation of the [@http://en.wikipedia.org/wiki/RAII 
 Resource Acquisition Is Initialization pattern (RAII)].
-If you change an OpenGL state in your render algorithm and then switch to another one, that algorithm 
+If you change OpenGL state in your render algorithm and then switch to another one, that algorithm 
 probably will run on parameters which were not intened by the author. So wrap changes to OpenGL in a
 ScopedLock and it will assure the parameter is resetted to the state it had before when the destructor
 is called. The same goes for shader programs and textures.

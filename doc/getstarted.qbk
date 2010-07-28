@@ -7,6 +7,10 @@ Users of Ubuntu and Ubuntu derivatives (such as Kubuntu) rejoice!
   $ sudo add-apt-repository ppa:purplekarrot/ppa
   $ sudo apt-get update
   $ sudo apt-get install maoni
+  
+Users of Intel Macs find 32Bit and 64Bit Maoni dmg under
+
+ http://github.com/purpleKarrot/libMaoni/downloads
 
 [endsect]
 
@@ -125,8 +129,7 @@ For developing libMaoni with IceT you also need to install [@apt://libopenmpi-de
 
   $ sudo aptitude install libopenmpi-dev
 
-If you aren't already there, switch to your libMaoni project folder and download some important 
-CMake files which are necessary for libMaoni's powerful toolchain:
+Switch to your libMaoni project folder and download external CMake files which are necessary for libMaoni's toolchain:
 
   $ git submodule init
   $ git submodule update
@@ -156,14 +159,14 @@ The different kinds of building libMaoni are controlled by make arguments, e.g.:
 
 [endsect]
 
-[section The hard way]
-In our experience, it's very comfortable to develop on Ubuntu Linux as there are 
-powerful tools avaiable which are missing or only rudimentary avaiable on Windows 
-or Mac OS X such as package manager or bash.
-However if you'd like to build libMaoni for Windows or Mac OS X and create the 
+[section Developing libMaoni on Mac OS X and Windows]
+If you'd like to build libMaoni for Windows or Mac OS X and create your own 
 installers here's the how-to.
 
 [section Developing libMaoni on Mac OS X]
+
+Check whether the Apple Developer Tools are installed already. Additionally you need 
+this software:
 
 * [@http://code.google.com/p/git-osx-installer/ GIT]
 * [@http://cmake.org/ CMake]
@@ -173,7 +176,7 @@ installers here's the how-to.
 * [@http://code.google.com/p/lib3ds/ lib3ds]
 * [@http://glew.sourceforge.net/ glew]
 
-Install [*GIT] and [*CMake] dimages. Download and unpack [*Boost 1.40.0] and install boost-headers. 
+Install [*GIT] and [*CMake] disk images. Download and unpack [*Boost 1.40.0] and install boost-headers. 
 Download and install [*Qt LGPL]. Download, build and install [*QGLViewer].
 
 [tip If you get an error "no rule to make target 'qglviewer.icns'" just create an 
@@ -183,8 +186,8 @@ QGlViewer.pro file and build again]
 Download, configure and build [*lib3ds].
 
 Use [*GIT] to clone [@http://github.com/purpleKarrot/libMaoni purpleKarrots libMaoni repository]. 
-Open a terminal and navigate to your project folder. Download some important 
-CMake files which are necessary for libMaoni's powerful toolchain:
+Open a terminal and navigate to your project folder. Download external 
+CMake files which are necessary for libMaoni's toolchain:
 
   $ git submodule init
   $ git submodule update
@@ -194,12 +197,13 @@ Create a folder "build", enter this folder and call
   $ cmake .. 
 
 Build the project using your prefered make parameter.
+
+[tip To create your own installer use [*make package]. On Mac OS X, Cmake uses 
+[@http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/PackageMakerUserGuide/Introduction/Introduction.html Package Maker]]
 [endsect]
 
 [section Developing libMaoni on Windows]
-There is some software you need to be able to checkout the git-repository and to 
-build libMaoni. Sometimes, there are several products avaiable but here's a list 
-of software we tested and used our own.
+Install the following software to build libMaoni on Windows:
 
 * [@http://code.google.com/p/msysgit/ GIT]
 * [@http://www.cmake.org/cmake/resources/software.html CMake]
@@ -207,12 +211,13 @@ of software we tested and used our own.
 * [@http://www.boostpro.com/download/ BoostPro Binary Installer for Visual C++]
 * [@http://qt.nokia.com/downloads Qt libraries 4.6.2 for Windows]
 * [@http://www.mcs.anl.gov/research/projects/mpich2/ MPICH2]
+* [@http://nsis.sourceforge.net/Download NSIS Installer creator]
 
 Install [*Visual Studio 2008], [*msysgit], [*CMake], [*Boost 1.40.0] and [*Qt LGPL].
 
 You can use [*GIT-Bash or GUI] to clone [@http://github.com/purpleKarrot/libMaoni purpleKarrots libMaoni repository]. 
-If you aren't already there, switch to your libMaoni project folder and download some important 
-CMake files which are necessary for libMaoni's powerful toolchain:
+Switch to your libMaoni project folder and download important CMake files which are 
+necessary for libMaoni's toolchain:
 
   $ git submodule init
   $ git submodule update
@@ -220,21 +225,22 @@ CMake files which are necessary for libMaoni's powerful toolchain:
 Open CMAKE-GUI and configure until it's successful. Generate the Visual Studio 2008 project 
 files. Open libMaoni project in Visual Studio and build the release (not debug).
 
-
-[endsect]
-[endsect]
-[endsect]
+[tip To create your own installer use [*make package]. On Windows, Cmake uses 
+[@http://nsis.sourceforge.net NSIS Windows installers creator]]
 [endsect]
 
+[endsect]
+[endsect]
+[endsect]
 
 [section Parallel Rendering]
-The following informations on parallel rendering using libMaoni are for Ubuntu Linux.
+The following information on parallel rendering using libMaoni are for Ubuntu Linux.
 
 For Equalizer as well as IceT the master node needs remote access to the 
 render clients without password prompt. Install [@apt://openssh-server OpenSSH Server] 
 on the clients, create a key pair on the master and copy the public key to the 
 authorized_keys file on the clients ([@http://www.open-mpi.org/faq/?category=rsh#ssh-keys How-To]). 
-You have to login once to accept the connection before the client can be used 
+You have to login at least once to accept the connection before the client can be used 
 for parallel rendering.
 
 [table MPI, IceT and Equalizer resources
@@ -251,7 +257,7 @@ Parallel rendering using IceT needs [@apt://libopenmpi-dev Open MPI] installed.
 Install, build or copy libMaonis's IceT binary to the same workpath on all the 
 machines or use a shared drive. Start the application e.g.:
 
-  $ mpirun -np \[number of processes\] --host \[comma separated host names\] \[path to executable\] -display :0
+  $ mpirun -np [number of processes] --host [comma separated host names] [path to executable] -display :0
 
 [tip Have a look at the [@http://www.open-mpi.org/faq/?category=running#simple-spmd-run Open MPI documentation]
  on how to create a host file to define your render cluster's network environment.]
@@ -276,6 +282,6 @@ the files need to have the same absolute filesystem path]
 
 [section Equalizer]
 Because of an open [@http://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209 Equalizer bug]
-, the render data can't be shown in a Qt render context. Update follows.
+, the render data can't be shown in a Qt render context.
 [endsect]
 [endsect]
