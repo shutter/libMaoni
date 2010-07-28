@@ -34,12 +34,13 @@ Manual] for a more in-depth introduction.
 [section How-to use github and Checkout a Project]
 GIT allows an alternative work flow people aren't used from CVS or SVN. You
 don't have to become a libMaoni developer and don't have to gain access to the
-repository to be able of up- and downloading patches, instead you have to fork the
-projekt and will work on your personal fork.
+repository to be able of up- and downloading patches, instead you have to fork
+the projekt and will work on your personal fork.
 
 Create an account on [@http://www.github.com github.com]; you can find the
 guides on how to fork a project and creating and importing ssh-keys into your
-github account in the popular guide section of the [@http://help.github.com/ help area].
+github account in the popular guide section of the
+[@http://help.github.com/ help area].
 
 Now you can fetch your fork to your local machine: open Eclipse and create a new
 C++ Project, an [*Empty Makefile Project] using [*Other Toolchain].
@@ -47,7 +48,8 @@ C++ Project, an [*Empty Makefile Project] using [*Other Toolchain].
 [tip If you don't want to create an account on github.com, just use the projects
 read-only url to checkout libMaoni directly to your local git repository]
 
-[note See the next section on how to install git for your specific operating system.]
+[note See the next section on how to install git for your specific operating
+system.]
 
 Open a terminal, switch to your workspace and create the clone of your fork.
 
@@ -64,8 +66,11 @@ your fork is up to date:
 
 This will update your remote repository as well as your local files.
 
-[tip There is a large [@http://help.github.com/ help section] on [@http://www.github.com github.com]
- addressing topics like how-to fork or the first steps using git]
+[tip There is a large [@http://help.github.com/ help section] on
+ [@http://www.github.com github.com] addressing topics like how-to fork or the
+ first steps using git
+]
+
 [endsect]
 
 
@@ -82,8 +87,8 @@ commits by creating a single one for every requirement:
 
   $ git commit -m'some meaningful comment'
 
-Until now you just copied the libMaoni project to your repository on github as well as
- your local harddrive and modified your local version. Upload your fixed
+Until now you just copied the libMaoni project to your repository on github as
+well as your local harddrive and modified your local version. Upload your fixed
 commit to your remote repository on github:
 
   $ git push origin master
@@ -96,8 +101,8 @@ commit to your remote repository on github:
 ]
 
 If you like to make your changes public to the whole libMaoni community, use the
-[*pullrequest] button on [@http://www.github.com github.com] to ask for your code being pulled to purpleKarrot's
-repository.
+[*pullrequest] button on [@http://www.github.com github.com] to ask for your
+code being pulled to purpleKarrot's repository.
 [endsect]
 [endsect]
 
@@ -109,8 +114,8 @@ Eclipse IDE for C/C++ Developers].
 You have already seen how to install [*git], fork and pull a project from 
 [@http://www.github.com github.com] in the previous chapter.
 
-We use cmake to check for dependencies and creating the makefiles. Install other dependencies using  
-[@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,lib3ds-dev,fop this] 
+We use cmake to check for dependencies and creating the makefiles. Install other
+dependencies using [@apt://cmake,g++,libqglviewer-qt4-dev,libboost1.40-all-dev,libglew1.5-dev,doxygen,docbook-xsl,lib3ds-dev,fop this] 
 apt link or the following command:
 
   $ sudo aptitude install cmake g++ libgqlviewer-qt4-dev libboost1.40-all-dev libglew1.5-dev doxygen docbook-xsl lib3ds-dev fop
@@ -265,19 +270,11 @@ machines or use a shared drive. Start the application e.g.:
 [note libMaoni uses absolute Paths to load images, models and so on, thus all 
 the files need to have the same absolute filesystem path]
 
-'''
-  <informalfigure>
-    <mediaobject>
-      <imageobject>
-        <imagedata align="center" fileref="parallel_dragon.jpg" />
-      </imageobject>
-      <caption>
-        Parallel rendering of the Stanford Dragon using eight ranks and the Comic Style Shader Algorithm. 
-        The data rendered by the ranks are dyed differently.
-      </caption>
-    </mediaobject>
-  </informalfigure>
-'''
+[figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
+ eight ranks and the Comic Style Shader Algorithm. The data rendered by the
+ ranks are dyed differently.
+]
+
 [endsect]
 
 [section Equalizer]

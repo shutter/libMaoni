@@ -5,6 +5,19 @@
    [purpose common rendering framework]
 ]
 
+[template figure[fileref caption]
+'''
+<informalfigure>
+  <mediaobject>
+    <imageobject>
+      <imagedata align="center" fileref="'''[fileref]'''" />
+    </imageobject>
+    <caption>'''[caption]'''</caption>
+  </mediaobject>
+</informalfigure>
+'''
+]
+
 [include motivation.qbk]
 [include getstarted.qbk]
 [include tutorial.qbk]

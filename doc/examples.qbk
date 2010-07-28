@@ -1,85 +1,35 @@
 [section Examples]
-A bunch of example algorithms facilitates the introduction to develop own render algorithms.
-Have a look at this [@http://github.com/shutter/MaoniOfLife Game of Life Implementation] to see, how
- libMaoni is used in a standalone algorithm (just install libMaoni, pull [*MaoniOfLife], cmake and build).
- 
-'''
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="dgl_bump_mapping.jpg" />
-    </imageobject>
-    <caption>
-      A simple sphere mapping shader as described at
-      <ulink url="http://wiki.delphigl.com/index.php/shader_Bumpmapping">http://wiki.delphigl.com/index.php/shader_Bumpmapping</ulink>
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="ozone_bump_mapping.jpg" />
-    </imageobject>
-    <caption>
-      A simple sphere mapping shader as described at
-      <ulink url="http://www.ozone3d.net/tutorials/bump_mapping.php">http://www.ozone3d.net/tutorials/bump_mapping.php</ulink>
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="swiftless_bump_mapping.jpg" />
-    </imageobject>
-    <caption>
-      A simple sphere mapping shader as described at
-      <ulink url="http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html">http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html</ulink>
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="dragon_blinnphong.jpg" />
-    </imageobject>
-    <caption>
-      A Blinn-Phong reflection shader. Only the configuration of LIGHT0 is used to
-      calculate the reflection.
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="dragon_comicstyle.jpg" />
-    </imageobject>
-    <caption>
-      A simple comic style surface shader. The real color range is divided into a number
-      of discrete steps which can be changed by the user and leeds to a single color toon effect
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="dragon_spheremapping.jpg" />
-    </imageobject>
-    <caption>
-      A simple
-      <ulink url="http://en.wikipedia.org/wiki/Sphere_mapping">sphere mapping</ulink>
-      shader.
-    </caption>
-  </mediaobject>
-</informalfigure>
-<informalfigure>
-  <mediaobject>
-    <imageobject>
-      <imagedata align="center" fileref="rockerarm_fixedfunction.jpg" />
-    </imageobject>
-    <caption>
-      A simple fixed function algorithm.
-    </caption>
-  </mediaobject>
-</informalfigure>
-'''
+A bunch of example algorithms facilitates the introduction to develop own render
+algorithms. Have a look at this [@http://github.com/shutter/MaoniOfLife Game of
+Life Implementation] to see, how libMaoni is used in a standalone algorithm
+(just install libMaoni, pull [*MaoniOfLife], cmake and build).
+
+[figure dgl_bump_mapping.jpg..A bump mapping shader as described at
+ [@http://wiki.delphigl.com/index.php/shader_Bumpmapping]
+]
+
+[figure ozone_bump_mapping.jpg..A bump mapping shader as described at
+ [@http://www.ozone3d.net/tutorials/bump_mapping.php]
+]
+
+[figure swiftless_bump_mapping.jpg..A bump mapping shader as described at
+ [@http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html]
+]
+
+[figure dragon_blinnphong.jpg..A Blinn-Phong reflection shader.
+ Only the configuration of LIGHT0 is used to calculate the reflection.
+]
+
+[figure dragon_comicstyle.jpg..A comic style surface shader.
+ The real color range is divided into a number of discrete steps which can be
+ changed by the user and leeds to a single color toon effect.
+]
+
+[figure dragon_spheremapping.jpg..A
+ [@http://en.wikipedia.org/wiki/Sphere_mapping sphere mapping] shader.
+]
+
+[figure rockerarm_fixedfunction.jpg..A fixed function algorithm.]
+
 [endsect]
+
