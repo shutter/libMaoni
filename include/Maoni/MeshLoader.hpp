@@ -22,6 +22,17 @@
 #include <Maoni/Model.hpp>
 #include <Maoni/detail/Extensible.hpp>
 
+/**
+ * \brief Base class MeshLoader
+ *
+ * Defines the public interface for any file loader using the MESH_LOADER
+ * macro. name() an extension() are created by the macro automatically and
+ * are used for the load dialog in the main menu. The load() method has to
+ * be implemented by yourself and defines what has to be done when a file
+ * in the file open dialog has been chosen.
+ *
+ * MESH_LOADER(extension, name){load stub}
+ */
 struct MeshLoader: Extensible<MeshLoader>
 {
 	virtual const char* const name() const = 0;
@@ -37,7 +48,7 @@ struct MeshLoader: Extensible<MeshLoader>
  * which will be linked against libMaoni.
  * The macro ensures the right interface to make the new file type available
  * in the model-file choose dialog.
- * Have a look at the MeshLoader-tutorial and loader examples for information
+ * Have a look at the MeshLoader tutorial and loader examples for information
  * about concrete implementation.
  *
  * \param EXT  The file extension associated with this loader
