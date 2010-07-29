@@ -19,7 +19,6 @@
 #include <GL/glew.h>
 #include <Maoni/Texture.hpp>
 #include <Maoni/ScopedLocks.hpp>
-#include <iostream>
 
 #include <QImage>
 #include <QGLWidget>
@@ -35,7 +34,7 @@ Texture::operator unsigned int() const
 	{
 		glGenTextures(1, &name);
 
-		QImage image(std::string(*this).c_str());
+		QImage image(path().c_str());
 		QImage teximage = QGLWidget::convertToGLFormat(image);
 		ScopedBindTexture texture_lock(name);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -49,6 +48,7 @@ Texture::operator unsigned int() const
 
 void Texture::reset()
 {
+	std::cout << "texture reset" << std::endl;
 	glDeleteTextures(1, &name);
 	name = 0;
 }

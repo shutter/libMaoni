@@ -39,17 +39,17 @@ public:
 
 	//! The file-path assignment operator
 	/*!
-	  \param other A const reference to a string value
+	  \param value A const reference to a string value
 	 */
-	std::string const& operator=(std::string const& other);
+	void path(std::string const& value);
 
 	//! The file-path call operator
     /*!
-      \return The file-path as const string reference
+      \return The file-path as const string
     */
-	operator const std::string&() const;
+	std::string path() const;
 
-	//! Implement in the subclass for file-type constraint
+	//! To be implemented in subclasses for file-type constraints
 	/*!
 	  \return The file-type description and type-list to use in file-dialogs
 			  as const char pointer. E.g. "Image files (*.jpg *.png)"
@@ -62,7 +62,7 @@ private:
 	virtual void reset();
 
 private:
-	std::string path;
+	std::string path_;
 };
 
 #endif /* MAONI_PATH_HPP */

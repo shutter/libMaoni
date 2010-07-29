@@ -189,7 +189,7 @@ void AlgorithmWidget::property(const char* name, Color& value)
 void AlgorithmWidget::property(const char* name, Path& value)
 {
 	QtProperty* property = filepath_manager->addProperty(name);
-	filepath_manager->setValue(property, QString::fromStdString(value));
+	filepath_manager->setValue(property, QString::fromStdString(value.path()));
 	filepath_manager->setFilter(property, value.filter());
 	property_browser->addProperty(property);
 	path_pointers[property] = &value;
@@ -231,6 +231,6 @@ void AlgorithmWidget::value_changed(QtProperty* property, const QColor& value)
 void AlgorithmWidget::value_changed(QtProperty* property, const QString& value)
 {
 	if (path_pointers.contains(property))
-		*path_pointers[property] = value.toStdString();
+		path_pointers[property]->path(value.toStdString());
 	framedata.setRenderParamChanged();
 }

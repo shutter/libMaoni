@@ -23,8 +23,6 @@
 #include <boost/mpi/communicator.hpp>
 #include "Tile.hpp"
 
-#include <iostream>
-
 class FrameDataIceT: public FrameData
 {
 public:

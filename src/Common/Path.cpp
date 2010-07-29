@@ -19,34 +19,26 @@
 #include <Maoni/Path.hpp>
 
 Path::Path(const std::string& path) :
-	path(path)
-{
-}
-
-Path::Path(Path const& other) :
-	path(other.path)
+	path_(path)
 {
 }
 
 Path::~Path()
 {
-	reset();
 }
 
-std::string const& Path::operator=(std::string const& other)
+void Path::path(std::string const& other)
 {
-	if (path != other)
+	if (path_ != other)
 	{
-		reset();
-		path = other;
+		this->reset();
+		path_ = other;
 	}
-
-	return other;
 }
 
-Path::operator const std::string&() const
+std::string Path::path() const
 {
-	return path;
+	return path_;
 }
 
 const char* const Path::filter() const

@@ -39,6 +39,7 @@ struct AlgorithmConfig
 	virtual void property(const char* name, ShaderProgram& value) = 0;
 };
 
+
 struct RenderAlgorithm: Extensible<RenderAlgorithm>
 {
 	virtual const char* name() const = 0;

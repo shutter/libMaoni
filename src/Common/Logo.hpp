@@ -32,15 +32,13 @@ public:
 
 	void set_path(const std::string path)
 	{
-		Path& path_ = texture;
-		path_ = path;
+		texture.path(path);
 		calc_pos(window_width, window_height);
-
 	}
 
 	std::string get_path() const
 	{
-		return texture;
+		return texture.path();
 	}
 
 	void set_render(bool render)
@@ -62,7 +60,6 @@ private:
 	Texture texture;
 	int pos_x1, pos_x2, pos_y1, pos_y2;
 	int window_width, window_height;
-
 };
 
 #endif /* LOGO_HPP_ */

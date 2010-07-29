@@ -66,7 +66,7 @@ void FrameDataIceT::animate()
 	glMatrixMode( GL_MODELVIEW);
 	glLoadMatrixd(matrix);
 
-	if ((change & TILES_CHANGED) == TILES_CHANGED)
+	if (change & TILES_CHANGED)
 	{
 		setDoResize(true);
 
@@ -96,7 +96,7 @@ void FrameDataIceT::animate()
 		std::cout << "tiles changed" << std::endl;
 	}
 
-	if ((change & STRATEGY_CHANGED) == STRATEGY_CHANGED)
+	if (change & STRATEGY_CHANGED)
 	{
 		broadcast(world, strategy_, 0);
 
@@ -124,13 +124,13 @@ void FrameDataIceT::animate()
 		std::cout << "strategy changed to " << strategy_ << std::endl;
 	}
 
-	if ((change & LIGHT_CHANGED) == LIGHT_CHANGED)
+	if (change & LIGHT_CHANGED)
 	{
 		broadcast(world, lights, 0);
 		std::cout << "light changed" << std::endl;
 	}
 
-	if ((change & MODEL_CHANGED) == MODEL_CHANGED)
+	if (change & MODEL_CHANGED)
 	{
 		broadcast(world, model_name, 0);
 		if (!master())
@@ -138,7 +138,7 @@ void FrameDataIceT::animate()
 		std::cout << "model changed" << std::endl;
 	}
 
-	if ((change & RENDERER_CHANGED) == RENDERER_CHANGED)
+	if (change & RENDERER_CHANGED)
 	{
 		broadcast(world, ralgo_name, 0);
 		if (!master())
@@ -146,7 +146,7 @@ void FrameDataIceT::animate()
 		std::cout << "renderer changed" << std::endl;
 	}
 
-	if ((change & RENDERPARAM_CHANGED) == RENDERPARAM_CHANGED)
+	if (change & RENDERPARAM_CHANGED)
 	{
 		if (renderer)
 			broadcast(world, *renderer, 0);

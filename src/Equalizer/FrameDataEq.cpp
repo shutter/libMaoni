@@ -55,7 +55,7 @@ private:
 
 	void property(const char*, Path& value)
 	{
-		os << std::string(value);
+		os << value.path();
 	}
 
 	void property(const char*, Color& value)
@@ -130,7 +130,7 @@ private:
 	{
 		std::string temp;
 		is >> temp;
-		value = temp;
+		value.path(temp);
 	}
 
 	void property(const char*, Color& value)

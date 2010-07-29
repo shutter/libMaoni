@@ -4,6 +4,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <QFileDialog>
 #include <boost/la/all.hpp>
+
 using namespace boost::la;
 
 RenderWidget::RenderWidget(FrameData& framedata) :

@@ -102,9 +102,9 @@ private:
 
 	void property(const char* name, Path& value)
 	{
-		std::string tmp = value;
+		std::string tmp(value.path().c_str(), value.path().size());
 		archive & make_nvp(name, tmp);
-		value = tmp;
+		value.path(tmp);
 	}
 
 	void property(const char* name, Color& value)
