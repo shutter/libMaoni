@@ -27,25 +27,107 @@ class Path;
 class Color;
 class ShaderProgram;
 
+/**
+ * \brief Public interface for render algorithm properties
+ *
+ * To map the changeable properties of an algorithm (defined in the
+ * BSEQ property list), a responsible GUI class has to implement this
+ * interface and call the config() method.
+ * E.g. the AlgorithmWidget implements this interface to pass
+ * changes in the render algorithms property tree to the render
+ * algorithm itself.
+ */
 struct AlgorithmConfig
 {
+	//! Method to map an algorithm's integer variables to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to an integer affected by the property
+    */
 	virtual void property(const char* name, int& value) = 0;
+
+	//! Method to map an algorithm's boolean variables to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to a boolean affected by the property
+    */
 	virtual void property(const char* name, bool& value) = 0;
+
+	//! Method to map an algorithm's float variables to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to a float affected by the property
+    */
 	virtual void property(const char* name, float& value) = 0;
+
+	//! Signature of a method to map an algorithm's double variables to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to a double affected by the property
+    */
 	virtual void property(const char* name, double& value) = 0;
+
+	//! Signature of a method to map an algorithm's enumerators to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to an enumerator affected by the property
+    */
 	virtual void property(const char* name, Enum& value) = 0;
+
+	//! Signature of a method to map an algorithm's path objects to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to the path object affected by the property
+    */
 	virtual void property(const char* name, Path& value) = 0;
+
+	//! Signature of a method to map an algorithm's color objects to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to the color object affected by the property
+    */
 	virtual void property(const char* name, Color& value) = 0;
+
+	//! Signature of a method to map an algorithm's shader program
+    /*!
+      \param name Property name
+      \param value Reference to the shader program affected by the property
+    */
 	virtual void property(const char* name, ShaderProgram& value) = 0;
 };
 
-
+/**
+ * \brief Base class RenderAlgorithm
+ *
+ * Defines the public interface for any render algorithm using the
+ * RENDER_ALGORITHM macro. The methods name() and config() are
+ * created by the macro automatically and are used by the AlgorithmWidget
+ * to make the algorithm selectable and populate the property tree.
+ * The render() method has to be implemented by yourself and defines what
+ * will be done in every drawing loop.
+ *
+ * RENDER_ALGORITHM(name, properties){algorithm stub}
+ */
 struct RenderAlgorithm: Extensible<RenderAlgorithm>
 {
+	//! Signature of a method which returns a render algorithms name
+    /*!
+      \return A const pointer to the render algorithm's name
+    */
 	virtual const char* name() const = 0;
 
+	//! Signature of the method called every drawing loop
+    /*!
+      \param model A const reference to the model to be drawn by
+      the render algorithm
+    */
 	virtual void render(const Model& model) const = 0;
 
+	/** Signature of a method which maps the render algorithm's parameter
+	 *  list to a GUI using the property methods of the AlgorithmConfig interface
+	 *
+	 *  \param algo_config A const reference to a class which has the AlgorithmConfig interface implemented
+	 */
 	virtual void config(AlgorithmConfig& algo_config) = 0;
 };
 

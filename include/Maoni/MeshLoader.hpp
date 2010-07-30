@@ -26,17 +26,34 @@
  * \brief Base class MeshLoader
  *
  * Defines the public interface for any file loader using the MESH_LOADER
- * macro. name() an extension() are created by the macro automatically and
- * are used for the load dialog in the main menu. The load() method has to
- * be implemented by yourself and defines what has to be done when a file
- * in the file open dialog has been chosen.
+ * macro. The methods name() and extension() are created by the macro
+ * automatically and are used by the load dialog in the main menu.
+ * The load() method has to be implemented by yourself and defines what
+ * has to be done when a file in the file open dialog has been chosen.
  *
  * MESH_LOADER(extension, name){load stub}
  */
 struct MeshLoader: Extensible<MeshLoader>
 {
+	//! Signature of a method which returns a file loader's name
+    /*!
+      \return A const pointer to the file loader's name
+    */
 	virtual const char* const name() const = 0;
+
+	//! Signature of a method which returns a file loader's file extension
+    /*!
+      \return A const pointer to the file loader's file extension
+    */
 	virtual const char* const extension() const = 0;
+
+	//! Signature of the method which is called when a file has been chosen to be loaded
+    /*!
+      \param mesh A scoped pointer reference to the model
+      \param filename A const char pointer to the file path and name
+      \param rank The clients rank ID in parallel rendering
+      \param max The number of clients in parallel rendering
+    */
 	virtual void load(Model::Ptr& mesh, const char* filename,
 			int rank, int max) const = 0;
 };

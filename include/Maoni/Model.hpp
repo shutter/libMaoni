@@ -30,6 +30,7 @@
 class Model
 {
 public:
+	//! Defines a scoped Model pointer
 	typedef boost::scoped_ptr<Model> Ptr;
 
 	//! Create an empty model

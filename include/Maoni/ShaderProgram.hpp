@@ -39,6 +39,10 @@ public:
 	//! Destruct the shader program and removes it from the OpenGL state machine
 	~ShaderProgram();
 
+	//! Overwrite the shader program by another one when using the assignment operator
+	/*!
+	  \param other A const reference to a shader program
+	 */
 	const ShaderProgram& operator=(ShaderProgram const& other);
 
 	//! Compiles the shaders to a shader program
@@ -48,6 +52,7 @@ public:
 	operator unsigned int() const;
 
 protected:
+	//! Add a shader to the list of shaders of a shader program
 	void attach(unsigned int type, const char* source)
 	{
 		shaders.insert(shader_t(type, source));

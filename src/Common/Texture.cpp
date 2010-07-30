@@ -48,7 +48,6 @@ Texture::operator unsigned int() const
 
 void Texture::reset()
 {
-	std::cout << "texture reset" << std::endl;
 	glDeleteTextures(1, &name);
 	name = 0;
 }

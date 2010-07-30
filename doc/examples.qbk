@@ -17,7 +17,7 @@ Life Implementation] to see, how libMaoni is used in a standalone algorithm
 ]
 
 [figure dragon_blinnphong.jpg..A Blinn-Phong reflection shader.
- Only the configuration of LIGHT0 is used to calculate the reflection.
+ Only the configuration of LIGHT1 is used to calculate the reflection.
 ]
 
 [figure dragon_comicstyle.jpg..A comic style surface shader.

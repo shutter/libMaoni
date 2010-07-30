@@ -81,9 +81,16 @@ struct Vertex
 		return *this;
 	}
 
+	//! The vertex' position vector
 	Vec3 position;
+
+	//! The vertex' normal vector
 	Vec3 normal;
+
+	//! The vertex' color information
 	Color color;
+
+	//! The vertex' texture coordinates
 	Vec2 texcoord;
 };
 
