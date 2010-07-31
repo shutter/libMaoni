@@ -1,7 +1,5 @@
 # Copyright (c) 2009, 2010 Daniel Pfeifer, University of Zurich
 
-include(Extract)
-
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 

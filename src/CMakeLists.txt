@@ -93,7 +93,7 @@ target_link_libraries(Maoni ${MAONI_LIBRARIES})
 
 
 add_subdirectory(Equalizer)
-add_subdirectory(IceT)
+#add_subdirectory(IceT)
 
 
 add_library(MaoniMain STATIC main.cpp)
