@@ -79,7 +79,7 @@ set(MAONI_LIBRARIES
   QtPropertyBrowser
   ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
-  ${GLEW_LIBRARY}
+  ${GLEW_LIBRARIES}
   ${OPENGL_LIBRARIES}
   )
 
@@ -93,7 +93,7 @@ target_link_libraries(Maoni ${MAONI_LIBRARIES})
 
 
 add_subdirectory(Equalizer)
-#add_subdirectory(IceT)
+add_subdirectory(IceT)
 
 
 add_library(MaoniMain STATIC main.cpp)
