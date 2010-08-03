@@ -12,6 +12,18 @@ Users of Intel Macs find 32Bit and 64Bit Maoni dmg under
 
  http://github.com/purpleKarrot/libMaoni/downloads
 
+As prerequisite, the following has to be in the include path of your developing environment:
+
+* The maoni header file [@http://github.com/purpleKarrot/libMaoni/blob/master/include/Maoni.hpp Maoni.hpp]
+* Boost preprocessor header files to use the given macros, e.g. [macroref RENDER_ALGORITHM RENDER_ALGORITHM] and [macroref ENUM ENUM]
+
+And the linker has to link against:
+
+* The precompiled libMaoniMain library
+* The precompiled libMaoni library for local rendering
+* The precompiled libMaoniIceT or libManoniEqualizer library for parallel rendering
+
+If you aren't interested in building libMaoni yourself, you can [link getstarted.parallel_rendering skip the next chapter].
 [endsect]
 
 [section Building from Source]
@@ -238,7 +250,7 @@ files. Open libMaoni project in Visual Studio and build the release (not debug).
 [endsect]
 [endsect]
 
-[section Parallel Rendering]
+[section:parallel_rendering Parallel Rendering]
 The following information on parallel rendering using libMaoni are for Ubuntu Linux.
 
 For Equalizer as well as IceT the master node needs remote access to the 
@@ -250,11 +262,13 @@ for parallel rendering.
 
 [table MPI, IceT and Equalizer resources
     [[Resource] [URL]]
-    [[`OpenSSHKeys`]     [[@https://help.ubuntu.com/community/SSH/OpenSSH/Keys]]]
-    [[`Open MPI`]        [[@http://www.open-mpi.org/]]]
-    [[`Open MPI FAQ`]    [[@http://www.open-mpi.org/faq/]]]
-    [[`IceT Project`]    [[@http://www.cs.unm.edu/~kmorel/IceT/]]]
-    [[`IceT User Guide`] [[@http://www.cs.unm.edu/~kmorel/IceT/IceTUsersGuide.pdf]]]
+    [[`OpenSSHKeys`]             [[@https://help.ubuntu.com/community/SSH/OpenSSH/Keys]]]
+    [[`Open MPI`]                [[@http://www.open-mpi.org/]]]
+    [[`Open MPI FAQ`]            [[@http://www.open-mpi.org/faq/]]]
+    [[`IceT Project`]            [[@http://www.cs.unm.edu/~kmorel/IceT/]]]
+    [[`IceT User Guide`]         [[@http://www.cs.unm.edu/~kmorel/IceT/IceTUsersGuide.pdf]]]
+	[[`Equalizer Project`]       [[@http://www.equalizergraphics.com/]]]
+	[[`Equalizer Download`]      [[@http://sourceforge.net/projects/equalizer/]]]
 ]
 
 [section IceT]
@@ -268,7 +282,7 @@ machines or use a shared drive. Start the application e.g.:
  on how to create a host file to define your render cluster's network environment.]
 
 [note libMaoni uses absolute Paths to load images, models and so on, thus all 
-the files need to have the same absolute filesystem path]
+the files need to have the same absolute filesystem path.]
 
 [figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
  eight ranks and the Comic Style Shader Algorithm. The data rendered by the
@@ -278,6 +292,12 @@ the files need to have the same absolute filesystem path]
 [endsect]
 
 [section Equalizer]
+Parallel rendering using Equalizer needs [@http://sourceforge.net/projects/equalizer/ Equalizer] installed. 
+A Maoni-Equalizer application has to be distributed to the render clients. To run the application, Equalizer Server 
+has to be started on the master render client and the application using corresponding parameters. Have a look at 
+[@http://www.equalizergraphics.com/documentation.html Equalizer's User Guides] to find all about Equalizer config files and parameters.
+
+
 Because of an open [@http://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209 Equalizer bug]
 , the render data can't be shown in a Qt render context.
 [endsect]

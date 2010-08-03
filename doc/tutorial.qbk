@@ -1,7 +1,7 @@
 
 [c++]
 
-[section Tutorial]
+[section:tutorial Tutorial]
 In Maoni everything is optional.
 The minimal application built on Maoni consists of zero lines of code.
 
