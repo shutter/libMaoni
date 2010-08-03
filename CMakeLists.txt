@@ -9,19 +9,25 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 if(MSVC)
   add_definitions(
     /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS)
-else(MSVC)
-  # 64bit needs this
-  add_definitions(-fPIC)
 endif(MSVC)
+
+if(NOT WIN32)
+  # 64bit Linux needs this
+  add_definitions(-fPIC)
+endif(NOT WIN32)
 
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CToolBox)
 
 
+
 if(WIN32)
   set(QGLVIEWER_DIR ${CMAKE_BINARY_DIR}/QGLViewer)
-  extract(${CMAKE_SOURCE_DIR}/win32/QGLViewer.zip ${QGLVIEWER_DIR})
+  file(MAKE_DIRECTORY ${QGLVIEWER_DIR})
+  execute_process(COMMAND
+    ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/win32/QGLViewer.tar.gz
+    WORKING_DIRECTORY ${QGLVIEWER_DIR})
   set(QGLVIEWER_INCLUDE_DIR ${QGLVIEWER_DIR}/include)
   set(QGLVIEWER_LIBRARY     ${QGLVIEWER_DIR}/lib/QGLViewer2.lib)
 endif(WIN32)
