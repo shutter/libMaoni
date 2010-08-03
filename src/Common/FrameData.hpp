@@ -63,6 +63,7 @@ public:
 	//! get the amount of mesh loaders
 	std::size_t num_loaders() const;
 
+	//! get the amount of lights
 	std::size_t num_lights() const
 	{
 		return lights.size();
@@ -95,55 +96,12 @@ public:
 		logo.set_path(path);
 	}
 
-	//! return if these settings belong to the master
-	//! settings are broadcasted from the master to the slaves
-	virtual bool master() const
-	{
-		return true;
-	}
-
-	virtual void animate()
-	{
-	}
-
 	virtual void resize(int width, int height)
 	{
 		logo.calc_pos(width, height);
 	}
 
-	virtual int getMWidth() const
-	{
-	}
-
-	virtual int getMHeight() const
-	{
-	}
-
-	virtual void setLightChanged()
-	{
-	}
-
-	virtual void setModelChanged()
-	{
-	}
-
 	virtual void setRenderParamChanged()
-	{
-	}
-
-	virtual void setRendererChanged()
-	{
-	}
-
-	virtual void setTilesChanged()
-	{
-	}
-
-	virtual bool getDoResize() const
-	{
-	}
-
-	virtual void setDoResize(bool flag)
 	{
 	}
 

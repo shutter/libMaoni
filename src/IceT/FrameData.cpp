@@ -27,8 +27,8 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 			world(), tiles(world.size()), strategy_(3)
 {
-	mwidth = 1024;
-	mheight = 768;
+	render_context_width = 1024;
+	render_context_height = 768;
 
 	change = 0;
 
@@ -91,8 +91,8 @@ void FrameDataIceT::animate()
 			}
 		}
 
-		icetGetIntegerv(ICET_TILE_MAX_WIDTH, &mwidth);
-		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &mheight);
+		icetGetIntegerv(ICET_TILE_MAX_WIDTH, &render_context_width);
+		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &render_context_height);
 		std::cout << "tiles changed" << std::endl;
 	}
 

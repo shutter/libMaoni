@@ -20,6 +20,7 @@
 #define MAONI_ICET_RENDERWIDGET_HPP
 
 #include "../Widgets/RenderWidget.hpp"
+#include "FrameData.hpp"
 #include <GL/ice-t.h>
 
 class RenderWidgetIceT: public RenderWidget
@@ -36,6 +37,7 @@ private:
 
 private:
 	IceTContext context;
+	FrameDataIceT& framedata_icet;
 	static RenderWidgetIceT* singleton;
 	static void static_draw();
 };

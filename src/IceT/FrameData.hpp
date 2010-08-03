@@ -53,6 +53,9 @@ public:
 		return FrameData::light(i);
 	}
 
+
+	//! return if these settings belong to the master
+	//! settings are broadcasted from the master to the slaves
 	bool master() const
 	{
 		return world.rank() == 0;
@@ -74,12 +77,12 @@ public:
 
 	virtual int getMWidth() const
 	{
-		return mwidth;
+		return render_context_width;
 	}
 
 	virtual int getMHeight() const
 	{
-		return mheight;
+		return render_context_height;
 	}
 
 	virtual void setLightChanged()
@@ -128,7 +131,7 @@ private:
 
 private:
 	boost::mpi::communicator world;
-	int mwidth, mheight;
+	int render_context_width, render_context_height;
 
 	enum change_bits
 	{

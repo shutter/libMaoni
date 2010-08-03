@@ -17,14 +17,13 @@
  */
 
 #include "RenderWidget.hpp"
-#include "FrameData.hpp"
 #include <GL/ice-t_mpi.h>
 #include <boost/assert.hpp>
 
 RenderWidgetIceT* RenderWidgetIceT::singleton = 0;
 
 RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
-	RenderWidget(framedata)
+	RenderWidget(framedata), framedata_icet(dynamic_cast<FrameDataIceT&> (framedata))
 {
 	BOOST_ASSERT(!singleton && "Only one Instance of IceTWidget may exist");
 	singleton = this;
@@ -37,7 +36,7 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	icetDrawFunc(static_draw);
 
 	// slaves should animate from the beginning
-	if (!framedata.master())
+	if (!framedata_icet.master())
 		startAnimation();
 }
 
@@ -54,13 +53,13 @@ void RenderWidgetIceT::static_draw()
 void RenderWidgetIceT::paintGL()
 {
 	preDraw();
-	if (framedata.getDoResize())
+	if (framedata_icet.getDoResize())
 	{
 		resizeWindow();
-		framedata.setDoResize(false);
+		framedata_icet.setDoResize(false);
 	}
 
-	framedata.animate();
+	framedata_icet.animate();
 	icetDrawFrame();
 	postDraw();
 }
@@ -68,13 +67,13 @@ void RenderWidgetIceT::paintGL()
 void RenderWidgetIceT::stopAnimation()
 {
 	// slaves should keep animating
-	if (framedata.master())
+	if (framedata_icet.master())
 		QGLViewer::stopAnimation();
 }
 
 void RenderWidgetIceT::resizeWindow()
 {
-	setMinimumSize(framedata.getMWidth(), framedata.getMHeight());
-	setMaximumSize(framedata.getMWidth(), framedata.getMHeight());
-	framedata.resize(framedata.getMWidth(), framedata.getMHeight());
+	setMinimumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
+	setMaximumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
+	framedata_icet.resize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
 }
