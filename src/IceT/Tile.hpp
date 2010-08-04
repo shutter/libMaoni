@@ -26,14 +26,14 @@
 struct Tile
 {
 	Tile() :
-		visible(false), x(0), y(0), min(-1.f, -1.f, -1.f), max(1.f, 1.f, 1.f), sx(1024), sy(768)
+		visible(false), x(0), y(0), min_box(-1.f, -1.f, -1.f), max_box(1.f, 1.f, 1.f), sx(1024), sy(768)
 	{
 	}
 
 	bool visible;
 	int x, y; //< offset
 	int sx, sy; //< size
-	Vec3 min, max; //< axis aligned bounding box
+	Vec3 min_box, max_box; //< axis aligned bounding box
 
 	template<class Archive>
 	void serialize(Archive & archive, unsigned int)
@@ -43,8 +43,8 @@ struct Tile
 		archive & BOOST_SERIALIZATION_NVP(y);
 		archive & BOOST_SERIALIZATION_NVP(sx);
 		archive & BOOST_SERIALIZATION_NVP(sy);
-		archive & BOOST_SERIALIZATION_NVP(min);
-		archive & BOOST_SERIALIZATION_NVP(max);
+		archive & BOOST_SERIALIZATION_NVP(min_box);
+		archive & BOOST_SERIALIZATION_NVP(max_box);
 	}
 };
 
