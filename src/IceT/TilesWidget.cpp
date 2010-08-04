@@ -84,10 +84,10 @@ void TilesWidget::update_browser()
 
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
 		point_manager->setValue(size, QPoint(tile.sx, tile.sy));
-		vector3d_manager->setValue(min, QVector3D(tile.min.data[0],
-				tile.min.data[1], tile.min.data[2]));
-		vector3d_manager->setValue(max, QVector3D(tile.max.data[0],
-				tile.max.data[1], tile.max.data[2]));
+		vector3d_manager->setValue(min, QVector3D(tile.min_box.data[0],
+				tile.min_box.data[1], tile.min_box.data[2]));
+		vector3d_manager->setValue(max, QVector3D(tile.max_box.data[0],
+				tile.max_box.data[1], tile.max_box.data[2]));
 
 		group->addSubProperty(point);
 		group->addSubProperty(size);
@@ -127,11 +127,11 @@ void TilesWidget::vector_changed(QtProperty* property, QVector3D const& value)
 	Tile& tile = framedata.tiles[indices[property]];
 	if (name == "Minimum")
 	{
-		tile.min = Vec3(value.x(), value.y(), value.z());
+		tile.min_box = Vec3(value.x(), value.y(), value.z());
 	}
 	else if (name == "Maximum")
 	{
-		tile.max = Vec3(value.x(), value.y(), value.z());
+		tile.max_box = Vec3(value.x(), value.y(), value.z());
 	}
 	framedata.setTilesChanged();
 }
