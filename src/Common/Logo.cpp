@@ -50,13 +50,13 @@ void Logo::draw() const
 			glBegin(GL_QUADS);
 			{
 				glTexCoord2f(0.0f, 0.0f);
-				glVertex2f(pos_x1, pos_y2); // Bottom left of the texture and quad
+				glVertex2i(pos_x1, pos_y2); // Bottom left of the texture and quad
 				glTexCoord2f(1.0f, 0.0f);
-				glVertex2f(pos_x2, pos_y2); // Bottom right of the texture and quad
+				glVertex2i(pos_x2, pos_y2); // Bottom right of the texture and quad
 				glTexCoord2f(1.0f, 1.0f);
-				glVertex2f(pos_x2, pos_y1); // Top right of the texture and quad
+				glVertex2i(pos_x2, pos_y1); // Top right of the texture and quad
 				glTexCoord2f(0.0f, 1.0f);
-				glVertex2f(pos_x1, pos_y1); // Top left of the texture and quad
+				glVertex2i(pos_x1, pos_y1); // Top left of the texture and quad
 			}
 			glEnd();
 
