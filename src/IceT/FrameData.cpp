@@ -32,7 +32,7 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 
 	change = 0;
 
-	int rows = sqrt(tiles.size());
+	int rows = sqrt(static_cast<float>(tiles.size()));
 	std::cout << "rows: " << rows << std::endl;
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
@@ -85,9 +85,9 @@ void FrameDataIceT::animate()
 			//if (i == world.rank())
 			{
 				icetBoundingBoxf( //
-						tile.min.data[0], tile.max.data[0], //
-						tile.min.data[1], tile.max.data[1], //
-						tile.min.data[2], tile.max.data[2]);
+						tile.min_box.data[0], tile.max_box.data[0], //
+						tile.min_box.data[1], tile.max_box.data[1], //
+						tile.min_box.data[2], tile.max_box.data[2]);
 			}
 		}
 
