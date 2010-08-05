@@ -5,16 +5,15 @@ set(QT_USE_QTOPENGL ON)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
-find_package(Boost     REQUIRED)
-find_package(GLEW      REQUIRED)
-find_package(OpenGL    REQUIRED)
-find_package(QGLViewer REQUIRED)
+find_package(Boost  REQUIRED)
+find_package(GLEW   REQUIRED)
+find_package(OpenGL REQUIRED)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${GLEW_INCLUDE_DIR}
-  ${QGLVIEWER_INCLUDE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}/libQGLViewer
   ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
 
@@ -70,14 +69,15 @@ include_directories(${CMAKE_BINARY_DIR}/include)
 
 add_subdirectory(Common)
 add_subdirectory(Widgets)
+add_subdirectory(libQGLViewer)
 add_subdirectory(QPropertyBrowser)
 
 set(MAONI_LIBRARIES
   MaoniCommon
   MaoniWidgets
   ${QT_LIBRARIES}
+  QGLViewer
   QtPropertyBrowser
-  ${QGLVIEWER_LIBRARY}
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARIES}
   ${OPENGL_LIBRARIES}
