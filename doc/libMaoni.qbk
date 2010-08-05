@@ -1,4 +1,4 @@
-[article libMaoni
+[library libMaoni
    [quickbook 1.5]
    [authors [Pfeifer, Daniel],[Hutter, Stefan]]
    [copyright 2009 2010 Daniel Pfeifer, Stefan Hutter]
