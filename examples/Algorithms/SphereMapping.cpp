@@ -2,7 +2,6 @@
  * A simple sphere mapping shader
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 #include "../Loaders/VBOModel.hpp"
 

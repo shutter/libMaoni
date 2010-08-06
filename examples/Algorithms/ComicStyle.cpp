@@ -2,7 +2,6 @@
  * A simple comic style surface shader
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 #include "../Loaders/VBOModel.hpp"
 

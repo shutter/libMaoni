@@ -19,6 +19,7 @@
 #ifndef MAONI_HPP
 #define MAONI_HPP
 
+#include <Maoni/glew.h>
 #include <Maoni/Color.hpp>
 #include <Maoni/Enum.hpp>
 #include <Maoni/MeshLoader.hpp>

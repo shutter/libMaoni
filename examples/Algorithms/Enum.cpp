@@ -5,7 +5,6 @@
  *      Author: daniel
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 #include <cmath>
 #include "Teaset.h"

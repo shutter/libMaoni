@@ -6,16 +6,32 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
 find_package(Boost  REQUIRED)
-find_package(GLEW   REQUIRED)
 find_package(OpenGL REQUIRED)
 
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
+  ${CMAKE_CURRENT_SOURCE_DIR}/glew-1.5.5.tgz
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+configure_file(
+  ${CMAKE_BINARY_DIR}/glew-1.5.5/include/GL/glew.h
+  ${CMAKE_BINARY_DIR}/include/Maoni/glew.h
+  COPYONLY)
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
+  ${CMAKE_CURRENT_SOURCE_DIR}/boost-la.tar.gz
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/include)
+
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
   ${Boost_INCLUDE_DIRS}
-  ${GLEW_INCLUDE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}/libQGLViewer
+  ${OPENGL_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}/include
+  ${CMAKE_BINARY_DIR}/glew-1.5.5/include
+  ${CMAKE_CURRENT_BINARY_DIR}/QGLViewer
   ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
+
+add_library(GLEW ${CMAKE_BINARY_DIR}/glew-1.5.5/src/glew.c)
 
 
 add_definitions(-DBOOST_ALL_NO_LIB)
@@ -61,25 +77,19 @@ if(NOT Boost_SERIALIZATION_FOUND)
 endif(NOT Boost_SERIALIZATION_FOUND)
 
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/externals/boost-la.tar.gz
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/include)
-include_directories(${CMAKE_BINARY_DIR}/include)
-
-
 add_subdirectory(Common)
 add_subdirectory(Widgets)
-add_subdirectory(libQGLViewer)
+add_subdirectory(QGLViewer)
 add_subdirectory(QPropertyBrowser)
 
 set(MAONI_LIBRARIES
+  GLEW
   MaoniCommon
   MaoniWidgets
-  ${QT_LIBRARIES}
   QGLViewer
   QtPropertyBrowser
+  ${QT_LIBRARIES}
   ${Boost_LIBRARIES}
-  ${GLEW_LIBRARIES}
   ${OPENGL_LIBRARIES}
   )
 
@@ -92,8 +102,15 @@ add_library(Maoni SHARED ${MAONI_SOURCE})
 target_link_libraries(Maoni ${MAONI_LIBRARIES})
 
 
-add_subdirectory(Equalizer)
-add_subdirectory(IceT)
+option(MAONI_SKIP_EQUALIZER "Do not build libMaoniEq" OFF)
+if(NOT MAONI_SKIP_EQUALIZER)
+  add_subdirectory(Equalizer)
+endif(NOT MAONI_SKIP_EQUALIZER)
+
+option(MAONI_SKIP_ICET "Do not build libMaoniIceT" OFF)
+if(NOT MAONI_SKIP_ICET)
+  add_subdirectory(IceT)
+endif(NOT MAONI_SKIP_ICET)
 
 
 add_library(MaoniMain STATIC main.cpp)

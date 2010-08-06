@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GL/glew.h>
 #include "VBOModel.hpp"
 #include <boost/array.hpp>
 #include <iostream>

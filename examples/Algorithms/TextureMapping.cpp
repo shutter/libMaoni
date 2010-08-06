@@ -2,7 +2,6 @@
  *      inspired by http://www.ozone3d.net/tutorials/glsl_texturing.php
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 120),

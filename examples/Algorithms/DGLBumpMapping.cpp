@@ -2,7 +2,6 @@
  *      from http://wiki.delphigl.com/index.php/shader_Bumpmapping
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 120),

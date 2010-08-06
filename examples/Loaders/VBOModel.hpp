@@ -19,9 +19,8 @@
 #ifndef MAONI_VBO_MODEL_HPP
 #define MAONI_VBO_MODEL_HPP
 
-#include <Maoni/Model.hpp>
 #include <vector>
-#include <Maoni/Vertex.hpp>
+#include <Maoni.hpp>
 
 //! The VBOModel class
 /*!

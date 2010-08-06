@@ -36,7 +36,7 @@ if(NOT Boost_MPI_FOUND)
 endif(NOT Boost_MPI_FOUND)
 
 
-set(ICET_FILE ${CMAKE_SOURCE_DIR}/externals/IceT-1-0-0.tar.gz)
+set(ICET_FILE ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.tar.gz)
 set(ICET_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/IceT-1-0-0)
 file(MAKE_DIRECTORY ${ICET_SOURCE_DIR})
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${ICET_FILE}

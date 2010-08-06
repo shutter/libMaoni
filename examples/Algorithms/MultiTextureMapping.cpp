@@ -2,7 +2,6 @@
  *      from http://www.lighthouse3d.com/opengl/glsl/index.php?textureMulti
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 #include <iostream>
 

@@ -4,10 +4,10 @@
 # http://doc.trolltech.com/qq/qq18-propertybrowser-code.zip
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
-  ${CMAKE_SOURCE_DIR}/externals/qtpropertybrowser-2.5_1-opensource.tar.gz
+  ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.tar.gz
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
-  ${CMAKE_SOURCE_DIR}/externals/qq18-propertybrowser-extension.tar.gz
+  ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.tar.gz
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 set(QT_PROPERTY_BROWSER_SRC

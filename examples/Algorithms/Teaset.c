@@ -2,7 +2,7 @@
  * Copyright (c) 2010 Daniel Pfeifer, University of Zurich
  */
 
-#include <GL/glew.h>
+#include <Maoni/glew.h>
 #include "Teaset.h"
 #include "TeasetData.h"
 

@@ -2,7 +2,6 @@
  *      from http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 120),

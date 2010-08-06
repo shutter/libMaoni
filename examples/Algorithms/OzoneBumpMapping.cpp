@@ -2,7 +2,6 @@
  *      from http://www.ozone3d.net/tutorials/bump_mapping.php
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 120),

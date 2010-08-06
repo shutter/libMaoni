@@ -2,9 +2,9 @@
  * A 3DS file loader
  */
 
+#include <Maoni/glew.h>
 #include <Maoni/MeshLoader.hpp>
 
-#include <GL/glew.h>
 #include <lib3ds/file.h>
 #include <lib3ds/mesh.h>
 

@@ -2,7 +2,6 @@
  * A blinn phong illumination shader using one light source
  */
 
-#include <GL/glew.h>
 #include <Maoni.hpp>
 
 SHADER_SOURCE(vertex_source, (version 120),
