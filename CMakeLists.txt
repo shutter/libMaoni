@@ -21,18 +21,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CToolBox)
 
 
-
-if(WIN32)
-  set(QGLVIEWER_DIR ${CMAKE_BINARY_DIR}/QGLViewer)
-  file(MAKE_DIRECTORY ${QGLVIEWER_DIR})
-  execute_process(COMMAND
-    ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/win32/QGLViewer.tar.gz
-    WORKING_DIRECTORY ${QGLVIEWER_DIR})
-  set(QGLVIEWER_INCLUDE_DIR ${QGLVIEWER_DIR}/include)
-  set(QGLVIEWER_LIBRARY     ${QGLVIEWER_DIR}/lib/QGLViewer2.lib)
-endif(WIN32)
-
-
 include_directories(BEFORE SYSTEM include)
 install(DIRECTORY include/Maoni DESTINATION include COMPONENT headers)
 install(FILES include/Maoni.hpp DESTINATION include COMPONENT headers)
