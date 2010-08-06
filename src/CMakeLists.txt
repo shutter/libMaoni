@@ -16,7 +16,7 @@ configure_file(
   ${CMAKE_BINARY_DIR}/include/Maoni/glew.h
   COPYONLY)
 install(FILES ${CMAKE_BINARY_DIR}/glew-1.5.5/include/GL/glew.h
-  DESTINATION includeMaoni COMPONENT headers)
+  DESTINATION include/Maoni COMPONENT headers)
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
