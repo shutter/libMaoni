@@ -4,7 +4,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
   ${CMAKE_CURRENT_SOURCE_DIR}/libQGLViewer-2.3.6.tar.gz
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-add_definitions(-DNO_VECTORIAL_RENDER -DQGLVIEWER_STATIC)
+add_definitions(-DNO_VECTORIAL_RENDER)
 
 qt4_wrap_ui(QGLVIEWER_UI
   ${CMAKE_CURRENT_BINARY_DIR}/ImageInterface.ui

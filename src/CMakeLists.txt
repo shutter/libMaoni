@@ -15,6 +15,8 @@ configure_file(
   ${CMAKE_BINARY_DIR}/glew-1.5.5/include/GL/glew.h
   ${CMAKE_BINARY_DIR}/include/Maoni/glew.h
   COPYONLY)
+install(FILES ${CMAKE_BINARY_DIR}/glew-1.5.5/include/GL/glew.h
+  DESTINATION includeMaoni COMPONENT headers)
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
@@ -31,10 +33,14 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/QPropertyBrowser
   )
 
+add_definitions(
+  -DGLEW_BUILD
+  -DBOOST_ALL_NO_LIB
+  -DQGLVIEWER_STATIC
+  )
+
 add_library(GLEW ${CMAKE_BINARY_DIR}/glew-1.5.5/src/glew.c)
 
-
-add_definitions(-DBOOST_ALL_NO_LIB)
 
 find_package(Boost COMPONENTS serialization)
 if(NOT Boost_SERIALIZATION_FOUND)
