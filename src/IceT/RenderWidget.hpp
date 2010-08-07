@@ -19,7 +19,7 @@
 #ifndef MAONI_ICET_RENDERWIDGET_HPP
 #define MAONI_ICET_RENDERWIDGET_HPP
 
-#include "../Widgets/RenderWidget.hpp"
+#include "../Common/RenderWidget.hpp"
 #include "FrameData.hpp"
 #include <GL/ice-t.h>
 

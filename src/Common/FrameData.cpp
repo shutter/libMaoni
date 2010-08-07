@@ -141,7 +141,10 @@ void FrameData::do_export_scene(boost::archive::xml_oarchive& archive)
 	archive << boost::serialization::make_nvp("lights", lights);
 	archive << boost::serialization::make_nvp("model", model_name);
 	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
-	archive << boost::serialization::make_nvp("renderer", *renderer);
+
+	if(renderer)
+		archive << boost::serialization::make_nvp("renderer", *renderer);
+
 	logo_path = logo.get_path();
 	archive << boost::serialization::make_nvp("logo_path", logo_path);
 	logo_render = logo.get_render();

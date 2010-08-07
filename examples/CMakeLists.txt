@@ -45,6 +45,7 @@ set(LIBRARIES MaoniMain)
 
 find_package(lib3ds)
 if(lib3ds_LIBRARIES)
+  include_directories(${lib3ds_INCLUDE_DIRS})
   set(MESH_LOADER_SOURCE ${MESH_LOADER_SOURCE} Loaders/3DS/3ds.cpp)
   set(LIBRARIES ${LIBRARIES} ${lib3ds_LIBRARIES})
 endif(lib3ds_LIBRARIES)

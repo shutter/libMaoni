@@ -77,11 +77,12 @@ qt4_wrap_cpp(MAONI_ICET_MOC
   )
 
 add_library(MaoniIceT SHARED
+  ${MAONI_VERSION_RC}
+  ${MAONI_ICET_MOC}
   FrameData.cpp
   main.cpp
   RenderWidget.cpp
   TilesWidget.cpp
-  ${MAONI_ICET_MOC}
   )
 
 target_link_libraries(MaoniIceT

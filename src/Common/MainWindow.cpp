@@ -148,7 +148,7 @@ void MainWindow::init_docks()
 	AnimationWidget* animation_widget = new AnimationWidget(render_widget);
 	add_dock("AnimationWidget", Qt::LeftDockWidgetArea, animation_widget, false);
 
-	//	add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
+	//add_dock("Output", Qt::BottomDockWidgetArea, new TextOutput);
 }
 
 void MainWindow::about_qt()

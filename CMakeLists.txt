@@ -25,6 +25,8 @@ include_directories(BEFORE SYSTEM include)
 install(DIRECTORY include/Maoni DESTINATION include COMPONENT headers)
 install(FILES include/Maoni.hpp DESTINATION include COMPONENT headers)
 
+option(MAONI_SKIP_EQUALIZER "Do not build libMaoniEq" OFF)
+option(MAONI_SKIP_ICET "Do not build libMaoniIceT" OFF)
 
 add_subdirectory(src)
 add_subdirectory(examples)
@@ -46,8 +48,8 @@ set(CPACK_PACKAGE_CONTACT "Daniel Pfeifer <daniel@pfeifer-mail.de>")
 set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.rst)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "common viewing framework")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "0")
-set(CPACK_PACKAGE_VERSION_PATCH "4")
+set(CPACK_PACKAGE_VERSION_MINOR "8")
+set(CPACK_PACKAGE_VERSION_PATCH "15")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Maoni")
 
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
@@ -81,5 +83,4 @@ set(CPACK_DEBIAN_BUILD_DEPENDS
   )
 
 #todo: http://www.itk.org/Wiki/CMake:Component_Install_With_CPack
-
 include(CPack)

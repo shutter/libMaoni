@@ -18,9 +18,9 @@
 
 #include <QApplication>
 #include <QSplashScreen>
-#include "../Common/FrameData.hpp"
-#include "../Widgets/MainWindow.hpp"
-#include "../Widgets/RenderWidget.hpp"
+#include "Common/FrameData.hpp"
+#include "Common/MainWindow.hpp"
+#include "Common/RenderWidget.hpp"
 
 #ifdef _MSC_VER
 __declspec(dllexport)

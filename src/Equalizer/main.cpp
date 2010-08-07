@@ -15,7 +15,7 @@
 #include <Maoni/RenderAlgorithm.hpp>
 #include "FrameDataEq.hpp"
 #include "Node.hpp"
-#include "../Widgets/MainWindow.hpp"
+#include "../Common/MainWindow.hpp"
 #include "RenderWidget.hpp"
 
 class NodeFactory: public eQute<RenderWidgetEq>::Factory

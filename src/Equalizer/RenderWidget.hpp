@@ -9,7 +9,7 @@
 #define MAONI_EQ_RENDER_WIDGET_HPP
 
 #include "EqInclude.hpp"
-#include "../Widgets/RenderWidget.hpp"
+#include "../Common/RenderWidget.hpp"
 #include <eQute.hpp>
 
 class RenderWidgetEq: public RenderWidget, public eQute<RenderWidgetEq>::WidgetBase

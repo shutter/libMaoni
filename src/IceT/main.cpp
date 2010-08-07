@@ -23,7 +23,7 @@
 #include "RenderWidget.hpp"
 #include "TilesWidget.hpp"
 #include "FrameData.hpp"
-#include "../Widgets/MainWindow.hpp"
+#include "../Common/MainWindow.hpp"
 
 #ifdef _MSC_VER
 __declspec(dllexport)
