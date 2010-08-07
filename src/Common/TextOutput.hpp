@@ -1,29 +1,43 @@
 /*
- * TextOutput.hpp
+ * libMaoni common viewing framework
+ * Copyright (C) 2009, 2010 Daniel Pfeifer
  *
- *  Created on: 20.04.2010
- *      Author: daniel
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TEXTOUTPUT_HPP_
-#define TEXTOUTPUT_HPP_
+#ifndef MAONI_TEXTOUTPUT_HPP
+#define MAONI_TEXTOUTPUT_HPP
 
 #include <QPlainTextEdit>
 
 #include <iostream>
+#include <boost/iostreams/tee.hpp>
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/categories.hpp>
 
+namespace bio = boost::iostreams;
+
 class TextOutput: public QPlainTextEdit
 {
-Q_OBJECT
+	Q_OBJECT
 
 	template<typename Appender>
 	class Sink
 	{
 	public:
 		typedef char char_type;
-		typedef boost::iostreams::sink_tag category;
+		typedef bio::sink_tag category;
 
 		Sink(QPlainTextEdit* text_edit) :
 			text_edit(text_edit)
@@ -61,11 +75,14 @@ Q_OBJECT
 public:
 	TextOutput(QWidget * parent = 0) :
 		QPlainTextEdit(parent), outsink(this), errsink(this),
-				outstream(outsink), errstream(errsink)
+			outtee(*std::cout.rdbuf(), outsink),
+			errtee(*std::cerr.rdbuf(), errsink),
+			logtee(*std::clog.rdbuf(), outsink),
+			out(outtee), err(errtee), log(logtee)
 	{
-		outbuf = std::cout.rdbuf(outstream.rdbuf());
-		errbuf = std::cerr.rdbuf(errstream.rdbuf());
-		logbuf = std::clog.rdbuf(outstream.rdbuf());
+		outbuf = std::cout.rdbuf(out.rdbuf());
+		errbuf = std::cerr.rdbuf(err.rdbuf());
+		logbuf = std::clog.rdbuf(out.rdbuf());
 		setReadOnly(true);
 	}
 
@@ -77,15 +94,26 @@ public:
 	}
 
 private:
-	Sink<OutAppender> outsink;
-	Sink<ErrAppender> errsink;
+	typedef Sink<OutAppender> outsink_type;
+	typedef Sink<ErrAppender> errsink_type;
 
-	boost::iostreams::stream<Sink<OutAppender> > outstream;
-	boost::iostreams::stream<Sink<ErrAppender> > errstream;
+	typedef bio::tee_device<std::streambuf, outsink_type> outtee_type;
+	typedef bio::tee_device<std::streambuf, errsink_type> errtee_type;
+
+	outsink_type outsink;
+	errsink_type errsink;
+
+	outtee_type outtee;
+	errtee_type errtee;
+	outtee_type logtee;
+
+	bio::stream<outtee_type> out;
+	bio::stream<errtee_type> err;
+	bio::stream<outtee_type> log;
 
 	std::streambuf* outbuf;
 	std::streambuf* errbuf;
 	std::streambuf* logbuf;
 };
 
-#endif /* TEXTOUTPUT_HPP_ */
+#endif /* MAONI_TEXTOUTPUT_HPP */
