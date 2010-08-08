@@ -23,9 +23,9 @@ Make sure the headers can be found by your compiler (this should concern Windows
 users only).
 
 Now compile this C++ file (right, there is no additional code required) and link
-it agains the library files [*Maoni] and [*MaoniMain]. It depends on your
-Compiler how these files are actually called (something like Maoni.lib or
-libMaoni.so) and how you link agains them. Of course you already know this.
+it against the library files [*Maoni] and [*MaoniMain]. It depends on your
+compiler how these files are actually called (something like Maoni.lib or
+libMaoni.so) and how you link against them. Of course you already know this.
 
 Now you can launch the resulting executable file. Congratulations, you
 successfuly wrote your first application with libMaoni! Head on to the
@@ -44,7 +44,7 @@ parallel rendering. Currently libMaoni supports the two compositing engines
 [@http://www.equalizergraphics.com/ Equalizer] and
 [@http://www.cs.unm.edu/~kmorel/IceT/ IceT].
 
-To build an application that can benefit from parallelization, link agains
+To build an application that can benefit from parallelization, link against
 [*MaoniEq] or [*MaoniIceT] instead of [*Maoni]. There are no changes required in
 the source code.
 
@@ -95,7 +95,7 @@ has to be started on the master render client and the application using correspo
 
 
 Because of an open [@http://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209 Equalizer bug]
-, the render data can't be shown in a Qt render context.
+, the render data can't be shown in a Qt render context yet.
 [endsect]
 [endsect]
 
@@ -109,7 +109,7 @@ installer instead.
 If however there is no binary installer available for your platform, or you want
 to modify the inner workings of libMaoni, please read on.
 
-[section get the source code]
+[section Get the Source Code]
 Download the [@http://github.com/purpleKarrot/libMaoni/archives/master libMaoni
 source code] and extract it to your directory of choice. Then download and
 extract the [@http://github.com/purpleKarrot/CToolBox/archives/master CToolBox]
@@ -124,7 +124,7 @@ Alternatively, you can get the source code using Git:
 
 [endsect]
 
-[section configure and compile]
+[section Configure and Compile]
 You should have already have a compiler installed on your system. We assume you
 are using the [@http://developer.apple.com/technologies/tools/ Apple Developer
 Tools] on OSX, [@http://www.microsoft.com/express/Downloads Visual C++ 2008
@@ -146,9 +146,9 @@ On Windows the commands differ slightly:
   > cmake -G "NMake Makefiles" ..
   > nmake
 
-CMake will fail if it does not find all required dependancies on your system.
-Please check the dependancies section and run the cmake command again after you
-installed the missing dependances. Once the CMake succeeds, make or nmake should
+CMake will fail if it does not find all required dependencies on your system.
+Please check the dependencies section and run the cmake command again after you
+installed the missing dependences. Once the CMake succeeds, make or nmake should
 succeed too.
 
 [note If you want to use an IDE like Visual Studio or XCode to build libMaoni,
@@ -157,17 +157,18 @@ CMake can generate the project files for you. see the section
 in the CMake Manual.]
 [endsect]
 
-[section:dep dependancies]
+[section:dep Dependencies]
 
 [section Boost]
-libboost1.40-all-dev or
-[@http://www.boostpro.com/download/ BoostPro Binary Installer for Visual C++]
+Ubuntu users have to install [@apt://libboost1.40-all-dev libboost1.40-all-dev]. 
+Download [@http://www.boostpro.com/download/ BoostPro Binary Installer] for Visual C++ 
+and Mac OS X.
 [endsect]
 
 [section Equalizer]
 [@https://sourceforge.net/projects/equalizer/files/ Equalizer] is provided as
-source code only, there is no binary installer available. Consult the Equalizer
-documentation how to compile it.
+source code only, there is no binary installer available. Consult Equalizer's
+documentation for information about how to compile.
 
 If you don't want to build [*MaoniEq], you may set the option
 MAONI_SKIP_EQUALIZER to OFF in CMake. You will not need Equalizer in this case.
@@ -193,7 +194,7 @@ be used.
 [endsect]
 
 [section Contribute]
-We find it very comfortable to work on [@http://www.github.com github.com].
+We are very comfortable with working on [@http://www.github.com github.com].
 
 Git allows an alternative work flow people aren't used from CVS or SVN. You
 don't have to become a libMaoni developer and don't have to gain access to the
