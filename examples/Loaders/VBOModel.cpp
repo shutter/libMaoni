@@ -23,12 +23,6 @@
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
-GLuint vboVertexBuffer; // ID of VBO for vertices
-GLuint vboNormalBuffer; // ID of VBO normals
-GLuint vboColorBuffer; // ID of VBO colors
-GLuint vboTexCoordBuffer; // ID of VBO texCoords
-GLuint vboIndexBuffer; // ID of VBO faces
-
 void VBOModel::draw() const
 {
 	glEnableClientState(GL_VERTEX_ARRAY);

@@ -139,6 +139,14 @@ private:
 	unsigned int start_, end_, count_;
 	unsigned int myrank_, ranks_;
 	char* startindex;
+
+	GLuint vboVertexBuffer; // ID of VBO for vertices
+	GLuint vboNormalBuffer; // ID of VBO normals
+	GLuint vboColorBuffer; // ID of VBO colors
+	GLuint vboTexCoordBuffer; // ID of VBO texCoords
+	GLuint vboIndexBuffer; // ID of VBO faces
+
+	unsigned int vao;
 };
 
 #endif /* MAONI_VBO_MODEL_HPP */
