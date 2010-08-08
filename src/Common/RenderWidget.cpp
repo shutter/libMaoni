@@ -18,7 +18,15 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::init()
 {
-	glewInit();
+	GLint err = glewInit();
+	if (GLEW_OK != err)
+	{
+		std::cout << "glewInit() failed: " << glewGetErrorString(err)
+				<< std::endl;
+		exit(1);
+	}
+	std::cout << "Supports OpenGL " << glGetString(GL_VERSION) << "!"
+			<< std::endl;
 }
 
 void RenderWidget::draw_light(int i, Light const& light) const
