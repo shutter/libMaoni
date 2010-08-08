@@ -31,4 +31,5 @@ add_documentation(libMaoni.qbk
     images/dgl_bump_mapping.jpg
     images/ozone_bump_mapping.jpg
     images/swiftless_bump_mapping.jpg
+    images/dragon_brick.jpg
   )

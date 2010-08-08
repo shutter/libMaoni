@@ -29,6 +29,11 @@ Life Implementation] to see, how libMaoni is used in a standalone algorithm
  [@http://en.wikipedia.org/wiki/Sphere_mapping sphere mapping] shader.
 ]
 
+[figure dragon_brick.jpg..A Brick Shader from the "OrangeBook": OpenGL
+ Shading Language, 3rd Edition. By Randi J. Rost, Dan Ginsburg, John M. Kessenich,
+  Bill Licea-Kane, Barthold Lichtenbelt, Hugh Malan, Mike Weiblen.
+]
+
 [figure rockerarm_fixedfunction.jpg..A fixed function algorithm.]
 
 [endsect]
