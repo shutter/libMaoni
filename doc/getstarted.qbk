@@ -160,9 +160,13 @@ in the CMake Manual.]
 [section:dep Dependencies]
 
 [section Boost]
-Ubuntu users have to install [@apt://libboost1.40-all-dev libboost1.40-all-dev]. 
-Download [@http://www.boostpro.com/download/ BoostPro Binary Installer] for Visual C++ 
-and Mac OS X.
+Please follow the official guides:
+
+* [@http://www.boost.org/doc/libs/release/more/getting_started/windows.html
+   Getting Started on Windows]
+* [@http://www.boost.org/doc/libs/release/more/getting_started/unix-variants.html
+   Getting Started on Unix variants (e.g. Linux, MacOS)]
+
 [endsect]
 
 [section Equalizer]
