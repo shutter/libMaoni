@@ -23,7 +23,8 @@
 RenderWidgetIceT* RenderWidgetIceT::singleton = 0;
 
 RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
-	RenderWidget(framedata), framedata_icet(dynamic_cast<FrameDataIceT&> (framedata))
+	RenderWidget(framedata), framedata_icet(
+			dynamic_cast<FrameDataIceT&> (framedata))
 {
 	BOOST_ASSERT(!singleton && "Only one Instance of IceTWidget may exist");
 	singleton = this;
@@ -32,8 +33,16 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 	context = icetCreateContext(communicator);
 	icetDestroyMPICommunicator(communicator);
 
-	icetStrategy(ICET_STRATEGY_REDUCE);
+	glClearColor(0.2f, 0.5f, 0.1f, 1.0f);
 	icetDrawFunc(static_draw);
+	icetBoundingBoxf(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	framedata_icet.setTiles();
+	icetStrategy(ICET_STRATEGY_REDUCE);
+
+	/* Set up the projection matrix as you normally would. */
+	glMatrixMode( GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-0.75, 0.75, -0.75, 0.75, -0.75, 0.75);
 
 	// slaves should animate from the beginning
 	if (!framedata_icet.master())
@@ -52,7 +61,6 @@ void RenderWidgetIceT::static_draw()
 
 void RenderWidgetIceT::paintGL()
 {
-	preDraw();
 	if (framedata_icet.getDoResize())
 	{
 		resizeWindow();
@@ -60,7 +68,12 @@ void RenderWidgetIceT::paintGL()
 	}
 
 	framedata_icet.animate();
+	preDraw();
+	framedata_icet.setMatrices();
+
 	icetDrawFrame();
+	swapBuffers();
+
 	postDraw();
 }
 
@@ -75,5 +88,6 @@ void RenderWidgetIceT::resizeWindow()
 {
 	setMinimumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
 	setMaximumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
-	framedata_icet.resize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
+	framedata_icet.resize(framedata_icet.getMWidth(),
+			framedata_icet.getMHeight());
 }

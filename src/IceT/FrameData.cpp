@@ -27,23 +27,23 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 			world(), tiles(world.size()), strategy_(3)
 {
-	render_context_width = 1024;
-	render_context_height = 768;
+	render_context_width = 480;
+	render_context_height = 320;
 
 	change = 0;
 
-	int rows = sqrt(static_cast<float>(tiles.size()));
-	std::cout << "rows: " << rows << std::endl;
+	int rows = sqrt(static_cast<float> (tiles.size()));
+	std::cout << myrank() << ": rows: " << rows << std::endl;
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		int col = i / rows;
 		int row = i % rows;
 
-		if (i == 0)
+		//if (i == 0)
 			tiles[i].visible = true;
 
-		tiles[i].x = 0;//col * 640;
-		tiles[i].y = 0;//row * 480;
+		tiles[i].x = col * 480;
+		tiles[i].y = row * 320;
 	}
 }
 
@@ -51,49 +51,57 @@ FrameDataIceT::~FrameDataIceT()
 {
 }
 
-void FrameDataIceT::animate()
+void FrameDataIceT::setMatrices()
 {
-	broadcast(world, change, 0);
 	double matrix[16];
 
-	/*	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
-	 broadcast(world, matrix, 0);
-	 glMatrixMode( GL_PROJECTION);
-	 glLoadMatrixd(matrix);*/
+	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+	broadcast(world, matrix, 0);
+	glMatrixMode( GL_PROJECTION);
+	glLoadMatrixd(matrix);
 
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
 	broadcast(world, matrix, 0);
 	glMatrixMode( GL_MODELVIEW);
 	glLoadMatrixd(matrix);
+}
+
+void FrameDataIceT::setTiles(){
+	setDoResize(true);
+
+	broadcast(world, tiles, 0);
+
+	icetResetTiles();
+	for (std::size_t i = 0; i < tiles.size(); ++i)
+	{
+		Tile& tile = tiles[i];
+		std::cout << myrank() << ": set tile " << i << "!" << std::endl;
+		//if (tile.visible)
+		{
+			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
+		}
+
+		//if (i == world.rank())
+		{
+			icetBoundingBoxf( //
+					tile.min_box.data[0], tile.max_box.data[0], //
+					tile.min_box.data[1], tile.max_box.data[1], //
+					tile.min_box.data[2], tile.max_box.data[2]);
+		}
+	}
+
+	icetGetIntegerv(ICET_TILE_MAX_WIDTH, &render_context_width);
+	icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &render_context_height);
+	std::cout << myrank() << ": tiles changed" << std::endl;
+}
+
+void FrameDataIceT::animate()
+{
+	broadcast(world, change, 0);
 
 	if (change & TILES_CHANGED)
 	{
-		setDoResize(true);
-
-		broadcast(world, tiles, 0);
-
-		icetResetTiles();
-		for (std::size_t i = 0; i < tiles.size(); ++i)
-		{
-			Tile& tile = tiles[i];
-
-			//if (tile.visible)
-			{
-				icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
-			}
-
-			//if (i == world.rank())
-			{
-				icetBoundingBoxf( //
-						tile.min_box.data[0], tile.max_box.data[0], //
-						tile.min_box.data[1], tile.max_box.data[1], //
-						tile.min_box.data[2], tile.max_box.data[2]);
-			}
-		}
-
-		icetGetIntegerv(ICET_TILE_MAX_WIDTH, &render_context_width);
-		icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &render_context_height);
-		std::cout << "tiles changed" << std::endl;
+		setTiles();
 	}
 
 	if (change & STRATEGY_CHANGED)
@@ -121,13 +129,13 @@ void FrameDataIceT::animate()
 			icetStrategy(ICET_STRATEGY_REDUCE);
 		}
 
-		std::cout << "strategy changed to " << strategy_ << std::endl;
+		std::cout << myrank() << ": strategy changed to " << strategy_ << std::endl;
 	}
 
 	if (change & LIGHT_CHANGED)
 	{
 		broadcast(world, lights, 0);
-		std::cout << "light changed" << std::endl;
+		std::cout << myrank() << ": light changed" << std::endl;
 	}
 
 	if (change & MODEL_CHANGED)
@@ -135,7 +143,7 @@ void FrameDataIceT::animate()
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
-		std::cout << "model changed" << std::endl;
+		std::cout << myrank() << ": model changed" << std::endl;
 	}
 
 	if (change & RENDERER_CHANGED)
@@ -143,14 +151,14 @@ void FrameDataIceT::animate()
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
-		std::cout << "renderer changed" << std::endl;
+		std::cout << myrank() << ": renderer changed" << std::endl;
 	}
 
 	if (change & RENDERPARAM_CHANGED)
 	{
 		if (renderer)
 			broadcast(world, *renderer, 0);
-		std::cout << "renderparameter changed" << std::endl;
+		std::cout << myrank() << ": renderparameter changed" << std::endl;
 	}
 
 	change = 0;

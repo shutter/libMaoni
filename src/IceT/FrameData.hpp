@@ -53,7 +53,6 @@ public:
 		return FrameData::light(i);
 	}
 
-
 	//! return if these settings belong to the master
 	//! settings are broadcasted from the master to the slaves
 	bool master() const
@@ -70,6 +69,10 @@ public:
 	{
 		return world.size();
 	}
+
+	void setMatrices();
+
+	void setTiles();
 
 	void animate();
 
@@ -110,7 +113,8 @@ public:
 		change |= TILES_CHANGED;
 	}
 
-	virtual void setStrategyChanged(){
+	virtual void setStrategyChanged()
+	{
 		change |= STRATEGY_CHANGED;
 	}
 
@@ -121,7 +125,8 @@ public:
 		return do_resize;
 	}
 
-	virtual void setDoResize(bool flag){
+	virtual void setDoResize(bool flag)
+	{
 		do_resize = flag;
 	}
 

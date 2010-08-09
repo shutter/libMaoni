@@ -72,7 +72,7 @@ void RenderWidget::draw()
 		const FrameData& framedatac = framedata;
 		draw_light(i, framedatac.light(i));
 	}
-
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	framedata.draw();
 }
 
