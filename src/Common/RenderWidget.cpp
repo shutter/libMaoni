@@ -76,6 +76,13 @@ void RenderWidget::draw()
 	framedata.draw();
 }
 
+void RenderWidget::postDraw(){
+	startScreenCoordinatesSystem();
+	framedata.drawLogo();
+	stopScreenCoordinatesSystem();
+	QGLViewer::postDraw();
+}
+
 void RenderWidget::resizeGL(int width, int height)
 {
 	framedata.resize(width, height);

@@ -81,6 +81,8 @@ public:
 
 	void draw() const;
 
+	void drawLogo() const;
+
 	void enable_logo(bool render)
 	{
 		logo.set_render(render);

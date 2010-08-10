@@ -70,11 +70,23 @@ public:
 		return world.size();
 	}
 
+	int getScreenWidth() const
+	{
+		return global_display_size.size_x;
+	}
+
+	int getScreenHeight() const
+	{
+		return global_display_size.size_y;
+	}
+
 	void setMatrices();
 
 	void setTiles();
 
 	void animate();
+
+	void calcGlobalDisplaySize();
 
 	void resize(int w, int h);
 
@@ -151,6 +163,18 @@ private:
 	short change;
 	bool do_resize;
 	int strategy_;
+
+	struct Dimension
+	{
+		Dimension() :
+			min_x(0), min_y(0), max_x(0), max_y(0), size_x(1), size_y(1)
+		{
+		}
+
+		int min_x, min_y, max_x, max_y, size_x, size_y;
+	};
+
+	Dimension global_display_size;
 
 public:
 	std::vector<Tile> tiles;

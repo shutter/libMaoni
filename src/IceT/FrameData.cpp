@@ -27,23 +27,21 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 			world(), tiles(world.size()), strategy_(3)
 {
-	render_context_width = 480;
-	render_context_height = 320;
+	render_context_width = 800;
+	render_context_height = 600;
 
 	change = 0;
 
 	int rows = sqrt(static_cast<float> (tiles.size()));
 	std::cout << myrank() << ": rows: " << rows << std::endl;
+	tiles[0].visible = true;
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		int col = i / rows;
 		int row = i % rows;
 
-		//if (i == 0)
-			tiles[i].visible = true;
-
-		tiles[i].x = col * 480;
-		tiles[i].y = row * 320;
+		tiles[i].x = col * 800;
+		tiles[i].y = row * 600;
 	}
 }
 
@@ -66,7 +64,8 @@ void FrameDataIceT::setMatrices()
 	glLoadMatrixd(matrix);
 }
 
-void FrameDataIceT::setTiles(){
+void FrameDataIceT::setTiles()
+{
 	setDoResize(true);
 
 	broadcast(world, tiles, 0);
@@ -75,13 +74,12 @@ void FrameDataIceT::setTiles(){
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		Tile& tile = tiles[i];
-		std::cout << myrank() << ": set tile " << i << "!" << std::endl;
-		//if (tile.visible)
+		if (tile.visible)
 		{
+			std::cout << myrank() << ": add tile " << i << "!" << std::endl;
 			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
 		}
 
-		//if (i == world.rank())
 		{
 			icetBoundingBoxf( //
 					tile.min_box.data[0], tile.max_box.data[0], //
@@ -101,6 +99,7 @@ void FrameDataIceT::animate()
 
 	if (change & TILES_CHANGED)
 	{
+		calcGlobalDisplaySize();
 		setTiles();
 	}
 
@@ -129,7 +128,8 @@ void FrameDataIceT::animate()
 			icetStrategy(ICET_STRATEGY_REDUCE);
 		}
 
-		std::cout << myrank() << ": strategy changed to " << strategy_ << std::endl;
+		std::cout << myrank() << ": strategy changed to " << strategy_
+				<< std::endl;
 	}
 
 	if (change & LIGHT_CHANGED)
@@ -167,6 +167,34 @@ void FrameDataIceT::animate()
 void FrameDataIceT::resize(int w, int h)
 {
 	FrameData::resize(w, h);
+}
+
+void FrameDataIceT::calcGlobalDisplaySize()
+{
+	global_display_size.min_x = 0;
+
+	for (size_t i = 0; i < tiles.size(); ++i)
+	{
+		if (tiles[i].visible)
+		{
+			// search min x - the min offset
+			global_display_size.min_x = std::min(global_display_size.min_x,
+					tiles[i].x);
+			// search min y - the min offset
+			global_display_size.min_y = std::min(global_display_size.min_y,
+					tiles[i].y);
+			// search max x - the max offset plus size
+			global_display_size.max_x = std::max(global_display_size.min_x,
+					tiles[i].x + tiles[i].sx);
+			// search max y - the max offset plus size
+			global_display_size.max_y = std::max(global_display_size.min_y,
+					tiles[i].y + tiles[i].sy);
+		}
+	}
+
+	global_display_size.size_x = (global_display_size.max_x - global_display_size.min_x);
+	global_display_size.size_y = (global_display_size.max_y - global_display_size.min_y);
+	std::cout << myrank() << ": screen_x: " << global_display_size.size_x << ", screen_y: " << global_display_size.size_y << std::endl;
 }
 
 void FrameDataIceT::do_import_scene(boost::archive::xml_iarchive& archive)

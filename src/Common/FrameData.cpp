@@ -132,7 +132,10 @@ void FrameData::draw() const
 		renderer->render(*model_);
 	else
 		model_->draw();
+}
 
+void FrameData::drawLogo() const
+{
 	logo.draw();
 }
 
@@ -142,7 +145,7 @@ void FrameData::do_export_scene(boost::archive::xml_oarchive& archive)
 	archive << boost::serialization::make_nvp("model", model_name);
 	archive << boost::serialization::make_nvp("ralgo_name", ralgo_name);
 
-	if(renderer)
+	if (renderer)
 		archive << boost::serialization::make_nvp("renderer", *renderer);
 
 	logo_path = logo.get_path();

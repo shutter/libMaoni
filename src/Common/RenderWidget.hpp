@@ -35,6 +35,7 @@ private:
 
 protected:
 	void resizeGL(int width, int height);
+	void postDraw();
 
 protected:
 	void draw();

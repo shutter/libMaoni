@@ -35,14 +35,6 @@ RenderWidgetIceT::RenderWidgetIceT(FrameData& framedata) :
 
 	glClearColor(0.2f, 0.5f, 0.1f, 1.0f);
 	icetDrawFunc(static_draw);
-	icetBoundingBoxf(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-	framedata_icet.setTiles();
-	icetStrategy(ICET_STRATEGY_REDUCE);
-
-	/* Set up the projection matrix as you normally would. */
-	glMatrixMode( GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-0.75, 0.75, -0.75, 0.75, -0.75, 0.75);
 
 	// slaves should animate from the beginning
 	if (!framedata_icet.master())
@@ -68,11 +60,11 @@ void RenderWidgetIceT::paintGL()
 	}
 
 	framedata_icet.animate();
+	camera()->setScreenWidthAndHeight(framedata_icet.getScreenWidth(), framedata_icet.getScreenHeight());
 	preDraw();
 	framedata_icet.setMatrices();
 
 	icetDrawFrame();
-	swapBuffers();
 
 	postDraw();
 }

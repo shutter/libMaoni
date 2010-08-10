@@ -35,6 +35,7 @@ public:
 	void update_browser();
 
 private slots:
+	void bool_changed(QtProperty* property, bool value);
 	void enum_changed(QtProperty* property, int value);
 	void point_changed(QtProperty* property, const QPoint& value);
 	void vector_changed(QtProperty* property, const QVector3D& value);
@@ -45,6 +46,7 @@ private:
 
 	QtTreePropertyBrowser* property_browser;
 
+	QtBoolPropertyManager* bool_manager;
 	QtEnumPropertyManager* enum_manager;
 	QtPointPropertyManager* point_manager;
 	QVector3DPropertyManager* vector3d_manager;

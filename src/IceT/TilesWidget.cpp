@@ -32,11 +32,14 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	setLayout(layout);
 	setWindowTitle("Tile Config");
 
+	bool_manager = new QtBoolPropertyManager(this);
 	enum_manager = new QtEnumPropertyManager(this);
 	point_manager = new QtPointPropertyManager(this);
 	vector3d_manager = new QVector3DPropertyManager(this);
 	group_manager = new QtGroupPropertyManager(this);
 
+	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), //
+			this, SLOT(bool_changed(QtProperty*, bool)));
 	connect(enum_manager, SIGNAL(valueChanged(QtProperty*, int)), //
 			this, SLOT(enum_changed(QtProperty*, int)));
 	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
@@ -45,10 +48,12 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 			this, SLOT(vector_changed(QtProperty*, QVector3D const&)));
 
 
+	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
 	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
 
+	property_browser->setFactoryForManager(bool_manager, bool_factory);
 	property_browser->setFactoryForManager(enum_manager, enum_factory);
 	property_browser->setFactoryForManager(
 			point_manager->subIntPropertyManager(), int_factory);
@@ -74,14 +79,20 @@ void TilesWidget::update_browser()
 	for (std::size_t i = 0; i < framedata.tiles.size(); ++i)
 	{
 		Tile& tile = framedata.tiles[i];
-		indices[property] = i;
 
+		QtProperty* visible = bool_manager->addProperty("Visible");
+		indices[visible] = i;
 		QtProperty* group = group_manager->addProperty(name.arg(i));
 		QtProperty* point = point_manager->addProperty("Offset");
+		indices[point] = i;
 		QtProperty* size = point_manager->addProperty("Size");
+		indices[size] = i;
 		QtProperty* min = vector3d_manager->addProperty("Minimum");
+		indices[min] = i;
 		QtProperty* max = vector3d_manager->addProperty("Maximum");
+		indices[max] = i;
 
+		bool_manager->setValue(visible, tile.visible);
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
 		point_manager->setValue(size, QPoint(tile.sx, tile.sy));
 		vector3d_manager->setValue(min, QVector3D(tile.min_box.data[0],
@@ -89,6 +100,7 @@ void TilesWidget::update_browser()
 		vector3d_manager->setValue(max, QVector3D(tile.max_box.data[0],
 				tile.max_box.data[1], tile.max_box.data[2]));
 
+		group->addSubProperty(visible);
 		group->addSubProperty(point);
 		group->addSubProperty(size);
 		group->addSubProperty(min);
@@ -102,6 +114,18 @@ void TilesWidget::enum_changed(QtProperty* property, int value)
 {
 	framedata.setStrategy(value);
 	//std::cout << "set strategy to " << value << std::endl;
+}
+
+void TilesWidget::bool_changed(QtProperty* property, bool value)
+{
+	QString name = property->propertyName();
+	Tile& tile = framedata.tiles[indices[property]];
+	if (name == "Visible")
+	{
+		tile.visible = value;
+		std::cout << "Changed visibility of " << indices[property] << "!" << std::endl;
+	}
+	framedata.setTilesChanged();
 }
 
 void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
