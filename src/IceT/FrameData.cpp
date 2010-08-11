@@ -27,21 +27,27 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	FrameData(algorithm_stack, mesh_loader_stack), //
 			world(), tiles(world.size()), strategy_(3)
 {
-	render_context_width = 800;
-	render_context_height = 600;
+	render_context_width = tiles[0].sx;
+	render_context_height = tiles[0].sy;
 
 	change = 0;
 
 	int rows = sqrt(static_cast<float> (tiles.size()));
-	std::cout << myrank() << ": rows: " << rows << std::endl;
+
+	// Tile 0 shows the whole model, the others
+	// only the part they render themselves
 	tiles[0].visible = true;
+
+	// Take the square number >= number of tiles
+	// fill the square with actual number of tiles from
+	// left to right, bottom to top
 	for (std::size_t i = 0; i < tiles.size(); ++i)
 	{
 		int col = i / rows;
 		int row = i % rows;
 
-		tiles[i].x = col * 800;
-		tiles[i].y = row * 600;
+		tiles[i].x = col * render_context_width;
+		tiles[i].y = row * render_context_height;
 	}
 }
 
@@ -76,7 +82,6 @@ void FrameDataIceT::setTiles()
 		Tile& tile = tiles[i];
 		if (tile.visible)
 		{
-			std::cout << myrank() << ": add tile " << i << "!" << std::endl;
 			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
 		}
 
@@ -90,7 +95,6 @@ void FrameDataIceT::setTiles()
 
 	icetGetIntegerv(ICET_TILE_MAX_WIDTH, &render_context_width);
 	icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &render_context_height);
-	std::cout << myrank() << ": tiles changed" << std::endl;
 }
 
 void FrameDataIceT::animate()
@@ -127,15 +131,11 @@ void FrameDataIceT::animate()
 		default:
 			icetStrategy(ICET_STRATEGY_REDUCE);
 		}
-
-		std::cout << myrank() << ": strategy changed to " << strategy_
-				<< std::endl;
 	}
 
 	if (change & LIGHT_CHANGED)
 	{
 		broadcast(world, lights, 0);
-		std::cout << myrank() << ": light changed" << std::endl;
 	}
 
 	if (change & MODEL_CHANGED)
@@ -143,7 +143,6 @@ void FrameDataIceT::animate()
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
-		std::cout << myrank() << ": model changed" << std::endl;
 	}
 
 	if (change & RENDERER_CHANGED)
@@ -151,14 +150,12 @@ void FrameDataIceT::animate()
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
-		std::cout << myrank() << ": renderer changed" << std::endl;
 	}
 
 	if (change & RENDERPARAM_CHANGED)
 	{
 		if (renderer)
 			broadcast(world, *renderer, 0);
-		std::cout << myrank() << ": renderparameter changed" << std::endl;
 	}
 
 	change = 0;
@@ -169,6 +166,11 @@ void FrameDataIceT::resize(int w, int h)
 	FrameData::resize(w, h);
 }
 
+/*
+ * Calculates the global display size from all the tiles'
+ * size and offset values. IceT does not provide this values
+ * itself.
+ */
 void FrameDataIceT::calcGlobalDisplaySize()
 {
 	global_display_size.min_x = 0;
@@ -192,9 +194,10 @@ void FrameDataIceT::calcGlobalDisplaySize()
 		}
 	}
 
-	global_display_size.size_x = (global_display_size.max_x - global_display_size.min_x);
-	global_display_size.size_y = (global_display_size.max_y - global_display_size.min_y);
-	std::cout << myrank() << ": screen_x: " << global_display_size.size_x << ", screen_y: " << global_display_size.size_y << std::endl;
+	global_display_size.size_x = (global_display_size.max_x
+			- global_display_size.min_x);
+	global_display_size.size_y = (global_display_size.max_y
+			- global_display_size.min_y);
 }
 
 void FrameDataIceT::do_import_scene(boost::archive::xml_iarchive& archive)

@@ -19,7 +19,6 @@
 #include "TilesWidget.hpp"
 #include <qteditorfactory.h>
 #include <QVBoxLayout>
-#include <iostream>
 
 TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	framedata(framedata)
@@ -113,7 +112,6 @@ void TilesWidget::update_browser()
 void TilesWidget::enum_changed(QtProperty* property, int value)
 {
 	framedata.setStrategy(value);
-	//std::cout << "set strategy to " << value << std::endl;
 }
 
 void TilesWidget::bool_changed(QtProperty* property, bool value)
@@ -123,7 +121,6 @@ void TilesWidget::bool_changed(QtProperty* property, bool value)
 	if (name == "Visible")
 	{
 		tile.visible = value;
-		std::cout << "Changed visibility of " << indices[property] << "!" << std::endl;
 	}
 	framedata.setTilesChanged();
 }

@@ -18,8 +18,6 @@
 
 #include "VBOModel.hpp"
 #include <boost/array.hpp>
-#include <iostream>
-
 #include <boost/la/all.hpp>
 using namespace boost::la;
 
@@ -134,27 +132,17 @@ void VBOModel::fix_scale()
 		}
 	}
 
-	std::clog << std::flush;
-	std::clog << "lower_left = (" << (lower_left | X) << ", " //
-			<< (lower_left | Y) << ", " << (lower_left | Z) << ")\n";
-	std::clog << "upper_right = (" << (upper_right | X) << ", " //
-			<< (upper_right | Y) << ", " << (upper_right | Z) << ")\n";
-
 	// find largest dimension and determine scale factor
 	float factor = 0.0f;
 	for (size_t i = 0; i < 3; ++i)
 		factor = std::max(factor, upper_right[i] - lower_left[i]);
 
 	factor = 2.f / factor;
-	std::clog << "scale factor = " << factor << "\n";
 
 	// determine scale offset
 	Vec3 offset;
 	for (size_t i = 0; i < 3; ++i)
 		offset.data[i] = (lower_left[i] + upper_right[i]) * 0.5f;
-
-	std::clog << "offset = (" << (offset | X) << ", " //
-			<< (offset | Y) << ", " << (offset | Z) << ")" << std::endl;
 
 	// scale the data
 	for (size_t v = 0; v < vertices.size(); ++v)
@@ -171,7 +159,6 @@ void VBOModel::generate_vbo()
 {
 	vsize = vertices.size();
 	isize = indices.size();
-	std::cout << "vertices: " << vsize << " indices: " << isize << std::endl;
 
 	GLfloat* vbo_vertices = new GLfloat[vsize * 3];
 	GLfloat* vbo_normals = new GLfloat[vsize * 3];
@@ -181,7 +168,6 @@ void VBOModel::generate_vbo()
 
 	for (size_t i = 0; i < vsize; ++i)
 	{
-
 		vbo_vertices[i * 3] = vertices[i].position[0];
 		vbo_vertices[i * 3 + 1] = vertices[i].position[1];
 		vbo_vertices[i * 3 + 2] = vertices[i].position[2];
@@ -194,19 +180,11 @@ void VBOModel::generate_vbo()
 		vbo_colors[i * 4 + 3] = vertices[i].color[3];
 		vbo_texCoords[i * 2] = vertices[i].texcoord[0];
 		vbo_texCoords[i * 2 + 1] = vertices[i].texcoord[1];
-		/*		std::cout << vbo_vertices[i * 3] << " " << vbo_vertices[i * 3 + 1]
-		 << " " << vbo_vertices[i * 3 + 2] << " " << vbo_normals[i * 3]
-		 << " " << vbo_normals[i * 3 + 1] << " " << vbo_normals[i * 3
-		 + 2] << " " << vbo_colors[i * 4] << " "
-		 << vbo_colors[i * 4 + 1] << " " << vbo_colors[i * 4 + 2] << " "
-		 << vbo_colors[i * 4 + 3] << " " << vbo_texCoords[i * 2] << " "
-		 << vbo_texCoords[i * 2 + 1] << std::endl;*/
 	}
 
 	for (size_t i = 0; i < isize; ++i)
 	{
 		ibo_list[i] = indices[i];
-		// std::cout << ibo_list[i] << " ";
 	}
 
 	glGenBuffers(1, &vboIndexBuffer);
@@ -273,8 +251,6 @@ void VBOModel::setDrawRange(unsigned int myrank, unsigned int ranks)
 	setStartVertex(myrank * frag * 3);
 	setEndVertex((myrank + 1) * (frag + 1) * 3);
 	startindex = (char*) NULL + (myrank * frag * 3 * sizeof(unsigned int));
-	std::cout << "rank" << myrank << " - start: " << start_ << ", end: "
-			<< end_ << ", count: " << count_ << std::endl;
 }
 
 void VBOModel::initVBO(unsigned int myrank, unsigned int ranks){

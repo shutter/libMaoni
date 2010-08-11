@@ -9,7 +9,6 @@
 #include <lib3ds/mesh.h>
 
 #include <stdexcept>
-#include <iostream>
 #include <cstring>
 
 // 3DS model class
@@ -48,26 +47,17 @@ CModel3DS::CModel3DS(std::string filename)
 	Lib3dsVector max;
 	lib3ds_file_bounding_box_of_objects(m_model, true, false, false, min, max);
 
-	std::cout << "max: " << max[0] << " " << max[1] << " " << max[2]
-			<< std::endl;
-	std::cout << "min: " << min[0] << " " << min[1] << " " << min[2]
-			<< std::endl;
-
 	// find largest dimension and determine scale factor
 	factor = 0.0f;
 	for (size_t i = 0; i < 3; ++i)
 		factor = std::max(factor, max[i] - min[i]);
 
 	factor = 2.f / factor;
-	std::cout << "resize factor: " << factor << std::endl;
 
 	// determine scale offset
 
 	for (size_t i = 0; i < 3; ++i)
 		offset[i] = (min[i] + max[i]) * 0.5f;
-
-	std::cout << "offset: " << offset[0] << " " << offset[1] << " "
-			<< offset[2] << std::endl;
 
 	GetFaces();
 	CreateVBO();

@@ -60,12 +60,14 @@ void RenderWidgetIceT::paintGL()
 	}
 
 	framedata_icet.animate();
+
+	// the projection matrix gets the correct aspect ratio by using
+	// libqglviewer functionality
 	camera()->setScreenWidthAndHeight(framedata_icet.getScreenWidth(), framedata_icet.getScreenHeight());
+
 	preDraw();
 	framedata_icet.setMatrices();
-
 	icetDrawFrame();
-
 	postDraw();
 }
 
@@ -76,6 +78,10 @@ void RenderWidgetIceT::stopAnimation()
 		QGLViewer::stopAnimation();
 }
 
+/*
+ * Every RenderWidget, the master's as well as the slave ones, has to have
+ * the same size as the biggest one (IceT User Guide).
+ */
 void RenderWidgetIceT::resizeWindow()
 {
 	setMinimumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());

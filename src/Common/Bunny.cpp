@@ -18,7 +18,6 @@
 
 #include "Bunny.hpp"
 #include <GL/glew.h>
-#include <iostream>
 #include <Maoni/Vector.hpp>
 #include <boost/array.hpp>
 
@@ -444,9 +443,6 @@ Bunny::Bunny() :
 	indices = sizeof(index_data) / sizeof(index_data[0]);
 	vertices = sizeof(vertex_data) / (3 * sizeof(vertex_data[0]));
 
-	std::cout << "Hi! I'm a freakin\' Stanford Bunny composed of " << indices
-			<< " indices and " << vertices << " vertices!" << std::endl;
-
 	for (size_t i = 0; i < indices; ++i)
 	{
 		indicesv.push_back(index_data[i]);
@@ -511,15 +507,11 @@ void Bunny::fix_scale()
 		factor = std::max(factor, upper_right[i] - lower_left[i]);
 
 	factor = 2.f / factor;
-	std::clog << "scale factor = " << factor << "\n";
 
 	// determine scale offset
 	Vec3 offset;
 	for (size_t i = 0; i < 3; ++i)
 		offset.data[i] = (lower_left[i] + upper_right[i]) * 0.5f;
-
-	std::clog << "offset = (" << (offset | X) << ", " //
-			<< (offset | Y) << ", " << (offset | Z) << ")" << std::endl;
 
 	// scale the data
 	for (size_t v = 0; v < verticesv.size(); ++v)
