@@ -54,7 +54,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Maoni")
 
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 
-set(CPACK_COMPONENTS_ALL headers devlibs runlibs)
+set(CPACK_COMPONENTS_ALL headers devlibs runlibs examples)
 
 set(CPACK_COMPONENT_HEADERS_GROUP dev)
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Headers")
@@ -68,6 +68,10 @@ set(CPACK_COMPONENT_DEVLIBS_DESCRIPTION
 set(CPACK_COMPONENT_RUNLIBS_DISPLAY_NAME "Runtime Libraries")
 set(CPACK_COMPONENT_RUNLIBS_DESCRIPTION
   "Libraries used to run Maoni based programs")
+
+set(CPACK_COMPONENT_EXAMPLES_DISPLAY_NAME "Examples")
+set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION
+  "Example source code and model files")
 
 set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/src/Icons/stanford-bunny.ico")
 

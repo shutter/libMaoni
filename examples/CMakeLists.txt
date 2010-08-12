@@ -73,6 +73,13 @@ target_link_libraries(example_icet ${LIBRARIES} MaoniIceT)
 
 ##############################################################
 
+install(DIRECTORY Algorithms Loaders Models
+  DESTINATION share/libMaoni/examples
+  COMPONENT examples
+  )
+
+##############################################################
+
 file(GLOB MODEL_FILES
    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/Models 
    ${CMAKE_CURRENT_SOURCE_DIR}/Models/?*.*)
