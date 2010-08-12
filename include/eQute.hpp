@@ -51,7 +51,7 @@ struct eQute
 
 		static Widget* getInstance()
 		{
-			eq::base::ScopedMutex lock(instance);
+			eq::base::ScopedMutex<> lock(instance);
 
 			Widget* tmp = instance.data;
 			instance = 0;
@@ -114,7 +114,6 @@ struct eQute
 		}
 
 	private:
-		// todo: https://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209
 		bool configInitOSWindow(const uint32_t id)
 		{
 			Widget* widget = Widget::getInstance();
@@ -125,7 +124,7 @@ struct eQute
 				eq::OSWindow* osWindow = getSharedContextWindow()->getOSWindow();
 				if (dynamic_cast<GLWindow*> (osWindow))
 				{
-					const eq::WindowVector& windows = getPipe()->getWindows();
+					const std::vector<eq::Window*>& windows = getPipe()->getWindows();
 					EQASSERT( windows.size() > 1 );
 					setSharedContextWindow(windows[1]);
 				}
