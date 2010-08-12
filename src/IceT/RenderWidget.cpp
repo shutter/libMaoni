@@ -19,6 +19,7 @@
 #include "RenderWidget.hpp"
 #include <GL/ice-t_mpi.h>
 #include <boost/assert.hpp>
+#include <iostream>
 
 RenderWidgetIceT* RenderWidgetIceT::singleton = 0;
 
@@ -63,7 +64,8 @@ void RenderWidgetIceT::paintGL()
 
 	// the projection matrix gets the correct aspect ratio by using
 	// libqglviewer functionality
-	camera()->setScreenWidthAndHeight(framedata_icet.getScreenWidth(), framedata_icet.getScreenHeight());
+	camera()->setScreenWidthAndHeight(framedata_icet.getScreenWidth(),
+			framedata_icet.getScreenHeight());
 
 	preDraw();
 	framedata_icet.setMatrices();
@@ -84,8 +86,19 @@ void RenderWidgetIceT::stopAnimation()
  */
 void RenderWidgetIceT::resizeWindow()
 {
+	if (framedata_icet.tiles[framedata_icet.myrank()].fullscreen)
+	{
+		setWindowState(Qt::WindowFullScreen);
+		std::cout << framedata_icet.myrank() << ": set fullscreen!" << std::endl;
+	}
+	else
+	{
+		setWindowState(Qt::WindowNoState);
+		std::cout << framedata_icet.myrank() << ": set normal!" << std::endl;
+	}
 	setMinimumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
-	setMaximumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
+	//setMaximumSize(framedata_icet.getMWidth(), framedata_icet.getMHeight());
 	framedata_icet.resize(framedata_icet.getMWidth(),
 			framedata_icet.getMHeight());
+
 }

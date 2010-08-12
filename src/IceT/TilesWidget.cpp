@@ -81,6 +81,8 @@ void TilesWidget::update_browser()
 
 		QtProperty* visible = bool_manager->addProperty("Visible");
 		indices[visible] = i;
+		QtProperty* fullscreen = bool_manager->addProperty("Fullscreen");
+		indices[fullscreen] = i;
 		QtProperty* group = group_manager->addProperty(name.arg(i));
 		QtProperty* point = point_manager->addProperty("Offset");
 		indices[point] = i;
@@ -92,6 +94,7 @@ void TilesWidget::update_browser()
 		indices[max] = i;
 
 		bool_manager->setValue(visible, tile.visible);
+		bool_manager->setValue(fullscreen, tile.fullscreen);
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
 		point_manager->setValue(size, QPoint(tile.sx, tile.sy));
 		vector3d_manager->setValue(min, QVector3D(tile.min_box.data[0],
@@ -100,6 +103,7 @@ void TilesWidget::update_browser()
 				tile.max_box.data[1], tile.max_box.data[2]));
 
 		group->addSubProperty(visible);
+		group->addSubProperty(fullscreen);
 		group->addSubProperty(point);
 		group->addSubProperty(size);
 		group->addSubProperty(min);
@@ -121,6 +125,10 @@ void TilesWidget::bool_changed(QtProperty* property, bool value)
 	if (name == "Visible")
 	{
 		tile.visible = value;
+	}
+	else if (name == "Fullscreen")
+	{
+		tile.fullscreen = value;
 	}
 	framedata.setTilesChanged();
 }
