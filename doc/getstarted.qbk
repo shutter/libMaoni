@@ -93,9 +93,6 @@ A Maoni-Equalizer application has to be distributed to the render clients. To ru
 has to be started on the master render client and the application using corresponding parameters. Have a look at 
 [@http://www.equalizergraphics.com/documentation.html Equalizer's User Guides] to find all about Equalizer config files and parameters.
 
-
-Because of an open [@http://sourceforge.net/tracker/index.php?func=detail&aid=3023805&group_id=170962&atid=856209 Equalizer bug]
-, the render data can't be shown in a Qt render context yet.
 [endsect]
 [endsect]
 
