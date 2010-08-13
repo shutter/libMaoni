@@ -10,7 +10,6 @@
 
 // wants to be included before Bool is defined
 #include <QMetaType>
-
 #include <eq/eq.h>
 
 // <X.h> conflicts with <qcursor.h>

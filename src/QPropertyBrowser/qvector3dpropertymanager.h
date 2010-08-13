@@ -21,7 +21,7 @@
 
 #include <qtpropertybrowser.h>
 #include <qtpropertymanager.h>
-#include <QVector3D>
+#include <Maoni/Vector.hpp>
 
 class QVector3DPropertyManagerPrivate;
 
@@ -35,15 +35,15 @@ public:
 
 	QtDoublePropertyManager* subDoublePropertyManager() const;
 
-	QVector3D value(const QtProperty* property) const;
+	Vec3 value(const QtProperty* property) const;
 	int decimals(const QtProperty* property) const;
 
 public Q_SLOTS:
-	void setValue(QtProperty* property, const QVector3D &val);
+	void setValue(QtProperty* property, const Vec3 &val);
 	void setDecimals(QtProperty* property, int prec);
 
 Q_SIGNALS:
-	void valueChanged(QtProperty* property, const QVector3D &val);
+	void valueChanged(QtProperty* property, const Vec3 &val);
 	void decimalsChanged(QtProperty* property, int prec);
 
 protected:

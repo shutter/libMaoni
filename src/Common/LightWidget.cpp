@@ -106,8 +106,8 @@ LightWidget::LightWidget(FrameData& framedata, QWidget *parent) :
 			SLOT(value_changed(QtProperty*, double)));
 	connect(color_manager, SIGNAL(valueChanged(QtProperty*, QColor)), this,
 			SLOT(value_changed(QtProperty*, QColor)));
-	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, QVector3D)), this,
-			SLOT(value_changed(QtProperty*, QVector3D)));
+	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, Vec3)), this,
+			SLOT(value_changed(QtProperty*, Vec3)));
 
 	light_chooser->setCurrentIndex(0);
 	choose(0);
@@ -155,7 +155,7 @@ void LightWidget::choose(int i)
 	bool_manager->setValue(show_bulp, light.show_bulp);
 	property_browser->addProperty(show_bulp);
 	vector3d_manager->setValue(position, //
-			QVector3D(light.position | X, light.position | Y, light.position
+			Vec3(light.position | X, light.position | Y, light.position
 					| Z));
 	property_browser->addProperty(position);
 	color_manager->setValue(ambient, colorOTB(light.ambient));
@@ -174,7 +174,7 @@ void LightWidget::choose(int i)
 		bool_manager->setValue(is_spot, light.is_spot);
 		property_browser->addProperty(is_spot);
 		vector3d_manager->setValue(spot_dir, //
-				QVector3D(light.spot_direction | X, light.spot_direction | Y,
+				Vec3(light.spot_direction | X, light.spot_direction | Y,
 						light.spot_direction | Z));
 		property_browser->addProperty(spot_dir);
 		double_manager->setValue(cut_off, light.cut_off);
@@ -256,19 +256,19 @@ void LightWidget::value_changed(QtProperty* property, const QColor& value)
 	}
 }
 
-void LightWidget::value_changed(QtProperty* property, const QVector3D& value)
+void LightWidget::value_changed(QtProperty* property, const Vec3& value)
 {
 	std::string name = property->propertyName().toStdString();
 	if (name == "position")
 	{
 
 		framedata.light(current_id).position = //
-				Vec3(value.x(), value.y(), value.z());
+				Vec3(value | X, value | Y, value | Z);
 	}
 	else if (name == "spot_dir")
 	{
 		framedata.light(current_id).spot_direction = //
-				Vec3(value.x(), value.y(), value.z());
+				Vec3(value | X, value | Y, value | Z);
 	}
 }
 

@@ -18,6 +18,8 @@
 
 #include "qvector3dpropertymanager.h"
 #include <QMap>
+#include <boost/la/all.hpp>
+using namespace boost::la;
 
 template<class Value, class PrivateData>
 static Value getData(const QMap<const QtProperty *, PrivateData> &propertyMap,
@@ -53,7 +55,7 @@ public:
 		{
 		}
 
-		QVector3D val;
+		Vec3 val;
 		int decimals;
 	};
 
@@ -79,20 +81,20 @@ void QVector3DPropertyManagerPrivate::slotDoubleChanged(QtProperty* property,
 {
 	if (QtProperty *prop = m_xToProperty.value(property, 0))
 	{
-		QVector3D p = m_values[prop].val;
-		p.setX(value);
+		Vec3 p = m_values[prop].val;
+		p | X = value;
 		q_ptr->setValue(prop, p);
 	}
 	else if (QtProperty *prop = m_yToProperty.value(property, 0))
 	{
-		QVector3D p = m_values[prop].val;
-		p.setY(value);
+		Vec3 p = m_values[prop].val;
+		p | Y  = value;
 		q_ptr->setValue(prop, p);
 	}
 	else if (QtProperty *prop = m_zToProperty.value(property, 0))
 	{
-		QVector3D p = m_values[prop].val;
-		p.setZ(value);
+		Vec3 p = m_values[prop].val;
+		p | Z  = value;
 		q_ptr->setValue(prop, p);
 	}
 }
@@ -143,9 +145,9 @@ QtDoublePropertyManager *QVector3DPropertyManager::subDoublePropertyManager() co
 	return d_ptr->m_doublePropertyManager;
 }
 
-QVector3D QVector3DPropertyManager::value(const QtProperty *property) const
+Vec3 QVector3DPropertyManager::value(const QtProperty *property) const
 {
-	return getValue<QVector3D> (d_ptr->m_values, property);
+	return getValue<Vec3> (d_ptr->m_values, property);
 }
 
 int QVector3DPropertyManager::decimals(const QtProperty *property) const
@@ -160,16 +162,16 @@ QString QVector3DPropertyManager::valueText(const QtProperty *property) const
 		d_ptr->m_values.constFind(property);
 	if (it == d_ptr->m_values.constEnd())
 		return QString();
-	const QVector3D v = it.value().val;
+	const Vec3 v = it.value().val;
 	const int dec = it.value().decimals;
 	return QString(tr("(%1, %2, %3)") //
-		.arg(QString::number(v.x(), 'f', dec)) //
-		.arg(QString::number(v.y(), 'f', dec)) //
-		.arg(QString::number(v.z(), 'f', dec)));
+		.arg(QString::number(v | X , 'f', dec)) //
+		.arg(QString::number(v | Y , 'f', dec)) //
+		.arg(QString::number(v | Z , 'f', dec)));
 }
 
 void QVector3DPropertyManager::setValue(QtProperty *property,
-	const QVector3D &val)
+	const Vec3 &val)
 {
 	const QVector3DPropertyManagerPrivate::PropertyValueMap::iterator it =
 		d_ptr->m_values.find(property);
@@ -181,11 +183,11 @@ void QVector3DPropertyManager::setValue(QtProperty *property,
 
 	it.value().val = val;
 	d_ptr->m_doublePropertyManager->setValue(d_ptr->m_propertyToX[property],
-		val.x());
+		val|X);
 	d_ptr->m_doublePropertyManager->setValue(d_ptr->m_propertyToY[property],
-		val.y());
+		val|Y);
 	d_ptr->m_doublePropertyManager->setValue(d_ptr->m_propertyToZ[property],
-		val.z());
+		val|Z);
 
 	emit propertyChanged(property);
 	emit valueChanged(property, val);

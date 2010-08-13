@@ -4,7 +4,6 @@
  *  Created on: Jul 22, 2009
  *      Author: dpfeifer
  */
-
 #include <QApplication>
 #include <QSplashScreen>
 #include <QTimer>

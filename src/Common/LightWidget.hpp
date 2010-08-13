@@ -43,7 +43,7 @@ private slots:
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
-	void value_changed(QtProperty* property, const QVector3D& value);
+	void value_changed(QtProperty* property, const Vec3& value);
 
 	void update_combobox();
 
@@ -75,10 +75,6 @@ private:
 	QtProperty *attenuation;
 	QtProperty *is_spot;
 	QtProperty *spot_dir;
-//	QtProperty *spot_dir_x;
-//	QtProperty *spot_dir_y;
-//	QtProperty *spot_dir_z;
-//	QtProperty *spot_direction;
 	QtProperty *cut_off;
 	QtProperty *exponent;
 };

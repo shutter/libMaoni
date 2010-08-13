@@ -25,6 +25,7 @@
 #include <qttreepropertybrowser.h>
 #include <qvector3dpropertymanager.h>
 #include "FrameData.hpp"
+#include <Maoni/Vector.hpp>
 
 class TilesWidget: public QWidget
 {
@@ -38,7 +39,7 @@ private slots:
 	void bool_changed(QtProperty* property, bool value);
 	void enum_changed(QtProperty* property, int value);
 	void point_changed(QtProperty* property, const QPoint& value);
-	void vector_changed(QtProperty* property, const QVector3D& value);
+	void vector_changed(QtProperty* property, const Vec3& value);
 
 private:
 	FrameDataIceT& framedata;

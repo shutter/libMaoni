@@ -43,8 +43,8 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 			this, SLOT(enum_changed(QtProperty*, int)));
 	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
 			this, SLOT(point_changed(QtProperty*, QPoint const&)));
-	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, QVector3D const&)), //
-			this, SLOT(vector_changed(QtProperty*, QVector3D const&)));
+	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, Vec3 const&)), //
+			this, SLOT(vector_changed(QtProperty*, Vec3 const&)));
 
 
 	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
@@ -97,10 +97,8 @@ void TilesWidget::update_browser()
 		bool_manager->setValue(fullscreen, tile.fullscreen);
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
 		point_manager->setValue(size, QPoint(tile.sx, tile.sy));
-		vector3d_manager->setValue(min, QVector3D(tile.min_box.data[0],
-				tile.min_box.data[1], tile.min_box.data[2]));
-		vector3d_manager->setValue(max, QVector3D(tile.max_box.data[0],
-				tile.max_box.data[1], tile.max_box.data[2]));
+		vector3d_manager->setValue(min, tile.min_box);
+		vector3d_manager->setValue(max, tile.max_box);
 
 		group->addSubProperty(visible);
 		group->addSubProperty(fullscreen);
@@ -150,17 +148,17 @@ void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
 	framedata.setTilesChanged();
 }
 
-void TilesWidget::vector_changed(QtProperty* property, QVector3D const& value)
+void TilesWidget::vector_changed(QtProperty* property, Vec3 const& value)
 {
 	QString name = property->propertyName();
 	Tile& tile = framedata.tiles[indices[property]];
 	if (name == "Minimum")
 	{
-		tile.min_box = Vec3(value.x(), value.y(), value.z());
+		tile.min_box = value;
 	}
 	else if (name == "Maximum")
 	{
-		tile.max_box = Vec3(value.x(), value.y(), value.z());
+		tile.max_box = value;
 	}
 	framedata.setTilesChanged();
 }
