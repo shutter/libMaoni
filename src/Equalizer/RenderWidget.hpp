@@ -23,6 +23,7 @@ public:
 	using QGLViewer::paintGL;
 
 	static void static_draw(eq::Channel* channel);
+	void init();
 
 private:
 	void glDraw();

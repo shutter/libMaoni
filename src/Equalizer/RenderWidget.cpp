@@ -19,3 +19,8 @@ void RenderWidgetEq::static_draw(eq::Channel* channel)
 {
 	static_cast<const Node*> (channel->getNode())->getFrameData().draw();
 }
+
+void RenderWidgetEq::init()
+{
+
+}
