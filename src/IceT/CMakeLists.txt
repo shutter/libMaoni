@@ -1,39 +1,20 @@
 # Copyright (c) 2009, 2010 Daniel Pfeifer, University of Zurich
 
-find_package(MPI REQUIRED)
-include_directories(${MPI_INCLUDE_PATH})
+set(BUILD_MAONI_ICET ON)
 
+find_package(MPI)
+if(NOT MPI_FOUND)
+  set(BUILD_MAONI_ICET OFF)
+endif(NOT MPI_FOUND)
 
 find_package(Boost COMPONENTS mpi)
 if(NOT Boost_MPI_FOUND)
-  message(STATUS "Boost.MPI not found, I will built it.")
-  set(BOOST_MPI_FILE ${CMAKE_SOURCE_DIR}/externals/boost-mpi-1.40.0.tar.gz)
-  set(BOOST_MPI_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/boost-mpi-1.40.0)
-  file(MAKE_DIRECTORY ${BOOST_MPI_SOURCE_DIR})
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${BOOST_MPI_FILE}
-    WORKING_DIRECTORY ${BOOST_MPI_SOURCE_DIR})
-  add_library(boost_mpi
-    ${BOOST_MPI_SOURCE_DIR}/broadcast.cpp
-    ${BOOST_MPI_SOURCE_DIR}/communicator.cpp
-    ${BOOST_MPI_SOURCE_DIR}/computation_tree.cpp
-    ${BOOST_MPI_SOURCE_DIR}/content_oarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/environment.cpp
-    ${BOOST_MPI_SOURCE_DIR}/exception.cpp
-    ${BOOST_MPI_SOURCE_DIR}/graph_communicator.cpp
-    ${BOOST_MPI_SOURCE_DIR}/group.cpp
-    ${BOOST_MPI_SOURCE_DIR}/intercommunicator.cpp
-    ${BOOST_MPI_SOURCE_DIR}/mpi_datatype_cache.cpp
-    ${BOOST_MPI_SOURCE_DIR}/mpi_datatype_oarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/packed_iarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/packed_oarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/packed_skeleton_iarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/packed_skeleton_oarchive.cpp
-    ${BOOST_MPI_SOURCE_DIR}/point_to_point.cpp
-    ${BOOST_MPI_SOURCE_DIR}/request.cpp
-    ${BOOST_MPI_SOURCE_DIR}/text_skeleton_oarchive.cpp
-    )
-  set(Boost_LIBRARIES ${Boost_LIBRARIES} boost_mpi)
+  set(BUILD_MAONI_ICET OFF)
 endif(NOT Boost_MPI_FOUND)
+
+if(BUILD_MAONI_ICET)
+
+include_directories(${MPI_INCLUDE_PATH})
 
 
 set(ICET_FILE ${CMAKE_CURRENT_SOURCE_DIR}/IceT-1-0-0.tar.gz)
@@ -104,3 +85,7 @@ if(WIN32)
     COMPONENT runlibs
     )
 endif(WIN32)
+
+else(BUILD_MAONI_ICET)
+  message(STATUS "(Boost) MPI has NOT been found! Skipping MaoniIceT.")
+endif(BUILD_MAONI_ICET)
