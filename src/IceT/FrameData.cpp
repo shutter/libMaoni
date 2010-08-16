@@ -25,7 +25,7 @@
 FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 		MeshLoader* mesh_loader_stack) :
 	FrameData(algorithm_stack, mesh_loader_stack), //
-			world(), tiles(world.size()), strategy_(3) {
+			world(), tiles(world.size()), strategy_(3), replication_group_(false) {
 	render_context_width = tiles[0].sx;
 	render_context_height = tiles[0].sy;
 
@@ -143,6 +143,16 @@ void FrameDataIceT::animate() {
 			broadcast(world, *renderer, 0);
 	}
 
+	if (change & REPLICATE_CHANGED) {
+		broadcast(world, replication_group_, 0);
+		if(replication_group_){
+			icetDataReplicationGroupColor(0);
+		} else {
+			icetDataReplicationGroupColor(myrank());
+		}
+
+	}
+
 	change = 0;
 }
 
@@ -199,4 +209,9 @@ void FrameDataIceT::do_export_scene(boost::archive::xml_oarchive& archive) {
 void FrameDataIceT::setStrategy(int strategy) {
 	strategy_ = strategy;
 	setStrategyChanged();
+}
+
+void FrameDataIceT::setReplicate(bool replicate) {
+	replication_group_ = replicate;
+	setReplicateChanged();
 }
