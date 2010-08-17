@@ -246,6 +246,7 @@ void VBOModel::setEndVertex(unsigned int end)
 void VBOModel::setDrawRange(unsigned int myrank, unsigned int ranks)
 {
 	myrank_ = myrank;
+	myrank = 0; // for replication group
 	ranks_ = ranks;
 	int frag = isize / 3 / ranks;
 	setStartVertex(myrank * frag * 3);
@@ -257,5 +258,6 @@ void VBOModel::initVBO(unsigned int myrank, unsigned int ranks){
 	calculate_normals();
 	fix_scale();
 	generate_vbo();
-	setDrawRange(myrank, ranks);
+	//setDrawRange(myrank, ranks); // for replication group
+	setDrawRange(myrank, 1);
 }
