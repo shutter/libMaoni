@@ -130,7 +130,18 @@ public:
 		change |= STRATEGY_CHANGED;
 	}
 
+	virtual void setReplicateChanged()
+	{
+		change |= REPLICATE_CHANGED;
+	}
+
 	virtual void setStrategy(int strategy);
+	virtual void setReplicate(bool replicate);
+
+	virtual bool getReplicate() const
+	{
+		return replication_group_;
+	}
 
 	virtual bool getDoResize() const
 	{
@@ -157,12 +168,14 @@ private:
 		RENDERPARAM_CHANGED = 4,
 		RENDERER_CHANGED = 8,
 		TILES_CHANGED = 16,
-		STRATEGY_CHANGED = 32
+		STRATEGY_CHANGED = 32,
+		REPLICATE_CHANGED = 64
 	};
 
 	short change;
 	bool do_resize;
 	int strategy_;
+	bool replication_group_;
 
 	struct Dimension
 	{

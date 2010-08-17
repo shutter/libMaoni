@@ -74,6 +74,10 @@ void TilesWidget::update_browser()
 	enum_manager->setValue(property, 3);
 	property_browser->addProperty(property);
 
+	QtProperty* data_replication = bool_manager->addProperty("DataReplication");
+	bool_manager->setValue(data_replication, framedata.getReplicate());
+	property_browser->addProperty(data_replication);
+
 	QString name = "Rank %1";
 	for (std::size_t i = 0; i < framedata.tiles.size(); ++i)
 	{
@@ -123,12 +127,17 @@ void TilesWidget::bool_changed(QtProperty* property, bool value)
 	if (name == "Visible")
 	{
 		tile.visible = value;
+		framedata.setTilesChanged();
 	}
 	else if (name == "Fullscreen")
 	{
 		tile.fullscreen = value;
+		framedata.setTilesChanged();
 	}
-	framedata.setTilesChanged();
+	else if (name == "DataReplication")
+	{
+		framedata.setReplicate(value);
+	}
 }
 
 void TilesWidget::point_changed(QtProperty* property, QPoint const& value)
