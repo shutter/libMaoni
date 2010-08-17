@@ -51,13 +51,8 @@ if(MSVC)
 endif(MSVC)
 
 
-if(NOT MAONI_SKIP_EQUALIZER)
-  add_subdirectory(Equalizer)
-endif(NOT MAONI_SKIP_EQUALIZER)
-
-if(NOT MAONI_SKIP_ICET)
-  add_subdirectory(IceT)
-endif(NOT MAONI_SKIP_ICET)
+add_subdirectory(Equalizer)
+add_subdirectory(IceT)
 
 
 add_library(Maoni SHARED Maoni.cpp ${MAONI_VERSION_RC})
