@@ -2,7 +2,10 @@
 
 find_package(Equalizer)
 
-if(Equalizer_FOUND)
+if(NOT EQUALIZER_FOUND)
+  message(WARNING "Equalizer has NOT been found! Skipping MaoniEq.")
+  return()
+endif(NOT EQUALIZER_FOUND)
 
 include_directories(${Equalizer_INCLUDE_DIRS})
 
@@ -27,7 +30,3 @@ target_link_libraries(MaoniEq
   ${MAONI_LIBRARIES}
   ${Equalizer_LIBRARIES}
   )
-
-else(Equalizer_FOUND)
-  message(STATUS "Equalizer has NOT been found! Skipping MaoniEq.")
-endif(Equalizer_FOUND)

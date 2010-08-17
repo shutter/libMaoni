@@ -1,18 +1,12 @@
 # Copyright (c) 2009, 2010 Daniel Pfeifer, University of Zurich
 
-set(BUILD_MAONI_ICET ON)
-
 find_package(MPI)
-if(NOT MPI_FOUND)
-  set(BUILD_MAONI_ICET OFF)
-endif(NOT MPI_FOUND)
-
 find_package(Boost COMPONENTS mpi)
-if(NOT Boost_MPI_FOUND)
-  set(BUILD_MAONI_ICET OFF)
-endif(NOT Boost_MPI_FOUND)
 
-if(BUILD_MAONI_ICET)
+if(NOT MPI_FOUND OR NOT Boost_MPI_FOUND)
+  message(STATUS "(Boost) MPI has NOT been found! Skipping MaoniIceT.")
+  return()
+endif(NOT MPI_FOUND OR NOT Boost_MPI_FOUND)
 
 include_directories(${MPI_INCLUDE_PATH})
 
@@ -52,6 +46,8 @@ CONFIGURE_FILE(
 include_directories(${ICET_SOURCE_DIR}/include/)
 
 add_subdirectory(${ICET_SOURCE_DIR} ${ICET_SOURCE_DIR}/build)
+set(ICET_LIBRARIES icet icet_mpi icet_strategies)
+
 
 qt4_wrap_cpp(MAONI_ICET_MOC
   TilesWidget.hpp
@@ -69,23 +65,12 @@ add_library(MaoniIceT SHARED
 target_link_libraries(MaoniIceT
   ${MAONI_LIBRARIES}
   ${MPI_LIBRARIES}
-  boost_mpi
-  icet icet_mpi icet_strategies
+  ${Boost_MPI_LIBRARY}
+  ${ICET_LIBRARIES}
   )
 
 install(TARGETS MaoniIceT
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  COMPONENT devlibs
+  ARCHIVE DESTINATION lib COMPONENT devlibs
+  LIBRARY DESTINATION lib COMPONENT devlibs
+  RUNTIME DESTINATION bin COMPONENT runlibs
   )
-
-if(WIN32)
-  install(TARGETS MaoniIceT
-    RUNTIME DESTINATION bin
-    COMPONENT runlibs
-    )
-endif(WIN32)
-
-else(BUILD_MAONI_ICET)
-  message(STATUS "(Boost) MPI has NOT been found! Skipping MaoniIceT.")
-endif(BUILD_MAONI_ICET)
