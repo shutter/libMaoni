@@ -1,14 +1,18 @@
 # Copyright (c) 2010 Daniel Pfeifer, University of Zurich
 
 # http://get.qt.nokia.com/qt/solutions/lgpl/qtpropertybrowser-2.5_1-opensource.tar.gz
-# http://doc.trolltech.com/qq/qq18-propertybrowser-code.zip
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/qtpropertymanager.h)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
+    ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.tar.gz
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/qtpropertymanager.h)
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
-  ${CMAKE_CURRENT_SOURCE_DIR}/qtpropertybrowser-2.5_1-opensource.tar.gz
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
-  ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.tar.gz
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+# http://doc.trolltech.com/qq/qq18-propertybrowser-code.zip
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/filepathmanager.h)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
+    ${CMAKE_CURRENT_SOURCE_DIR}/qq18-propertybrowser-extension.tar.gz
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/filepathmanager.h)
 
 set(QT_PROPERTY_BROWSER_SRC
   ${CMAKE_CURRENT_BINARY_DIR}/qtbuttonpropertybrowser.cpp

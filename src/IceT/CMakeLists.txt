@@ -4,7 +4,7 @@ find_package(MPI)
 find_package(Boost COMPONENTS mpi)
 
 if(NOT MPI_FOUND OR NOT Boost_MPI_FOUND)
-  message(STATUS "(Boost) MPI has NOT been found! Skipping MaoniIceT.")
+  message(WARNING "(Boost) MPI has NOT been found! Skipping MaoniIceT.")
   return()
 endif(NOT MPI_FOUND OR NOT Boost_MPI_FOUND)
 

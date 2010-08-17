@@ -1,9 +1,10 @@
 # Copyright (c) 2009-2010 Daniel Pfeifer, University of Zurich
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
-  ${CMAKE_CURRENT_SOURCE_DIR}/glew-1.5.5.tgz
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-  )
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/glew-1.5.5/include/GL/glew.h)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf
+    ${CMAKE_CURRENT_SOURCE_DIR}/glew-1.5.5.tgz
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/glew-1.5.5/include/GL/glew.h)
 
 configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/glew-1.5.5/include/GL/glew.h
