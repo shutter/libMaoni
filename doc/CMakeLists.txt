@@ -14,7 +14,6 @@ add_reference(maoni-ref.xml
   )
 
 add_documentation(libMaoni.qbk
-    appendix.qbk
     motivation.qbk
     getstarted.qbk
     tutorial.qbk

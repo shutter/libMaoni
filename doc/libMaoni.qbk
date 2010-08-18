@@ -24,4 +24,3 @@
 [include examples.qbk]
 [xinclude maoni-ref.xml]
 [include software.qbk]
-[include appendix.qbk]
