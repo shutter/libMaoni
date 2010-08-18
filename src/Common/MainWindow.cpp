@@ -252,7 +252,7 @@ void MainWindow::import_scene()
 void MainWindow::export_scene()
 {
 	QString filename = QFileDialog::getSaveFileName(this,
-			"Choose a filename to export the lights config to", "maoni.xml",
+			"Choose a filename to export the config to", "maoni.xml",
 			tr("XML Files (*.xml)"));
 
 	if (filename.isNull())

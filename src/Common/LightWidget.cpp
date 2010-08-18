@@ -24,7 +24,6 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <qteditorfactory.h>
-#include <iostream>
 
 #include <boost/la/all.hpp>
 using namespace boost::la;

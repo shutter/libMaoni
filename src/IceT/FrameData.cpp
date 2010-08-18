@@ -146,8 +146,12 @@ void FrameDataIceT::animate() {
 	if (change & REPLICATE_CHANGED) {
 		broadcast(world, replication_group_, 0);
 		if(replication_group_){
-			icetDataReplicationGroupColor(0);
+			// all the ranks build groups as defined by RenderGroup in the
+			// render widget - default value is zero, so every rank has
+			// the same data: the whole model (use e.g. for display walls)
+			icetDataReplicationGroupColor(tiles[myrank()].render_group);
 		} else {
+			// if there is no replicated data, every rank builds its own group
 			icetDataReplicationGroupColor(myrank());
 		}
 

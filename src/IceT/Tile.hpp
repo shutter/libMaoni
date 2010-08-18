@@ -26,14 +26,17 @@
 struct Tile
 {
 	Tile() :
-		visible(false), fullscreen(false), x(0), y(0), min_box(-1.f, -1.f, -1.f), max_box(1.f, 1.f, 1.f), sx(800), sy(600)
+		visible(false), fullscreen(false), x(0), y(0),
+				min_box(-1.f, -1.f, -1.f), max_box(1.f, 1.f, 1.f), sx(800), //
+				sy(600), render_group(0)
 	{
 	}
 
 	bool visible;
 	bool fullscreen;
-	int x, y; //< offset
-	int sx, sy; //< size
+	int x, y; // offset
+	int sx, sy; // size
+	int render_group;
 	Vec3 min_box, max_box; //< axis aligned bounding box
 
 	template<class Archive>
@@ -45,11 +48,12 @@ struct Tile
 		archive & BOOST_SERIALIZATION_NVP(y);
 		archive & BOOST_SERIALIZATION_NVP(sx);
 		archive & BOOST_SERIALIZATION_NVP(sy);
+		archive & BOOST_SERIALIZATION_NVP(render_group);
 		archive & BOOST_SERIALIZATION_NVP(min_box);
 		archive & BOOST_SERIALIZATION_NVP(max_box);
 	}
 };
 
-BOOST_IS_MPI_DATATYPE(Tile)
+BOOST_IS_MPI_DATATYPE( Tile)
 
 #endif /* MAONI_ICET_TILE_HPP */

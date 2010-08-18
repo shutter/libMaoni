@@ -29,17 +29,18 @@
 
 class TilesWidget: public QWidget
 {
-Q_OBJECT
+Q_OBJECT // Enable signals and slots
 
 public:
 	TilesWidget(FrameDataIceT& framedata);
-	void update_browser();
 
 private slots:
 	void bool_changed(QtProperty* property, bool value);
 	void enum_changed(QtProperty* property, int value);
 	void point_changed(QtProperty* property, const QPoint& value);
 	void vector_changed(QtProperty* property, const Vec3& value);
+	void int_changed(QtProperty* property, int value);
+	void update_browser();
 
 private:
 	FrameDataIceT& framedata;
@@ -48,6 +49,7 @@ private:
 	QtTreePropertyBrowser* property_browser;
 
 	QtBoolPropertyManager* bool_manager;
+	QtIntPropertyManager* int_manager;
 	QtEnumPropertyManager* enum_manager;
 	QtPointPropertyManager* point_manager;
 	QVector3DPropertyManager* vector3d_manager;
