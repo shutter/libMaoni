@@ -1,8 +1,7 @@
 
-[section Appendix]
+[section:appendix Appendix]
 
-[section Maoni on Ubuntu 9.04]
-On Ubuntu 9.04 not all the dependencies can be installed from the repository but have to be compiled by yourself.
+[section Compiling Dependencies]
 
 [section CMake]
 Download CMake source (>=2.8) from [@http://cmake.org/cmake/resources/software.html]
@@ -20,27 +19,34 @@ Download Boost source (>=1.40) from [@http://www.boost.org/users/download/]
   $ tar xvfz boost-source.tar.gz
   $ cd boost-source-folder
   $ ./bootstrap.sh
-  $ ./bjam --with-mpi --with-serialization --with-system variant=release link=static  
+  $ echo "using mpi ;" > user-config.jam
+  $ ./bjam --user-config=user-config.jam --with-mpi --with-serialization --with-system variant=release link=static  
   $ sudo ./bjam --with-mpi --with-serialization --with-system variant=release link=static install
 [endsect]
 
 [section Equalizer]
-You can use Equalizer's sourceforge repository:
+You can use the Equalizer sourceforge repository:
 
   $ sudo apt-get install subversion flex bison
   $ svn co https://equalizer.svn.sourceforge.net/svnroot/equalizer/trunk/src/ equalizer
+  $ mkdir build
   $ cd build
   $ cmake ..
   $ make
   $ sudo make install
 [endsect]
+[endsect]
+
+[section Maoni on Ubuntu 9.04]
+On Ubuntu 9.04 not all the dependencies can be installed from the repository but have to be compiled by yourself.
+Compile and install CMake, Boost and Equalizer as descriped above, than libMaoni:
 
 [section libMaoni]
   $ sudo apt-get install doxygen openmpi-common openmpi-bin libopenmpi-dev libqt4-dev
   $ mkdir libMaoni
   $ cd libMaoni
   $ git init
-  $ git pull git://github.com/shutter/libMaoni.git
+  $ git pull git://github.com/purpleKarrot/libMaoni.git
   $ mkdir build
   $ cd build
   $ cmake ..
