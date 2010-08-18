@@ -15,7 +15,7 @@ As long as there is no download available for your platform, you will have to
 [link getstarted.getstarted.compiling compile it] yourselfs.
 
 Once you installed libMaoni, you can start writing your first application with
-it. First, create a C++ source file and include the libMaoni header:
+it. First, create a C++ source file and include the libMaoni header: [c++]
 
   #include <Maoni.hpp>
 
@@ -76,7 +76,7 @@ for parallel rendering.
 [section IceT]
 Parallel rendering using IceT needs [@apt://libopenmpi-dev Open MPI] installed. 
 Install, build or copy libMaonis's IceT binary to the same workpath on all the 
-machines or use a shared drive. Start the application e.g.:
+machines or use a shared drive. Start the application e.g.: [teletype]
 
   $ mpirun -np [number of processes] --host [comma separated host names] [path to executable] -display :0
 

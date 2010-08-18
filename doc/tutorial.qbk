@@ -5,6 +5,9 @@
 In Maoni everything is optional.
 The minimal application built on Maoni consists of zero lines of code.
 
+[section First Triangle]
+[endsect]
+
 [section Custom File Loader]
 We start by implementing a loader for meshes. To do so, declare a class and
 inherit from [classref MeshLoader]. You will have to implement three virtual functions:
@@ -70,70 +73,75 @@ Inherit from [classref RenderAlgorithm] and implement the following functions:
 
 
   class FixedFunction: public ``[classref RenderAlgorithm]``
-  	{
-  	public:
-  		FixedFunction() : wired(false) , vertex_normals(false) , 
-  		ambient(Color(0.24725, 0.1995, 0.0745, 1.0)) , 
-  		diffuse(Color(0.75164, 0.60648, 0.22648, 1.0)) , 
-  		specular(Color(0.628281, 0.555802, 0.366065, 0.0)) , 
-  		shininess(51.2)   {}
-  
-  		const char* name() const { return "FixedFunction"; }
-  
-  		void render(const Model& model) const;
-  
-  		void config(AlgorithmConfig& manager)
-  		{
-  			manager.property("wired", wired); 
-  			manager.property("vertex_normals", vertex_normals); 
-  			manager.property("ambient", ambient); 
-  			manager.property("diffuse", diffuse); 
-  			manager.property("specular", specular); 
-  			manager.property("shininess", shininess);
-  		}
-  
-  	private:
-  		bool wired; 
-  		bool vertex_normals; 
-  		Color ambient; 
-  		Color diffuse; 
-  		Color specular; 
-  		float shininess;
-  
-  		static FixedFunction instance;
-  	};
-  
-  	FixedFunction  FixedFunction::instance;
-  	void FixedFunction::render(const Model& model) const
+  {
+  public:
+    FixedFunction() :
+      wired(false),
+      vertex_normals(false),
+      ambient(Color(0.24725, 0.1995, 0.0745, 1.0)),
+      diffuse(Color(0.75164, 0.60648, 0.22648, 1.0)),
+      specular(Color(0.628281, 0.555802, 0.366065, 0.0)),
+      shininess(51.2)
+    {
+    }
 
+    const char* name() const
+    {
+      return "FixedFunction";
+    }
+
+    void render(const Model& model) const;
+  
+    void config(AlgorithmConfig& manager)
+    {
+      manager.property("wired", wired); 
+      manager.property("vertex_normals", vertex_normals); 
+      manager.property("ambient", ambient); 
+      manager.property("diffuse", diffuse); 
+      manager.property("specular", specular); 
+      manager.property("shininess", shininess);
+    }
+
+  private:
+    bool wired; 
+    bool vertex_normals; 
+    Color ambient; 
+    Color diffuse; 
+    Color specular; 
+    float shininess;
+
+    static FixedFunction instance;
+  };
+
+  FixedFunction  FixedFunction::instance;
+  void FixedFunction::render(const Model& model) const
 
 [macroref RENDER_ALGORITHM] helps you saving some boilerplate: 
 
   RENDER_ALGORITHM(FixedFunction,
-  		(bool, wired, false)
-  		(bool, vertex_normals, false)
-  		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
-  		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
-  		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
-  		(float, shininess, 51.2))
+    (bool, wired, false)
+    (bool, vertex_normals, false)
+    (Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
+    (Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
+    (Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
+    (float, shininess, 51.2))
   {
-  	...
-  	model.draw();
+    ...
+    model.draw();
   }
 
 The sequence of parameters will be available in the render algorithm widget so you can 
-modify the behavior of your algorithm while rendering.
-The following data structures can be used:
+modify the behavior of your algorithm while rendering. The following types can be used:
 
-[table:1 libMaoni make parameters
-    [[name] [data structure]]
-    [[int] [Adds a textbox for int values]]
-    [[bool] [Adds a checkbox]]
-    [[float] [Adds a textbox for float values]]
-    [[double] [Adds a textbox for double values]]
-    [[Enum] [Adds a drop-down menu]]
-    [[Path] [Adds a file open dialog]]
-    [[Color] [Adds a color picker dialog]]
+[table
+    [[type] [GUI element]]
+    [[`int`] [Adds a textbox for int values]]
+    [[`bool`] [Adds a checkbox]]
+    [[`float`] [Adds a textbox for float values]]
+    [[`double`] [Adds a textbox for double values]]
+    [[`Enum`] [Adds a drop-down menu]]
+    [[`Path`] [Adds a file open dialog]]
+    [[`Color`] [Adds a color picker dialog]]
 ]
 
 As you can see in the FixedFunction code above, there are settings for drawing the model 
@@ -157,7 +165,7 @@ Use [macroref ENUM] as follows:
   	(Blue)
   );
 
-Put the enumerator to your algorithm's parameter list and use it e.g. in a switch case struct: 
+Put the enumerator to your algorithm's parameter list and use it e.g. in a switch case construct: 
 
   RENDER_ALGORITHM(EnumExample, 
   	(ColorSelect, color_select, ColorSelect::Green)

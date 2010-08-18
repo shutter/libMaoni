@@ -30,7 +30,7 @@ option(MAONI_SKIP_ICET "Do not build libMaoniIceT" OFF)
 
 add_subdirectory(src)
 add_subdirectory(examples)
-add_custom_target(test)
+add_custom_target(check)
 
 
 # Building of Documentation is tested on Linux only
