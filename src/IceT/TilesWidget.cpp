@@ -32,6 +32,7 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	setWindowTitle("Tile Config");
 
 	bool_manager = new QtBoolPropertyManager(this);
+	int_manager = new QtIntPropertyManager(this);
 	enum_manager = new QtEnumPropertyManager(this);
 	point_manager = new QtPointPropertyManager(this);
 	vector3d_manager = new QVector3DPropertyManager(this);
@@ -39,6 +40,8 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 
 	connect(bool_manager, SIGNAL(valueChanged(QtProperty*, bool)), //
 			this, SLOT(bool_changed(QtProperty*, bool)));
+	connect(int_manager, SIGNAL(valueChanged(QtProperty*, int)), //
+			this, SLOT(int_changed(QtProperty*, int)));
 	connect(enum_manager, SIGNAL(valueChanged(QtProperty*, int)), //
 			this, SLOT(enum_changed(QtProperty*, int)));
 	connect(point_manager, SIGNAL(valueChanged(QtProperty*, QPoint const&)), //
@@ -46,13 +49,13 @@ TilesWidget::TilesWidget(FrameDataIceT& framedata) :
 	connect(vector3d_manager, SIGNAL(valueChanged(QtProperty*, Vec3 const&)), //
 			this, SLOT(vector_changed(QtProperty*, Vec3 const&)));
 
-
 	QtCheckBoxFactory* bool_factory = new QtCheckBoxFactory(this);
 	QtSpinBoxFactory* int_factory = new QtSpinBoxFactory(this);
 	QtEnumEditorFactory* enum_factory = new QtEnumEditorFactory(this);
 	QtDoubleSpinBoxFactory* double_factory = new QtDoubleSpinBoxFactory(this);
 
 	property_browser->setFactoryForManager(bool_manager, bool_factory);
+	property_browser->setFactoryForManager(int_manager, int_factory);
 	property_browser->setFactoryForManager(enum_manager, enum_factory);
 	property_browser->setFactoryForManager(
 			point_manager->subIntPropertyManager(), int_factory);
@@ -71,10 +74,12 @@ void TilesWidget::update_browser()
 	strategies << "Direct" << "Serial" << "Split" << "Reduce" << "VTree";
 	QtProperty* property = enum_manager->addProperty("Strategy");
 	enum_manager->setEnumNames(property, strategies);
-	enum_manager->setValue(property, 3);
+	enum_manager->setValue(property, framedata.getStrategy());
 	property_browser->addProperty(property);
 
 	QtProperty* data_replication = bool_manager->addProperty("DataReplication");
+	data_replication->setToolTip(
+			"Build render groups based of the same RenderGroup value.");
 	bool_manager->setValue(data_replication, framedata.getReplicate());
 	property_browser->addProperty(data_replication);
 
@@ -83,9 +88,11 @@ void TilesWidget::update_browser()
 	{
 		Tile& tile = framedata.tiles[i];
 
+		QtProperty* render_group = int_manager->addProperty("RenderGroup");
+		indices[render_group] = i;
 		QtProperty* visible = bool_manager->addProperty("Visible");
 		indices[visible] = i;
-		QtProperty* fullscreen = bool_manager->addProperty("Fullscreen");
+		QtProperty* fullscreen = bool_manager->addProperty("FullScreen");
 		indices[fullscreen] = i;
 		QtProperty* group = group_manager->addProperty(name.arg(i));
 		QtProperty* point = point_manager->addProperty("Offset");
@@ -97,6 +104,7 @@ void TilesWidget::update_browser()
 		QtProperty* max = vector3d_manager->addProperty("Maximum");
 		indices[max] = i;
 
+		int_manager->setValue(render_group, tile.render_group);
 		bool_manager->setValue(visible, tile.visible);
 		bool_manager->setValue(fullscreen, tile.fullscreen);
 		point_manager->setValue(point, QPoint(tile.x, tile.y));
@@ -104,6 +112,7 @@ void TilesWidget::update_browser()
 		vector3d_manager->setValue(min, tile.min_box);
 		vector3d_manager->setValue(max, tile.max_box);
 
+		group->addSubProperty(render_group);
 		group->addSubProperty(visible);
 		group->addSubProperty(fullscreen);
 		group->addSubProperty(point);
@@ -137,6 +146,17 @@ void TilesWidget::bool_changed(QtProperty* property, bool value)
 	else if (name == "DataReplication")
 	{
 		framedata.setReplicate(value);
+	}
+}
+
+void TilesWidget::int_changed(QtProperty* property, int value)
+{
+	QString name = property->propertyName();
+	Tile& tile = framedata.tiles[indices[property]];
+	if (name == "RenderGroup")
+	{
+		tile.render_group = value;
+		framedata.setTilesChanged();
 	}
 }
 

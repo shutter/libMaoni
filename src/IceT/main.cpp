@@ -29,11 +29,11 @@
 __declspec(dllexport)
 #endif
 int maoni_main(int argc, char* argv[], //
-	RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
+		RenderAlgorithm* algorithm_stack, MeshLoader* mesh_loader_stack)
 {
 	boost::mpi::environment env(argc, argv);
 	QApplication app(argc, argv);
-	Q_INIT_RESOURCE(Resources);
+	Q_INIT_RESOURCE( Resources);
 
 	QPixmap pixmap(":/Maoni/Splashscreen.jpg");
 	QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
@@ -46,8 +46,13 @@ int maoni_main(int argc, char* argv[], //
 	if (framedata.master())
 	{
 		MainWindow* mw = new MainWindow(framedata, icet_widget);
+
+		TilesWidget* tiles_widget = new TilesWidget(framedata);
+		mw->connect(mw, SIGNAL(data_updated()), tiles_widget, SLOT(
+				update_browser()));
+
 		mw->add_dock("Tile Config", Qt::LeftDockWidgetArea, //
-				new TilesWidget(framedata));
+				tiles_widget);
 		main_window = mw;
 		splash.show();
 	}

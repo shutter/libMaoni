@@ -164,6 +164,10 @@ Please follow the official guides:
 * [@http://www.boost.org/doc/libs/release/more/getting_started/unix-variants.html
    Getting Started on Unix variants (e.g. Linux, MacOS)]
 
+[note You have to compile boost with mpi, serialization and system]
+
+See [link appendix.appendix Appendix] for boost compiling on Ubuntu Linux.
+
 [endsect]
 
 [section Equalizer]

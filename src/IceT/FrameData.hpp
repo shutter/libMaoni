@@ -136,6 +136,12 @@ public:
 	}
 
 	virtual void setStrategy(int strategy);
+
+	virtual int getStrategy() const
+	{
+		return strategy_;
+	}
+
 	virtual void setReplicate(bool replicate);
 
 	virtual bool getReplicate() const
