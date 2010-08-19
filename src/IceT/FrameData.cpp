@@ -17,10 +17,10 @@
  */
 
 #include "FrameData.hpp"
+#include <Maoni/glew.h>
 #include <boost/mpi/collectives.hpp>
 #include "../Common/serialize.hpp"
 #include <GL/ice-t_mpi.h>
-#include <GL/gl.h>
 
 FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 		MeshLoader* mesh_loader_stack) :
