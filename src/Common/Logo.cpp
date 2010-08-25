@@ -83,9 +83,9 @@ void Logo::calc_pos(int window_width, int window_height)
 	}
 	else
 	{
-		pos_x2 = window_width * 0.98;
-		pos_y2 = window_height - (window_width - pos_x2);
-		pos_x1 = window_width * 0.76;
+		pos_x2 = (int)(window_width * 0.98);
+		pos_y2 = (int)(window_height - (window_width - pos_x2));
+		pos_x1 = (int)(window_width * 0.76);
 		pos_y1 = pos_y2 - ((pos_x2 - pos_x1) / float(width)) * height;
 
 //		std::cout << "Logo loaded - tw: " << width << " th: " << height
