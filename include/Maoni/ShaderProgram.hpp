@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
- * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * libMaoni - common viewing framework
+ *
+ * Copyright (C) 2009, 2010 Daniel Pfeifer, Stefan Hutter
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VMMVIEW_SHADER_PROGRAM_HPP
-#define VMMVIEW_SHADER_PROGRAM_HPP
+#ifndef MAONI_SHADER_PROGRAM_HPP
+#define MAONI_SHADER_PROGRAM_HPP
 
 #include <set>
 
@@ -88,4 +90,4 @@ private:
 
 #include <Maoni/detail/ShaderProgram.hpp>
 
-#endif /* VMMVIEW_SHADER_PROGRAM_HPP */
+#endif /* MAONI_SHADER_PROGRAM_HPP */

@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
- * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * libMaoni - common viewing framework
+ *
+ * Copyright (C) 2009, 2010 Daniel Pfeifer, Stefan Hutter
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VERTEX_HPP
-#define VERTEX_HPP
+#ifndef MAONI_VERTEX_HPP
+#define MAONI_VERTEX_HPP
 
 #include "Vector.hpp"
 #include "Color.hpp"
@@ -94,4 +96,4 @@ struct Vertex
 	Vec2 texcoord;
 };
 
-#endif /* VERTEX_HPP */
+#endif /* MAONI_VERTEX_HPP */

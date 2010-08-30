@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
- * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * libMaoni - common viewing framework
+ *
+ * Copyright (C) 2009, 2010 Daniel Pfeifer, Stefan Hutter
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VMMVIEW_SCOPED_LOCKS_HPP
-#define VMMVIEW_SCOPED_LOCKS_HPP
+#ifndef MAONI_SCOPED_LOCKS_HPP
+#define MAONI_SCOPED_LOCKS_HPP
 
 #include <Maoni/detail/ScopedLocks.hpp>
 
@@ -112,4 +114,4 @@ private:
 	GLenum unit_;
 };
 
-#endif /* VMMVIEW_SCOPED_LOCKS_HPP */
+#endif /* MAONI_SCOPED_LOCKS_HPP */

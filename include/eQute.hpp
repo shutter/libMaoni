@@ -1,7 +1,8 @@
 /*
  * eQute - extremely qualified universal toolkit experiment
  *
- * Copyright (C) 2010 Daniel Pfeifer, University of Zurich
+ * Copyright (C) 2010 Daniel Pfeifer,
+ * Visualization and Multimedia Lab, University of Zurich
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

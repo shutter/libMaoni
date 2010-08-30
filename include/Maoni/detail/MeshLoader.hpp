@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
+ * libMaoni - common viewing framework
+ *
  * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

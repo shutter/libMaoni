@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
+ * libMaoni - common viewing framework
+ *
  * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VMMVIEW_COMMON_SHADER_PROGRAM_HPP
-#define VMMVIEW_COMMON_SHADER_PROGRAM_HPP
+#ifndef MAONI_DETAIL_SHADER_PROGRAM_HPP
+#define MAONI_DETAIL_SHADER_PROGRAM_HPP
 
 #include <set>
 #include <boost/preprocessor/cat.hpp>
@@ -51,4 +53,4 @@
    ShaderProgram::attach(BOOST_PP_TUPLE_ELEM(2, 0, ELEM),                      \
                          BOOST_PP_TUPLE_ELEM(2, 1, ELEM));                     \
 
-#endif /* VMMVIEW_COMMON_SHADER_PROGRAM_HPP */
+#endif /* MAONI_DETAIL_SHADER_PROGRAM_HPP */

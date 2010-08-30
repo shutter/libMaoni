@@ -7,11 +7,9 @@ Life Implementation] to see, how libMaoni is used in a standalone algorithm
 [figure dgl_bump_mapping.jpg..A bump mapping shader as described at
  [@http://wiki.delphigl.com/index.php/shader_Bumpmapping]
 ]
-
 [figure ozone_bump_mapping.jpg..A bump mapping shader as described at
  [@http://www.ozone3d.net/tutorials/bump_mapping.php]
 ]
-
 [figure swiftless_bump_mapping.jpg..A bump mapping shader as described at
  [@http://www.swiftless.com/tutorials/glsl/8_bump_mapping.html]
 ]
@@ -19,20 +17,14 @@ Life Implementation] to see, how libMaoni is used in a standalone algorithm
 [figure dragon_blinnphong.jpg..A Blinn-Phong reflection shader.
  Only the configuration of LIGHT1 is used to calculate the reflection.
 ]
-
 [figure dragon_comicstyle.jpg..A comic style surface shader.
  The real color range is divided into a number of discrete steps which can be
  changed by the user and leeds to a single color toon effect.
 ]
 
-[figure dragon_spheremapping.jpg..A
- [@http://en.wikipedia.org/wiki/Sphere_mapping sphere mapping] shader.
-]
+__dragon_sphere_mapping__
 
-[figure dragon_brick.jpg..A Brick Shader from the "OrangeBook": OpenGL
- Shading Language, 3rd Edition. By Randi J. Rost, Dan Ginsburg, John M. Kessenich,
-  Bill Licea-Kane, Barthold Lichtenbelt, Hugh Malan, Mike Weiblen.
-]
+__brick_dragon__
 
 [figure rockerarm_fixedfunction.jpg..A fixed function algorithm.]
 

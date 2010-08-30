@@ -34,10 +34,7 @@ extend it.
 
 [section Parallel Rendering]
 
-[figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
- eight ranks and the Comic Style Shader Algorithm. The data rendered by the
- ranks are dyed differently.
-]
+__parallel_dragon__
 
 With libMaoni it is very easy to build applications that are suitable for
 parallel rendering. Currently libMaoni supports the two compositing engines 
@@ -164,9 +161,8 @@ Please follow the official guides:
 * [@http://www.boost.org/doc/libs/release/more/getting_started/unix-variants.html
    Getting Started on Unix variants (e.g. Linux, MacOS)]
 
-[note You have to compile boost with mpi, serialization and system]
-
-See [link appendix.appendix Appendix] for boost compiling on Ubuntu Linux.
+[/ You have to compile boost with mpi, serialization and system]
+[/ See [link appendix.appendix Appendix] for boost compiling on Ubuntu Linux.]
 
 [endsect]
 

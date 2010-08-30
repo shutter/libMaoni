@@ -1,13 +1,5 @@
-LibMaoni is a 3D rendering framework developed at the [@http://vmml.ifi.uzh.ch/
-Visualization and Multimedia Lab (VMML)] at the [@http://www.ifi.uzh.ch Insitute
-of Informatics] of [@http://www.uzh.ch University of Zurich UZH] as a Master
-Project. 
-The goal was to implement a common 3D viewer platform which can be used 
-as framework for the researchers' graphics and visualization projects. 
-Requirements were the support of different data structure for handling the 3D 
-data and specific rendering functions, and variable interaction capabilities.
-
 [section Motivation]
+
 In computer graphics, it is common to develop specialized algorithms which need
 to be embedded in a testing environment to run. Yet the researcher should not
 have to build the testing environment herself and struggle with GUI-design, window
@@ -47,4 +39,5 @@ and Linux (deb).
 
 The Project is hosted on [@http://www.github.com], feel free to use, enhance and
 extend libMaoni, distribute new features and algorithms and give feedback.
+
 [endsect]

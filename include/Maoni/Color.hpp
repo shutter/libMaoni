@@ -1,6 +1,8 @@
 /*
- * libMaoni common viewing framework
- * Copyright (C) 2009, 2010 Daniel Pfeifer
+ * libMaoni - common viewing framework
+ *
+ * Copyright (C) 2009, 2010 Daniel Pfeifer, Stefan Hutter
+ * Visualization and Multimedia Lab, University of Zurich
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VMMVIEW_COLOR_HPP
-#define VMMVIEW_COLOR_HPP
+#ifndef MAONI_COLOR_HPP
+#define MAONI_COLOR_HPP
 
 //! Color class
 /*!
@@ -110,4 +112,4 @@ private:
 	float impl[4];
 };
 
-#endif /* VMMVIEW_COLOR_HPP */
+#endif /* MAONI_COLOR_HPP */
