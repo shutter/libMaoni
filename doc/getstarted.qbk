@@ -34,7 +34,9 @@ extend it.
 
 [section Parallel Rendering]
 
-__parallel_dragon__
+[figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
+eight ranks and the Comic Style Shader Algorithm. The data rendered by the
+ranks are dyed differently.]
 
 With libMaoni it is very easy to build applications that are suitable for
 parallel rendering. Currently libMaoni supports the two compositing engines 

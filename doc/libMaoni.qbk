@@ -18,27 +18,6 @@
 '''
 ]
 
-[def __parallel_dragon__
-  [figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
-  eight ranks and the Comic Style Shader Algorithm. The data rendered by the
-  ranks are dyed differently.
-  ]
-]
-
-[def __brick_dragon__
-  [figure dragon_brick.jpg..A Brick Shader from the "OrangeBook": OpenGL
-  Shading Language, 3rd Edition. By Randi J. Rost, Dan Ginsburg, John M. Kessenich,
-  Bill Licea-Kane, Barthold Lichtenbelt, Hugh Malan, Mike Weiblen.
-  ]
-]
-
-[def __dragon_sphere_mapping__
-  [figure dragon_spheremapping.jpg..A
-  [@http://en.wikipedia.org/wiki/Sphere_mapping sphere mapping] shader.
-  ]
-]
-
-
 LibMaoni is a 3D rendering framework developed at the [@http://vmml.ifi.uzh.ch/
 Visualization and Multimedia Lab (VMML)] at the [@http://www.ifi.uzh.ch Insitute
 of Informatics] of [@http://www.uzh.ch University of Zurich UZH] as a Master
@@ -48,7 +27,16 @@ as framework for the researchers' graphics and visualization projects.
 Requirements were the support of different data structure for handling the 3D 
 data and specific rendering functions, and variable interaction capabilities.
 
-__parallel_dragon__  __brick_dragon__  __dragon_sphere_mapping__
+[figure parallel_dragon.jpg..Parallel rendering of the Stanford Dragon using
+eight ranks and the Comic Style Shader Algorithm. The data rendered by the
+ranks are dyed differently.]
+
+[figure dragon_brick.jpg..A Brick Shader from the "OrangeBook": OpenGL
+Shading Language, 3rd Edition. By Randi J. Rost, Dan Ginsburg, John M. Kessenich,
+Bill Licea-Kane, Barthold Lichtenbelt, Hugh Malan, Mike Weiblen.]
+
+[figure dragon_spheremapping.jpg..A
+[@http://en.wikipedia.org/wiki/Sphere_mapping sphere mapping] shader.]
 
 [include motivation.qbk]
 [include:getstarted getstarted.qbk]
