@@ -70,6 +70,8 @@ private slots:
 	void value_changed(QtProperty* property, const QString& value);
 
 private:
+	const QString nice_name(const char* name);
+
 	FrameData& framedata;
 
 	QMap<QtProperty*, int*> int_pointers;
