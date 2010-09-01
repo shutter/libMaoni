@@ -26,8 +26,10 @@ set(QT_PROPERTY_BROWSER_SRC
   ${CMAKE_CURRENT_BINARY_DIR}/fileedit.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fileeditfactory.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/filepathmanager.cpp
+  qvector2dpropertymanager.cpp
   qvector3dpropertymanager.cpp
-  )
+  qvector4dpropertymanager.cpp
+)
 
 qt4_wrap_cpp(QT_PROPERTY_BROWSER_MOC
   ${CMAKE_CURRENT_BINARY_DIR}/qtpropertybrowserutils_p.h
@@ -67,7 +69,9 @@ MACRO(QT4_MOC infile outfile)
   list(APPEND MOC_OUTPUT_LIST ${output})
 ENDMACRO(QT4_MOC)
 
+ADD_COPY_ONLY(qvector2dpropertymanager.h)
 ADD_COPY_ONLY(qvector3dpropertymanager.h)
+ADD_COPY_ONLY(qvector4dpropertymanager.h)
 
 set(MOC_OUTPUT_LIST)
 QT4_MOC(qtbuttonpropertybrowser.h   moc_qtbuttonpropertybrowser.cpp)
@@ -80,7 +84,9 @@ QT4_MOC(qtpropertymanager.cpp       qtpropertymanager.moc)
 QT4_MOC(qttreepropertybrowser.h     moc_qttreepropertybrowser.cpp)
 QT4_MOC(qttreepropertybrowser.cpp   qttreepropertybrowser.moc)
 QT4_MOC(qtvariantproperty.h         moc_qtvariantproperty.cpp)
+QT4_MOC(qvector2dpropertymanager.h  moc_qvector2dpropertymanager.cpp)
 QT4_MOC(qvector3dpropertymanager.h  moc_qvector3dpropertymanager.cpp)
+QT4_MOC(qvector4dpropertymanager.h  moc_qvector4dpropertymanager.cpp)
 
 add_custom_target(QtPropertyBrowser_moc DEPENDS ${MOC_OUTPUT_LIST})
 add_dependencies(QtPropertyBrowser QtPropertyBrowser_moc)

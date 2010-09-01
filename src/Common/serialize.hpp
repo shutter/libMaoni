@@ -112,6 +112,21 @@ private:
 		archive & make_nvp(name, value);
 	}
 
+	void property(const char* name, Vec2& value)
+	{
+		archive & make_nvp(name, value);
+	}
+
+	void property(const char* name, Vec3& value)
+	{
+		archive & make_nvp(name, value);
+	}
+
+	void property(const char* name, Vec4& value)
+	{
+		archive & make_nvp(name, value);
+	}
+
 	void property(const char* name, ShaderProgram& value)
 	{
 	}

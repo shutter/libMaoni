@@ -31,8 +31,8 @@ void Path::path(std::string const& other)
 {
 	if (path_ != other)
 	{
-		this->reset();
 		path_ = other;
+		this->reset();
 	}
 }
 

@@ -26,6 +26,9 @@
 #include <Maoni/RenderAlgorithm.hpp>
 #include <qttreepropertybrowser.h>
 #include <qtpropertymanager.h>
+#include "qvector2dpropertymanager.h"
+#include "qvector3dpropertymanager.h"
+#include "qvector4dpropertymanager.h"
 #include <filepathmanager.h>
 
 class FrameData;
@@ -44,6 +47,9 @@ public:
 	void property(const char* name, Enum& value);
 	void property(const char* name, Path& value);
 	void property(const char* name, Color& value);
+	void property(const char* name, Vec2& value);
+	void property(const char* name, Vec3& value);
+	void property(const char* name, Vec4& value);
 	void property(const char* name, ShaderProgram& value)
 	{
 	}
@@ -58,6 +64,9 @@ private slots:
 	void value_changed(QtProperty* property, bool value);
 	void value_changed(QtProperty* property, double value);
 	void value_changed(QtProperty* property, const QColor& value);
+	void value_changed(QtProperty* property, const Vec2& value);
+	void value_changed(QtProperty* property, const Vec3& value);
+	void value_changed(QtProperty* property, const Vec4& value);
 	void value_changed(QtProperty* property, const QString& value);
 
 private:
@@ -70,6 +79,9 @@ private:
 	QMap<QtProperty*, Enum*> enum_pointers;
 	QMap<QtProperty*, Path*> path_pointers;
 	QMap<QtProperty*, Color*> color_pointers;
+	QMap<QtProperty*, Vec2*> vec2_pointers;
+	QMap<QtProperty*, Vec3*> vec3_pointers;
+	QMap<QtProperty*, Vec4*> vec4_pointers;
 
 	QComboBox* algo_chooser;
 	QtTreePropertyBrowser* property_browser;
@@ -79,6 +91,9 @@ private:
 	QtDoublePropertyManager* double_manager;
 	QtEnumPropertyManager* enum_manager;
 	QtColorPropertyManager* color_manager;
+	QVector2DPropertyManager* vector2d_manager;
+	QVector3DPropertyManager* vector3d_manager;
+	QVector4DPropertyManager* vector4d_manager;
 	FilePathManager* filepath_manager;
 };
 

@@ -42,33 +42,33 @@ SHADER_SOURCE(vertex_source, (version 120),
 
 SHADER_SOURCE(fragment_source, (version 120),
 
-				uniform vec3 BrickColor;
-				uniform vec3 MortarColor;
-				uniform vec2 BrickSize;
-				uniform vec2 BrickPct;
+		uniform vec3 BrickColor;
+		uniform vec3 MortarColor;
+		uniform vec2 BrickSize;
+		uniform vec2 BrickPct;
 
-				varying float LightIntensity;
-				varying vec2 MCposition;
+		varying float LightIntensity;
+		varying vec2 MCposition;
 
-				void main()
-				{
-					vec3 color;
-					vec2 position;
-					vec2 useBrick;
+		void main()
+		{
+			vec3 color;
+			vec2 position;
+			vec2 useBrick;
 
-					position =  MCposition / BrickSize;
+			position = MCposition / BrickSize;
 
-					if (fract(position.y * 0.5) > 0.5)
-					position.x += 0.5;
+			if (fract(position.y * 0.5) > 0.5)
+			position.x += 0.5;
 
-					position = fract(position);
+			position = fract(position);
 
-					useBrick = step(position, BrickPct);
+			useBrick = step(position, BrickPct);
 
-					color = mix(MortarColor, BrickColor, useBrick.x * useBrick.y);
-					color *= LightIntensity;
-					gl_FragColor = vec4(color, 1.0);
-				}
+			color = mix(MortarColor, BrickColor, useBrick.x * useBrick.y);
+			color *= LightIntensity;
+			gl_FragColor = vec4(color, 1.0);
+		}
 );
 
 SHADER_PROGRAM(BrickShader,
@@ -79,10 +79,8 @@ RENDER_ALGORITHM(Brick,
 		(ShaderProgram, shader, BrickShader())
 		(Color, brick_color, Color(1.0, 0.3, 0.2, 1.0))
 		(Color, mortal_color, Color(0.85, 0.86, 0.84, 1.0))
-		(float, brick_size_x, 0.3)
-		(float, brick_size_y, 0.15)
-		(float, brick_pct_x, 0.9)
-		(float, brick_pct_y, 0.85)
+		(Vec2, brick_size, Vec2(0.3, 0.15))
+		(Vec2, brick_pct, Vec2(0.9, 0.85))
 )
 {
 	ScopedUseProgram shader_lock(shader);
@@ -96,8 +94,8 @@ RENDER_ALGORITHM(Brick,
 
 	GLint loc_brick_size = glGetUniformLocation(shader, "BrickSize");
 	GLint loc_brick_pct = glGetUniformLocation(shader, "BrickPct");
-	glUniform2f(loc_brick_size, brick_size_x, brick_size_y);
-	glUniform2f(loc_brick_pct, brick_pct_x, brick_pct_y);
+	glUniform2f(loc_brick_size, brick_size.data[0], brick_size.data[1]);
+	glUniform2f(loc_brick_pct, brick_pct.data[0], brick_pct.data[1]);
 
 	model.draw();
 }

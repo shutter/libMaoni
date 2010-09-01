@@ -52,7 +52,7 @@ endif(MSVC)
 
 
 #add_subdirectory(Equalizer)
-#add_subdirectory(IceT)
+add_subdirectory(IceT)
 
 
 add_library(Maoni SHARED Maoni.cpp ${MAONI_VERSION_RC})

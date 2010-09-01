@@ -23,6 +23,7 @@
 
 #include <Maoni/detail/Extensible.hpp>
 #include <Maoni/Model.hpp>
+#include <Maoni/Vector.hpp>
 
 class Enum;
 class Path;
@@ -89,6 +90,27 @@ struct AlgorithmConfig
       \param value Reference to the color object affected by the property
     */
 	virtual void property(const char* name, Color& value) = 0;
+
+	//! Signature of a method to map an algorithm's vec2 objects to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to the vec2 object affected by the property
+    */
+	virtual void property(const char* name, Vec2& value) = 0;
+
+	//! Signature of a method to map an algorithm's vec3 objects to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to the vec3 object affected by the property
+    */
+	virtual void property(const char* name, Vec3& value) = 0;
+
+	//! Signature of a method to map an algorithm's vec4 objects to a GUI element
+    /*!
+      \param name Property name
+      \param value Reference to the vec4 object affected by the property
+    */
+	virtual void property(const char* name, Vec4& value) = 0;
 
 	//! Signature of a method to map an algorithm's shader program
     /*!
