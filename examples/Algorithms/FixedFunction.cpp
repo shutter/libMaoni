@@ -13,17 +13,21 @@ static const float normal_length = 0.05f;
 RENDER_ALGORITHM(FixedFunction,
 		(bool, wired, false)
 		(bool, vertex_normals, false)
-		(Color, ambient, Color(0.24725, 0.1995, 0.0745, 1.0))
-		(Color, diffuse, Color(0.75164, 0.60648, 0.22648, 1.0))
-		(Color, specular, Color(0.628281, 0.555802, 0.366065, 0.0))
-		(float, shininess, 51.2))
+		(Color, normal_color, Color(0.0, 7.0, 0.0, 1.0))
+		(Color, ambient, Color(0.75, 0.75, 0.0, 1.0))
+		(Color, diffuse, Color(0.75, 0.75, 0.0, 1.0))
+		(Color, specular, Color(1.0, 1.0, 1.0, 1.0))
+		(Color, emission, Color(0.0, 0.0, 0.0, 1.0))
+		(float, shininess, 50.0))
 {
 	ScopedEnable color_material_lock(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_AMBIENT_AND_DIFFUSE, GL_DIFFUSE);
 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
 
 	if (wired) // set triangle draw to edges only
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -39,7 +43,7 @@ RENDER_ALGORITHM(FixedFunction,
 			glBegin(GL_LINES);
 			for (size_t i = 0; i < vertices.size(); i++)
 			{
-				glColor3f(0.f, 1.f, 0.f);
+				glColor4fv(normal_color);
 				glVertex3fv(vertices[i].position);
 				glVertex3fv((vertices[i].position + vertices[i].normal
 						* normal_length));

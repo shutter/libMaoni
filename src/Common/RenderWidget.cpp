@@ -31,6 +31,16 @@ void RenderWidget::init()
 
 void RenderWidget::draw_light(int i, Light const& light) const
 {
+	if (i == 0 && !light.enabled)
+	{
+		glDisable(GL_LIGHTING);
+		return;
+	}
+	else if (i == 0 && light.enabled)
+	{
+		glEnable(GL_LIGHTING);
+	}
+
 	if (!light.enabled)
 	{
 		glDisable(GL_LIGHT0 + i);
@@ -67,16 +77,18 @@ void RenderWidget::draw_light(int i, Light const& light) const
 
 void RenderWidget::draw()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	for (std::size_t i = 0; i < framedata.num_lights(); ++i)
 	{
 		const FrameData& framedatac = framedata;
 		draw_light(i, framedatac.light(i));
 	}
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	framedata.draw();
 }
 
-void RenderWidget::postDraw(){
+void RenderWidget::postDraw()
+{
 	startScreenCoordinatesSystem();
 	framedata.drawLogo();
 	stopScreenCoordinatesSystem();
@@ -94,7 +106,8 @@ void RenderWidget::set_logo(bool checked)
 	framedata.enable_logo(checked);
 }
 
-bool RenderWidget::logo_is_enabled() const {
+bool RenderWidget::logo_is_enabled() const
+{
 	return framedata.logo_is_enabled();
 }
 
