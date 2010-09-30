@@ -21,7 +21,15 @@
 
 #include "../Common/FrameData.hpp"
 #include <boost/mpi/communicator.hpp>
+#include <boost/array.hpp>
 #include "Tile.hpp"
+
+namespace mpi = boost::mpi;
+typedef boost::array<double, 16> amatrix;
+BOOST_IS_MPI_DATATYPE(amatrix)
+//BOOST_CLASS_TRACKING(amatrix,track_never)
+BOOST_IS_BITWISE_SERIALIZABLE(amatrix)
+BOOST_CLASS_IMPLEMENTATION(amatrix,object_serializable)
 
 class FrameDataIceT: public FrameData
 {
@@ -178,6 +186,7 @@ private:
 		REPLICATE_CHANGED = 64
 	};
 
+	amatrix matrix;
 	short change;
 	bool do_resize;
 	int strategy_;

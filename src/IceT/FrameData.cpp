@@ -53,17 +53,15 @@ FrameDataIceT::~FrameDataIceT() {
 }
 
 void FrameDataIceT::setMatrices() {
-	double matrix[16];
-
-	glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+	glGetDoublev(GL_PROJECTION_MATRIX, matrix.begin());
 	broadcast(world, matrix, 0);
 	glMatrixMode( GL_PROJECTION);
-	glLoadMatrixd(matrix);
+	glLoadMatrixd(matrix.begin());
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrix);
+	glGetDoublev(GL_MODELVIEW_MATRIX, matrix.begin());
 	broadcast(world, matrix, 0);
 	glMatrixMode( GL_MODELVIEW);
-	glLoadMatrixd(matrix);
+	glLoadMatrixd(matrix.begin());
 }
 
 void FrameDataIceT::setTiles() {
