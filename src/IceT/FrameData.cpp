@@ -25,11 +25,11 @@
 FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 		MeshLoader* mesh_loader_stack) :
 	FrameData(algorithm_stack, mesh_loader_stack), //
-			world(), tiles(world.size()), strategy_(3), replication_group_(false) {
+			world(), tiles(world.size()), strategy_(3), //
+			replication_group_(false), change(127)
+{
 	render_context_width = tiles[0].sx;
 	render_context_height = tiles[0].sy;
-
-	change = 0;
 
 	int rows = sqrt(static_cast<float> (tiles.size()));
 
@@ -40,7 +40,8 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	// Take the square number >= number of tiles
 	// fill the square with actual number of tiles from
 	// left to right, bottom to top
-	for (std::size_t i = 0; i < tiles.size(); ++i) {
+	for (std::size_t i = 0; i < tiles.size(); ++i)
+	{
 		int col = i / rows;
 		int row = i % rows;
 
@@ -49,30 +50,35 @@ FrameDataIceT::FrameDataIceT(RenderAlgorithm* algorithm_stack,
 	}
 }
 
-FrameDataIceT::~FrameDataIceT() {
+FrameDataIceT::~FrameDataIceT()
+{
 }
 
-void FrameDataIceT::setMatrices() {
+void FrameDataIceT::setMatrices()
+{
 	glGetDoublev(GL_PROJECTION_MATRIX, matrix.begin());
-	broadcast(world, matrix, 0);
-	glMatrixMode( GL_PROJECTION);
-	glLoadMatrixd(matrix.begin());
+	glGetDoublev(GL_MODELVIEW_MATRIX, matrix.begin() + 16);
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrix.begin());
 	broadcast(world, matrix, 0);
-	glMatrixMode( GL_MODELVIEW);
+
+	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(matrix.begin());
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(matrix.begin() + 16);
 }
 
-void FrameDataIceT::setTiles() {
+void FrameDataIceT::setTiles()
+{
 	setDoResize(true);
 
 	broadcast(world, tiles, 0);
 
 	icetResetTiles();
-	for (std::size_t i = 0; i < tiles.size(); ++i) {
+	for (std::size_t i = 0; i < tiles.size(); ++i)
+	{
 		Tile & tile = tiles[i];
-		if (tile.visible) {
+		if (tile.visible)
+		{
 			icetAddTile(tile.x, tile.y, tile.sx, tile.sy, i);
 		}
 
@@ -88,18 +94,22 @@ void FrameDataIceT::setTiles() {
 	icetGetIntegerv(ICET_TILE_MAX_HEIGHT, &render_context_height);
 }
 
-void FrameDataIceT::animate() {
+void FrameDataIceT::animate()
+{
 	broadcast(world, change, 0);
 
-	if (change & TILES_CHANGED) {
+	if (change & TILES_CHANGED)
+	{
 		calcGlobalDisplaySize();
 		setTiles();
 	}
 
-	if (change & STRATEGY_CHANGED) {
+	if (change & STRATEGY_CHANGED)
+	{
 		broadcast(world, strategy_, 0);
 
-		switch (strategy_) {
+		switch (strategy_)
+		{
 		case 0:
 			icetStrategy(ICET_STRATEGY_DIRECT);
 			break;
@@ -120,45 +130,52 @@ void FrameDataIceT::animate() {
 		}
 	}
 
-	if (change & LIGHT_CHANGED) {
+	if (change & LIGHT_CHANGED)
+	{
 		broadcast(world, lights, 0);
 	}
 
-	if (change & MODEL_CHANGED) {
+	if (change & MODEL_CHANGED)
+	{
 		broadcast(world, model_name, 0);
 		if (!master())
 			load_model(model_name.c_str());
 	}
 
-	if (change & RENDERER_CHANGED) {
+	if (change & RENDERER_CHANGED)
+	{
 		broadcast(world, ralgo_name, 0);
 		if (!master())
 			set_render_algorithm(ralgo_name);
 	}
 
-	if (change & RENDERPARAM_CHANGED) {
+	if (change & RENDERPARAM_CHANGED)
+	{
 		if (renderer)
 			broadcast(world, *renderer, 0);
 	}
 
-	if (change & REPLICATE_CHANGED) {
+	if (change & REPLICATE_CHANGED)
+	{
 		broadcast(world, replication_group_, 0);
-		if(replication_group_){
+		if (replication_group_)
+		{
 			// all the ranks build groups as defined by RenderGroup in the
 			// render widget - default value is zero, so every rank has
 			// the same data: the whole model (use e.g. for display walls)
 			icetDataReplicationGroupColor(tiles[myrank()].render_group);
-		} else {
+		}
+		else
+		{
 			// if there is no replicated data, every rank builds its own group
 			icetDataReplicationGroupColor(myrank());
 		}
-
 	}
-
 	change = 0;
 }
 
-void FrameDataIceT::resize(int w, int h) {
+void FrameDataIceT::resize(int w, int h)
+{
 	FrameData::resize(w, h);
 }
 
@@ -167,14 +184,17 @@ void FrameDataIceT::resize(int w, int h) {
  * size and offset values. IceT does not provide this values
  * itself.
  */
-void FrameDataIceT::calcGlobalDisplaySize() {
+void FrameDataIceT::calcGlobalDisplaySize()
+{
 	global_display_size.min_x = 0;
 	global_display_size.min_y = 0;
 	global_display_size.max_x = 0;
 	global_display_size.max_y = 0;
 
-	for (size_t i = 0; i < tiles.size(); ++i) {
-		if (tiles[i].visible) {
+	for (size_t i = 0; i < tiles.size(); ++i)
+	{
+		if (tiles[i].visible)
+		{
 			// search min x - the min offset
 			global_display_size.min_x = std::min(global_display_size.min_x,
 					tiles[i].x);
@@ -196,24 +216,28 @@ void FrameDataIceT::calcGlobalDisplaySize() {
 			- global_display_size.min_y);
 }
 
-void FrameDataIceT::do_import_scene(boost::archive::xml_iarchive& archive) {
+void FrameDataIceT::do_import_scene(boost::archive::xml_iarchive& archive)
+{
 	archive >> boost::serialization::make_nvp("tiles", tiles);
 
 	FrameData::do_import_scene(archive);
 }
 
-void FrameDataIceT::do_export_scene(boost::archive::xml_oarchive& archive) {
+void FrameDataIceT::do_export_scene(boost::archive::xml_oarchive& archive)
+{
 	archive << boost::serialization::make_nvp("tiles", tiles);
 
 	FrameData::do_export_scene(archive);
 }
 
-void FrameDataIceT::setStrategy(int strategy) {
+void FrameDataIceT::setStrategy(int strategy)
+{
 	strategy_ = strategy;
 	setStrategyChanged();
 }
 
-void FrameDataIceT::setReplicate(bool replicate) {
+void FrameDataIceT::setReplicate(bool replicate)
+{
 	replication_group_ = replicate;
 	setReplicateChanged();
 }

@@ -25,7 +25,7 @@
 #include "Tile.hpp"
 
 namespace mpi = boost::mpi;
-typedef boost::array<double, 16> amatrix;
+typedef boost::array<double, 32> amatrix;
 BOOST_IS_MPI_DATATYPE(amatrix)
 //BOOST_CLASS_TRACKING(amatrix,track_never)
 BOOST_IS_BITWISE_SERIALIZABLE(amatrix)
@@ -187,7 +187,7 @@ private:
 	};
 
 	amatrix matrix;
-	short change;
+	unsigned short change;
 	bool do_resize;
 	int strategy_;
 	bool replication_group_;
